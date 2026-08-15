@@ -1,0 +1,172 @@
+{
+  "dataset": {
+    "name": "operator_tucker_tensor",
+    "shape": [
+      20,
+      28,
+      36
+    ],
+    "source": "generated:geoaware.tensor_data.operator_tucker_tensor",
+    "description": "Operator-factor Tucker tensor with multilinear rank (4,5,5)."
+  },
+  "arguments": {
+    "output": "papers/four_tracks/results/track1_functional_baseline_steps_smoke",
+    "task": "tucker",
+    "mismatch": 0.0,
+    "models": "neural_functional_cp,neural_functional_tucker,siren_inr",
+    "ratios": ".02",
+    "masks": "random",
+    "seeds": "30",
+    "rank": 10,
+    "tucker_ranks": "4,5,5",
+    "steps": 2000,
+    "power": 1.5,
+    "reg": 0.002,
+    "ard_cycles": 1,
+    "factor_laplace": false,
+    "noise": 0.1,
+    "init": "random",
+    "split_calibration": false,
+    "device": "cuda"
+  },
+  "results": [
+    {
+      "task": "operator_tucker_tensor",
+      "shape": [
+        20,
+        28,
+        36
+      ],
+      "model": "neural_functional_cp",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999007910490036,
+      "n_observed": 403,
+      "seed": 30,
+      "metrics": {
+        "rmse": 0.6168791055679321,
+        "nrmse": 0.6176591515541077,
+        "mae": 0.46687987446784973
+      },
+      "effective_rank": null,
+      "metadata": {
+        "parameters": 8872,
+        "inference": "deterministic_MAP",
+        "uncertainty_metrics_supported": false
+      },
+      "elapsed_seconds": 12.375240262132138,
+      "arguments": {
+        "output": "papers/four_tracks/results/track1_functional_baseline_steps_smoke",
+        "task": "tucker",
+        "mismatch": 0.0,
+        "models": "neural_functional_cp,neural_functional_tucker,siren_inr",
+        "ratios": ".02",
+        "masks": "random",
+        "seeds": "30",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "steps": 2000,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "operator_tucker_tensor",
+      "shape": [
+        20,
+        28,
+        36
+      ],
+      "model": "neural_functional_tucker",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999007910490036,
+      "n_observed": 403,
+      "seed": 30,
+      "metrics": {
+        "rmse": 0.3065626621246338,
+        "nrmse": 0.30695030093193054,
+        "mae": 0.23440982401371002
+      },
+      "effective_rank": null,
+      "metadata": {
+        "parameters": 8178,
+        "inference": "deterministic_MAP",
+        "uncertainty_metrics_supported": false
+      },
+      "elapsed_seconds": 13.694540286902338,
+      "arguments": {
+        "output": "papers/four_tracks/results/track1_functional_baseline_steps_smoke",
+        "task": "tucker",
+        "mismatch": 0.0,
+        "models": "neural_functional_cp,neural_functional_tucker,siren_inr",
+        "ratios": ".02",
+        "masks": "random",
+        "seeds": "30",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "steps": 2000,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "operator_tucker_tensor",
+      "shape": [
+        20,
+        28,
+        36
+      ],
+      "model": "siren_inr",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999007910490036,
+      "n_observed": 403,
+      "seed": 30,
+      "metrics": {
+        "rmse": 0.8488789796829224,
+        "nrmse": 0.8499523997306824,
+        "mae": 0.652137041091919
+      },
+      "effective_rank": null,
+      "metadata": {
+        "parameters": 19105,
+        "inference": "deterministic_MAP",
+        "uncertainty_metrics_supported": false
+      },
+      "elapsed_seconds": 6.183058465830982,
+      "arguments": {
+        "output": "papers/four_tracks/results/track1_functional_baseline_steps_smoke",
+        "task": "tucker",
+        "mismatch": 0.0,
+        "models": "neural_functional_cp,neural_functional_tucker,siren_inr",
+        "ratios": ".02",
+        "masks": "random",
+        "seeds": "30",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "steps": 2000,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    }
+  ]
+}

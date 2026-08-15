@@ -1,0 +1,1107 @@
+{
+  "protocol": {
+    "ratios": [
+      0.02,
+      0.05,
+      0.1
+    ],
+    "seeds": [
+      41,
+      42,
+      43
+    ],
+    "steps": 500,
+    "mask": "random",
+    "noise_fraction": 0.1,
+    "selection": "cold-start; no held-out model selection",
+    "normalization": "per-mask observed values only"
+  },
+  "datasets": [
+    {
+      "dataset": {
+        "name": "operator_tucker_tensor",
+        "shape": [
+          20,
+          28,
+          36
+        ],
+        "source": "generated:geoaware.tensor_data.operator_tucker_tensor",
+        "description": "Operator-factor Tucker tensor with multilinear rank (4,5,5)."
+      },
+      "ratios": [
+        0.02,
+        0.05,
+        0.1
+      ],
+      "models": [
+        "geo_btucker",
+        "geo_bcp",
+        "neural_functional_tucker",
+        "neural_functional_cp",
+        "siren_inr"
+      ],
+      "table": {
+        "0.02": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 0.2581610828638077,
+            "heldout_nrmse_std": 0.07184929103152536,
+            "observed_nrmse_mean": 0.13541616747776666,
+            "observed_nrmse_std": 0.033748387301639746,
+            "generalization_gap_mean": 0.12274491538604101,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.21288201212882996,
+              0.2205953449010849,
+              0.3410058915615082
+            ],
+            "observed_nrmse_by_seed": [
+              0.1066284254193306,
+              0.1270635426044464,
+              0.172556534409523
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 0.7679550846417745,
+            "heldout_nrmse_std": 0.12427892590083242,
+            "observed_nrmse_mean": 0.1792671581109365,
+            "observed_nrmse_std": 0.025359239293514812,
+            "generalization_gap_mean": 0.588687926530838,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.6470360159873962,
+              0.7614879012107849,
+              0.8953413367271423
+            ],
+            "observed_nrmse_by_seed": [
+              0.1505957841873169,
+              0.19875602424144745,
+              0.1884496659040451
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 0.570613702138265,
+            "heldout_nrmse_std": 0.05706892088634979,
+            "observed_nrmse_mean": 0.3510068655014038,
+            "observed_nrmse_std": 0.05884128011624558,
+            "generalization_gap_mean": 0.2196068366368612,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.5213224291801453,
+              0.5573827028274536,
+              0.633135974407196
+            ],
+            "observed_nrmse_by_seed": [
+              0.2925724387168884,
+              0.35020142793655396,
+              0.41024672985076904
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 0.6118297576904297,
+            "heldout_nrmse_std": 0.05874138089908816,
+            "observed_nrmse_mean": 0.2893219292163849,
+            "observed_nrmse_std": 0.032797936777244775,
+            "generalization_gap_mean": 0.3225078284740448,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.6376959085464478,
+              0.5445942282676697,
+              0.6531991362571716
+            ],
+            "observed_nrmse_by_seed": [
+              0.3267214894294739,
+              0.265458881855011,
+              0.2757854163646698
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 0.836238960425059,
+            "heldout_nrmse_std": 0.007689295927578679,
+            "observed_nrmse_mean": 0.0001241940820667272,
+            "observed_nrmse_std": 5.1443873287852766e-05,
+            "generalization_gap_mean": 0.8361147663429922,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.8328856229782104,
+              0.8307958245277405,
+              0.8450354337692261
+            ],
+            "observed_nrmse_by_seed": [
+              6.496792775578797e-05,
+              0.00015776557847857475,
+              0.00014984873996581882
+            ]
+          }
+        },
+        "0.05": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 0.16937721023956934,
+            "heldout_nrmse_std": 0.07044426895029746,
+            "observed_nrmse_mean": 0.1599913810690244,
+            "observed_nrmse_std": 0.041572689183866966,
+            "generalization_gap_mean": 0.009385829170544924,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.09126249700784683,
+              0.18878860771656036,
+              0.22808052599430084
+            ],
+            "observed_nrmse_by_seed": [
+              0.11288329213857651,
+              0.17555108666419983,
+              0.19153976440429688
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 0.21897039314111075,
+            "heldout_nrmse_std": 0.019651178166389047,
+            "observed_nrmse_mean": 0.17638790110747019,
+            "observed_nrmse_std": 0.013411946624226402,
+            "generalization_gap_mean": 0.04258249203364056,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.2053295522928238,
+              0.2414947748184204,
+              0.210086852312088
+            ],
+            "observed_nrmse_by_seed": [
+              0.17267446219921112,
+              0.1912652999162674,
+              0.16522394120693207
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 0.4050828516483307,
+            "heldout_nrmse_std": 0.04324274489984712,
+            "observed_nrmse_mean": 0.34057703614234924,
+            "observed_nrmse_std": 0.03302686350406949,
+            "generalization_gap_mean": 0.06450581550598145,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.357844740152359,
+              0.4427146017551422,
+              0.41468921303749084
+            ],
+            "observed_nrmse_by_seed": [
+              0.3030926585197449,
+              0.3653990924358368,
+              0.35323935747146606
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 0.4442742168903351,
+            "heldout_nrmse_std": 0.04052999690352505,
+            "observed_nrmse_mean": 0.3523660401503245,
+            "observed_nrmse_std": 0.03264747011325668,
+            "generalization_gap_mean": 0.09190817674001056,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.4886334538459778,
+              0.4350125789642334,
+              0.40917661786079407
+            ],
+            "observed_nrmse_by_seed": [
+              0.38856086134910583,
+              0.34339597821235657,
+              0.3251412808895111
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 0.687392791112264,
+            "heldout_nrmse_std": 0.005463136157408984,
+            "observed_nrmse_mean": 0.00013784667468523062,
+            "observed_nrmse_std": 0.0002302457925283042,
+            "generalization_gap_mean": 0.6872549444375788,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.6913877725601196,
+              0.6896232962608337,
+              0.6811673045158386
+            ],
+            "observed_nrmse_by_seed": [
+              6.531586222990882e-06,
+              0.000403705082135275,
+              3.3033556974260136e-06
+            ]
+          }
+        },
+        "0.1": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 0.07652033865451813,
+            "heldout_nrmse_std": 0.014217110773239183,
+            "observed_nrmse_mean": 0.1180402139822642,
+            "observed_nrmse_std": 0.00710710626698209,
+            "generalization_gap_mean": -0.04151987532774608,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.06594064086675644,
+              0.09268119186162949,
+              0.07093918323516846
+            ],
+            "observed_nrmse_by_seed": [
+              0.11195199936628342,
+              0.12584994733333588,
+              0.11631869524717331
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 0.15323092540105185,
+            "heldout_nrmse_std": 0.025918628600546983,
+            "observed_nrmse_mean": 0.16360685726006827,
+            "observed_nrmse_std": 0.014242710545560207,
+            "generalization_gap_mean": -0.010375931859016418,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.14582979679107666,
+              0.1820450872182846,
+              0.13181789219379425
+            ],
+            "observed_nrmse_by_seed": [
+              0.15788760781288147,
+              0.1798202246427536,
+              0.1531127393245697
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 0.37899866700172424,
+            "heldout_nrmse_std": 0.027005096171057598,
+            "observed_nrmse_mean": 0.3597558041413625,
+            "observed_nrmse_std": 0.032540003705840585,
+            "generalization_gap_mean": 0.019242862860361754,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.36045992374420166,
+              0.36655372381210327,
+              0.4099823534488678
+            ],
+            "observed_nrmse_by_seed": [
+              0.3382469415664673,
+              0.3438291847705841,
+              0.39719128608703613
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 0.40459399422009784,
+            "heldout_nrmse_std": 0.04949561459364656,
+            "observed_nrmse_mean": 0.37657982110977173,
+            "observed_nrmse_std": 0.03569139083675828,
+            "generalization_gap_mean": 0.028014173110326113,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.4604915380477905,
+              0.36632949113845825,
+              0.3869609534740448
+            ],
+            "observed_nrmse_by_seed": [
+              0.4152940511703491,
+              0.34498417377471924,
+              0.3694612383842468
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 0.5402047236760458,
+            "heldout_nrmse_std": 0.013414888242743297,
+            "observed_nrmse_mean": 1.4476176564433748e-05,
+            "observed_nrmse_std": 1.4708325686519112e-05,
+            "generalization_gap_mean": 0.5401902474994813,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.5539456009864807,
+              0.5271415114402771,
+              0.5395270586013794
+            ],
+            "observed_nrmse_by_seed": [
+              1.202728435600875e-05,
+              3.025524529221002e-05,
+              1.1460000450824737e-06
+            ]
+          }
+        }
+      }
+    },
+    {
+      "dataset": {
+        "name": "operator_mixed_0.35",
+        "shape": [
+          20,
+          28,
+          36
+        ],
+        "source": "generated:geoaware.tensor_data.operator_mixed_tensor",
+        "description": "Normalized CP/Tucker mixture with format mismatch 0.35."
+      },
+      "ratios": [
+        0.02,
+        0.05,
+        0.1
+      ],
+      "models": [
+        "geo_btucker",
+        "geo_bcp",
+        "neural_functional_tucker",
+        "neural_functional_cp",
+        "siren_inr"
+      ],
+      "table": {
+        "0.02": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 0.4516685704390208,
+            "heldout_nrmse_std": 0.046074029892123954,
+            "observed_nrmse_mean": 0.21906171242396036,
+            "observed_nrmse_std": 0.012932447226083223,
+            "generalization_gap_mean": 0.23260685801506045,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.4253821074962616,
+              0.5048690438270569,
+              0.4247545599937439
+            ],
+            "observed_nrmse_by_seed": [
+              0.21378080546855927,
+              0.23379895091056824,
+              0.2096053808927536
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 0.6019600431124369,
+            "heldout_nrmse_std": 0.04316646109363146,
+            "observed_nrmse_mean": 0.18040370444456735,
+            "observed_nrmse_std": 0.022463310752056254,
+            "generalization_gap_mean": 0.42155633866786957,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.5953545570373535,
+              0.6480485200881958,
+              0.5624770522117615
+            ],
+            "observed_nrmse_by_seed": [
+              0.18207639455795288,
+              0.20198391377925873,
+              0.15715080499649048
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 0.4546184440453847,
+            "heldout_nrmse_std": 0.01828624344931049,
+            "observed_nrmse_mean": 0.29638585448265076,
+            "observed_nrmse_std": 0.021735884459149406,
+            "generalization_gap_mean": 0.15823258956273395,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.4658333659172058,
+              0.4645047187805176,
+              0.4335172474384308
+            ],
+            "observed_nrmse_by_seed": [
+              0.2896365821361542,
+              0.3206957280635834,
+              0.2788252532482147
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 0.46347323060035706,
+            "heldout_nrmse_std": 0.02670414496593794,
+            "observed_nrmse_mean": 0.24420772989590964,
+            "observed_nrmse_std": 0.01865112411913744,
+            "generalization_gap_mean": 0.21926550070444742,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.4388115704059601,
+              0.4918341338634491,
+              0.459773987531662
+            ],
+            "observed_nrmse_by_seed": [
+              0.24339105188846588,
+              0.263253778219223,
+              0.22597835958003998
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 0.8719682494799296,
+            "heldout_nrmse_std": 0.008501752779825714,
+            "observed_nrmse_mean": 0.000460644874957931,
+            "observed_nrmse_std": 0.000760882017488957,
+            "generalization_gap_mean": 0.8715076046049717,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.8744750618934631,
+              0.862494945526123,
+              0.8789347410202026
+            ],
+            "observed_nrmse_by_seed": [
+              6.953349611649173e-07,
+              4.233247091178782e-05,
+              0.0013389068190008402
+            ]
+          }
+        },
+        "0.05": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 0.2828792929649353,
+            "heldout_nrmse_std": 0.02919599580145146,
+            "observed_nrmse_mean": 0.24140753845373789,
+            "observed_nrmse_std": 0.00985545270213564,
+            "generalization_gap_mean": 0.04147175451119742,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.2567496597766876,
+              0.2774958610534668,
+              0.3143923580646515
+            ],
+            "observed_nrmse_by_seed": [
+              0.23007507622241974,
+              0.2461729794740677,
+              0.24797455966472626
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 0.272344450155894,
+            "heldout_nrmse_std": 0.025377554387267513,
+            "observed_nrmse_mean": 0.213376984000206,
+            "observed_nrmse_std": 0.019079408238957048,
+            "generalization_gap_mean": 0.058967466155687986,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.3014524281024933,
+              0.26071697473526,
+              0.2548639476299286
+            ],
+            "observed_nrmse_by_seed": [
+              0.23433062434196472,
+              0.20879359543323517,
+              0.1970067322254181
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 0.38236042857170105,
+            "heldout_nrmse_std": 0.011205560230219085,
+            "observed_nrmse_mean": 0.34484989444414776,
+            "observed_nrmse_std": 0.009657191944461317,
+            "generalization_gap_mean": 0.037510534127553286,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.3700650930404663,
+              0.3919985294342041,
+              0.38501766324043274
+            ],
+            "observed_nrmse_by_seed": [
+              0.3453819751739502,
+              0.35423004627227783,
+              0.3349376618862152
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 0.3595636785030365,
+            "heldout_nrmse_std": 0.0025820364873731664,
+            "observed_nrmse_mean": 0.3098893165588379,
+            "observed_nrmse_std": 0.00830708005265997,
+            "generalization_gap_mean": 0.04967436194419861,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.3580428659915924,
+              0.3625449538230896,
+              0.3581032156944275
+            ],
+            "observed_nrmse_by_seed": [
+              0.311444491147995,
+              0.3173089027404785,
+              0.30091455578804016
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 0.7052386204401652,
+            "heldout_nrmse_std": 0.020440903410136126,
+            "observed_nrmse_mean": 0.00017669113003648818,
+            "observed_nrmse_std": 0.00016100903804361165,
+            "generalization_gap_mean": 0.7050619293101287,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.6946668028831482,
+              0.7288004159927368,
+              0.6922486424446106
+            ],
+            "observed_nrmse_by_seed": [
+              2.1516403649002314e-05,
+              0.0003429605858400464,
+              0.0001655964006204158
+            ]
+          }
+        },
+        "0.1": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 0.24998391171296439,
+            "heldout_nrmse_std": 0.012010798621101472,
+            "observed_nrmse_mean": 0.2395362009604772,
+            "observed_nrmse_std": 0.009502079517515038,
+            "generalization_gap_mean": 0.010447710752487183,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.23630701005458832,
+              0.25483086705207825,
+              0.25881385803222656
+            ],
+            "observed_nrmse_by_seed": [
+              0.2285940796136856,
+              0.24570868909358978,
+              0.2443058341741562
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 0.21597224473953247,
+            "heldout_nrmse_std": 0.01152883910635144,
+            "observed_nrmse_mean": 0.2090455691019694,
+            "observed_nrmse_std": 0.008391746621168985,
+            "generalization_gap_mean": 0.006926675637563079,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.22378231585025787,
+              0.2027309238910675,
+              0.22140349447727203
+            ],
+            "observed_nrmse_by_seed": [
+              0.21548210084438324,
+              0.19955436885356903,
+              0.21210023760795593
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 0.36927928527196247,
+            "heldout_nrmse_std": 0.022233082688716006,
+            "observed_nrmse_mean": 0.3557069003582001,
+            "observed_nrmse_std": 0.02525993214655337,
+            "generalization_gap_mean": 0.013572384913762392,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.3640717566013336,
+              0.393653929233551,
+              0.3501121699810028
+            ],
+            "observed_nrmse_by_seed": [
+              0.3468964993953705,
+              0.3841921091079712,
+              0.33603209257125854
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 0.3330000340938568,
+            "heldout_nrmse_std": 0.007390102803324166,
+            "observed_nrmse_mean": 0.3138512472311656,
+            "observed_nrmse_std": 0.005077360869658518,
+            "generalization_gap_mean": 0.019148786862691225,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.3396742641925812,
+              0.32505807280540466,
+              0.3342677652835846
+            ],
+            "observed_nrmse_by_seed": [
+              0.31790709495544434,
+              0.30815696716308594,
+              0.31548967957496643
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 0.5256404678026835,
+            "heldout_nrmse_std": 0.02273030890653822,
+            "observed_nrmse_mean": 0.0001026959531979325,
+            "observed_nrmse_std": 0.00013396853828942827,
+            "generalization_gap_mean": 0.5255377718494856,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.5005903244018555,
+              0.5449504256248474,
+              0.5313806533813477
+            ],
+            "observed_nrmse_by_seed": [
+              2.7712449082173407e-05,
+              2.3009743017610162e-05,
+              0.0002573656674940139
+            ]
+          }
+        }
+      }
+    },
+    {
+      "dataset": {
+        "name": "operator_nonaligned_tensor",
+        "shape": [
+          20,
+          28,
+          36
+        ],
+        "source": "generated:geoaware.tensor_data.operator_nonaligned_tensor",
+        "description": "Smooth warped/high-frequency Tucker field outside the learner basis, plus a coupled residual."
+      },
+      "ratios": [
+        0.02,
+        0.05,
+        0.1
+      ],
+      "models": [
+        "geo_btucker",
+        "geo_bcp",
+        "neural_functional_tucker",
+        "neural_functional_cp",
+        "siren_inr"
+      ],
+      "table": {
+        "0.02": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 1.3992122014363606,
+            "heldout_nrmse_std": 0.15328979697773448,
+            "observed_nrmse_mean": 0.3701743980248769,
+            "observed_nrmse_std": 0.021056122319177938,
+            "generalization_gap_mean": 1.0290378034114838,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              1.271117925643921,
+              1.3574687242507935,
+              1.5690499544143677
+            ],
+            "observed_nrmse_by_seed": [
+              0.35393500328063965,
+              0.3626233637332916,
+              0.39396482706069946
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 1.5524624586105347,
+            "heldout_nrmse_std": 0.17924254969791592,
+            "observed_nrmse_mean": 0.2714211742083232,
+            "observed_nrmse_std": 0.021863191263054062,
+            "generalization_gap_mean": 1.2810412844022114,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              1.3755385875701904,
+              1.5479117631912231,
+              1.7339370250701904
+            ],
+            "observed_nrmse_by_seed": [
+              0.29606500267982483,
+              0.2543547451496124,
+              0.2638437747955322
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 1.389960765838623,
+            "heldout_nrmse_std": 0.3302269067804359,
+            "observed_nrmse_mean": 0.4938574234644572,
+            "observed_nrmse_std": 0.08175451008791218,
+            "generalization_gap_mean": 0.8961033423741658,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              1.1418851613998413,
+              1.2632124423980713,
+              1.7647846937179565
+            ],
+            "observed_nrmse_by_seed": [
+              0.44139915704727173,
+              0.5880563855171204,
+              0.4521167278289795
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 1.2966612180074055,
+            "heldout_nrmse_std": 0.24066915035283312,
+            "observed_nrmse_mean": 0.36433632175127667,
+            "observed_nrmse_std": 0.03277557230425875,
+            "generalization_gap_mean": 0.9323248962561288,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              1.0320628881454468,
+              1.5025296211242676,
+              1.3553911447525024
+            ],
+            "observed_nrmse_by_seed": [
+              0.3576713800430298,
+              0.33540546894073486,
+              0.3999321162700653
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 1.059953252474467,
+            "heldout_nrmse_std": 0.010700548434912112,
+            "observed_nrmse_mean": 0.00032703386386856437,
+            "observed_nrmse_std": 0.0003404729478194049,
+            "generalization_gap_mean": 1.0596262186105985,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              1.048073410987854,
+              1.068834900856018,
+              1.0629514455795288
+            ],
+            "observed_nrmse_by_seed": [
+              0.00013382962788455188,
+              0.00012711292947642505,
+              0.0007201590342447162
+            ]
+          }
+        },
+        "0.05": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 0.9714545210202535,
+            "heldout_nrmse_std": 0.054858240581143296,
+            "observed_nrmse_mean": 0.5753525892893473,
+            "observed_nrmse_std": 0.03539373967140403,
+            "generalization_gap_mean": 0.39610193173090624,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              1.027299404144287,
+              0.9176392555236816,
+              0.9694249033927917
+            ],
+            "observed_nrmse_by_seed": [
+              0.5370117425918579,
+              0.5822673439979553,
+              0.6067786812782288
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 1.0202428102493286,
+            "heldout_nrmse_std": 0.052935837005427575,
+            "observed_nrmse_mean": 0.5127368271350861,
+            "observed_nrmse_std": 0.021039820220692094,
+            "generalization_gap_mean": 0.5075059831142426,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              1.080384373664856,
+              0.9996296763420105,
+              0.9807143807411194
+            ],
+            "observed_nrmse_by_seed": [
+              0.4901868402957916,
+              0.516182541847229,
+              0.5318410992622375
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 0.6980549494425455,
+            "heldout_nrmse_std": 0.08306996934443889,
+            "observed_nrmse_mean": 0.49418822924296063,
+            "observed_nrmse_std": 0.05201342418057915,
+            "generalization_gap_mean": 0.2038667201995849,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.7070396542549133,
+              0.7762673497200012,
+              0.6108578443527222
+            ],
+            "observed_nrmse_by_seed": [
+              0.4669789969921112,
+              0.5541624426841736,
+              0.46142324805259705
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 0.6710847616195679,
+            "heldout_nrmse_std": 0.0406451091903381,
+            "observed_nrmse_mean": 0.39521677295366925,
+            "observed_nrmse_std": 0.037968418940037336,
+            "generalization_gap_mean": 0.2758679886658986,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.6308397054672241,
+              0.7121184468269348,
+              0.6702961325645447
+            ],
+            "observed_nrmse_by_seed": [
+              0.3557993769645691,
+              0.3983031213283539,
+              0.4315478205680847
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 1.0251173575719197,
+            "heldout_nrmse_std": 0.011145025251852394,
+            "observed_nrmse_mean": 0.00047932493907865137,
+            "observed_nrmse_std": 0.0003575755396354789,
+            "generalization_gap_mean": 1.024638032632841,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              1.0328233242034912,
+              1.0301904678344727,
+              1.0123382806777954
+            ],
+            "observed_nrmse_by_seed": [
+              7.82262795837596e-05,
+              0.0005950204795226455,
+              0.000764728058129549
+            ]
+          }
+        },
+        "0.1": {
+          "geo_btucker": {
+            "heldout_nrmse_mean": 0.8224110007286072,
+            "heldout_nrmse_std": 0.021587557641999756,
+            "observed_nrmse_mean": 0.6525276104609171,
+            "observed_nrmse_std": 0.006363847060638843,
+            "generalization_gap_mean": 0.16988339026769006,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.8363277316093445,
+              0.7975426912307739,
+              0.8333625793457031
+            ],
+            "observed_nrmse_by_seed": [
+              0.6463624835014343,
+              0.6590731143951416,
+              0.6521472334861755
+            ]
+          },
+          "geo_bcp": {
+            "heldout_nrmse_mean": 0.8598246177037557,
+            "heldout_nrmse_std": 0.008008982635362677,
+            "observed_nrmse_mean": 0.6305961211522421,
+            "observed_nrmse_std": 0.005076800730405114,
+            "generalization_gap_mean": 0.22922849655151367,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.8627288937568665,
+              0.8507686853408813,
+              0.8659762740135193
+            ],
+            "observed_nrmse_by_seed": [
+              0.6311327219009399,
+              0.6252723336219788,
+              0.6353833079338074
+            ]
+          },
+          "neural_functional_tucker": {
+            "heldout_nrmse_mean": 0.5826619466145834,
+            "heldout_nrmse_std": 0.04536824062098167,
+            "observed_nrmse_mean": 0.5129054188728333,
+            "observed_nrmse_std": 0.048180300277803206,
+            "generalization_gap_mean": 0.06975652774175012,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.5981631875038147,
+              0.618247926235199,
+              0.5315747261047363
+            ],
+            "observed_nrmse_by_seed": [
+              0.5101482272148132,
+              0.5624051094055176,
+              0.46616291999816895
+            ]
+          },
+          "neural_functional_cp": {
+            "heldout_nrmse_mean": 0.48890089988708496,
+            "heldout_nrmse_std": 0.02390439718433475,
+            "observed_nrmse_mean": 0.3914805253346761,
+            "observed_nrmse_std": 0.022059008617587063,
+            "generalization_gap_mean": 0.09742037455240887,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.4891815781593323,
+              0.512663722038269,
+              0.46485739946365356
+            ],
+            "observed_nrmse_by_seed": [
+              0.41410356760025024,
+              0.3903054893016815,
+              0.37003251910209656
+            ]
+          },
+          "siren_inr": {
+            "heldout_nrmse_mean": 0.9440826972325643,
+            "heldout_nrmse_std": 0.013337258673334632,
+            "observed_nrmse_mean": 0.0008133068768074736,
+            "observed_nrmse_std": 0.0007766757558764854,
+            "generalization_gap_mean": 0.9432693903557569,
+            "seeds": [
+              41,
+              42,
+              43
+            ],
+            "heldout_nrmse_by_seed": [
+              0.9348574280738831,
+              0.9593749046325684,
+              0.9380157589912415
+            ],
+            "observed_nrmse_by_seed": [
+              0.00022882183839101344,
+              0.000516475411131978,
+              0.0016946233808994293
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
