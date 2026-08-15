@@ -8,12 +8,22 @@ This repository is Track 1 of the [Physics-Informed Tensor Learning Hub](https:/
 
 ## Current evidence
 
-- Observation ratios: 2%, 5%, and 10%; three seeds; 500 updates.
-- The mismatch axis is the oracle relative projection residual of the truth outside the learner's three-mode operator product space.
-- Operator Tucker wins consistently for mismatch at most 0.30.
-- The ordering reverses around 0.30--0.45 at 2% observations and around 0.45--0.60 at 5%--10%.
+- Observation ratios: 2%, 5%, and 10%; three seeds; 400--500 updates.
+- The synthetic principal-angle phase boundary is now complemented by a
+  variable-coefficient diffusion Green-response benchmark.  Its mismatch
+  changes physical eigenfunctions and decay rates; every result stores the
+  measured oracle projection residual.
+- On the physical benchmark, Operator Tucker has a stable positive signal at
+  10% observations.  At 2%--5%, differences from Neural Functional Tucker are
+  small or high-variance; this is not yet a publication-ready win.
+- Basis cutoff has a real bias--variance tradeoff: reducing projection residual
+  from 0.165 to 0.025 does not monotonically improve 2% reconstruction.
+- Matched Tucker rank sweeps show that the 10% signal is not explained by one
+  hand-picked core size, while 2% remains optimization/data limited.
 
 The main claim is a measurable bias--variance phase boundary, not universal superiority over neural functional tensor models.
+
+![Physical operator perturbation](results/diffusion_contrast_summary_r1/operator_advantage_vs_contrast.png)
 
 ## Repository map
 
@@ -31,4 +41,3 @@ PYTHONPATH=src python -m pytest -q
 ```
 
 Large datasets and caches are not committed. Generated results must record seeds, masks, observation ratios, optimization budgets, and the exact generator or dataset version.
-

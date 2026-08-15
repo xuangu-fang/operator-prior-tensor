@@ -9,6 +9,120 @@ from .bases import BasisSpec, basis_on_grid
 from .data import FieldDataset
 
 
+def _neumann_diffusion_operator(
+        size: int, contrast: float, phase: float = 0.) -> tuple[torch.Tensor, torch.Tensor]:
+    """Finite-volume ``-d/dx(a(x)d/dx)`` with zero-flux boundaries.
+
+    ``contrast`` controls log-diffusivity, not an abstract subspace rotation:
+    ``a(x)=exp(contrast*(cos(2 pi x)+.35 sin(3 pi x+phase)))``.  The symmetric
+    edge-flux discretization is positive semidefinite and exactly preserves the
+    constant Neumann mode.
+    """
+    if size < 4:
+        raise ValueError("diffusion grid needs at least four points")
+    if contrast < 0:
+        raise ValueError("contrast must be non-negative")
+    x = torch.linspace(0., 1., size, dtype=torch.float64)
+    midpoint = .5 * (x[:-1] + x[1:])
+    diffusivity = torch.exp(contrast * (
+        torch.cos(2 * math.pi * midpoint)
+        + .35 * torch.sin(3 * math.pi * midpoint + phase)))
+    conductance = diffusivity * (size - 1) ** 2
+    operator = torch.zeros(size, size, dtype=torch.float64)
+    edge = torch.arange(size - 1)
+    operator[edge, edge] += conductance
+    operator[edge + 1, edge + 1] += conductance
+    operator[edge, edge + 1] -= conductance
+    operator[edge + 1, edge] -= conductance
+    return operator, diffusivity
+
+
+def _relative_product_projection_residual(
+        values: torch.Tensor, bases: list[torch.Tensor]) -> float:
+    projected = values.double()
+    for mode, basis in enumerate(bases):
+        q = torch.linalg.qr(basis.double(), mode="reduced").Q
+        projected = torch.tensordot(q @ q.T, projected, dims=([1], [mode]))
+        projected = projected.movedim(0, mode)
+    return float((values.double() - projected).norm() /
+                 values.double().norm().clamp_min(1e-12))
+
+
+def diffusion_green_tensor(
+        shape: tuple[int, int, int] = (18, 24, 24),
+        contrast: float = 0., basis_cutoff: int = 8,
+        truth_modes: int = 14, reaction: float = .15) -> FieldDataset:
+    """Parabolic Green-response tensor under operator misspecification.
+
+    The entries are ``u(t, x_receiver, x_source)`` for
+
+    ``du/dt + (L_a + reaction I)u = 0``,
+
+    where ``L_a`` is a variable-coefficient Neumann diffusion operator.  The
+    learner always uses the constant-diffusivity reference eigenspace, while
+    truth uses ``contrast``-perturbed eigenpairs.  Unlike the earlier synthetic
+    principal-angle benchmark, mismatch here changes both spatial eigenvectors
+    and physical decay rates.  The exact oracle product-space projection
+    residual is recorded in ``metadata`` rather than assumed from the input.
+    """
+    nt, nr, ns = shape
+    if nr != ns:
+        raise ValueError("Green response currently requires receiver/source grids to match")
+    if not 2 <= basis_cutoff <= nr:
+        raise ValueError("basis_cutoff must lie in [2, spatial grid size]")
+    if not basis_cutoff <= truth_modes <= nr:
+        raise ValueError("truth_modes must be at least basis_cutoff and at most grid size")
+
+    reference, _ = _neumann_diffusion_operator(nr, 0.)
+    physical, diffusivity = _neumann_diffusion_operator(nr, contrast, phase=.37)
+    ref_values, ref_vectors = torch.linalg.eigh(reference)
+    true_values, true_vectors = torch.linalg.eigh(physical)
+    ref_scale = ref_values[1].clamp_min(1e-12)
+    true_scale = true_values[1].clamp_min(1e-12)
+    ref_rates = ref_values / ref_scale
+    true_rates = true_values / true_scale
+
+    # Early times preserve spatial structure but avoid the singular t=0 Green
+    # kernel, which would make the task almost pure identity-matrix completion.
+    time = torch.linspace(.025, .55, nt, dtype=torch.float64)
+    true_decay = torch.exp(-time[:, None] *
+                           (reaction + true_rates[:truth_modes][None, :]))
+    spectral_weight = (1 + true_rates[:truth_modes]).pow(-.18)
+    values = torch.einsum(
+        "tq,xq,sq,q->txs", true_decay, true_vectors[:, :truth_modes],
+        true_vectors[:, :truth_modes], spectral_weight)
+    values = (values - values.mean()) / values.std().clamp_min(1e-12)
+
+    time_basis = torch.exp(-time[:, None] *
+                           (reaction + ref_rates[:basis_cutoff][None, :]))
+    time_basis = torch.linalg.qr(time_basis, mode="reduced").Q.float()
+    spatial_basis = ref_vectors[:, :basis_cutoff].float()
+    bases = [time_basis, spatial_basis, spatial_basis.clone()]
+    normalized_eigenvalues = (ref_rates[:basis_cutoff] /
+                              ref_rates[1].clamp_min(1e-12)).float()
+    eigenvalues = [normalized_eigenvalues.clone() for _ in range(3)]
+    residual = _relative_product_projection_residual(values.float(), bases)
+    metadata = {
+        "pde": "du/dt + (-d/dx(a(x)d/dx) + reaction I)u = 0",
+        "boundary_condition": "homogeneous Neumann (zero flux)",
+        "log_diffusivity_contrast": float(contrast),
+        "diffusivity_min": float(diffusivity.min()),
+        "diffusivity_max": float(diffusivity.max()),
+        "basis_cutoff": int(basis_cutoff),
+        "truth_modes": int(truth_modes),
+        "reaction": float(reaction),
+        "oracle_product_projection_residual": residual,
+    }
+    specs = tuple(BasisSpec("neumann", max(1, basis_cutoff - 1), name)
+                  for name in ("decay-time", "receiver", "source"))
+    return FieldDataset(
+        f"diffusion_green_c{contrast:.2f}_k{basis_cutoff}", values.float(),
+        ("time", "receiver", "source"), specs, (False, False, False),
+        "generated:geoaware.tensor_data.diffusion_green_tensor",
+        "Variable-coefficient Neumann diffusion Green-response tensor; learner uses a finite reference-operator spectrum.",
+        tuple(bases), tuple(eigenvalues), metadata)
+
+
 def operator_cp_tensor(shape: tuple[int,int,int]=(20,28,36),seed: int=701) -> FieldDataset:
     """Mostly-low-rank tensor with independent mode geometry and mild mismatch."""
     specs=(BasisSpec("neumann",7,"time-interval"),
@@ -232,6 +346,22 @@ def operator_basis_mismatch_tensor(
 
 
 def explicit_mode_bases(data: FieldDataset, kind: str="correct", seed: int=919) -> tuple[list[torch.Tensor],list[torch.Tensor]]:
+    if data.operator_bases is not None:
+        if data.operator_eigenvalues is None:
+            raise ValueError("operator_bases require operator_eigenvalues")
+        basis = [item.clone() for item in data.operator_bases]
+        eig = [item.clone() for item in data.operator_eigenvalues]
+        if kind == "correct":
+            return basis, eig
+        if kind == "permuted":
+            shuffled = []
+            for mode, values in enumerate(basis):
+                generator = torch.Generator().manual_seed(seed + values.shape[0] + mode * 1009)
+                shuffled.append(values[torch.randperm(values.shape[0], generator=generator)])
+            return shuffled, eig
+        if kind == "discrete":
+            return [torch.eye(n) for n in data.shape], [torch.zeros(n) for n in data.shape]
+        raise ValueError(kind)
     basis=[]; eig=[]
     for n,spec in zip(data.shape,data.basis_specs):
         p,e=basis_on_grid(n,spec)

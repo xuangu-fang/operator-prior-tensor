@@ -29,6 +29,14 @@ class FieldDataset:
     periodic: tuple[bool, ...]
     source: str
     description: str
+    # Optional measured operator basis.  Analytic product-domain datasets use
+    # ``basis_specs``; finite-difference PDE benchmarks can instead attach the
+    # actual eigenvectors used by the learner.  Keeping this on the dataset
+    # makes the basis choice auditable and prevents the experiment runner from
+    # silently reconstructing a different operator.
+    operator_bases: tuple[torch.Tensor, ...] | None = None
+    operator_eigenvalues: tuple[torch.Tensor, ...] | None = None
+    metadata: dict | None = None
 
     @property
     def shape(self) -> tuple[int, ...]:

@@ -17,6 +17,7 @@ from geoaware.tensor_bayes import OperatorBayesianCP,OperatorBayesianTucker
 from geoaware.tensor_data import (operator_cp_tensor,operator_tucker_tensor,
                                   operator_mixed_tensor,operator_nonaligned_tensor,
                                   operator_basis_mismatch_tensor,
+                                  diffusion_green_tensor,
                                   explicit_mode_bases,
                                   flat_product_features)
 
@@ -75,11 +76,14 @@ def fit_functional_baseline(name,data,obs,y,steps,seed,device,tucker_ranks,rank)
             best[0])
 
 
-def load_task(name,mismatch=0.):
+def load_task(name,mismatch=0.,basis_cutoff=8,truth_modes=14):
     if name=="cp": return operator_cp_tensor()
     if name=="tucker": return operator_tucker_tensor()
     if name=="mixed": return operator_mixed_tensor(mismatch)
     if name=="basis_mismatch": return operator_basis_mismatch_tensor(mismatch)
+    if name=="diffusion_green":
+        return diffusion_green_tensor(contrast=mismatch,basis_cutoff=basis_cutoff,
+                                      truth_modes=truth_modes)
     if name=="nonaligned": return operator_nonaligned_tensor()
     if name=="active": return load_active_matter(spatial_stride=2)
     raise ValueError(name)
@@ -87,8 +91,10 @@ def load_task(name,mismatch=0.):
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument("--output",type=Path,required=True)
-    p.add_argument("--task",choices=["cp","tucker","mixed","basis_mismatch","nonaligned","active"],default="cp")
+    p.add_argument("--task",choices=["cp","tucker","mixed","basis_mismatch","diffusion_green","nonaligned","active"],default="cp")
     p.add_argument("--mismatch",type=float,default=0.)
+    p.add_argument("--basis-cutoff",type=int,default=8)
+    p.add_argument("--truth-modes",type=int,default=14)
     p.add_argument("--models",default="geo_bcp,geo_bcp_noard,wrong_bcp,discrete_bcp,flat_geo_gp")
     p.add_argument("--ratios",default=".005,.01"); p.add_argument("--masks",default="random,periodic_gap")
     p.add_argument("--seeds",default="0,1,2"); p.add_argument("--rank",type=int,default=10)
@@ -99,7 +105,7 @@ def main():
     p.add_argument("--init",choices=["random","flat_gp"],default="random")
     p.add_argument("--split-calibration",action="store_true")
     p.add_argument("--device",default="cuda"); args=p.parse_args(); args.output.mkdir(parents=True,exist_ok=True)
-    data=load_task(args.task,args.mismatch); clean=data.values.clone(); truth=clean.flatten(); rows=[]
+    data=load_task(args.task,args.mismatch,args.basis_cutoff,args.truth_modes); clean=data.values.clone(); truth=clean.flatten(); rows=[]
     models=args.models.split(",")
     for mask in args.masks.split(","):
       for ratio in map(float,args.ratios.split(",")):
@@ -196,7 +202,8 @@ def main():
             rows.append(row); print(f"{data.name} {mask} {ratio:g} s{seed} {name} "
                                     f"NRMSE={row['metrics']['nrmse']:.3f} rank={effective_rank}",flush=True)
     (args.output/"results.json").write_text(json.dumps({"dataset":{"name":data.name,"shape":data.shape,
-        "source":data.source,"description":data.description},"arguments":vars(args),"results":rows},indent=2,default=str))
+        "source":data.source,"description":data.description,"metadata":data.metadata},
+        "arguments":vars(args),"results":rows},indent=2,default=str))
 
 
 if __name__=="__main__":main()

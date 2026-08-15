@@ -1,7 +1,7 @@
 # 方向 1 技术报告：Operator-informed Bayesian Tucker
 
 更新时间：2026-08-15  
-状态：**2%--10% ratio phase curve 已完成；aligned truth 为正，部分失配约从 5% 可识别，强 non-aligned truth 为负。**
+状态：**已从人工 subspace rotation 推进到变系数扩散 Green tensor；10% 有较稳定正信号，2%--5% 仍是高方差/近似平局。**
 
 ## 0. 先给结论
 
@@ -32,10 +32,9 @@ non-aligned truth 上 operator family 在所有 ratios 都落后于 neural funct
 必须写成“正确或近似正确的 operator factor space 在达到可识别阈值后降低样本复杂度”，不能笼统写成
 “越稀疏优势越大”或“任意平滑场都受益”。
 
-所以现在最重要的不是继续加组件，而是完成两个验证：
-
-- 加入真正 method-matched 的 neural functional CP/Tucker 与 INR；
-- 换掉“真值恰好由同一组 eigenfunctions 生成”的 inverse-crime 主实验，并在至少一个公开数据集上通过绝对有效门槛。
+method-matched neural functional CP/Tucker 与 INR 已经加入。新的变系数扩散实验也不再通过人工旋转
+制造 mismatch：真值和 learner 来自不同的物理扩散算子，并报告实际 projection residual。当前最重要的
+不是加组件，而是在冻结 cutoff/rank 后做 fresh-seed 与结构缺失确认，并最终迁移到一个公开 solver 数据集。
 
 ## 1. 科学问题与论文故事
 
@@ -558,7 +557,94 @@ mask、noise realization 与 observed-only normalization。
 tensor。** 这仍是 controlled synthetic mechanism evidence；下一步优先把横轴换成 PDE/operator 参数扰动
 和真实 solver projection residual，而不是继续加密同一个 synthetic 网格。
 
-### 8.8 active acquisition 是明确负结果
+### 8.8 R7：真实 PDE 参数扰动下的三轮 POC
+
+#### 数据与失配不再是人工旋转
+
+新增 `diffusion_green_tensor`，求解变系数 Neumann 扩散方程的离散 Green 响应：
+
+$$
+\partial_t u+\left[-\partial_x(a(x)\partial_x)+\kappa I\right]u=0,
+\qquad \partial_nu|_{\partial\Omega}=0.
+$$
+
+构造的三阶张量为 $Y(t,x_{\rm recv},x_{\rm src})$。truth 使用变系数
+
+$$
+a(x)=\exp\{c[\cos(2\pi x)+0.35\sin(3\pi x+0.37)]\}
+$$
+
+对应的 eigenfunctions 与 decay rates；learner 始终使用 $c=0$ 的常系数参考算子及其有限谱。
+因此 $c$ 改变的是物理 eigenfunctions 和时间衰减，而不是人为混合两个正交矩阵。对每个生成 tensor 都实际计算
+
+$$
+\delta_{\rm proj}=\frac{\|Y-(P_t\otimes P_r\otimes P_s)Y\|_F}{\|Y\|_F}.
+$$
+
+有限体积离散、operator eigenpairs、diffusivity min/max、cutoff、truth modes、reaction 和
+$\delta_{\rm proj}$ 全部进入 JSON dataset metadata。实现位于 `src/geoaware/tensor_data.py`，测试覆盖
+正定/有限输出、attached basis 审计以及强物理扰动增大 residual。
+
+统一早筛协议为 2%/5%/10% random entries、seeds `41,42,43`、400 steps、10% observed-value noise、
+observed-only normalization 和 cold start。五个公平基线是 Operator Tucker、Operator CP、
+Neural Functional Tucker、Neural Functional CP 与 SIREN；Tucker 比较使用相同 multilinear ranks。
+
+#### R7.1 物理 diffusivity contrast
+
+固定 cutoff=8，$c=0/.5/1/1.5/2$ 对应实测 residual
+`.0459/.0514/.0699/.0845/.0965`。下表列出 Operator Tucker / Neural F-Tucker 均值：
+
+| contrast | 2% | 5% | 10% |
+|---:|---:|---:|---:|
+| 0.0 | **.404** / .497 | **.278** / .350 | **.240** / .309 |
+| 0.5 | .334 / **.318** | **.213** / .220 | **.171** / .220 |
+| 1.0 | .273 / **.262** | **.206** / .210 | **.158** / .189 |
+| 1.5 | **.254** / .290 | .203 / **.188** | **.162** / .175 |
+| 2.0 | **.248** / .297 | **.204** / .208 | **.159** / .192 |
+
+![物理 operator contrast 下的相对结果](../results/diffusion_contrast_summary_r1/operator_advantage_vs_contrast.png)
+
+10% 的 paired signal 最稳定：五个 contrast 中四个为 3/3 seeds、一个为 2/3 seeds 获胜。2%/5% 的均值
+多为小差异或高方差，不能声称稳定领先。注意 contrast 增大后 absolute task difficulty 也改变，因而不能把
+contrast 或 residual 单独当成 difficulty；它们只衡量 learner 的 operator approximation bias。
+
+#### R7.2 basis cutoff 证伪“越大越好”
+
+固定 $c=1$，cutoff 5/8/12 将 residual 从 `.1645` 降到 `.0699/.0253`，但 Operator Tucker NRMSE 为：
+
+| cutoff | residual | 2% | 5% | 10% |
+|---:|---:|---:|---:|---:|
+| 5 | .1645 | .293 | .235 | .201 |
+| 8 | .0699 | **.273** | .206 | **.158** |
+| 12 | .0253 | .331 | **.205** | .159 |
+
+![basis cutoff 的 paired 差异](../results/diffusion_cutoff_summary_r2/operator_advantage_vs_basis_cutoff.png)
+
+cutoff 12 的 oracle bias 最低，却在 2% 最差；cutoff 5 则在 5%/10% 仍受欠表达限制。因而 spectral cutoff
+本身就是 bias–variance 参数，不能根据全真值 oracle residual 选择。当前 cutoff 8 只是 validation compromise，
+必须冻结后再用 fresh seeds 确认。
+
+#### R7.3 matched Tucker rank
+
+固定 $c=1$、cutoff=8，同时给 Operator/Neural Tucker 使用 `(3,4,4)`、`(4,5,5)`、`(6,7,7)`：
+
+| ranks（core size） | 2% Operator / Neural | 5% Operator / Neural | 10% Operator / Neural |
+|---|---:|---:|---:|
+| 3×4×4（48） | **.260** / .299 | **.223** / .240 | .186 / **.183** |
+| 4×5×5（100） | .273 / **.262** | **.206** / .210 | **.158** / .189 |
+| 6×7×7（294） | **.303** / .309 | .223 / **.218** | **.145** / .154 |
+
+![matched core size 的 paired 差异](../results/diffusion_rank_summary_r3/operator_advantage_vs_tucker_core_size.png)
+
+10% 下默认与大 core 保留小但一致的 mean advantage；小 core 打平。2%/5% 的 paired differences 大多
+接近零或方差较大。这排除了“只有精确 rank 才能工作”的最坏情况，但没有支持 rank-insensitive superiority。
+
+**R7 总判断：conditional GO。** 物理 operator prior 确实能在 10% 观测下产生可重复正信号，且 cutoff
+呈现有解释的 bias–variance tradeoff；但极稀疏 2%--5% 尚未稳定超过 neural functional tensor。下一门槛是：
+冻结 cutoff/rank，在 fresh 5 seeds 与 source/receiver structured fibers 中至少 4/5 获胜，同时保持 NRMSE
+显著低于 1。在通过该门槛前，不扩大“通用 PDE”叙事。
+
+### 8.9 active acquisition 是明确负结果
 
 1% 初始观测再增加 1%：correct core-IV `0.206±0.014`，random `0.137±0.010`。原因是 acquisition 只优化固定 factors 下的 core variance，而新点加入后 factors 会重拟合。除非将 factor uncertainty 纳入 acquisition，否则不再继续包装这条支线。
 
