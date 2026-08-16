@@ -40,6 +40,25 @@ def make_observation_split(dataset: FieldDataset, ratio: float, kind: str = "ran
 
     if kind == "random":
         pass
+    elif kind in ("source_fibers", "receiver_fibers"):
+        if ndim != 3:
+            raise ValueError(f"{kind} currently requires an order-three tensor")
+        # A source fiber varies along the source coordinate while its
+        # (time, receiver) pair is fixed.  Receiver fibers are defined
+        # analogously.  Selecting whole fibers preserves the requested entry
+        # ratio up to integer rounding while making missingness strongly
+        # correlated rather than scattering isolated entries over the cube.
+        fiber_dim = 2 if kind == "source_fibers" else 1
+        complement = [mode for mode in range(ndim) if mode != fiber_dim]
+        complement_shape = tuple(shape[mode] for mode in complement)
+        fiber_ids = _ravel(idx[:, complement], complement_shape)
+        n_fibers = math.prod(complement_shape)
+        chosen_count = max(1, min(n_fibers, round(ratio * n_fibers)))
+        chosen = torch.randperm(n_fibers, generator=g)[:chosen_count]
+        observed = torch.isin(fiber_ids, chosen)
+        held_out = ~observed
+        return ObservationSplit(observed, held_out, torch.ones_like(observed), ratio,
+                                float(observed.float().mean()), kind, seed)
     elif kind == "periodic_gap":
         periodic_dims = [i for i, p in enumerate(dataset.periodic) if p]
         d = periodic_dims[-1] if periodic_dims else ndim - 1

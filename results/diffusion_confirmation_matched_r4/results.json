@@ -1,0 +1,2658 @@
+{
+  "dataset": {
+    "name": "diffusion_green_c1.00_k8",
+    "shape": [
+      18,
+      24,
+      24
+    ],
+    "source": "generated:geoaware.tensor_data.diffusion_green_tensor",
+    "description": "Variable-coefficient Neumann diffusion Green-response tensor; learner uses a finite reference-operator spectrum.",
+    "metadata": {
+      "pde": "du/dt + (-d/dx(a(x)d/dx) + reaction I)u = 0",
+      "boundary_condition": "homogeneous Neumann (zero flux)",
+      "log_diffusivity_contrast": 1.0,
+      "diffusivity_min": 0.26545377180328367,
+      "diffusivity_max": 3.349431452177879,
+      "basis_cutoff": 8,
+      "truth_modes": 14,
+      "reaction": 0.15,
+      "oracle_product_projection_residual": 0.06986468893191591
+    }
+  },
+  "arguments": {
+    "output": "results/diffusion_confirmation_matched_r4",
+    "task": "diffusion_green",
+    "mismatch": 1.0,
+    "basis_cutoff": 8,
+    "truth_modes": 14,
+    "models": "neural_functional_tucker_matched",
+    "ratios": ".02,.05,.10",
+    "masks": "random,source_fibers,receiver_fibers",
+    "seeds": "101,102,103,104,105",
+    "rank": 10,
+    "tucker_ranks": "4,5,5",
+    "functional_hidden": 48,
+    "steps": 400,
+    "power": 1.5,
+    "reg": 0.002,
+    "ard_cycles": 1,
+    "factor_laplace": false,
+    "noise": 0.1,
+    "init": "random",
+    "split_calibration": false,
+    "device": "cuda"
+  },
+  "results": [
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01996527798473835,
+      "n_observed": 207,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.461275190114975,
+        "nrmse": 0.46133172512054443,
+        "mae": 0.3219725787639618
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.21441543102264404,
+        "nrmse": 0.45632123947143555
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.2083321064710617
+      },
+      "elapsed_seconds": 3.8533318960107863,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01996527798473835,
+      "n_observed": 207,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.38807258009910583,
+        "nrmse": 0.3880849778652191,
+        "mae": 0.22316673398017883
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.18085229396820068,
+        "nrmse": 0.4222851097583771
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.17838828265666962
+      },
+      "elapsed_seconds": 2.2073195902630687,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01996527798473835,
+      "n_observed": 207,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.46640974283218384,
+        "nrmse": 0.4662914574146271,
+        "mae": 0.3247314393520355
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.20542819797992706,
+        "nrmse": 0.4545278549194336
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.20667092502117157
+      },
+      "elapsed_seconds": 2.455119806807488,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01996527798473835,
+      "n_observed": 207,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.4323323369026184,
+        "nrmse": 0.4333125054836273,
+        "mae": 0.2790043354034424
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.2387670874595642,
+        "nrmse": 0.4464312195777893
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.1993808001279831
+      },
+      "elapsed_seconds": 2.104169985279441,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01996527798473835,
+      "n_observed": 207,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.4384518265724182,
+        "nrmse": 0.4387202858924866,
+        "mae": 0.3006060719490051
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.1969733089208603,
+        "nrmse": 0.42727378010749817
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.1827581226825714
+      },
+      "elapsed_seconds": 2.217829938046634,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.04996141791343689,
+      "n_observed": 518,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.45694461464881897,
+        "nrmse": 0.4562271535396576,
+        "mae": 0.31679609417915344
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.186754509806633,
+        "nrmse": 0.44321638345718384
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.1965557336807251
+      },
+      "elapsed_seconds": 2.2195259258151054,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.04996141791343689,
+      "n_observed": 518,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.3800008296966553,
+        "nrmse": 0.3796219527721405,
+        "mae": 0.2117283195257187
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.15325592458248138,
+        "nrmse": 0.39523133635520935
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.15626728534698486
+      },
+      "elapsed_seconds": 2.291800966951996,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.04996141791343689,
+      "n_observed": 518,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.46304967999458313,
+        "nrmse": 0.46143895387649536,
+        "mae": 0.32163864374160767
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.164924755692482,
+        "nrmse": 0.4307403266429901
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.18563368916511536
+      },
+      "elapsed_seconds": 2.28900148300454,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.04996141791343689,
+      "n_observed": 518,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.40236079692840576,
+        "nrmse": 0.40356510877609253,
+        "mae": 0.2568965256214142
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.2412073165178299,
+        "nrmse": 0.46533632278442383
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.21661542356014252
+      },
+      "elapsed_seconds": 2.302310271654278,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.04996141791343689,
+      "n_observed": 518,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.428437203168869,
+        "nrmse": 0.4292627274990082,
+        "mae": 0.29381781816482544
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.3035520017147064,
+        "nrmse": 0.5319115519523621
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.2831503450870514
+      },
+      "elapsed_seconds": 2.3914102069102228,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10001929104328156,
+      "n_observed": 1037,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.46011289954185486,
+        "nrmse": 0.4607701599597931,
+        "mae": 0.3203360140323639
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.19938641786575317,
+        "nrmse": 0.4358786344528198
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.19008347392082214
+      },
+      "elapsed_seconds": 2.4986751158721745,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10001929104328156,
+      "n_observed": 1037,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.38099783658981323,
+        "nrmse": 0.37987518310546875,
+        "mae": 0.2118253856897354
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.15083256363868713,
+        "nrmse": 0.39714759588241577
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.15782608091831207
+      },
+      "elapsed_seconds": 2.183242172934115,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10001929104328156,
+      "n_observed": 1037,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.46312159299850464,
+        "nrmse": 0.45988181233406067,
+        "mae": 0.3202209174633026
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.15964747965335846,
+        "nrmse": 0.42484912276268005
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.180588036775589
+      },
+      "elapsed_seconds": 2.1731157191097736,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10001929104328156,
+      "n_observed": 1037,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.4063613712787628,
+        "nrmse": 0.4065716564655304,
+        "mae": 0.26323890686035156
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.2179846465587616,
+        "nrmse": 0.4652731120586395
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.21656574308872223
+      },
+      "elapsed_seconds": 2.334220563992858,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10001929104328156,
+      "n_observed": 1037,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.43154340982437134,
+        "nrmse": 0.4322323501110077,
+        "mae": 0.2961721122264862
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.23816338181495667,
+        "nrmse": 0.4799274802207947
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.23053067922592163
+      },
+      "elapsed_seconds": 2.2739836098626256,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.5780000686645508,
+        "nrmse": 0.5804840922355652,
+        "mae": 0.3973124623298645
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.6280978918075562,
+        "nrmse": 0.6640600562095642
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.44120079278945923
+      },
+      "elapsed_seconds": 2.4225413291715086,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.41589924693107605,
+        "nrmse": 0.41518545150756836,
+        "mae": 0.25220274925231934
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.0577775314450264,
+        "nrmse": 0.2577057480812073
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.06654705107212067
+      },
+      "elapsed_seconds": 2.629025757778436,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.579715371131897,
+        "nrmse": 0.5782269835472107,
+        "mae": 0.3769565522670746
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.030451539903879166,
+        "nrmse": 0.20022135972976685
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.040206365287303925
+      },
+      "elapsed_seconds": 2.400157620664686,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.4285275638103485,
+        "nrmse": 0.4280681312084198,
+        "mae": 0.2831090986728668
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.0643322542309761,
+        "nrmse": 0.2644464373588562
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.0700695812702179
+      },
+      "elapsed_seconds": 2.382538683246821,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.5904484987258911,
+        "nrmse": 0.5881279110908508,
+        "mae": 0.3976658880710602
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.05190814286470413,
+        "nrmse": 0.28479844331741333
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.08122080564498901
+      },
+      "elapsed_seconds": 2.3217137870378792,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.4658685028553009,
+        "nrmse": 0.4685579538345337,
+        "mae": 0.33422666788101196
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.3491119146347046,
+        "nrmse": 0.5326208472251892
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.2837638258934021
+      },
+      "elapsed_seconds": 2.238654325250536,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.38939169049263,
+        "nrmse": 0.38921329379081726,
+        "mae": 0.22343407571315765
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.1366896629333496,
+        "nrmse": 0.36863961815834045
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.13601769506931305
+      },
+      "elapsed_seconds": 2.4658241868019104,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.45637354254722595,
+        "nrmse": 0.4551582336425781,
+        "mae": 0.30898723006248474
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.12451070547103882,
+        "nrmse": 0.3684168756008148
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.13592024147510529
+      },
+      "elapsed_seconds": 2.5802685520611703,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.4195896089076996,
+        "nrmse": 0.4174181818962097,
+        "mae": 0.2646152377128601
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.08318618685007095,
+        "nrmse": 0.3176082670688629
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.10100654512643814
+      },
+      "elapsed_seconds": 2.2618767502717674,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.443550705909729,
+        "nrmse": 0.44265633821487427,
+        "mae": 0.30726557970046997
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.2498246431350708,
+        "nrmse": 0.5177568197250366
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.26825055480003357
+      },
+      "elapsed_seconds": 2.320778749883175,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.4547591507434845,
+        "nrmse": 0.4561203718185425,
+        "mae": 0.32394060492515564
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.2784144878387451,
+        "nrmse": 0.5110628008842468
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.2612781822681427
+      },
+      "elapsed_seconds": 2.315621375106275,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.38904833793640137,
+        "nrmse": 0.38902562856674194,
+        "mae": 0.21648500859737396
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.11473066359758377,
+        "nrmse": 0.3360100984573364
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.11299177259206772
+      },
+      "elapsed_seconds": 2.3368029119446874,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.4317169189453125,
+        "nrmse": 0.429874449968338,
+        "mae": 0.28383079171180725
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.16935771703720093,
+        "nrmse": 0.4247257709503174
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.18065965175628662
+      },
+      "elapsed_seconds": 2.2686311258003116,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.42549073696136475,
+        "nrmse": 0.42111513018608093,
+        "mae": 0.2736358046531677
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.12029556185007095,
+        "nrmse": 0.3807210326194763
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.1450715810060501
+      },
+      "elapsed_seconds": 2.445151884108782,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "source_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.4532128870487213,
+        "nrmse": 0.45054954290390015,
+        "mae": 0.3143167197704315
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.18180695176124573,
+        "nrmse": 0.44903022050857544
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.20177440345287323
+      },
+      "elapsed_seconds": 2.319502293597907,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.5187612771987915,
+        "nrmse": 0.5209907293319702,
+        "mae": 0.36205485463142395
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.6495543122291565,
+        "nrmse": 0.6762151122093201
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.45737403631210327
+      },
+      "elapsed_seconds": 2.3646536520682275,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.4256458878517151,
+        "nrmse": 0.4249153435230255,
+        "mae": 0.26590344309806824
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.050504088401794434,
+        "nrmse": 0.24093107879161835
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.058217644691467285
+      },
+      "elapsed_seconds": 2.2782216109335423,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.5028550624847412,
+        "nrmse": 0.5015639662742615,
+        "mae": 0.33860740065574646
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.06561702489852905,
+        "nrmse": 0.29397818446159363
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.08662360161542892
+      },
+      "elapsed_seconds": 2.210937068797648,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.4176443815231323,
+        "nrmse": 0.4171966314315796,
+        "mae": 0.26398590207099915
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.06421155482530594,
+        "nrmse": 0.2624213397502899
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.06903449445962906
+      },
+      "elapsed_seconds": 2.1658344101160765,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.02083333395421505,
+      "n_observed": 216,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.4692085087299347,
+        "nrmse": 0.46736443042755127,
+        "mae": 0.3229759633541107
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.0616907998919487,
+        "nrmse": 0.31255125999450684
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.097800612449646
+      },
+      "elapsed_seconds": 2.1725898780860007,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.4435466229915619,
+        "nrmse": 0.4461072087287903,
+        "mae": 0.3057830035686493
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.3297402858734131,
+        "nrmse": 0.5178573727607727
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.26838698983192444
+      },
+      "elapsed_seconds": 2.1679075197316706,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.38859543204307556,
+        "nrmse": 0.38841739296913147,
+        "mae": 0.2210608571767807
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.1280926614999771,
+        "nrmse": 0.3585546910762787
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.12866733968257904
+      },
+      "elapsed_seconds": 2.1600854452699423,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.4507489800453186,
+        "nrmse": 0.4495486617088318,
+        "mae": 0.3091675937175751
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.13361996412277222,
+        "nrmse": 0.3836810886859894
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.1474565863609314
+      },
+      "elapsed_seconds": 2.111277811229229,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.4146897792816162,
+        "nrmse": 0.41254371404647827,
+        "mae": 0.25340405106544495
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.07740478217601776,
+        "nrmse": 0.3077736794948578
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.0949079617857933
+      },
+      "elapsed_seconds": 2.217883496079594,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05092592537403107,
+      "n_observed": 528,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.4462127685546875,
+        "nrmse": 0.445313036441803,
+        "mae": 0.3116316497325897
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.24598444998264313,
+        "nrmse": 0.5141130089759827
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.26442620158195496
+      },
+      "elapsed_seconds": 2.3461225549690425,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 101,
+      "metrics": {
+        "rmse": 0.4465700089931488,
+        "nrmse": 0.4479067027568817,
+        "mae": 0.3141997158527374
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.276309996843338,
+        "nrmse": 0.5063138008117676
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.25648972392082214
+      },
+      "elapsed_seconds": 2.2119575501419604,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 102,
+      "metrics": {
+        "rmse": 0.38449200987815857,
+        "nrmse": 0.38446953892707825,
+        "mae": 0.20661376416683197
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.10812024772167206,
+        "nrmse": 0.3287026882171631
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.10809732228517532
+      },
+      "elapsed_seconds": 2.115383959840983,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 103,
+      "metrics": {
+        "rmse": 0.4255005717277527,
+        "nrmse": 0.42368462681770325,
+        "mae": 0.2797662913799286
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.16206464171409607,
+        "nrmse": 0.4158700108528137
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.17357060313224792
+      },
+      "elapsed_seconds": 2.1099561639130116,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 104,
+      "metrics": {
+        "rmse": 0.42660966515541077,
+        "nrmse": 0.4222225546836853,
+        "mae": 0.2723371386528015
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.11152635514736176,
+        "nrmse": 0.36684808135032654
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.1347023844718933
+      },
+      "elapsed_seconds": 2.3152019679546356,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    },
+    {
+      "task": "diffusion_green_c1.00_k8",
+      "shape": [
+        18,
+        24,
+        24
+      ],
+      "model": "neural_functional_tucker_matched",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.09953703731298447,
+      "n_observed": 1032,
+      "seed": 105,
+      "metrics": {
+        "rmse": 0.43674972653388977,
+        "nrmse": 0.43418312072753906,
+        "mae": 0.2965182662010193
+      },
+      "effective_rank": null,
+      "observed_fit": {
+        "mse": 0.17763809859752655,
+        "nrmse": 0.443070650100708
+      },
+      "metadata": {
+        "parameters": 210,
+        "inference": "deterministic_regularized_fit",
+        "uncertainty_metrics_supported": false,
+        "optimizer": "AdamW",
+        "learning_rate": 0.002,
+        "gradient_steps": 400,
+        "initialization": "random",
+        "best_observed_objective": 0.19649578630924225
+      },
+      "elapsed_seconds": 2.1679468653164804,
+      "arguments": {
+        "output": "results/diffusion_confirmation_matched_r4",
+        "task": "diffusion_green",
+        "mismatch": 1.0,
+        "basis_cutoff": 8,
+        "truth_modes": 14,
+        "models": "neural_functional_tucker_matched",
+        "ratios": ".02,.05,.10",
+        "masks": "random,source_fibers,receiver_fibers",
+        "seeds": "101,102,103,104,105",
+        "rank": 10,
+        "tucker_ranks": "4,5,5",
+        "functional_hidden": 48,
+        "steps": 400,
+        "power": 1.5,
+        "reg": 0.002,
+        "ard_cycles": 1,
+        "factor_laplace": false,
+        "noise": 0.1,
+        "init": "random",
+        "split_calibration": false,
+        "device": "cuda"
+      }
+    }
+  ]
+}

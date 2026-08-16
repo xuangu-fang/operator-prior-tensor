@@ -8,14 +8,20 @@ This repository is Track 1 of the [Physics-Informed Tensor Learning Hub](https:/
 
 ## Current evidence
 
-- Observation ratios: 2%, 5%, and 10%; three seeds; 400--500 updates.
+- Observation ratios: 2%, 5%, and 10%; the confirmation uses five fresh seeds
+  and exactly 400 updates after freezing cutoff 8 and rank `(4,5,5)` on the
+  earlier three selection seeds.
 - The synthetic principal-angle phase boundary is now complemented by a
   variable-coefficient diffusion Green-response benchmark.  Its mismatch
   changes physical eigenfunctions and decay rates; every result stores the
   measured oracle projection residual.
-- On the physical benchmark, Operator Tucker has a stable positive signal at
-  10% observations.  At 2%--5%, differences from Neural Functional Tucker are
-  small or high-variance; this is not yet a publication-ready win.
+- On the physical benchmark, 10% random and receiver-fiber masks both reach
+  the predeclared 4/5 paired-win gate against a wide Neural Functional Tucker.
+  Random NRMSE is `0.165±0.010` vs `0.207±0.054`; receiver-fiber is
+  `0.217±0.052` vs `0.269±0.112`.
+- The claim has a sharp boundary: source-fiber reaches only 3/5 wins at 10%,
+  and 2% structured masks favor the neural baseline.  This is a conditional GO,
+  not a claim of universal superiority under extreme sparsity.
 - Basis cutoff has a real bias--variance tradeoff: reducing projection residual
   from 0.165 to 0.025 does not monotonically improve 2% reconstruction.
 - Matched Tucker rank sweeps show that the 10% signal is not explained by one
@@ -31,6 +37,8 @@ The main claim is a measurable bias--variance phase boundary, not universal supe
 - `experiments/`: fixed-budget phase-diagram runners and analysis.
 - `results/`: immutable raw artifacts migrated from the hub.
 - `docs/TECHNICAL_REPORT.md`: formulation, inference, baselines, dataset cards, and current evidence.
+- `docs/PAPER_TECHNICAL_REPORT_ZH.md`: paper-facing Chinese Introduction/Method,
+  frozen confirmation design, complete fresh-seed table, and claim boundaries.
 - `docs/ITERATIONS.md`: repository-local research diary.
 - `docs/SHARED_PROTOCOL.md`: shared audit discipline inherited from the hub.
 

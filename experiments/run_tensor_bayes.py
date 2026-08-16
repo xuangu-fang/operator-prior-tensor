@@ -44,13 +44,15 @@ def metrics(truth,mean,std,held):
     return result
 
 
-def fit_functional_baseline(name,data,obs,y,steps,seed,device,tucker_ranks,rank):
+def fit_functional_baseline(name,data,obs,y,steps,seed,device,tucker_ranks,rank,
+                            functional_hidden):
     """Fit a deterministic continuous baseline using observed entries only."""
     seed_all(seed); dev=torch.device(device if torch.cuda.is_available() else "cpu")
     if name=="neural_functional_cp":
         model=NeuralFunctionalCP(data.periodic,rank=rank,hidden=48)
-    elif name=="neural_functional_tucker":
-        model=NeuralFunctionalTucker(data.periodic,ranks=tucker_ranks,hidden=48)
+    elif name in ("neural_functional_tucker", "neural_functional_tucker_matched"):
+        hidden = 3 if name.endswith("_matched") else functional_hidden
+        model=NeuralFunctionalTucker(data.periodic,ranks=tucker_ranks,hidden=hidden)
     elif name=="siren_inr":
         model=SirenINR(len(data.shape),hidden=96,depth=3,omega=20.)
     else:
@@ -99,6 +101,7 @@ def main():
     p.add_argument("--ratios",default=".005,.01"); p.add_argument("--masks",default="random,periodic_gap")
     p.add_argument("--seeds",default="0,1,2"); p.add_argument("--rank",type=int,default=10)
     p.add_argument("--tucker-ranks",default="4,5,5")
+    p.add_argument("--functional-hidden",type=int,default=48)
     p.add_argument("--steps",type=int,default=1600); p.add_argument("--power",type=float,default=1.5)
     p.add_argument("--reg",type=float,default=.002); p.add_argument("--ard-cycles",type=int,default=1)
     p.add_argument("--factor-laplace",action="store_true"); p.add_argument("--noise",type=float,default=.1)
@@ -117,10 +120,12 @@ def main():
         initial_cache={}
         for name in models:
             seed_all(seed); started=time.perf_counter()
-            if name in ("neural_functional_cp","neural_functional_tucker","siren_inr"):
+            if name in ("neural_functional_cp","neural_functional_tucker",
+                        "neural_functional_tucker_matched","siren_inr"):
                 ranks=tuple(map(int,args.tucker_ranks.split(",")))
                 normalized_mean,parameter_count,best_objective=fit_functional_baseline(
-                    name,data,obs,y,args.steps,seed,args.device,ranks,args.rank)
+                    name,data,obs,y,args.steps,seed,args.device,ranks,args.rank,
+                    args.functional_hidden)
                 mean=normalized_mean*scale+center; std=None; effective_rank=None
                 meta={"parameters":parameter_count,"inference":"deterministic_regularized_fit",
                       "uncertainty_metrics_supported":False,"optimizer":"AdamW",

@@ -93,3 +93,40 @@ architecture was added.  Artifact: `results/diffusion_rank_summary_r3/summary.js
   test fresh seeds and structured source/receiver fibers.  Promote the line only
   if Operator Tucker wins at least 4/5 fresh seeds at one ratio no larger than
   10%, while remaining absolutely useful (NRMSE well below 1).
+
+## Physical iteration 4 — frozen fresh-seed and structured-fiber confirmation
+
+**Predeclared protocol.** No architecture or hyperparameter was selected on
+this round.  Freeze diffusion contrast 1, basis cutoff 8, truth modes 14,
+Tucker rank `(4,5,5)`, regularization `.002`, 10% noise, random initialization
+and 400 AdamW updates.  Replace selection seeds 41--43 by fresh seeds
+101--105.  Evaluate 2%/5%/10% under random entries, complete source fibers and
+complete receiver fibers.  A source fiber observes all source positions at a
+fixed `(time, receiver)` pair; receiver fibers are analogous.
+
+**Fair baselines and control.** The main strong baseline is a wide Neural
+Functional Tucker with the same ranks/core and 8,130 parameters.  A hidden
+width-3 version has 210 parameters, almost exactly matching Operator Tucker's
+212.  A permuted-basis Tucker has the same 212 parameters, optimizer and
+eigenvalues and is the destructive negative control.
+
+**Result.** The random 10% cell passes with Operator Tucker
+`0.1645±0.0102` vs wide neural `0.2065±0.0536`, 4/5 paired wins.  Receiver
+fibers at 10% independently pass with `0.2165±0.0517` vs `0.2695±0.1117`,
+also 4/5.  The matched neural model is `0.4279` and `0.4225` respectively;
+the wrong operator is `0.9417` and `0.9597`.  Thus the result is not explained
+by parameter count or by the Tucker decoder alone.
+
+**Negative result.** Source fibers do not meet the gate: at 10%, Operator is
+`0.2937±0.1890` vs wide neural `0.2562±0.1177`, only 3/5 wins.  Both complete
+fiber masks strongly favor the neural baseline at 2%; receiver-fiber Operator
+even exceeds NRMSE 1 on one seed.  No cutoff, rank, initializer or step budget
+was changed in response.
+
+**Decision.** Conditional promotion.  The predeclared gate is met by random
+and one genuinely structured mask at 10%, but the line must be presented as a
+bias--variance phase-boundary paper.  Extreme sparse and source-fiber regimes
+remain explicit NO-GO regions.  Raw artifacts:
+`results/diffusion_confirmation_r4`,
+`results/diffusion_confirmation_matched_r4`; audited aggregate:
+`results/diffusion_confirmation_summary_r4/summary.json`.

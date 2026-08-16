@@ -1,5 +1,10 @@
 # 方向 1 技术报告：Operator-informed Bayesian Tucker
 
+> 2026-08-16 注：面向投稿、包含五个 fresh seeds 与 structured-fiber
+> confirmation gate 的最新 Introduction/Method 和完整主表，请优先阅读
+> [`PAPER_TECHNICAL_REPORT_ZH.md`](PAPER_TECHNICAL_REPORT_ZH.md)。本文保留为
+> 早期全量审计与数据集调查记录。
+
 更新时间：2026-08-15  
 状态：**已从人工 subspace rotation 推进到变系数扩散 Green tensor；10% 有较稳定正信号，2%--5% 仍是高方差/近似平局。**
 
