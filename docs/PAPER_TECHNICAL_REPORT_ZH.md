@@ -1,7 +1,8 @@
 # 方向 1 论文级技术报告：用物理算子约束连续 Tucker 因子
 
-更新时间：2026-08-16  
-实验冻结版本：`diffusion_confirmation_r4`  
+更新时间：2026-08-16
+
+实验冻结版本：`diffusion_confirmation_r4`
 当前判断：**随机缺失与 receiver-fiber 的 10% 确认 gate 通过；source-fiber 只有 3/5，因而是有边界的 GO，不是“极稀疏条件下普遍优于神经张量”。**
 
 ## 摘要
