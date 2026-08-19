@@ -18,18 +18,26 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-MODEL_ORDER = ["fem_operator", "topology_erased", "bounding_box", "neural_coords",
+MODEL_ORDER = ["fem_operator", "laplacian_geo", "topology_erased", "bounding_box",
+               "laplacian_blind", "neural_coords", "neural_matched",
                "discrete_table", "laplacian_table", "permuted"]
 MODEL_LABEL = {
     "fem_operator": "Geometry operator (ours)",
     "topology_erased": "Topology erased",
     "bounding_box": "Bounding-box product",
     "neural_coords": "Neural coordinates",
+    "neural_matched": "Neural coords (matched)",
     "discrete_table": "Discrete Tucker",
+    "laplacian_geo": "Laplacian, geometry-aware",
+    "laplacian_blind": "Laplacian, geometry-blind",
     "laplacian_table": "Laplacian-regularized",
     "permuted": "Permuted (control)",
 }
-GEOMETRY_ORDER = ["square", "center_hole", "two_holes", "L_shape", "U_shape"]
+# Ordered by how much geometry there is to know, measured by the bias floor a
+# geometry-blind basis pays.  "open" is first because it is the control where
+# the advantage must vanish.
+GEOMETRY_ORDER = ["open", "square", "labyrinth", "arc", "center_hole",
+                  "two_holes", "L_shape", "U_shape", "chamber", "sealed_4"]
 
 
 def load(paths):
@@ -132,18 +140,33 @@ def main():
     fig.tight_layout()
     fig.savefig(args.output / "geometry_family_nrmse.png", dpi=150)
 
-    fig, axis = plt.subplots(figsize=(6.4, 4.4))
-    for model in ("fem_operator", "topology_erased", "bounding_box"):
-        xs = [summary["layouts"][g]["projection_residuals"].get(model) for g in layouts]
-        ys = [summary["layouts"][g]["cells"][f"{ratios[-1]:.2f}"][model]["nrmse"]["mean"]
-              for g in layouts]
-        axis.scatter(xs, ys, label=MODEL_LABEL[model], s=48)
+    # The mechanism figure: how much the geometry-aware subspace gains, against
+    # how much geometry there is to know.  The control sits at the origin.
+    fig, axis = plt.subplots(figsize=(6.6, 4.4))
+    ratio = ratios[-1]
+    for model in ("topology_erased", "bounding_box", "neural_coords",
+                  "neural_matched"):
+        xs, ys = [], []
+        for layout in layouts:
+            cells = summary["layouts"][layout]["cells"][f"{ratio:.2f}"]
+            blind_floor = summary["layouts"][layout]["projection_residuals"].get(
+                "topology_erased")
+            if model not in cells or blind_floor is None:
+                continue
+            xs.append(blind_floor)
+            ys.append(cells[model]["nrmse"]["mean"]
+                      / max(cells["fem_operator"]["nrmse"]["mean"], 1e-9))
+        if xs:
+            order = sorted(range(len(xs)), key=lambda i: xs[i])
+            axis.plot([xs[i] for i in order], [ys[i] for i in order], "o-",
+                      label=MODEL_LABEL[model])
+    axis.axhline(1., color="black", linestyle="--", linewidth=.8)
     axis.set_xscale("log")
-    axis.set_xlabel("product-space projection residual (bias floor)")
-    axis.set_ylabel(f"held-out NRMSE at {ratios[-1]:.0%}")
+    axis.set_xlabel("bias floor of a geometry-blind basis  (how much geometry matters)")
+    axis.set_ylabel(f"baseline NRMSE / ours, at {ratio:.0%}")
     axis.legend(fontsize=8)
     fig.tight_layout()
-    fig.savefig(args.output / "residual_vs_recovery.png", dpi=150)
+    fig.savefig(args.output / "advantage_vs_geometry_strength.png", dpi=150)
     print(f"\nwrote {args.output}/summary.json and two figures")
 
 

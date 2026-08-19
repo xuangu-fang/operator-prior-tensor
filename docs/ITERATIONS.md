@@ -364,3 +364,18 @@ hand-picked truncation.
 **Status.** Full five-layout, three-ratio, three-seed tables running under both
 the random-entry and sensor protocols on selection seeds 41--43.  Cutoff and
 rank were chosen here and must be frozen before any fresh-seed confirmation.
+
+### 7b — spectral ARD does not remove the cutoff hyperparameter (negative)
+
+Since the cutoff turned out to be an identifiability constraint, the obvious
+next move was to learn it: one precision per basis column, updated by the
+sparse-Bayesian fixed point ``alpha_k = R / sum_r W_kr^2``, so that an oversized
+cutoff would be pruned instead of fatal.  It does not work here, and the reason
+is structural rather than a matter of tuning.  With ``W`` a point estimate the
+update has no posterior-covariance term, so the penalty contributes
+``reg * R`` per column irrespective of its coefficients and nothing is driven
+out: at cutoff 32 the effective dimension stayed 32 and held-out NRMSE moved
+only from `0.655` to `0.643`, against `0.152` at cutoff 10.  Recovering real
+pruning would require a factor posterior, which is exactly the component the
+report rules out for this paper.  The code was reverted; the cutoff is reported
+as a selected-and-frozen bias--variance hyperparameter with an explicit rule.
