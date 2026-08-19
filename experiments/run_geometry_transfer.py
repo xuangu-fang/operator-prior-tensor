@@ -14,10 +14,14 @@ Three regimes are reported:
 ``zero_shot`` fit on the source, evaluate on the target with no target data.
 ``few_shot``  as above, then refit only the small Tucker core on a few target
               observations, leaving every factor untouched.
+``few_shot_full`` fine-tune *every* parameter on the same target observations.
+``scratch``   ignore the source entirely and fit the target observations alone.
 
-Few-shot is the honest headline: zero-shot asks the transferred coefficients to
-be correct in absolute terms, while few-shot asks only that the *function space*
-transfer, which is what an operator prior actually claims.
+Reporting the last two is what makes the comparison fair.  Refitting only the
+core is the natural move for an operator model and a poor one for a coordinate
+network, so quoting it alone would flatter the proposed method by construction;
+``few_shot_full`` gives every method its own best adaptation, and ``scratch``
+says whether the source geometry was worth anything at all.
 """
 
 from __future__ import annotations
@@ -169,31 +173,57 @@ def main():
                 zero = model.predict(index).mean * scale_t + center_t
                 record["zero_shot"] = score(zero, truth_t, split_t.held_out)
 
-                # Few-shot: only the core moves, so the factors — and therefore
-                # the function space — are entirely inherited.
-                for parameter in model.parameters():
-                    parameter.requires_grad_(False)
-                model.core.requires_grad_(True)
-                optimizer = torch.optim.AdamW([model.core], lr=3e-3)
                 device = next(model.parameters()).device
                 ix, yy = index[obs_t].to(device), y_t.to(device)
-                for _ in range(args.core_steps):
-                    loss = (model(ix) - yy).square().mean()
-                    optimizer.zero_grad(set_to_none=True)
-                    loss.backward()
-                    optimizer.step()
                 history = model._posterior.get("history", [])
                 objective = model._posterior.get("best_observed_objective")
-                model._fit_core_posterior(ix, yy)
-                model._posterior["history"] = history
-                model._posterior["best_observed_objective"] = objective
-                few = model.predict(index).mean * scale_t + center_t
-                record["few_shot"] = score(few, truth_t, split_t.held_out)
+                transferred = {key: value.detach().clone()
+                               for key, value in model.state_dict().items()}
+
+                def adapt(core_only):
+                    model.load_state_dict(transferred)
+                    model.to(device)
+                    for parameter in model.parameters():
+                        parameter.requires_grad_(not core_only)
+                    model.core.requires_grad_(True)
+                    trainable = [p for p in model.parameters() if p.requires_grad]
+                    optimizer = torch.optim.AdamW(trainable, lr=3e-3)
+                    for _ in range(args.core_steps):
+                        loss = (model(ix) - yy).square().mean()
+                        optimizer.zero_grad(set_to_none=True)
+                        loss.backward()
+                        optimizer.step()
+                    model._fit_core_posterior(ix, yy)
+                    model._posterior["history"] = history
+                    model._posterior["best_observed_objective"] = objective
+                    for parameter in model.parameters():
+                        parameter.requires_grad_(True)
+                    return model.predict(index).mean * scale_t + center_t
+
+                # Only the core moves: the factors, and therefore the function
+                # space, are entirely inherited from the source geometry.
+                record["few_shot"] = score(adapt(True), truth_t, split_t.held_out)
+                # Every method's own best adaptation, so the protocol does not
+                # favour the model whose natural move is a core refit.
+                record["few_shot_full"] = score(adapt(False), truth_t,
+                                                split_t.held_out)
+
+                # Was the source geometry worth anything? Fit the target alone.
+                seed_all(seed)
+                fresh = GroupedOperatorTucker(
+                    build_specs(name, target, ranks, args.hidden),
+                    device=args.device).fit(index[obs_t], y_t,
+                                            steps=args.steps, seed=seed)
+                record["scratch"] = score(
+                    fresh.predict(index).mean * scale_t + center_t, truth_t,
+                    split_t.held_out)
                 record["elapsed_seconds"] = time.perf_counter() - started
                 rows.append(record)
-                print(f"{pair} s{seed} {name:16s} source={record['source_nrmse']:.3f} "
+                print(f"{pair} s{seed} {name:16s} src={record['source_nrmse']:.3f} "
                       f"zero={record['zero_shot']['nrmse']:.3f} "
-                      f"few={record['few_shot']['nrmse']:.3f}", flush=True)
+                      f"few={record['few_shot']['nrmse']:.3f} "
+                      f"full={record['few_shot_full']['nrmse']:.3f} "
+                      f"scratch={record['scratch']['nrmse']:.3f}", flush=True)
 
     (args.output / "results.json").write_text(json.dumps(
         {"arguments": vars(args), "results": rows}, indent=2, default=str))

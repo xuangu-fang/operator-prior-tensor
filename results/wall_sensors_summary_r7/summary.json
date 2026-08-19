@@ -1,0 +1,2364 @@
+{
+  "mask": "spatial_sensors",
+  "layouts": {
+    "open": {
+      "projection_residuals": {
+        "fem_operator": 0.08146061535376323,
+        "topology_erased": 0.08146061535376323,
+        "bounding_box": 0.0815668301998116,
+        "permuted": 0.9866726992172726
+      },
+      "n_nodes": 16,
+      "metadata": {
+        "mesh_hash": "62290a89f795a4a6",
+        "resolution": 18,
+        "n_nodes": 324,
+        "n_triangles": 578,
+        "domain_area": 1.0,
+        "polygon_vertices": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "holes": [],
+        "n_outer_boundary_nodes": 68,
+        "n_hole_boundary_nodes": 0,
+        "stiffness_checksum": "82a66c35b3ad6a09",
+        "mass_checksum": "635d6a3f30a9b6ce",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "boundary_condition": "Neumann on the outer square",
+        "tensor_semantics": "scenario x time x node",
+        "walls": [],
+        "wall_kinds": [],
+        "operator_information_tier": "geometry (mesh, boundary and barrier layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 10,
+        "time_cutoff": 10,
+        "truth_modes": 60,
+        "n_free_nodes": 324,
+        "n_scenarios": 20,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "cells": {
+        "0.02": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.8862619400024414,
+              "std": 0.23474747163381754,
+              "by_seed": {
+                "41": 1.1567928791046143,
+                "42": 0.7656979560852051,
+                "43": 0.7362949848175049
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.5085700352986653,
+              "std": 0.031301821473908295,
+              "by_seed": {
+                "41": 1.5396788120269775,
+                "42": 1.5089526176452637,
+                "43": 1.4770786762237549
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.8862619400024414,
+              "std": 0.23474747163381754,
+              "by_seed": {
+                "41": 1.1567928791046143,
+                "42": 0.7656979560852051,
+                "43": 0.7362949848175049
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "0/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 1.0885581771532695,
+              "std": 0.15978691481386795,
+              "by_seed": {
+                "41": 0.906701385974884,
+                "42": 1.1525062322616577,
+                "43": 1.2064669132232666
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.5085700352986653,
+              "std": 0.031301821473908295,
+              "by_seed": {
+                "41": 1.5396788120269775,
+                "42": 1.5089526176452637,
+                "43": 1.4770786762237549
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.4734320342540741,
+              "std": 0.07137077462752156,
+              "by_seed": {
+                "41": 0.46679118275642395,
+                "42": 0.4056137800216675,
+                "43": 0.5478911399841309
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "0/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.5525288979212443,
+              "std": 0.07623927158454155,
+              "by_seed": {
+                "41": 0.4926080107688904,
+                "42": 0.5266364812850952,
+                "43": 0.6383422017097473
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "0/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4761396646499634,
+              "std": 0.022077301806396044,
+              "by_seed": {
+                "41": 1.4922478199005127,
+                "42": 1.4851970672607422,
+                "43": 1.4509741067886353
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 2.033034841219584,
+              "std": 0.5397022190944194,
+              "by_seed": {
+                "41": 2.6524534225463867,
+                "42": 1.7826462984085083,
+                "43": 1.6640048027038574
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.05": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.30305662254492444,
+              "std": 0.09490462139298,
+              "by_seed": {
+                "41": 0.2798621952533722,
+                "42": 0.40740835666656494,
+                "43": 0.22189931571483612
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4537378152211506,
+              "std": 0.09244992021389255,
+              "by_seed": {
+                "41": 1.546219825744629,
+                "42": 1.3613200187683105,
+                "43": 1.4536736011505127
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.30305662254492444,
+              "std": 0.09490462139298,
+              "by_seed": {
+                "41": 0.2798621952533722,
+                "42": 0.40740835666656494,
+                "43": 0.22189931571483612
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "0/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.28087710837523144,
+              "std": 0.055677634414876505,
+              "by_seed": {
+                "41": 0.2853584885597229,
+                "42": 0.334178626537323,
+                "43": 0.22309421002864838
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4537378152211506,
+              "std": 0.09244992021389255,
+              "by_seed": {
+                "41": 1.546219825744629,
+                "42": 1.3613200187683105,
+                "43": 1.4536736011505127
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.3084345857302348,
+              "std": 0.09401369253460495,
+              "by_seed": {
+                "41": 0.4127635359764099,
+                "42": 0.28225427865982056,
+                "43": 0.23028594255447388
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "2/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.3676703671614329,
+              "std": 0.05521743782533403,
+              "by_seed": {
+                "41": 0.41690927743911743,
+                "42": 0.3079708218574524,
+                "43": 0.3781310021877289
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "2/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4566835562388103,
+              "std": 0.07463969349378846,
+              "by_seed": {
+                "41": 1.5341452360153198,
+                "42": 1.3852288722991943,
+                "43": 1.4506765604019165
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.7323654890060425,
+              "std": 0.356472520344106,
+              "by_seed": {
+                "41": 1.7655093669891357,
+                "42": 1.3604785203933716,
+                "43": 2.07110857963562
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.10": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.21713229020436606,
+              "std": 0.012802524120016291,
+              "by_seed": {
+                "41": 0.20997196435928345,
+                "42": 0.2319129854440689,
+                "43": 0.2095119208097458
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4344892104466755,
+              "std": 0.05180918353007246,
+              "by_seed": {
+                "41": 1.4552359580993652,
+                "42": 1.3755218982696533,
+                "43": 1.4727097749710083
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.21713229020436606,
+              "std": 0.012802524120016291,
+              "by_seed": {
+                "41": 0.20997196435928345,
+                "42": 0.2319129854440689,
+                "43": 0.2095119208097458
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "0/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.2219364196062088,
+              "std": 0.011768774690358792,
+              "by_seed": {
+                "41": 0.22476649284362793,
+                "42": 0.23203212022781372,
+                "43": 0.20901064574718475
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4344892104466755,
+              "std": 0.05180918353007246,
+              "by_seed": {
+                "41": 1.4552359580993652,
+                "42": 1.3755218982696533,
+                "43": 1.4727097749710083
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.26884165902932483,
+              "std": 0.04733294937324447,
+              "by_seed": {
+                "41": 0.31891024112701416,
+                "42": 0.26278790831565857,
+                "43": 0.22482682764530182
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.2840701639652252,
+              "std": 0.03579197210911302,
+              "by_seed": {
+                "41": 0.3223792016506195,
+                "42": 0.27834615111351013,
+                "43": 0.251485139131546
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "3/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4763571818669636,
+              "std": 0.05104723210574985,
+              "by_seed": {
+                "41": 1.5141642093658447,
+                "42": 1.4182900190353394,
+                "43": 1.496617317199707
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.2044610977172852,
+              "std": 0.12334280684750297,
+              "by_seed": {
+                "41": 1.333972454071045,
+                "42": 1.191023588180542,
+                "43": 1.0883872509002686
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        }
+      }
+    },
+    "labyrinth": {
+      "projection_residuals": {
+        "fem_operator": 0.0774367372263982,
+        "topology_erased": 0.10430106972171947,
+        "bounding_box": 0.1043550279588188,
+        "permuted": 0.9865887384916783
+      },
+      "n_nodes": 16,
+      "metadata": {
+        "mesh_hash": "62290a89f795a4a6",
+        "resolution": 18,
+        "n_nodes": 324,
+        "n_triangles": 578,
+        "domain_area": 1.0,
+        "polygon_vertices": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "holes": [],
+        "n_outer_boundary_nodes": 68,
+        "n_hole_boundary_nodes": 0,
+        "stiffness_checksum": "3001654ee2e5b7b4",
+        "mass_checksum": "635d6a3f30a9b6ce",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "boundary_condition": "Neumann on the outer square",
+        "tensor_semantics": "scenario x time x node",
+        "walls": [
+          {
+            "x_range": [
+              0.34,
+              0.38
+            ],
+            "y_range": [
+              0.0,
+              0.7
+            ],
+            "conductivity": 0.001
+          },
+          {
+            "x_range": [
+              0.62,
+              0.66
+            ],
+            "y_range": [
+              0.3,
+              1.0
+            ],
+            "conductivity": 0.001
+          }
+        ],
+        "wall_kinds": [
+          "Wall",
+          "Wall"
+        ],
+        "operator_information_tier": "geometry (mesh, boundary and barrier layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 10,
+        "time_cutoff": 10,
+        "truth_modes": 60,
+        "n_free_nodes": 324,
+        "n_scenarios": 20,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "cells": {
+        "0.02": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 1.016304850578308,
+              "std": 0.09474800697374547,
+              "by_seed": {
+                "41": 1.0294603109359741,
+                "42": 1.1037876605987549,
+                "43": 0.9156665802001953
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.5398369630177815,
+              "std": 0.0482144231614023,
+              "by_seed": {
+                "41": 1.5754255056381226,
+                "42": 1.5591199398040771,
+                "43": 1.484965443611145
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.9689250191052755,
+              "std": 0.35459202354094005,
+              "by_seed": {
+                "41": 1.3781325817108154,
+                "42": 0.7521811723709106,
+                "43": 0.7764613032341003
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "1/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 1.0835803151130676,
+              "std": 0.15875246910384047,
+              "by_seed": {
+                "41": 0.9009910225868225,
+                "42": 1.1607962846755981,
+                "43": 1.1889536380767822
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.5349637667338054,
+              "std": 0.05050888629431306,
+              "by_seed": {
+                "41": 1.570499300956726,
+                "42": 1.5572468042373657,
+                "43": 1.4771451950073242
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.5259480277697245,
+              "std": 0.12298936678587916,
+              "by_seed": {
+                "41": 0.4844590723514557,
+                "42": 0.42906859517097473,
+                "43": 0.6643164157867432
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "0/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.6183318694432577,
+              "std": 0.12020085107902719,
+              "by_seed": {
+                "41": 0.5586028099060059,
+                "42": 0.5396949052810669,
+                "43": 0.7566978931427002
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "0/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.5012586116790771,
+              "std": 0.047976012766226574,
+              "by_seed": {
+                "41": 1.5215567350387573,
+                "42": 1.535749077796936,
+                "43": 1.446470022201538
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.9550338983535767,
+              "std": 0.3206571505041965,
+              "by_seed": {
+                "41": 2.309847593307495,
+                "42": 1.6859676837921143,
+                "43": 1.8692864179611206
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.05": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.2992155502239863,
+              "std": 0.12272296849040457,
+              "by_seed": {
+                "41": 0.24078524112701416,
+                "42": 0.4402356743812561,
+                "43": 0.21662573516368866
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4710795481999714,
+              "std": 0.11068679401680065,
+              "by_seed": {
+                "41": 1.5661206245422363,
+                "42": 1.3495525121688843,
+                "43": 1.497565507888794
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.36784806847572327,
+              "std": 0.10180810716103846,
+              "by_seed": {
+                "41": 0.4076315760612488,
+                "42": 0.44375738501548767,
+                "43": 0.25215524435043335
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.3341735204060872,
+              "std": 0.06577946184532334,
+              "by_seed": {
+                "41": 0.37288981676101685,
+                "42": 0.37140798568725586,
+                "43": 0.258222758769989
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4693857431411743,
+              "std": 0.10212715966322948,
+              "by_seed": {
+                "41": 1.5574958324432373,
+                "42": 1.3574527502059937,
+                "43": 1.493208646774292
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.32319240768750507,
+              "std": 0.08551110159733336,
+              "by_seed": {
+                "41": 0.41957056522369385,
+                "42": 0.29359328746795654,
+                "43": 0.25641337037086487
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "2/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.3570924997329712,
+              "std": 0.03112488680915447,
+              "by_seed": {
+                "41": 0.3641956150531769,
+                "42": 0.3230299949645996,
+                "43": 0.3840518891811371
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "2/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4693876107533772,
+              "std": 0.08358565205023194,
+              "by_seed": {
+                "41": 1.5443613529205322,
+                "42": 1.3792626857757568,
+                "43": 1.4845387935638428
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.7490495840708415,
+              "std": 0.4068911149578869,
+              "by_seed": {
+                "41": 1.7437938451766968,
+                "42": 1.3448117971420288,
+                "43": 2.158543109893799
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.10": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.21849908431371054,
+              "std": 0.019552405938392515,
+              "by_seed": {
+                "41": 0.20624907314777374,
+                "42": 0.24104814231395721,
+                "43": 0.20820003747940063
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4361979166666667,
+              "std": 0.035142528075188965,
+              "by_seed": {
+                "41": 1.4576464891433716,
+                "42": 1.3956413269042969,
+                "43": 1.4553059339523315
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.22097146014372507,
+              "std": 0.002444836877000912,
+              "by_seed": {
+                "41": 0.21934349834918976,
+                "42": 0.219788059592247,
+                "43": 0.22378282248973846
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.23410625259081522,
+              "std": 0.011061335874095428,
+              "by_seed": {
+                "41": 0.23369698226451874,
+                "42": 0.24536654353141785,
+                "43": 0.2232552319765091
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4380914370218914,
+              "std": 0.032109661388551675,
+              "by_seed": {
+                "41": 1.4558502435684204,
+                "42": 1.4010251760482788,
+                "43": 1.4573988914489746
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.24911481142044067,
+              "std": 0.024006524087569474,
+              "by_seed": {
+                "41": 0.26891934871673584,
+                "42": 0.2560098171234131,
+                "43": 0.2224152684211731
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.3075485626856486,
+              "std": 0.06926116123764847,
+              "by_seed": {
+                "41": 0.3870372474193573,
+                "42": 0.27543771266937256,
+                "43": 0.26017072796821594
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "3/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4718538920084636,
+              "std": 0.026988045322190003,
+              "by_seed": {
+                "41": 1.4942339658737183,
+                "42": 1.4418834447860718,
+                "43": 1.4794442653656006
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.2019073168436687,
+              "std": 0.11814128914943631,
+              "by_seed": {
+                "41": 1.330124855041504,
+                "42": 1.1781415939331055,
+                "43": 1.0974555015563965
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        }
+      }
+    },
+    "arc": {
+      "projection_residuals": {
+        "fem_operator": 0.08995281148469378,
+        "topology_erased": 0.11615622834004072,
+        "bounding_box": 0.11628322780264366,
+        "permuted": 0.9857218770668438
+      },
+      "n_nodes": 16,
+      "metadata": {
+        "mesh_hash": "62290a89f795a4a6",
+        "resolution": 18,
+        "n_nodes": 324,
+        "n_triangles": 578,
+        "domain_area": 1.0,
+        "polygon_vertices": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "holes": [],
+        "n_outer_boundary_nodes": 68,
+        "n_hole_boundary_nodes": 0,
+        "stiffness_checksum": "09868f3e1b39d9d7",
+        "mass_checksum": "635d6a3f30a9b6ce",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "boundary_condition": "Neumann on the outer square",
+        "tensor_semantics": "scenario x time x node",
+        "walls": [
+          {
+            "center": [
+              0.5,
+              0.5
+            ],
+            "radius": 0.3,
+            "half_width": 0.022,
+            "gap": [
+              1.25,
+              1.9
+            ],
+            "conductivity": 0.001
+          }
+        ],
+        "wall_kinds": [
+          "ArcWall"
+        ],
+        "operator_information_tier": "geometry (mesh, boundary and barrier layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 10,
+        "time_cutoff": 10,
+        "truth_modes": 60,
+        "n_free_nodes": 324,
+        "n_scenarios": 20,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "cells": {
+        "0.02": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 1.1100592811902363,
+              "std": 0.14047678553969636,
+              "by_seed": {
+                "41": 1.2327396869659424,
+                "42": 1.140620470046997,
+                "43": 0.9568176865577698
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4827922979990642,
+              "std": 0.05807505645678521,
+              "by_seed": {
+                "41": 1.5496093034744263,
+                "42": 1.4543161392211914,
+                "43": 1.4444514513015747
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.897701104482015,
+              "std": 0.24518546667728044,
+              "by_seed": {
+                "41": 1.1806995868682861,
+                "42": 0.749144434928894,
+                "43": 0.7632592916488647
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "0/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 1.1206958095232646,
+              "std": 0.21020954452452667,
+              "by_seed": {
+                "41": 0.8820942044258118,
+                "42": 1.2785972356796265,
+                "43": 1.2013959884643555
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4874437252680461,
+              "std": 0.0684113366311007,
+              "by_seed": {
+                "41": 1.5652647018432617,
+                "42": 1.4602819681167603,
+                "43": 1.4367845058441162
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.4904053707917531,
+              "std": 0.06037833433309904,
+              "by_seed": {
+                "41": 0.47891420125961304,
+                "42": 0.43659839034080505,
+                "43": 0.5557035207748413
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "0/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.5583694577217102,
+              "std": 0.045960628610879975,
+              "by_seed": {
+                "41": 0.5099343061447144,
+                "42": 0.5638012290000916,
+                "43": 0.6013728380203247
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "0/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.452351411183675,
+              "std": 0.04516386087109375,
+              "by_seed": {
+                "41": 1.5027753114700317,
+                "42": 1.4386653900146484,
+                "43": 1.4156135320663452
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 2.35755463441213,
+              "std": 1.3395904734110737,
+              "by_seed": {
+                "41": 3.904350996017456,
+                "42": 1.5924267768859863,
+                "43": 1.5758861303329468
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.05": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.2991282244523366,
+              "std": 0.062378756748208995,
+              "by_seed": {
+                "41": 0.3423372805118561,
+                "42": 0.3274320363998413,
+                "43": 0.2276153564453125
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4692054589589436,
+              "std": 0.10986741320895715,
+              "by_seed": {
+                "41": 1.55096435546875,
+                "42": 1.3443173170089722,
+                "43": 1.5123347043991089
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.33471321562925976,
+              "std": 0.09415974771923531,
+              "by_seed": {
+                "41": 0.3237883150577545,
+                "42": 0.43385887145996094,
+                "43": 0.24649246037006378
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.3039092520872752,
+              "std": 0.050501651663778103,
+              "by_seed": {
+                "41": 0.30122309923171997,
+                "42": 0.35570037364959717,
+                "43": 0.2548042833805084
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "2/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.474601189295451,
+              "std": 0.09821060959226828,
+              "by_seed": {
+                "41": 1.5589380264282227,
+                "42": 1.3667761087417603,
+                "43": 1.4980894327163696
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.34522958596547443,
+              "std": 0.07300075227117582,
+              "by_seed": {
+                "41": 0.4295208156108856,
+                "42": 0.30367666482925415,
+                "43": 0.30249127745628357
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "2/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.3832018971443176,
+              "std": 0.05590321048116127,
+              "by_seed": {
+                "41": 0.42130669951438904,
+                "42": 0.3190253674983978,
+                "43": 0.409273624420166
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "2/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4746336539586384,
+              "std": 0.0790355087425129,
+              "by_seed": {
+                "41": 1.5401827096939087,
+                "42": 1.3868672847747803,
+                "43": 1.4968509674072266
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.519116759300232,
+              "std": 0.17348780842102837,
+              "by_seed": {
+                "41": 1.5948470830917358,
+                "42": 1.3206380605697632,
+                "43": 1.6418651342391968
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.10": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.2231754610935847,
+              "std": 0.0006974197932145702,
+              "by_seed": {
+                "41": 0.2227301001548767,
+                "42": 0.2228170782327652,
+                "43": 0.22397920489311218
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4605347712834675,
+              "std": 0.0759687404321145,
+              "by_seed": {
+                "41": 1.5076121091842651,
+                "42": 1.372894287109375,
+                "43": 1.5010979175567627
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.22999365627765656,
+              "std": 0.0017681300488880836,
+              "by_seed": {
+                "41": 0.23190169036388397,
+                "42": 0.22966879606246948,
+                "43": 0.2284104824066162
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.2546740770339966,
+              "std": 0.035652188307742506,
+              "by_seed": {
+                "41": 0.23634158074855804,
+                "42": 0.29576238989830017,
+                "43": 0.23191826045513153
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4601836999257405,
+              "std": 0.06983384416070797,
+              "by_seed": {
+                "41": 1.5081169605255127,
+                "42": 1.3800604343414307,
+                "43": 1.4923737049102783
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.2889171640078227,
+              "std": 0.058424436533881394,
+              "by_seed": {
+                "41": 0.35588255524635315,
+                "42": 0.2625155746936798,
+                "43": 0.24835336208343506
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.3260175089041392,
+              "std": 0.057597296270534754,
+              "by_seed": {
+                "41": 0.39211347699165344,
+                "42": 0.2993680238723755,
+                "43": 0.28657102584838867
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "3/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4952316681543987,
+              "std": 0.06670995875252432,
+              "by_seed": {
+                "41": 1.546722650527954,
+                "42": 1.419870376586914,
+                "43": 1.5191019773483276
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.2206510702768962,
+              "std": 0.11785120406230659,
+              "by_seed": {
+                "41": 1.3304388523101807,
+                "42": 1.2353911399841309,
+                "43": 1.096123218536377
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        }
+      }
+    },
+    "chamber": {
+      "projection_residuals": {
+        "fem_operator": 0.06678862655509532,
+        "topology_erased": 0.3030229189618941,
+        "bounding_box": 0.3030818880574805,
+        "permuted": 0.9860373125252416
+      },
+      "n_nodes": 16,
+      "metadata": {
+        "mesh_hash": "62290a89f795a4a6",
+        "resolution": 18,
+        "n_nodes": 324,
+        "n_triangles": 578,
+        "domain_area": 1.0,
+        "polygon_vertices": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "holes": [],
+        "n_outer_boundary_nodes": 68,
+        "n_hole_boundary_nodes": 0,
+        "stiffness_checksum": "eac6de4f2ca3abf8",
+        "mass_checksum": "635d6a3f30a9b6ce",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "boundary_condition": "Neumann on the outer square",
+        "tensor_semantics": "scenario x time x node",
+        "walls": [
+          {
+            "x_range": [
+              0.48,
+              0.52
+            ],
+            "y_range": [
+              0.0,
+              0.42
+            ],
+            "conductivity": 0.001
+          },
+          {
+            "x_range": [
+              0.48,
+              0.52
+            ],
+            "y_range": [
+              0.58,
+              1.0
+            ],
+            "conductivity": 0.001
+          }
+        ],
+        "wall_kinds": [
+          "Wall",
+          "Wall"
+        ],
+        "operator_information_tier": "geometry (mesh, boundary and barrier layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 10,
+        "time_cutoff": 10,
+        "truth_modes": 60,
+        "n_free_nodes": 324,
+        "n_scenarios": 20,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "cells": {
+        "0.02": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.963803748289744,
+              "std": 0.05050578062191577,
+              "by_seed": {
+                "41": 0.9307860136032104,
+                "42": 0.9386808276176453,
+                "43": 1.0219444036483765
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4561786651611328,
+              "std": 0.1458758457019895,
+              "by_seed": {
+                "41": 1.6217074394226074,
+                "42": 1.400431513786316,
+                "43": 1.346397042274475
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.942163864771525,
+              "std": 0.16000848184072725,
+              "by_seed": {
+                "41": 1.1267595291137695,
+                "42": 0.8430804014205933,
+                "43": 0.8566516637802124
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "1/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 1.1866692900657654,
+              "std": 0.17537285299971767,
+              "by_seed": {
+                "41": 0.9870581030845642,
+                "42": 1.316007375717163,
+                "43": 1.2569423913955688
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4695300658543904,
+              "std": 0.10148384483682928,
+              "by_seed": {
+                "41": 1.581875205039978,
+                "42": 1.442217469215393,
+                "43": 1.3844975233078003
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.7010313669840494,
+              "std": 0.038056809493377836,
+              "by_seed": {
+                "41": 0.6826850771903992,
+                "42": 0.6756229996681213,
+                "43": 0.7447860240936279
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "0/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.751534124215444,
+              "std": 0.03286301920511335,
+              "by_seed": {
+                "41": 0.7167430520057678,
+                "42": 0.7558085322380066,
+                "43": 0.7820507884025574
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "0/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4589676062266033,
+              "std": 0.07482562386150352,
+              "by_seed": {
+                "41": 1.5140100717544556,
+                "42": 1.4891232252120972,
+                "43": 1.3737695217132568
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 2.5252187649408975,
+              "std": 1.110776750770918,
+              "by_seed": {
+                "41": 3.7976150512695312,
+                "42": 1.7490893602371216,
+                "43": 2.02895188331604
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.05": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.2914384404818217,
+              "std": 0.07216683162698549,
+              "by_seed": {
+                "41": 0.33578091859817505,
+                "42": 0.33036842942237854,
+                "43": 0.2081659734249115
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4044197003046672,
+              "std": 0.13629175749593037,
+              "by_seed": {
+                "41": 1.5309773683547974,
+                "42": 1.260129690170288,
+                "43": 1.422152042388916
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.8229774733384451,
+              "std": 0.3150468960920453,
+              "by_seed": {
+                "41": 1.106124997138977,
+                "42": 0.879204511642456,
+                "43": 0.483602911233902
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.8262320856253306,
+              "std": 0.3211202970578087,
+              "by_seed": {
+                "41": 1.1202473640441895,
+                "42": 0.8748887181282043,
+                "43": 0.483560174703598
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4582845369974773,
+              "std": 0.09856125101010393,
+              "by_seed": {
+                "41": 1.5512609481811523,
+                "42": 1.3549556732177734,
+                "43": 1.4686369895935059
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.40493301550547284,
+              "std": 0.08983009933222152,
+              "by_seed": {
+                "41": 0.3710215985774994,
+                "42": 0.5067825317382812,
+                "43": 0.3369949162006378
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.5123125414053599,
+              "std": 0.013487889952233012,
+              "by_seed": {
+                "41": 0.5148242115974426,
+                "42": 0.5243680477142334,
+                "43": 0.4977453649044037
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "3/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4512080351511638,
+              "std": 0.062196194216907245,
+              "by_seed": {
+                "41": 1.5098817348480225,
+                "42": 1.3860045671463013,
+                "43": 1.4577378034591675
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 2.9427621364593506,
+              "std": 2.608437256777162,
+              "by_seed": {
+                "41": 5.947876930236816,
+                "42": 1.616013526916504,
+                "43": 1.2643959522247314
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.10": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.19727414846420288,
+              "std": 0.01695950230354832,
+              "by_seed": {
+                "41": 0.1885097622871399,
+                "42": 0.216822549700737,
+                "43": 0.18649013340473175
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.4192108710606892,
+              "std": 0.2211647070925782,
+              "by_seed": {
+                "41": 1.6712908744812012,
+                "42": 1.328605055809021,
+                "43": 1.2577366828918457
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.4005167484283447,
+              "std": 0.05329551821391391,
+              "by_seed": {
+                "41": 0.3773195445537567,
+                "42": 0.4614796042442322,
+                "43": 0.3627510964870453
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.39865753054618835,
+              "std": 0.05392110220720461,
+              "by_seed": {
+                "41": 0.3747144043445587,
+                "42": 0.4604038894176483,
+                "43": 0.36085429787635803
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.4904263019561768,
+              "std": 0.20340203816877467,
+              "by_seed": {
+                "41": 1.720973253250122,
+                "42": 1.4139918088912964,
+                "43": 1.3363138437271118
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.32648055752118427,
+              "std": 0.03108354784286196,
+              "by_seed": {
+                "41": 0.31868553161621094,
+                "42": 0.3607197105884552,
+                "43": 0.3000364303588867
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.39309553305308026,
+              "std": 0.015830939586628963,
+              "by_seed": {
+                "41": 0.3935147225856781,
+                "42": 0.4087127149105072,
+                "43": 0.3770591616630554
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "3/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.5063602924346924,
+              "std": 0.16240678539943443,
+              "by_seed": {
+                "41": 1.6888103485107422,
+                "42": 1.4526845216751099,
+                "43": 1.377586007118225
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.3104078372319539,
+              "std": 0.18399183410174366,
+              "by_seed": {
+                "41": 1.44100821018219,
+                "42": 1.3902305364608765,
+                "43": 1.0999847650527954
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        }
+      }
+    },
+    "sealed_4": {
+      "projection_residuals": {
+        "fem_operator": 0.06221148378186757,
+        "topology_erased": 0.3908385588632277,
+        "bounding_box": 0.3906736233035386,
+        "permuted": 0.9911786367640324
+      },
+      "n_nodes": 16,
+      "metadata": {
+        "mesh_hash": "62290a89f795a4a6",
+        "resolution": 18,
+        "n_nodes": 324,
+        "n_triangles": 578,
+        "domain_area": 1.0,
+        "polygon_vertices": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "holes": [],
+        "n_outer_boundary_nodes": 68,
+        "n_hole_boundary_nodes": 0,
+        "stiffness_checksum": "c13406f641a452f4",
+        "mass_checksum": "635d6a3f30a9b6ce",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "boundary_condition": "Neumann on the outer square",
+        "tensor_semantics": "scenario x time x node",
+        "walls": [
+          {
+            "x_range": [
+              0.48,
+              0.52
+            ],
+            "y_range": [
+              0.0,
+              1.0
+            ],
+            "conductivity": 0.001
+          },
+          {
+            "x_range": [
+              0.0,
+              1.0
+            ],
+            "y_range": [
+              0.48,
+              0.52
+            ],
+            "conductivity": 0.001
+          }
+        ],
+        "wall_kinds": [
+          "Wall",
+          "Wall"
+        ],
+        "operator_information_tier": "geometry (mesh, boundary and barrier layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 10,
+        "time_cutoff": 10,
+        "truth_modes": 60,
+        "n_free_nodes": 324,
+        "n_scenarios": 20,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "cells": {
+        "0.02": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.9088542461395264,
+              "std": 0.0957695320356459,
+              "by_seed": {
+                "41": 1.0147912502288818,
+                "42": 0.8833596706390381,
+                "43": 0.8284118175506592
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.7607951958974202,
+              "std": 0.10593395196101028,
+              "by_seed": {
+                "41": 1.8551732301712036,
+                "42": 1.6462148427963257,
+                "43": 1.7809975147247314
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 1.0983176032702129,
+              "std": 0.15901409611014156,
+              "by_seed": {
+                "41": 1.270848274230957,
+                "42": 0.9576430916786194,
+                "43": 1.066461443901062
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 1.2643019755681355,
+              "std": 0.22278981677115542,
+              "by_seed": {
+                "41": 1.0218660831451416,
+                "42": 1.3109952211380005,
+                "43": 1.4600446224212646
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.5246720711390178,
+              "std": 0.11445818466237975,
+              "by_seed": {
+                "41": 1.6144688129425049,
+                "42": 1.5637563467025757,
+                "43": 1.3957910537719727
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.8266664544741312,
+              "std": 0.16701959825350246,
+              "by_seed": {
+                "41": 0.743949294090271,
+                "42": 0.7171477675437927,
+                "43": 1.01890230178833
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "1/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 1.0648401975631714,
+              "std": 0.24359922752678576,
+              "by_seed": {
+                "41": 0.8344496488571167,
+                "42": 1.0402830839157104,
+                "43": 1.319787859916687
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "2/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.4910202026367188,
+              "std": 0.08507651773513815,
+              "by_seed": {
+                "41": 1.5560569763183594,
+                "42": 1.5222644805908203,
+                "43": 1.3947391510009766
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 4.315358638763428,
+              "std": 4.254519029929714,
+              "by_seed": {
+                "41": 9.225815773010254,
+                "42": 1.9885443449020386,
+                "43": 1.7317157983779907
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.05": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.18572492400805155,
+              "std": 0.02279510469224251,
+              "by_seed": {
+                "41": 0.21015432476997375,
+                "42": 0.181996688246727,
+                "43": 0.16502375900745392
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 1.3885366519292195,
+              "std": 0.4909134764171001,
+              "by_seed": {
+                "41": 1.9513120651245117,
+                "42": 1.165961503982544,
+                "43": 1.048336386680603
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.8963727156321207,
+              "std": 0.41749628629439267,
+              "by_seed": {
+                "41": 1.3692941665649414,
+                "42": 0.7409189343452454,
+                "43": 0.5789050459861755
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.9201640884081522,
+              "std": 0.3986546214965821,
+              "by_seed": {
+                "41": 1.3599879741668701,
+                "42": 0.8179029822349548,
+                "43": 0.5826013088226318
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.569360335667928,
+              "std": 0.02820988512606188,
+              "by_seed": {
+                "41": 1.5897918939590454,
+                "42": 1.5811152458190918,
+                "43": 1.537173867225647
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.6545396745204926,
+              "std": 0.14660270765612118,
+              "by_seed": {
+                "41": 0.7868679761886597,
+                "42": 0.6798045635223389,
+                "43": 0.4969464838504791
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.6822610298792521,
+              "std": 0.08557744886862545,
+              "by_seed": {
+                "41": 0.7806241512298584,
+                "42": 0.6412661671638489,
+                "43": 0.6248927712440491
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "3/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.5469000736872356,
+              "std": 0.01548137689647631,
+              "by_seed": {
+                "41": 1.5645149946212769,
+                "42": 1.540730595588684,
+                "43": 1.5354546308517456
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.9208748737970989,
+              "std": 0.7369651491097561,
+              "by_seed": {
+                "41": 2.7718489170074463,
+                "42": 1.4955075979232788,
+                "43": 1.4952681064605713
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        },
+        "0.10": {
+          "fem_operator": {
+            "nrmse": {
+              "mean": 0.15787575642267862,
+              "std": 0.0068529744364387545,
+              "by_seed": {
+                "41": 0.150581493973732,
+                "42": 0.16417968273162842,
+                "43": 0.15886609256267548
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276
+          },
+          "laplacian_geo": {
+            "nrmse": {
+              "mean": 0.7961452603340149,
+              "std": 0.2880833072588323,
+              "by_seed": {
+                "41": 1.120643138885498,
+                "42": 0.6972827315330505,
+                "43": 0.5705099105834961
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "topology_erased": {
+            "nrmse": {
+              "mean": 0.5021162331104279,
+              "std": 0.0405988858598931,
+              "by_seed": {
+                "41": 0.5118114352226257,
+                "42": 0.5369898080825806,
+                "43": 0.45754745602607727
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "bounding_box": {
+            "nrmse": {
+              "mean": 0.5020301640033722,
+              "std": 0.041779017021965896,
+              "by_seed": {
+                "41": 0.5113063454627991,
+                "42": 0.5383914709091187,
+                "43": 0.45639267563819885
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          },
+          "laplacian_blind": {
+            "nrmse": {
+              "mean": 1.6221354405085247,
+              "std": 0.1016276550467997,
+              "by_seed": {
+                "41": 1.7174631357192993,
+                "42": 1.6337392330169678,
+                "43": 1.5152039527893066
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_coords": {
+            "nrmse": {
+              "mean": 0.40767061710357666,
+              "std": 0.04662675524044935,
+              "by_seed": {
+                "41": 0.42199769616127014,
+                "42": 0.44545266032218933,
+                "43": 0.3555614948272705
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 3006,
+            "ours_paired_wins": "3/3"
+          },
+          "neural_matched": {
+            "nrmse": {
+              "mean": 0.46816813945770264,
+              "std": 0.015044098524433272,
+              "by_seed": {
+                "41": 0.455649197101593,
+                "42": 0.4848574697971344,
+                "43": 0.4639977514743805
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 422,
+            "ours_paired_wins": "3/3"
+          },
+          "discrete_table": {
+            "nrmse": {
+              "mean": 1.6174121697743733,
+              "std": 0.06731022394307831,
+              "by_seed": {
+                "41": 1.6783207654953003,
+                "42": 1.6287702322006226,
+                "43": 1.5451455116271973
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 2160,
+            "ours_paired_wins": "3/3"
+          },
+          "permuted": {
+            "nrmse": {
+              "mean": 1.2199902931849163,
+              "std": 0.025984603667457126,
+              "by_seed": {
+                "41": 1.238748550415039,
+                "42": 1.2308915853500366,
+                "43": 1.1903307437896729
+              }
+            },
+            "boundary_band_nrmse": null,
+            "parameters": 276,
+            "ours_paired_wins": "3/3"
+          }
+        }
+      }
+    }
+  },
+  "ratios": [
+    0.02,
+    0.05,
+    0.1
+  ]
+}

@@ -418,3 +418,50 @@ noise; a win there would indicate a confound and invalidates the round.
 one-dimensional work.  If it fails on `chamber` and `sealed_4` at 10%, the
 barrier mechanism does not survive fresh seeds and the line returns to
 diagnostics rather than being re-tuned.
+
+### 8a — barrier-family main tables on selection seeds
+
+Five layouts, two protocols, three ratios, three seeds, nine models, 400
+updates, cutoff 10, ranks `(4,4,6)`.  Held-out NRMSE, mean ± sample std.
+
+**Spatial sensors, 10% of nodes observed for their whole trajectory.**
+
+| model | open | labyrinth | arc | chamber | sealed_4 |
+|---|---:|---:|---:|---:|---:|
+| geometry operator (ours) | 0.217 | 0.218 | 0.223 | **0.197** | **0.158** |
+| topology erased | 0.217 | 0.221 | 0.230 | 0.401 | 0.502 |
+| bounding-box product | 0.222 | 0.234 | 0.255 | 0.399 | 0.502 |
+| neural coordinates (wide) | 0.269 | 0.249 | 0.289 | 0.326 | 0.408 |
+| neural coordinates (matched) | 0.284 | 0.308 | 0.326 | 0.393 | 0.468 |
+| discrete Tucker | 1.476 | 1.472 | 1.495 | 1.506 | 1.617 |
+| permuted control | 1.204 | 1.202 | 1.221 | 1.310 | 1.220 |
+
+Three things hold at once.  On `open` the geometry-aware and topology-erased
+models return *identical* numbers, as they must when there is no barrier to
+know, so the advantage is not a capacity or conditioning artifact.  The margin
+then grows monotonically with how much geometry there is: nothing on `open`,
+about one percent on `labyrinth` and `arc`, 2.0x on `chamber` and 3.2x on
+`sealed_4`.  And the proposed model is nearly flat across the family
+(`0.217 -> 0.158`) while every geometry-blind method degrades
+(`0.217 -> 0.502`): barriers do not make the task harder for a model that knows
+about them.
+
+**Random entries.**  The same ordering, with smaller margins, and one honest
+exception.  At 10% on `sealed_4` the proposed model reaches `0.155` against
+`0.299` for the blind spectral bases and `0.218` for the wide coordinate
+network; on `open` it again matches topology-erased exactly (`0.260`), while the
+coordinate network is the better model on the weak-geometry layouts
+(`0.218` against `0.260`).  Under uniformly random entries every node is
+observed many times, so a coordinate regressor has little to gain from
+geometry; the sensor protocol is where the prior is actually needed.
+
+**A regime split in the 2x2.**  Under random entries the geometry-aware
+penalized table is competitive (`0.161` on `sealed_4` at 10%, against `0.155`
+for the spectral form), reproducing the earlier finding that geometry rather
+than truncation is the active ingredient.  Under sparse spatial sensors it
+collapses (`0.796--1.46`), because a free table carries 1944 node parameters
+constrained at 32 nodes.  Geometry alone is therefore not sufficient when the
+scarce coordinate is space: the truncation is what makes the geometry usable.
+
+Artifacts: `results/wall_family_sensors_r7`, `results/wall_family_random_r7`
+and their summaries.

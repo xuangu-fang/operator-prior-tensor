@@ -1,0 +1,1163 @@
+{
+  "arguments": {
+    "output": "results/geometry_transfer_r8",
+    "pairs": "chamber>sealed_4,sealed_4>chamber,arc>chamber,open>sealed_4,sealed_4>open",
+    "models": "fem_operator,topology_erased,neural_coords,discrete_table",
+    "ratio": 0.1,
+    "target_ratio": 0.02,
+    "mask": "spatial_sensors",
+    "seeds": "41,42,43",
+    "resolution": 18,
+    "n_scenarios": 20,
+    "n_time": 16,
+    "basis_cutoff": 10,
+    "ranks": "4,4,6",
+    "hidden": 48,
+    "steps": 400,
+    "core_steps": 200,
+    "noise": 0.1,
+    "device": "cuda"
+  },
+  "results": [
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "fem_operator",
+      "seed": 41,
+      "source_nrmse": 0.1885097622871399,
+      "zero_shot": {
+        "rmse": 1.341854453086853,
+        "nrmse": 1.3409819602966309,
+        "mae": 0.8608335256576538
+      },
+      "few_shot": {
+        "rmse": 0.38103920221328735,
+        "nrmse": 0.38079142570495605,
+        "mae": 0.24482445418834686
+      },
+      "elapsed_seconds": 5.934896738734096
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "topology_erased",
+      "seed": 41,
+      "source_nrmse": 0.3773195445537567,
+      "zero_shot": {
+        "rmse": 0.6318575143814087,
+        "nrmse": 0.6314466595649719,
+        "mae": 0.4520391523838043
+      },
+      "few_shot": {
+        "rmse": 0.8950249552726746,
+        "nrmse": 0.8944429755210876,
+        "mae": 0.5857023000717163
+      },
+      "elapsed_seconds": 3.4930843487381935
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "neural_coords",
+      "seed": 41,
+      "source_nrmse": 0.31868553161621094,
+      "zero_shot": {
+        "rmse": 0.6125781536102295,
+        "nrmse": 0.6121798157691956,
+        "mae": 0.431923508644104
+      },
+      "few_shot": {
+        "rmse": 1.3472713232040405,
+        "nrmse": 1.3463952541351318,
+        "mae": 0.907576322555542
+      },
+      "elapsed_seconds": 3.9040515650995076
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "discrete_table",
+      "seed": 41,
+      "source_nrmse": 1.6888103485107422,
+      "zero_shot": {
+        "rmse": 1.572147011756897,
+        "nrmse": 1.571124792098999,
+        "mae": 0.9795290231704712
+      },
+      "few_shot": {
+        "rmse": 200.6455078125,
+        "nrmse": 200.51504516601562,
+        "mae": 108.85946655273438
+      },
+      "elapsed_seconds": 3.0548276407644153
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "fem_operator",
+      "seed": 42,
+      "source_nrmse": 0.216822549700737,
+      "zero_shot": {
+        "rmse": 1.3903807401657104,
+        "nrmse": 1.389873743057251,
+        "mae": 0.8877928256988525
+      },
+      "few_shot": {
+        "rmse": 0.3921070098876953,
+        "nrmse": 0.39196401834487915,
+        "mae": 0.24794155359268188
+      },
+      "elapsed_seconds": 3.3934677322395146
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "topology_erased",
+      "seed": 42,
+      "source_nrmse": 0.4614796042442322,
+      "zero_shot": {
+        "rmse": 0.70130854845047,
+        "nrmse": 0.7010527849197388,
+        "mae": 0.48458874225616455
+      },
+      "few_shot": {
+        "rmse": 2.5563371181488037,
+        "nrmse": 2.5554049015045166,
+        "mae": 1.4923404455184937
+      },
+      "elapsed_seconds": 3.582066730130464
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "neural_coords",
+      "seed": 42,
+      "source_nrmse": 0.3607197105884552,
+      "zero_shot": {
+        "rmse": 0.6209701895713806,
+        "nrmse": 0.6207437515258789,
+        "mae": 0.4339699149131775
+      },
+      "few_shot": {
+        "rmse": 1.2768574953079224,
+        "nrmse": 1.276391863822937,
+        "mae": 0.8216543793678284
+      },
+      "elapsed_seconds": 4.273821465205401
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "discrete_table",
+      "seed": 42,
+      "source_nrmse": 1.4526845216751099,
+      "zero_shot": {
+        "rmse": 1.4162646532058716,
+        "nrmse": 1.4157482385635376,
+        "mae": 0.9158023595809937
+      },
+      "few_shot": {
+        "rmse": 15.964377403259277,
+        "nrmse": 15.958556175231934,
+        "mae": 9.941667556762695
+      },
+      "elapsed_seconds": 3.3921055141836405
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "fem_operator",
+      "seed": 43,
+      "source_nrmse": 0.18649013340473175,
+      "zero_shot": {
+        "rmse": 1.430247187614441,
+        "nrmse": 1.4317468404769897,
+        "mae": 0.9172171950340271
+      },
+      "few_shot": {
+        "rmse": 0.2958798408508301,
+        "nrmse": 0.296190083026886,
+        "mae": 0.17179375886917114
+      },
+      "elapsed_seconds": 3.7552983700297773
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "topology_erased",
+      "seed": 43,
+      "source_nrmse": 0.3627510964870453,
+      "zero_shot": {
+        "rmse": 0.6657044887542725,
+        "nrmse": 0.6664025187492371,
+        "mae": 0.46828627586364746
+      },
+      "few_shot": {
+        "rmse": 16.335844039916992,
+        "nrmse": 16.35297393798828,
+        "mae": 9.27004623413086
+      },
+      "elapsed_seconds": 3.392721380107105
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "neural_coords",
+      "seed": 43,
+      "source_nrmse": 0.3000364303588867,
+      "zero_shot": {
+        "rmse": 0.622032880783081,
+        "nrmse": 0.6226851344108582,
+        "mae": 0.4389319121837616
+      },
+      "few_shot": {
+        "rmse": 1.609896183013916,
+        "nrmse": 1.6115843057632446,
+        "mae": 0.929054856300354
+      },
+      "elapsed_seconds": 3.815206753090024
+    },
+    {
+      "pair": "chamber>sealed_4",
+      "source": "chamber",
+      "target": "sealed_4",
+      "model": "discrete_table",
+      "seed": 43,
+      "source_nrmse": 1.377586007118225,
+      "zero_shot": {
+        "rmse": 1.3917874097824097,
+        "nrmse": 1.3932467699050903,
+        "mae": 0.8834437131881714
+      },
+      "few_shot": {
+        "rmse": 3.7144079208374023,
+        "nrmse": 3.7183027267456055,
+        "mae": 2.2859997749328613
+      },
+      "elapsed_seconds": 3.146977001801133
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "fem_operator",
+      "seed": 41,
+      "source_nrmse": 0.150581493973732,
+      "zero_shot": {
+        "rmse": 1.3418083190917969,
+        "nrmse": 1.3405301570892334,
+        "mae": 0.8452268838882446
+      },
+      "few_shot": {
+        "rmse": 0.5722832083702087,
+        "nrmse": 0.571738064289093,
+        "mae": 0.3343621790409088
+      },
+      "elapsed_seconds": 3.520814866758883
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "topology_erased",
+      "seed": 41,
+      "source_nrmse": 0.5118114352226257,
+      "zero_shot": {
+        "rmse": 0.642823338508606,
+        "nrmse": 0.6422110199928284,
+        "mae": 0.42633405327796936
+      },
+      "few_shot": {
+        "rmse": 0.9940110445022583,
+        "nrmse": 0.9930642247200012,
+        "mae": 0.5232364535331726
+      },
+      "elapsed_seconds": 3.446812408976257
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "neural_coords",
+      "seed": 41,
+      "source_nrmse": 0.42199769616127014,
+      "zero_shot": {
+        "rmse": 0.5981054306030273,
+        "nrmse": 0.5975357294082642,
+        "mae": 0.407981276512146
+      },
+      "few_shot": {
+        "rmse": 1.0438262224197388,
+        "nrmse": 1.0428318977355957,
+        "mae": 0.6263971924781799
+      },
+      "elapsed_seconds": 3.913171739783138
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "discrete_table",
+      "seed": 41,
+      "source_nrmse": 1.6783207654953003,
+      "zero_shot": {
+        "rmse": 1.552724003791809,
+        "nrmse": 1.5512449741363525,
+        "mae": 0.9797254204750061
+      },
+      "few_shot": {
+        "rmse": 7.309895992279053,
+        "nrmse": 7.302933216094971,
+        "mae": 4.047370433807373
+      },
+      "elapsed_seconds": 3.1659255009144545
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "fem_operator",
+      "seed": 42,
+      "source_nrmse": 0.16417968273162842,
+      "zero_shot": {
+        "rmse": 1.3780609369277954,
+        "nrmse": 1.3780992031097412,
+        "mae": 0.873715877532959
+      },
+      "few_shot": {
+        "rmse": 0.5246210694313049,
+        "nrmse": 0.5246356129646301,
+        "mae": 0.24029341340065002
+      },
+      "elapsed_seconds": 3.654415024444461
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "topology_erased",
+      "seed": 42,
+      "source_nrmse": 0.5369898080825806,
+      "zero_shot": {
+        "rmse": 0.6859580278396606,
+        "nrmse": 0.6859771013259888,
+        "mae": 0.4604073762893677
+      },
+      "few_shot": {
+        "rmse": 1.743793249130249,
+        "nrmse": 1.7438416481018066,
+        "mae": 0.9531317353248596
+      },
+      "elapsed_seconds": 3.5861386377364397
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "neural_coords",
+      "seed": 42,
+      "source_nrmse": 0.44545266032218933,
+      "zero_shot": {
+        "rmse": 0.6499200463294983,
+        "nrmse": 0.6499381065368652,
+        "mae": 0.44675764441490173
+      },
+      "few_shot": {
+        "rmse": 1.4672807455062866,
+        "nrmse": 1.467321515083313,
+        "mae": 0.8431892991065979
+      },
+      "elapsed_seconds": 3.83858241699636
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "discrete_table",
+      "seed": 42,
+      "source_nrmse": 1.6287702322006226,
+      "zero_shot": {
+        "rmse": 1.5757973194122314,
+        "nrmse": 1.5758410692214966,
+        "mae": 1.0009815692901611
+      },
+      "few_shot": {
+        "rmse": 22.17938804626465,
+        "nrmse": 22.180004119873047,
+        "mae": 13.793134689331055
+      },
+      "elapsed_seconds": 3.232299280818552
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "fem_operator",
+      "seed": 43,
+      "source_nrmse": 0.15886609256267548,
+      "zero_shot": {
+        "rmse": 1.4368748664855957,
+        "nrmse": 1.4396103620529175,
+        "mae": 0.9200119972229004
+      },
+      "few_shot": {
+        "rmse": 0.5485070943832397,
+        "nrmse": 0.5495513081550598,
+        "mae": 0.2830312252044678
+      },
+      "elapsed_seconds": 3.4325822088867426
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "topology_erased",
+      "seed": 43,
+      "source_nrmse": 0.45754745602607727,
+      "zero_shot": {
+        "rmse": 0.6148226261138916,
+        "nrmse": 0.615993082523346,
+        "mae": 0.42652544379234314
+      },
+      "few_shot": {
+        "rmse": 56.360145568847656,
+        "nrmse": 56.46744155883789,
+        "mae": 27.89904022216797
+      },
+      "elapsed_seconds": 3.4736180403269827
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "neural_coords",
+      "seed": 43,
+      "source_nrmse": 0.3555614948272705,
+      "zero_shot": {
+        "rmse": 0.6321159601211548,
+        "nrmse": 0.6333193778991699,
+        "mae": 0.4380376935005188
+      },
+      "few_shot": {
+        "rmse": 1.5460795164108276,
+        "nrmse": 1.549022912979126,
+        "mae": 0.9229534268379211
+      },
+      "elapsed_seconds": 3.751953038852662
+    },
+    {
+      "pair": "sealed_4>chamber",
+      "source": "sealed_4",
+      "target": "chamber",
+      "model": "discrete_table",
+      "seed": 43,
+      "source_nrmse": 1.5451455116271973,
+      "zero_shot": {
+        "rmse": 1.5620657205581665,
+        "nrmse": 1.5650395154953003,
+        "mae": 1.0077357292175293
+      },
+      "few_shot": {
+        "rmse": 2.62711501121521,
+        "nrmse": 2.6321165561676025,
+        "mae": 1.5744965076446533
+      },
+      "elapsed_seconds": 3.047680873889476
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "fem_operator",
+      "seed": 41,
+      "source_nrmse": 0.2227301001548767,
+      "zero_shot": {
+        "rmse": 1.8823047876358032,
+        "nrmse": 1.88051176071167,
+        "mae": 1.1242761611938477
+      },
+      "few_shot": {
+        "rmse": 0.5180121064186096,
+        "nrmse": 0.5175186991691589,
+        "mae": 0.2718816101551056
+      },
+      "elapsed_seconds": 3.4391136509366333
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "topology_erased",
+      "seed": 41,
+      "source_nrmse": 0.23190169036388397,
+      "zero_shot": {
+        "rmse": 0.44836169481277466,
+        "nrmse": 0.4479345977306366,
+        "mae": 0.30858197808265686
+      },
+      "few_shot": {
+        "rmse": 0.7253764271736145,
+        "nrmse": 0.7246854901313782,
+        "mae": 0.4321352541446686
+      },
+      "elapsed_seconds": 3.4862076472491026
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "neural_coords",
+      "seed": 41,
+      "source_nrmse": 0.35588255524635315,
+      "zero_shot": {
+        "rmse": 0.5015242695808411,
+        "nrmse": 0.5010465383529663,
+        "mae": 0.3402438163757324
+      },
+      "few_shot": {
+        "rmse": 0.6813285946846008,
+        "nrmse": 0.6806796193122864,
+        "mae": 0.4169171452522278
+      },
+      "elapsed_seconds": 3.8427897789515555
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "discrete_table",
+      "seed": 41,
+      "source_nrmse": 1.546722650527954,
+      "zero_shot": {
+        "rmse": 1.453339695930481,
+        "nrmse": 1.4519553184509277,
+        "mae": 0.8269372582435608
+      },
+      "few_shot": {
+        "rmse": 7.415738105773926,
+        "nrmse": 7.408674240112305,
+        "mae": 4.069834232330322
+      },
+      "elapsed_seconds": 3.195838210172951
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "fem_operator",
+      "seed": 42,
+      "source_nrmse": 0.2228170782327652,
+      "zero_shot": {
+        "rmse": 2.013768434524536,
+        "nrmse": 2.013824462890625,
+        "mae": 1.1934921741485596
+      },
+      "few_shot": {
+        "rmse": 1.0447715520858765,
+        "nrmse": 1.0448005199432373,
+        "mae": 0.34833499789237976
+      },
+      "elapsed_seconds": 3.452651568222791
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "topology_erased",
+      "seed": 42,
+      "source_nrmse": 0.22966879606246948,
+      "zero_shot": {
+        "rmse": 0.47475531697273254,
+        "nrmse": 0.4747684895992279,
+        "mae": 0.3145804703235626
+      },
+      "few_shot": {
+        "rmse": 1.0511149168014526,
+        "nrmse": 1.0511441230773926,
+        "mae": 0.5488644242286682
+      },
+      "elapsed_seconds": 3.4917434682138264
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "neural_coords",
+      "seed": 42,
+      "source_nrmse": 0.2625155746936798,
+      "zero_shot": {
+        "rmse": 0.4942426383495331,
+        "nrmse": 0.4942563772201538,
+        "mae": 0.3267587721347809
+      },
+      "few_shot": {
+        "rmse": 1.077883005142212,
+        "nrmse": 1.0779129266738892,
+        "mae": 0.5494933128356934
+      },
+      "elapsed_seconds": 4.01060351729393
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "discrete_table",
+      "seed": 42,
+      "source_nrmse": 1.419870376586914,
+      "zero_shot": {
+        "rmse": 1.4181556701660156,
+        "nrmse": 1.4181950092315674,
+        "mae": 0.8168875575065613
+      },
+      "few_shot": {
+        "rmse": 35.694244384765625,
+        "nrmse": 35.69523620605469,
+        "mae": 20.451831817626953
+      },
+      "elapsed_seconds": 3.0439116931520402
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "fem_operator",
+      "seed": 43,
+      "source_nrmse": 0.22397920489311218,
+      "zero_shot": {
+        "rmse": 2.0506575107574463,
+        "nrmse": 2.0545616149902344,
+        "mae": 1.2159945964813232
+      },
+      "few_shot": {
+        "rmse": 0.538998007774353,
+        "nrmse": 0.5400241613388062,
+        "mae": 0.2904094159603119
+      },
+      "elapsed_seconds": 3.5175852170214057
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "topology_erased",
+      "seed": 43,
+      "source_nrmse": 0.2284104824066162,
+      "zero_shot": {
+        "rmse": 0.5034325122833252,
+        "nrmse": 0.5043909549713135,
+        "mae": 0.32698389887809753
+      },
+      "few_shot": {
+        "rmse": 15.185283660888672,
+        "nrmse": 15.214193344116211,
+        "mae": 8.428657531738281
+      },
+      "elapsed_seconds": 3.507598245050758
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "neural_coords",
+      "seed": 43,
+      "source_nrmse": 0.24835336208343506,
+      "zero_shot": {
+        "rmse": 0.5103570222854614,
+        "nrmse": 0.5113286375999451,
+        "mae": 0.32867908477783203
+      },
+      "few_shot": {
+        "rmse": 11.207185745239258,
+        "nrmse": 11.228521347045898,
+        "mae": 6.2153401374816895
+      },
+      "elapsed_seconds": 3.800298566929996
+    },
+    {
+      "pair": "arc>chamber",
+      "source": "arc",
+      "target": "chamber",
+      "model": "discrete_table",
+      "seed": 43,
+      "source_nrmse": 1.5191019773483276,
+      "zero_shot": {
+        "rmse": 1.5861095190048218,
+        "nrmse": 1.589129090309143,
+        "mae": 0.8928436040878296
+      },
+      "few_shot": {
+        "rmse": 3.8971025943756104,
+        "nrmse": 3.9045217037200928,
+        "mae": 2.180286407470703
+      },
+      "elapsed_seconds": 2.944504202809185
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "fem_operator",
+      "seed": 41,
+      "source_nrmse": 0.20997196435928345,
+      "zero_shot": {
+        "rmse": 1.362356424331665,
+        "nrmse": 1.3614705801010132,
+        "mae": 0.8453745245933533
+      },
+      "few_shot": {
+        "rmse": 0.6537640690803528,
+        "nrmse": 0.6533389687538147,
+        "mae": 0.390994131565094
+      },
+      "elapsed_seconds": 3.6454786299727857
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "topology_erased",
+      "seed": 41,
+      "source_nrmse": 0.20997196435928345,
+      "zero_shot": {
+        "rmse": 0.7150094509124756,
+        "nrmse": 0.7145445346832275,
+        "mae": 0.4952116906642914
+      },
+      "few_shot": {
+        "rmse": 0.9085089564323425,
+        "nrmse": 0.9079182147979736,
+        "mae": 0.5644216537475586
+      },
+      "elapsed_seconds": 3.533325895201415
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "neural_coords",
+      "seed": 41,
+      "source_nrmse": 0.31891024112701416,
+      "zero_shot": {
+        "rmse": 0.7406598329544067,
+        "nrmse": 0.7401782274246216,
+        "mae": 0.5175432562828064
+      },
+      "few_shot": {
+        "rmse": 0.8836129307746887,
+        "nrmse": 0.8830384016036987,
+        "mae": 0.5984647274017334
+      },
+      "elapsed_seconds": 3.939022248145193
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "discrete_table",
+      "seed": 41,
+      "source_nrmse": 1.5141642093658447,
+      "zero_shot": {
+        "rmse": 1.451694369316101,
+        "nrmse": 1.450750470161438,
+        "mae": 0.8886606693267822
+      },
+      "few_shot": {
+        "rmse": 18.516332626342773,
+        "nrmse": 18.50429344177246,
+        "mae": 9.95589828491211
+      },
+      "elapsed_seconds": 3.0373742738738656
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "fem_operator",
+      "seed": 42,
+      "source_nrmse": 0.2319129854440689,
+      "zero_shot": {
+        "rmse": 1.413692831993103,
+        "nrmse": 1.4131773710250854,
+        "mae": 0.8683906197547913
+      },
+      "few_shot": {
+        "rmse": 0.5370805263519287,
+        "nrmse": 0.5368846654891968,
+        "mae": 0.3122023046016693
+      },
+      "elapsed_seconds": 3.4454269888810813
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "topology_erased",
+      "seed": 42,
+      "source_nrmse": 0.2319129854440689,
+      "zero_shot": {
+        "rmse": 0.7442768216133118,
+        "nrmse": 0.7440054416656494,
+        "mae": 0.5083726644515991
+      },
+      "few_shot": {
+        "rmse": 2.266294479370117,
+        "nrmse": 2.265468120574951,
+        "mae": 1.2806288003921509
+      },
+      "elapsed_seconds": 3.3715410381555557
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "neural_coords",
+      "seed": 42,
+      "source_nrmse": 0.26278790831565857,
+      "zero_shot": {
+        "rmse": 0.7471487522125244,
+        "nrmse": 0.7468762993812561,
+        "mae": 0.5084347724914551
+      },
+      "few_shot": {
+        "rmse": 1.9230767488479614,
+        "nrmse": 1.9223754405975342,
+        "mae": 1.157551646232605
+      },
+      "elapsed_seconds": 3.9825304453261197
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "discrete_table",
+      "seed": 42,
+      "source_nrmse": 1.4182900190353394,
+      "zero_shot": {
+        "rmse": 1.4103238582611084,
+        "nrmse": 1.4098095893859863,
+        "mae": 0.8882909417152405
+      },
+      "few_shot": {
+        "rmse": 59.7507209777832,
+        "nrmse": 59.72893142700195,
+        "mae": 35.08334732055664
+      },
+      "elapsed_seconds": 3.0794361871667206
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "fem_operator",
+      "seed": 43,
+      "source_nrmse": 0.2095119208097458,
+      "zero_shot": {
+        "rmse": 1.478459358215332,
+        "nrmse": 1.48000967502594,
+        "mae": 0.9006933569908142
+      },
+      "few_shot": {
+        "rmse": 0.3919472098350525,
+        "nrmse": 0.3923581838607788,
+        "mae": 0.2631922960281372
+      },
+      "elapsed_seconds": 3.396920522674918
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "topology_erased",
+      "seed": 43,
+      "source_nrmse": 0.2095119208097458,
+      "zero_shot": {
+        "rmse": 0.773547887802124,
+        "nrmse": 0.7743589878082275,
+        "mae": 0.5179321765899658
+      },
+      "few_shot": {
+        "rmse": 14.15468978881836,
+        "nrmse": 14.16953182220459,
+        "mae": 7.594616413116455
+      },
+      "elapsed_seconds": 3.430512250866741
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "neural_coords",
+      "seed": 43,
+      "source_nrmse": 0.22482682764530182,
+      "zero_shot": {
+        "rmse": 0.764281153678894,
+        "nrmse": 0.7650825381278992,
+        "mae": 0.5115652084350586
+      },
+      "few_shot": {
+        "rmse": 28.0522403717041,
+        "nrmse": 28.081655502319336,
+        "mae": 15.173609733581543
+      },
+      "elapsed_seconds": 3.947329306975007
+    },
+    {
+      "pair": "open>sealed_4",
+      "source": "open",
+      "target": "sealed_4",
+      "model": "discrete_table",
+      "seed": 43,
+      "source_nrmse": 1.496617317199707,
+      "zero_shot": {
+        "rmse": 1.53346848487854,
+        "nrmse": 1.535076379776001,
+        "mae": 0.9391374588012695
+      },
+      "few_shot": {
+        "rmse": 3.1068859100341797,
+        "nrmse": 3.1101436614990234,
+        "mae": 1.8729805946350098
+      },
+      "elapsed_seconds": 3.12990696169436
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "fem_operator",
+      "seed": 41,
+      "source_nrmse": 0.150581493973732,
+      "zero_shot": {
+        "rmse": 1.346157431602478,
+        "nrmse": 1.3443830013275146,
+        "mae": 0.8102261424064636
+      },
+      "few_shot": {
+        "rmse": 0.47490179538726807,
+        "nrmse": 0.4742757976055145,
+        "mae": 0.24691712856292725
+      },
+      "elapsed_seconds": 3.38188233692199
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "topology_erased",
+      "seed": 41,
+      "source_nrmse": 0.5118114352226257,
+      "zero_shot": {
+        "rmse": 0.7044737935066223,
+        "nrmse": 0.7035452127456665,
+        "mae": 0.4461572766304016
+      },
+      "few_shot": {
+        "rmse": 0.8997893333435059,
+        "nrmse": 0.8986032605171204,
+        "mae": 0.3777940273284912
+      },
+      "elapsed_seconds": 3.4614983778446913
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "neural_coords",
+      "seed": 41,
+      "source_nrmse": 0.42199769616127014,
+      "zero_shot": {
+        "rmse": 0.7652731537818909,
+        "nrmse": 0.7642644047737122,
+        "mae": 0.4951988756656647
+      },
+      "few_shot": {
+        "rmse": 2.900489330291748,
+        "nrmse": 2.8966660499572754,
+        "mae": 1.6359301805496216
+      },
+      "elapsed_seconds": 3.932256958913058
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "discrete_table",
+      "seed": 41,
+      "source_nrmse": 1.6783207654953003,
+      "zero_shot": {
+        "rmse": 1.5150972604751587,
+        "nrmse": 1.5131001472473145,
+        "mae": 0.9381213784217834
+      },
+      "few_shot": {
+        "rmse": 6.371894359588623,
+        "nrmse": 6.363495349884033,
+        "mae": 2.941338300704956
+      },
+      "elapsed_seconds": 2.934148965869099
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "fem_operator",
+      "seed": 42,
+      "source_nrmse": 0.16417968273162842,
+      "zero_shot": {
+        "rmse": 1.3820910453796387,
+        "nrmse": 1.3814510107040405,
+        "mae": 0.8448745012283325
+      },
+      "few_shot": {
+        "rmse": 0.6564502120018005,
+        "nrmse": 0.6561461687088013,
+        "mae": 0.280965656042099
+      },
+      "elapsed_seconds": 3.621585645712912
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "topology_erased",
+      "seed": 42,
+      "source_nrmse": 0.5369898080825806,
+      "zero_shot": {
+        "rmse": 0.7500020265579224,
+        "nrmse": 0.7496546506881714,
+        "mae": 0.4842442572116852
+      },
+      "few_shot": {
+        "rmse": 0.6748872995376587,
+        "nrmse": 0.6745747327804565,
+        "mae": 0.34249716997146606
+      },
+      "elapsed_seconds": 3.344604939222336
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "neural_coords",
+      "seed": 42,
+      "source_nrmse": 0.44545266032218933,
+      "zero_shot": {
+        "rmse": 0.7433369755744934,
+        "nrmse": 0.7429926991462708,
+        "mae": 0.49182093143463135
+      },
+      "few_shot": {
+        "rmse": 0.7701572775840759,
+        "nrmse": 0.76980060338974,
+        "mae": 0.4359309673309326
+      },
+      "elapsed_seconds": 4.404336448293179
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "discrete_table",
+      "seed": 42,
+      "source_nrmse": 1.6287702322006226,
+      "zero_shot": {
+        "rmse": 1.5600532293319702,
+        "nrmse": 1.559330701828003,
+        "mae": 0.9710096120834351
+      },
+      "few_shot": {
+        "rmse": 13.867289543151855,
+        "nrmse": 13.860867500305176,
+        "mae": 6.807337760925293
+      },
+      "elapsed_seconds": 3.854201551992446
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "fem_operator",
+      "seed": 43,
+      "source_nrmse": 0.15886609256267548,
+      "zero_shot": {
+        "rmse": 1.435038447380066,
+        "nrmse": 1.4361894130706787,
+        "mae": 0.8862183094024658
+      },
+      "few_shot": {
+        "rmse": 0.4972105026245117,
+        "nrmse": 0.49760928750038147,
+        "mae": 0.28950628638267517
+      },
+      "elapsed_seconds": 3.841212326195091
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "topology_erased",
+      "seed": 43,
+      "source_nrmse": 0.45754745602607727,
+      "zero_shot": {
+        "rmse": 0.6833212375640869,
+        "nrmse": 0.6838693022727966,
+        "mae": 0.44713738560676575
+      },
+      "few_shot": {
+        "rmse": 0.6240034699440002,
+        "nrmse": 0.6245039701461792,
+        "mae": 0.34053513407707214
+      },
+      "elapsed_seconds": 3.7657456882297993
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "neural_coords",
+      "seed": 43,
+      "source_nrmse": 0.3555614948272705,
+      "zero_shot": {
+        "rmse": 0.7608048915863037,
+        "nrmse": 0.7614150643348694,
+        "mae": 0.5131107568740845
+      },
+      "few_shot": {
+        "rmse": 0.6209776997566223,
+        "nrmse": 0.6214757561683655,
+        "mae": 0.3672409653663635
+      },
+      "elapsed_seconds": 4.193032753188163
+    },
+    {
+      "pair": "sealed_4>open",
+      "source": "sealed_4",
+      "target": "open",
+      "model": "discrete_table",
+      "seed": 43,
+      "source_nrmse": 1.5451455116271973,
+      "zero_shot": {
+        "rmse": 1.5286163091659546,
+        "nrmse": 1.5298423767089844,
+        "mae": 0.96684730052948
+      },
+      "few_shot": {
+        "rmse": 1.9265698194503784,
+        "nrmse": 1.9281150102615356,
+        "mae": 0.9882135391235352
+      },
+      "elapsed_seconds": 3.3908550469204783
+    }
+  ]
+}
