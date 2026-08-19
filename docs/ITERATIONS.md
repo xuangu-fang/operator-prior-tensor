@@ -130,3 +130,40 @@ remain explicit NO-GO regions.  Raw artifacts:
 `results/diffusion_confirmation_r4`,
 `results/diffusion_confirmation_matched_r4`; audited aggregate:
 `results/diffusion_confirmation_summary_r4/summary.json`.
+
+## Planned iteration 5 — group-wise operator and separability phase diagram
+
+**Status.** Method/experiment design only; no R5 result exists yet.
+
+**Correction to the formulation.** A physical operator belongs to the joint
+coordinate domain on which it is defined. It is not assumed that every tensor
+axis has its own PDE. We therefore generalize mode-wise Operator Tucker to a
+coordinate partition: a group such as $(x,y)$ receives a joint operator factor,
+while a group without a reliable operator uses a neural functional factor.
+The existing Green tensor remains unchanged because its time, receiver, and
+source factors are all derivable from one Green operator.
+
+**Falsifiable hypothesis.** On a regular 2-D diffusion family, per-axis factors
+should match the joint grouped factor when the operator is an exact Kronecker
+sum. As a controlled nonseparable coupling grows, operator separability and
+low-frequency subspace residuals should grow, and joint-minus-per-axis recovery
+advantage should follow the same phase trend.
+
+**Protocol to implement.** Use tensors with axes time × x × y × scenario and
+groups $\{\{t\},\{x,y\},\{s\}\}$. Compare joint grouped Operator Tucker,
+per-axis Operator Tucker, wrong-joint control, grouped Neural Functional Tucker,
+and Laplacian-regularized discrete Tucker at 2%/5%/10%, random entries and fixed
+spatial sensors. Report matched-parameter and matched-spatial-latent budgets,
+basis construction cost, $\epsilon_{\mathrm{sep}}$,
+$\epsilon_{\mathrm{sub}}$, projection residual, and held-out NRMSE.
+
+**Predeclared screen.** Three fresh development seeds and 400 updates. At exact
+separability, joint and per-axis must be close; otherwise audit fairness. At
+nonzero residual, joint must show a coherent trend and win 3/3 in at least one
+5% or 10% structured-sensor cell before the irregular-domain implementation is
+promoted. Per-axis remains an efficient approximation and ablation, not a
+straw-man baseline.
+
+**Execution order.** Preserve R4 → implement regular 2-D grouped phase diagram
+→ implement irregular FEM/hole grouped mode → test hybrid neural unknown modes
+→ consume an external PDE benchmark.

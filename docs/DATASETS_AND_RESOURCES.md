@@ -18,9 +18,24 @@
 | /mnt/data/xuangu-fang/ai-physical-dynamics/datasets/openfwi_curvefault_a | source–receiver–time 语义的后期波动压力测试 | 需明确吸收边界、velocity operator 与左右谱；不作为首轮 |
 | /mnt/data/xuangu-fang/physics-informed-tensor-learning/datasets/Geo-Aware-Tensor/data | 历史 acoustic/irregular smoke test | 只用 manifest 指定的固定子集，不能根据结果挑样本 |
 
-## 3. 下一数据构造：不规则 FEM Green benchmark
+## 3. 下一数据构造顺序
 
-最高优先级不是立即下载更大数据，而是建立一个能精确审计 geometry/operator 的小 benchmark：
+### 3.1 先做规则二维 group-wise benchmark
+
+在进入 mesh 工程前，先用规则二维 diffusion 回答 joint operator 是否必要。构造
+
+$$
+\mathcal L_\eta
+=\mathcal L_x\otimes I+I\otimes\mathcal L_y+\eta\mathcal C_{xy}+\kappa I,
+$$
+
+其中 $\eta=0$ 为精确可分，$\eta>0$ 连续增加 nonseparable coupling。数据 axes 为 time × x × y × scenario；方法使用 coordinate groups $\{\{t\},\{x,y\},\{s\}\}$。每个版本必须保存 joint/per-axis matrices、operator separability residual、low-frequency subspace residual、projection residual 和 coordinate partition。
+
+这里的 per-axis operator 是高效 approximation/ablation，而不是默认物理真值。必须区分解析可分、joint-to-axis projection 和 data-estimated 三种来源。
+
+### 3.2 再做不规则 FEM Green benchmark
+
+不规则阶段的目标不是立即下载更大数据，而是建立一个能精确审计 geometry/operator 的小 benchmark：
 
 1. 域为单位方形减去 0/1/2 个圆孔；冻结 meshing tolerance 与边界类型；
 2. 保存 node coordinates、elements、outer/hole boundary tags、stiffness K_g、mass M_g；
@@ -30,7 +45,7 @@
 6. observation 为 2%/5%/10% random 与完整 source/receiver fibers；
 7. 对每个 geometry 保存 exact/nominal/wrong-geometry 三套 basis 及 product projection residual。
 
-首轮 3 seeds、400 updates；过筛后才冻结新 seeds 做 5-seed confirmation。详细 gate 和工程文件见 PAPER_TECHNICAL_REPORT_ZH.md 第 11–12 节。
+两个 controlled POC 都先用 3 seeds、400 updates；规则二维 joint-vs-axis 趋势过 gate 后才进入不规则域，之后才冻结新 seeds 做 5-seed confirmation。详细 gate 和工程文件见 PAPER_TECHNICAL_REPORT_ZH.md 第 11–12 节。
 
 ## 4. 公开数据优先级
 
@@ -54,7 +69,8 @@
 ## 6. 新 session 的第一周顺序
 
 1. 原样复现 R4 表格与现有单元测试；
-2. 实现 FEM K/M、谱残差测试和单孔小数据；
-3. 只跑 correct/wrong geometry + wide Neural Tucker 的 3-seed screen；
-4. 信号存在后再加 Laplacian-regularized Tucker 与 hybrid mode；
-5. controlled gate 通过后才接 PDEBench；OpenFWI/The Well 不排在第一周。
+2. 实现 group partition、规则二维 joint operator、per-axis approximation 和 separability residual 测试；
+3. 跑 joint/per-axis/wrong-joint/wide Neural Tucker 的 3-seed phase screen；
+4. group-wise 趋势成立后，再实现 FEM K/M、谱残差和单孔小数据；
+5. 信号存在后加 Laplacian-regularized Tucker 与 hybrid mode；
+6. controlled gates 通过后才接 PDEBench；OpenFWI/The Well 不排在第一周。

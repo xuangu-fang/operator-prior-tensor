@@ -1,4 +1,4 @@
-# 方向 1 论文级技术报告：用物理算子约束连续 Tucker 因子
+# 方向 1 论文级技术报告：Group-wise Operator-Prior Tucker
 
 更新时间：2026-08-19
 
@@ -7,15 +7,15 @@
 
 ## 摘要
 
-本文研究一个很具体的问题：当物理张量的每个 mode 对应时间、接收位置或激励位置，并且这些坐标上已有可信的微分算子时，能否直接利用该算子的低频特征函数，减少连续 Tucker 分解在稀疏观测下需要学习的自由度？
+本文研究一个很具体的问题：当物理张量的一组坐标上存在可信的联合微分算子时，能否让该 operator 直接约束其真实定义的 coordinate group，从而减少连续 Tucker 分解在稀疏观测下需要学习的自由度？我们不要求每个 tensor axis 都有一条独立 PDE。
 
-我们把普通 Tucker 因子表替换成
+我们提出 Group-wise Operator-Prior Tucker。对有可信 operator 的 coordinate group $g$，把普通因子替换成
 
 \[
-U_m=\Phi_m W_m,
+F_g=\Phi_g W_g,
 \]
 
-其中 $\Phi_m$ 是第 $m$ 个物理算子的有限谱基，$W_m$ 是待学习的小矩阵。模型仍保留一个非对角 Tucker core，从而表达时间、接收端和源端之间的耦合。训练阶段对 $W_m$ 和 core 做带算子谱能量的正则化点估计；因子固定后，对小 core 做解析高斯后验推断。
+其中 $\Phi_g$ 是定义在联合坐标 $x_g$ 上的物理算子有限谱基，$W_g$ 是待学习的小矩阵；没有可靠 operator 的 groups 保留 neural functional factors。现有 mode-wise 实现是每个 group 恰好含一个 tensor axis 的特例。模型仍保留非对角 Tucker core。训练阶段对 $W_g$、neural factors 和 core 做正则化点估计；因子固定后，对小 core 做解析高斯后验推断。
 
 在变系数扩散 Green-response tensor 上，我们先用旧 seeds 选择 cutoff 8 和 Tucker rank $(4,5,5)$，随后完全冻结模型、400 次更新、噪声和所有超参数。五个全新 seeds 的结果表明：10% random mask 下，Operator Tucker 以 `0.164±0.011` 的 NRMSE 优于宽 Neural Functional Tucker 的 `0.207±0.054`，paired wins 为 4/5；10% receiver-fiber 下仍为 4/5 wins。置乱算子基的 negative control 接近 NRMSE 1，说明收益来自正确的 index–operator 对齐。不过 source-fiber 只有 3/5 wins，2%--5% 也不稳定。
 
@@ -47,45 +47,60 @@ U_1(i_1,r_1)U_2(i_2,r_2)U_3(i_3,r_3).
 
 ### 1.2 核心假设和适用边界
 
-我们的核心假设只有一个：真实 tensor 在每个 mode 上的大部分能量位于已知算子的有限低频子空间附近。这个假设可被直接测量，而不是用“physics-informed”一词替代验证。
+我们的核心假设只有一个：真实 tensor 在**有可靠 operator 的 coordinate groups** 上，大部分能量位于该联合算子的有限低频子空间附近。没有可靠 operator 的 groups 不受这个假设约束，而由 neural factors 表示。这个假设可被直接测量，而不是用“physics-informed”一词替代验证。
 
-令 $P_m$ 是 learner basis 的正交投影，定义 product-space projection residual
+令 $\mathcal P_{\mathrm{op}}$ 是 operator-equipped groups，$P_g$ 是其 learner basis 的正交投影。对 grouped tensor 定义 product-space projection residual
 
 \[
 \epsilon_{\mathrm{proj}}
-=\frac{\|Y-Y\times_1P_1\times_2P_2\times_3P_3\|_F}{\|Y\|_F}.
+=\frac{\left\|Y-Y\times_{g\in\mathcal P_{\mathrm{op}}}P_g\right\|_F}{\|Y\|_F}.
 \]
 
 $\epsilon_{\mathrm{proj}}$ 是任何被限制在这些 basis 中的方法都无法消除的近似偏差下界。较大的 basis 可减小它，却会增加待估计系数和 core interaction 的方差。因此本文要研究的是偏差和方差的平衡，而不是宣称 operator basis 永远正确。
 
 ## 2. 方法
 
-### 2.1 每个 mode 的算子谱
+### 2.1 Coordinate group 与算子谱
 
-对 mode $m$ 给定自伴正半定算子 $\mathcal A_m$：
+先将原始 tensor axes 划分成 coordinate groups $\mathcal P=\{g_1,\ldots,g_J\}$。operator 的作用域由真实 PDE 决定：它可以约束单个 mode，也可以约束合并后的 $(x,y)$、$(x,y,t)$ 或全部 mesh-node spatial group。
 
-\[
-\mathcal A_m\phi_{mk}=\lambda_{mk}\phi_{mk},\qquad
-0\leq\lambda_{m1}\leq\lambda_{m2}\leq\cdots.
-\]
-
-在离散坐标 $x_{mi}$ 上评价前 $K_m$ 个特征函数，得到
+对有可信物理的 group $g$ 给定自伴正半定算子 $\mathcal A_g$：
 
 \[
-\Phi_m(i,k)=\phi_{mk}(x_{mi}),\qquad
-\Phi_m\in\mathbb R^{N_m\times K_m}.
+\mathcal A_g\phi_{gk}=\lambda_{gk}\phi_{gk},\qquad
+0\leq\lambda_{g1}\leq\lambda_{g2}\leq\cdots.
 \]
 
-空间 mode 可以使用有限差分、有限元或 graph Laplacian 的 eigenvectors；演化 mode 可以使用由算子 eigenvalues 诱导的指数衰减函数。方法本身不要求规则矩形，只要求能离线得到离散算子的前若干特征对。
-
-### 2.2 Operator-prior Tucker
-
-我们不直接学习大因子表，而是令
+在联合离散坐标 $x_{g,i_g}$ 上评价前 $K_g$ 个特征函数，得到
 
 \[
-\widetilde U_m=\Phi_mW_m,
-\qquad W_m\in\mathbb R^{K_m\times R_m}.
+\Phi_g(i_g,k)=\phi_{gk}(x_{g,i_g}),\qquad
+\Phi_g\in\mathbb R^{N_g\times K_g},
+\quad N_g=\prod_{m\in g}N_m.
 \]
+
+空间 group 可以使用完整二维有限差分、有限元或 graph Laplacian 的 eigenvectors；演化 group 可以使用由算子 eigenvalues 诱导的半群函数。方法不要求规则矩形，只要求能离线得到 joint discrete operator 的前若干特征对。只有 operator 可分或允许明确近似时，才将 $\Phi_g$ 替换成 per-axis product basis。
+
+### 2.2 Group-wise Operator-prior Tucker
+
+对 operator-equipped group，不直接学习大因子表，而是令
+
+\[
+\widetilde F_g=\Phi_gW_g,
+\qquad W_g\in\mathbb R^{K_g\times R_g}.
+\]
+
+对未知 group 使用 $F_g(i_g,:)=\operatorname{MLP}_g(x_g)$ 或 factor table。grouped prediction 是
+
+\[
+\widehat Y_{i_1,\ldots,i_M}
+=
+\sum_{r_1,\ldots,r_J}
+G_{r_1,\ldots,r_J}
+\prod_{j=1}^{J}F_{g_j}(i_{g_j},r_j).
+\]
+
+下面的 column normalization、spectral penalty 和 core posterior 对每个 operator group 原样成立。现有 Green-tensor 代码采用 singleton partition，因此下文保留 $m$ notation 描述已经冻结的实现；它是 group-wise formulation 的特例，而不是对所有新数据的强制拆轴规则。
 
 为消除 Tucker 的连续缩放歧义，对每个 factor column 做单位 RMS 归一化：
 
@@ -309,10 +324,12 @@ shape 为 `18×24×24`，三个 modes 分别是 time、receiver 和 source。con
 
 ## 8. 下一步只做与论文主张直接相关的工作
 
-1. 把当前 1D diffusion POC 迁移到一个具有明确 boundary/operator metadata 的公开 solver benchmark；不在确认 seeds 上继续调参。
-2. 在不规则 mesh 上使用有限元 stiffness/mass generalized eigenvectors，直接检查孔洞和边界改变时的 projection residual。
-3. 增加完整 graph/Laplacian-regularized Tucker 与 side-information Bayesian CP，排除“任何平滑正则都能得到相同结果”。
-4. source-fiber 失败应作为机制问题研究：它可能来自 time–receiver pair 覆盖不足导致的 factor identifiability，而不是 core 表达能力。只有预先定义的新协议和新 seeds 才能验证这一解释。
+1. 保留当前 1D diffusion Green tensor 作为数学最干净的主实验；不在 confirmation seeds 上继续调参。
+2. 将方法轻量扩展为 **group-wise Operator-Prior Tucker**：operator 约束其真实定义的联合坐标组，不能被默认拆成每轴一条虚构 PDE。
+3. 在规则二维 diffusion 上比较 joint spatial operator 与 per-axis approximation，并把 operator separability residual 作为新的可审计横轴。
+4. 只有规则二维 group-wise 机制跑通后，才进入不规则 mesh/孔洞；用 FEM stiffness/mass generalized eigenvectors检查 geometry change。
+5. 增加 graph/Laplacian-regularized Tucker、宽 Neural Functional Tucker 与参数匹配对照，排除“任意平滑或额外容量都能得到相同结果”。
+6. source-fiber 失败继续作为 identifiability limitation；只有预先定义的新协议和新 seeds 才能验证解释。
 
 当前不建议增加更复杂的 attention、operator encoder 或 full factor posterior。论文价值来自一个简单可解释的限制、一个可测的失配量和一组严格冻结的对照。
 
@@ -366,6 +383,107 @@ K_g\phi_k=\lambda_k M_g\phi_k,
 
 这给出一种明确的几何泛化含义：对新几何 $g'$，重新由其 $K_{g'},M_{g'}$ 计算低频 basis，再复用共享的小维映射/core 或进行少量观测下的适配。当前代码尚未验证这一点；现有 1D POC 只证明了“名义算子失配下仍可能降低方差”。
 
+### 9.4 正式扩展：Group-wise Operator-Prior Tucker
+
+旧写法容易被理解为：一个 $M$ 阶 tensor 的每个 axis 都必须配一条算子 $\mathcal A_m$。这不是我们希望主张的物理假设。正式原则改为：
+
+> **The physical operator is attached to the coordinate group on which it is defined, rather than artificially projected onto every tensor axis.**
+>
+> 物理算子应该作用在它真实定义的联合坐标域上，而不是被人为投影到每一个张量坐标轴。
+
+设原始坐标轴为 $\{1,\ldots,M\}$，将它们划分成互不重叠的 coordinate groups
+
+$$
+\mathcal P=\{g_1,\ldots,g_J\},
+\qquad
+\bigcup_{j=1}^J g_j=\{1,\ldots,M\}.
+$$
+
+一个 group $g$ 可以只含一个 axis，例如 time；也可以合并多个耦合坐标，例如 $g=\{x,y\}$。将组内 index 合成 $i_g=(i_m:m\in g)$ 后，模型写为
+
+$$
+\widehat Y_{i_1,\ldots,i_M}
+=
+\sum_{r_1,\ldots,r_J}
+G_{r_1,\ldots,r_J}
+\prod_{j=1}^{J}F_{g_j}(i_{g_j},r_j).
+$$
+
+对有可靠 operator $\mathcal A_g$ 的 coordinate group，
+
+$$
+F_g=\Phi_g W_g,
+\qquad
+\mathcal A_g\phi_{gk}=\lambda_{gk}\phi_{gk}.
+$$
+
+对没有可靠 operator 的 group，不人为构造一条 PDE，而使用
+
+$$
+F_g(i_g,r)=\operatorname{MLP}_g(x_g)_r
+$$
+
+或普通 factor table。因此 group-wise 方法仍是显式低秩 Tucker；变化只是 factor 的作用域与真实 operator domain 对齐，而不是增加一个庞大的 neural operator encoder。
+
+### 9.5 当前方法与 group-wise 方法的关系
+
+| 场景 | 合理 factor/operator 处理 | 论文中的角色 |
+|---|---|---|
+| 当前 Green tensor | 一条 PDE 的半群和 Green kernel 分别诱导 time、receiver、source factors | 已完成的数学锚点；无需推翻 |
+| 规则且精确可分 PDE | joint operator 是 Kronecker sum，可等价或近似拆成 per-axis operators | per-axis 版本是高效特例 |
+| 规则但不可分的时空/空间 PDE | 把耦合的 $(x,y)$ 或 $(x,y,t)$ 合为 grouped mode，使用完整 joint operator spectrum | 新方法的关键主流 setting |
+| 近似可分 operator | 比较 joint basis 与 per-axis projected/estimated operators | 可审计计算近似与 ablation |
+| 不规则边界或孔洞 | 全部 mesh nodes 构成一个 spatial group，使用 FEM/graph operator | group-wise 的自然几何扩展 |
+| 某些坐标无可信 operator | 对已知 groups 使用 operator factors，对未知 groups 使用 neural factors | hybrid setting，不强行物理化 |
+
+这使两条故事互补而不冲突：
+
+1. **Green tensor：** 一条 PDE 如何为多个 tensor modes 提供可推导的精确结构；
+2. **Spatiotemporal field：** 一个联合 PDE operator 如何约束一组耦合的空间/时空 coordinates。
+
+per-axis operator 不再被默认当作物理真值。只有在 operator 精确可分时它才是等价特例；在近似可分时，它是一个更便宜、误差可测的 approximation。
+
+### 9.6 Operator separability residual
+
+对规则二维离散 operator，令联合 stiffness/mass matrices 为 $(K_{xy},M_{xy})$。由 per-axis operators 构造 Kronecker-sum approximation
+
+$$
+K_{\mathrm{sep}}
+=
+K_x\otimes M_y
++M_x\otimes K_y
++\kappa M_x\otimes M_y.
+$$
+
+先对 operator 做 mass whitening：
+
+$$
+\bar K=M_{xy}^{-1/2}K_{xy}M_{xy}^{-1/2},
+\qquad
+\bar K_{\mathrm{sep}}
+=M_{xy}^{-1/2}K_{\mathrm{sep}}M_{xy}^{-1/2}.
+$$
+
+定义主要诊断量
+
+$$
+\epsilon_{\mathrm{sep}}
+=
+\frac{\|\bar K-\bar K_{\mathrm{sep}}\|_F}
+{\|\bar K\|_F}.
+$$
+
+它测量“把 joint operator 拆成 per-axis operators”在算子层面的失真。实现还应报告低频子空间残差
+
+$$
+\epsilon_{\mathrm{sub}}
+=
+\frac{\|P_{\mathrm{joint}}-P_{\mathrm{prod}}\|_F}
+{\|P_{\mathrm{joint}}\|_F},
+$$
+
+其中 $P_{\mathrm{joint}}$ 是 joint low-frequency eigenspace 的 projector，$P_{\mathrm{prod}}$ 是 per-axis product basis 的 projector。$\epsilon_{\mathrm{sep}}$ 回答 PDE operator 有多不可分；$\epsilon_{\mathrm{sub}}$ 回答 completion 实际使用的有限低频 factor space 有多不一致。两者都必须由 learner 可见的 nominal operator 计算，不能读取 held-out field 后反推。
+
 ## 10. 当前 POC 的可执行规格：另一个 session 应先原样复现
 
 ### 10.1 数据生成与 learner 可见信息
@@ -415,9 +533,67 @@ PYTHONPATH=src python experiments/run_tensor_bayes.py \
 
 这四轮共同支持的是 bias--variance phase diagram，而不是“谱基越精确越好”或“物理先验在 2% 一定赢”。
 
-## 11. 最新计划：三个递进 POC，而不是继续加组件
+## 11. 最新计划：五层 evidence ladder，而不是继续加组件
 
-### POC-A：不规则域 + 孔洞的受控 Green tensor（最高优先级）
+### POC-A：保留当前 Green tensor（已完成的数学锚点）
+
+当前 1D Green-response confirmation 不删除、不重写结果，也不因 group-wise 扩展而降级。它回答一个非常干净的问题：**同一条 PDE 的谱怎样同时诱导 time decay、receiver eigenfunctions 和 source/adjoint eigenfunctions。**
+
+新实验必须使用新的 experiment id 和 seeds；不得修改 R4 generator、artifacts 或冻结表格。论文中先用它介绍 operator prior 的机制和 bias--variance phase diagram，再进入更主流的 spatiotemporal grouped setting。
+
+### POC-B：规则二维 joint operator vs per-axis approximation（最高优先级的新实验）
+
+**唯一假设。** 当二维 operator 接近可分时，per-axis approximation 应与 joint grouped operator 接近且计算更便宜；随着不可分耦合和 $\epsilon_{\mathrm{sep}}$ 增大，joint operator factor 应更稳定地优于 per-axis factor。若性能差与 separability residual 无关，group-wise 主张不成立。
+
+**受控 PDE family。** 在规则方形、固定 Neumann 或 periodic boundary 上构造
+
+$$
+\mathcal L_\eta
+=
+-\partial_x\!\left(a_x(x)\partial_x\right)
+-\partial_y\!\left(a_y(y)\partial_y\right)
++\eta\,\mathcal C_{xy}
++\kappa I,
+$$
+
+其中 $\mathcal C_{xy}$ 是固定的对称正半定 nonseparable diffusion coupling。$\eta=0$ 时离散算子是精确 Kronecker sum；增加 $\eta$ 产生连续可控的 joint coupling，同时保持同一 PDE family、边界、网格和噪声。
+
+**任务。** 由不同初值或 forcing scenarios 生成
+
+$$
+Y(t,x,y,s),
+$$
+
+并使用 coordinate partition $\{\{t\},\{x,y\},\{s\}\}$。space group 使用 joint eigenbasis；scenario 没有 PDE 时使用 neural factor 或 table，不给它虚构算子。
+
+**必须比较的模型。**
+
+1. **Joint Group-wise Operator Tucker：** $F_{xy}=\Phi_{xy}W_{xy}$；
+2. **Per-axis Operator Tucker：** 分别使用 $\Phi_x,\Phi_y$，作为计算效率 approximation；
+3. **Wrong-joint operator：** 使用相同参数量但错误 $\eta$/错误 coupling 的 joint basis；
+4. **Grouped Neural Functional Tucker：** 用二维 coordinate MLP 学 $F_{xy}(x,y)$；
+5. **Discrete/Laplacian-regularized Tucker：** 使用相同 graph smoothness，但不做 spectral truncation。
+
+joint 与 per-axis 的 decoder 维数不同，必须同时报告两种公平口径：matched trainable parameters，以及 matched effective spatial latent dimension。不能只展示对 proposed 更有利的一种。
+
+**实验轴。**
+
+- $\eta$ 至少包含精确可分、弱耦合、中耦合、强耦合四档；
+- observations 为 2%/5%/10%，早筛重点 5% 和 10%；
+- random entries 与 fixed spatial sensors（观测少量 $(x,y)$ sites 的完整时间轨迹）分开报告；
+- 每个 cell 保存 $\epsilon_{\mathrm{sep}}$、$\epsilon_{\mathrm{sub}}$、product-space projection residual、held-out NRMSE、参数量、basis 构造时间、峰值内存和训练时间。
+
+**预注册预测和 gate。**
+
+1. $\eta=0$ 时 joint 与 per-axis 应接近；若 joint 大幅领先，先检查参数/截断是否不公平；
+2. 随 $\epsilon_{\mathrm{sep}}$ 增大，per-axis minus joint NRMSE 应总体上升；
+3. joint 必须在至少一个 5% 或 10% structured-sensor cell 达到 3/3 paired wins，同时 wrong-joint 明显退化；
+4. 若 joint 只改善 projection residual、不改善 reconstruction，则回到 cutoff/rank bias--variance，而不增加 attention；
+5. per-axis 若在低 residual 区域近似无损，则作为论文中的高效版本，而不是被描述成错误 baseline。
+
+早筛使用 3 seeds、400 updates；只有上述趋势成立后才冻结 fresh 5-seed confirmation。
+
+### POC-C：不规则域 + 孔洞的受控 grouped spatial operator（第三优先级）
 
 **目的。** 检验最初设想的几何含义是否成立：边界和孔洞改变算子谱时，geometry-correct basis 是否比规则网格/错误几何 basis 更适合稀疏 functional Tucker。
 
@@ -436,7 +612,9 @@ PYTHONPATH=src python experiments/run_tensor_bayes.py \
 
 **首轮 gate。** 3 seeds、400 updates。geometry-correct 在至少一个 5% 或 10% structured mask 上达到 3/3 paired wins，且相对 Neural Tucker 平均 NRMSE 降低至少 10%；wrong-geometry 明显退化；若只在训练几何内有效而 unseen geometry 失败，论文主张退回“geometry-specific completion”。
 
-### POC-B：只知道部分物理的 hybrid mode factors（第二优先级）
+这里不再把 $x/y$ 当成两个独立 axes。全部有效 mesh nodes 构成一个 grouped spatial mode；geometry-correct basis 来自 $(K_g,M_g)$。规则二维 POC-B 先证明“为什么需要 joint group”，POC-C 再证明同一机制怎样自然延伸到孔洞和不规则边界。
+
+### POC-D：只知道部分物理的 hybrid mode factors（第四优先级）
 
 **目的。** 回答现实中某些 axes 没有已知 PDE 的问题，并防止方法被误解为要求每维精确算子。
 
@@ -444,7 +622,7 @@ PYTHONPATH=src python experiments/run_tensor_bayes.py \
 
 成功标准不是必须超过 oracle，而是 hybrid 显著优于“强行给所有 mode 加错误算子”，并接近 all-neural 的灵活性，同时在 5%/10% 下优于 all-neural 的方差。
 
-### POC-C：外部数据压力测试（第三优先级）
+### POC-E：外部数据压力测试（第五优先级）
 
 公开数据不应直接替代 controlled POC，因为很多数据没有离散算子或 Green source/receiver 语义。优先顺序是：
 
@@ -460,15 +638,22 @@ PYTHONPATH=src python experiments/run_tensor_bayes.py \
 
 ```text
 src/geoaware/
+├── grouped_operator_tucker.py # coordinate partition 与 joint/neural group factors
+├── joint_diffusion_2d.py      # 可控 nonseparable 2D operator 与时空数据
+├── operator_diagnostics.py    # separability/subspace/projection residuals
 ├── irregular_fem.py          # mesh、K/M、边界标签和低频广义特征对
 ├── irregular_green_data.py   # irregular-domain Green tensor 与 metadata
 ├── basis_transfer.py         # 新旧 geometry 间可审计的 node mapping
 └── hybrid_operator_tucker.py # operator/neural 混合 mode factor
 experiments/
+├── run_grouped_joint_vs_axis.py
+├── analyze_grouped_phase_diagram.py
 ├── run_irregular_green_poc.py
 ├── run_irregular_mismatch_sweep.py
 └── run_hybrid_mode_poc.py
 tests/
+├── test_grouped_operator_tucker.py
+├── test_operator_diagnostics.py
 ├── test_irregular_fem.py
 ├── test_irregular_green_data.py
 └── test_hybrid_operator_tucker.py
@@ -476,19 +661,25 @@ tests/
 
 冻结的 `make_diffusion_green_tensor` 与 R4 artifacts 不应原地修改。新数据版本必须保存：mesh hash、geometry parameters、boundary types、$K/M$ checksum、eigensolver tolerance、source locations、split、mask indices、noise seed 和 projection residual。
 
+除此之外，规则二维 grouped POC 必须保存 coordinate partition、joint/per-axis operator checksum、coupling $\eta$、$\epsilon_{\mathrm{sep}}$、$\epsilon_{\mathrm{sub}}$、两类公平预算口径和 basis 构造成本。per-axis operators 必须注明是解析可分特例、由 joint operator 投影得到，还是从数据估计；三者不能混写。
+
 ### 12.2 最低测试要求
 
-1. generalized eigenvectors 满足 $\Phi^TM\Phi\approx I$ 和 $K\Phi\approx M\Phi\Lambda$；
-2. 孔内不存在有效 observation node，孔边界标签可重建；
-3. 同 seed 的 mesh、source 和 mask bitwise reproducible；
-4. wrong-geometry control 不得意外读取 truth basis；
-5. normalization 只使用 training observations；
-6. held-out metric 不包含 observed entries；
-7. 3-seed screening 结束后先形成机器可读 summary，再决定是否消费 5-seed confirmation。
+1. $\eta=0$ 时 joint matrix 与 Kronecker-sum approximation 在容差内一致，$\epsilon_{\mathrm{sep}}\approx0$；
+2. 增大 nonseparable coupling 时 $\epsilon_{\mathrm{sep}}$ 按预定趋势变化；
+3. group/un-group reshape 前后 tensor entries 与 masks 完全一致；
+4. generalized eigenvectors 满足 $\Phi^TM\Phi\approx I$ 和 $K\Phi\approx M\Phi\Lambda$；
+5. 孔内不存在有效 observation node，孔边界标签可重建；
+6. 同 seed 的 operator、mesh、source 和 mask bitwise reproducible；
+7. wrong-operator/wrong-geometry controls 不得意外读取 truth basis；
+8. normalization 只使用 training observations，held-out metric 不包含 observed entries；
+9. 3-seed screening 结束后先形成机器可读 summary，再决定是否消费 5-seed confirmation。
 
 ### 12.3 明确停止条件
 
 - 若 correct 与 wrong geometry 的 projection residual 和恢复误差都不可区分，先检查 tensor 是否真的包含边界敏感结构，不增加网络复杂度。
+- 若 $\epsilon_{\mathrm{sep}}$ 增大但 joint 与 per-axis 的差距没有趋势，停止把 group-wise 作为贡献，per-axis 保留为工程近似。
+- 若 $\eta=0$ 时 joint 明显胜过 per-axis，先审计 spatial latent dimension、basis cutoff 和参数预算，不能当作正信号。
 - 若 correct residual 明显更低但恢复不更好，优先调 cutoff/rank/regularization 的 bias--variance 轴，而不是加入 attention。
 - 若所有方法 NRMSE 接近 1，说明 task、mask 或优化尚未跑通；不能把 proposed 的微小领先当作正信号。
 - 若只有 exact truth operator 有效而 nominal/geometry operator 完全失败，方向一只能定位为 simulator-metadata method，不能讲广泛几何感知。
