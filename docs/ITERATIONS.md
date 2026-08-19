@@ -278,3 +278,48 @@ completion fail on an irregular domain while an operator-defined subspace works
 is supported at 10%.  Before any fresh-seed confirmation, select basis cutoff
 and Tucker rank on seeds 41--43, and either fix or drop the fiber protocol.
 Artifact: `results/irregular_green_screen_r5b/results.json`.
+
+## Iteration 6 — geometry families at the recovery level, and why the first two failed
+
+**Two settings, five polygonal domains, three seeds, 400 updates, selection
+seeds 41--43.**  Settings: the Green response `Y(t, receiver-node, source-node)`
+and a plainer field `Y(scenario, time, node)`; domains: plain square,
+centred obstacle, two obstacles, L shape, U shape; obstacles insulating.
+
+**What held.**  Ordinary discrete Tucker (`0.56--0.98` at 10%) and a
+graph-smoothed table (`0.46--0.91`) fail on every domain where the proposed
+model reaches `0.15--0.36`, and the node-permuted control never drops below
+`1.3`.  On the plain square the geometry-aware and topology-erased models return
+*identical* numbers, as they must: with no obstacle they are the same operator.
+
+**What did not hold.**  Geometry-aware versus geometry-blind *continuous*
+factors was inside seed noise at every ratio, on both settings, despite the
+geometry-aware basis having a 12--17x lower projection residual.  A coordinate
+MLP was the strongest baseline and beat the proposed model at 2% and 5%.
+
+**Diagnosis, and it is arithmetic rather than tuning.**  The bias floors were
+`0.002` (geometry-aware) against `0.02--0.03` (blind) while total held-out error
+was `0.25--0.70`.  Approximation bias was one to ten percent of the error
+budget, so the basis could not matter: everything was estimation variance.  A
+second confound: with 20 scenarios and 16 times, a 5% random mask observes each
+spatial node about sixteen times, which is not sparse in the coordinate the
+geometry prior speaks about.
+
+**The two changes that follow from the diagnosis.**  First, barriers.  Thin
+impermeable baffles inside one fixed mesh raise the blind bias floor from `0.03`
+to `0.17--0.25` while leaving the geometry-aware floor at `0.003`, a ratio of
+55--101x; all layouts share one mesh and one node set, so controls differ only
+in whether their operator knows the walls.  Second, the mask: `spatial_sensors`
+observes complete trajectories at a few nodes, making nodes the scarce
+coordinate.
+
+**A control that turned out to be mislabelled.**  The Laplacian-regularized
+table built its penalty from the wall-aware operator, so it was a second
+*geometry-aware* method rather than the "any smoothness would do" control.
+Splitting it into `laplacian_geo` and `laplacian_blind` turns the comparison
+into a 2x2 — geometry known or not, crossed with spectral truncation or a
+penalized free table — which isolates geometry as the active ingredient instead
+of confounding it with the representation.
+
+Artifacts: `results/geometry_family_screen_r6`, `results/field_family_screen_r6`
+and their summaries.

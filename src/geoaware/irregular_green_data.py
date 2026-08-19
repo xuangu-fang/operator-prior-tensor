@@ -31,6 +31,7 @@ operator, so geometry is known metadata while the material is not.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 import math
 
 import torch
@@ -43,6 +44,93 @@ from .joint_diffusion_2d import GroupedFieldDataset
 from .operator_diagnostics import generalized_eigenpairs
 
 DEFAULT_HOLES = (Hole((.32, .62), .15), Hole((.68, .33), .13))
+
+
+@dataclass(frozen=True)
+class Wall:
+    """A thin impermeable baffle: an axis-aligned rectangle of near-zero material.
+
+    Walls are the sharpest way to make geometry matter.  Two points a millimetre
+    apart on opposite sides of a baffle are far apart for the physics, so any
+    model that reasons in Euclidean coordinates — a cosine basis of the bounding
+    box, a coordinate network — smooths straight through the barrier, while an
+    operator assembled with the wall in place does not.
+
+    Walls stay inside one fixed mesh instead of being cut out of it, so every
+    geometry variant shares an identical node set by construction and no control
+    needs an interpolation step.
+    """
+
+    x_range: tuple[float, float]
+    y_range: tuple[float, float]
+    conductivity: float = 1e-3
+
+    def contains(self, points: torch.Tensor) -> torch.Tensor:
+        x, y = points[:, 0], points[:, 1]
+        return ((x >= self.x_range[0]) & (x <= self.x_range[1])
+                & (y >= self.y_range[0]) & (y <= self.y_range[1]))
+
+
+@dataclass(frozen=True)
+class ArcWall:
+    """A curved baffle: an annular band with an angular aperture.
+
+    An axis-aligned slab is the easiest possible barrier for a model that reads
+    raw coordinates — a single tanh unit reproduces a step at ``x = c``.  A
+    curved barrier is not separable in ``x`` and ``y`` and has no low-order
+    coordinate description, so it separates "knows the geometry" from "has
+    enough capacity to memorize where the jump is".
+    """
+
+    center: tuple[float, float]
+    radius: float
+    half_width: float
+    gap: tuple[float, float] = (0., 0.)
+    conductivity: float = 1e-3
+
+    def contains(self, points: torch.Tensor) -> torch.Tensor:
+        offset = points - torch.tensor(self.center, dtype=points.dtype)
+        distance = offset.norm(dim=1)
+        angle = torch.atan2(offset[:, 1], offset[:, 0]) % (2 * math.pi)
+        low, high = self.gap
+        in_gap = ((angle >= low) & (angle <= high) if low <= high
+                  else (angle >= low) | (angle <= high))
+        return ((distance - self.radius).abs() < self.half_width) & ~in_gap
+
+
+WALL_LAYOUTS = {
+    # No barrier: the control where there is no geometry to know.
+    "open": (),
+    # One baffle rising from the floor, leaving a gap at the top.
+    "single_baffle": (Wall((.48, .52), (0., .72)),),
+    # Two staggered baffles: the field must snake around them.
+    "labyrinth": (Wall((.34, .38), (0., .70)), Wall((.62, .66), (.30, 1.))),
+    # Two chambers joined by a narrow aperture in the middle of the wall.
+    "chamber": (Wall((.48, .52), (0., .42)), Wall((.48, .52), (.58, 1.))),
+    # Fully sealed quadrants: the strongest case, where geometry decides which
+    # regions can interact at all rather than merely how fast.
+    "sealed_4": (Wall((.48, .52), (0., 1.)), Wall((0., 1.), (.48, .52))),
+    # Curved barriers: no low-order description in raw coordinates.
+    "arc": (ArcWall((.5, .5), .30, .022, gap=(1.25, 1.90)),),
+    "double_arc": (ArcWall((.5, .5), .17, .022, gap=(.35, 1.00)),
+                   ArcWall((.5, .5), .36, .022, gap=(3.50, 4.15))),
+}
+
+
+def wall_coefficient(centroids: torch.Tensor, walls: tuple,
+                     contrast: float, background: bool = True) -> torch.Tensor:
+    """Material seen by the truth (``background``) or by the learner.
+
+    The learner is told where the walls are — that is the geometry it is
+    supposed to exploit — but not the smooth background variation, which is what
+    keeps this a geometry prior rather than an exact-physics prior.
+    """
+    values = (_variable_diffusivity(centroids, contrast) if background
+              else torch.ones(len(centroids), dtype=torch.float64))
+    for wall in walls:
+        values = torch.where(wall.contains(centroids),
+                             torch.full_like(values, wall.conductivity), values)
+    return values
 
 
 def _variable_diffusivity(centroids: torch.Tensor, contrast: float) -> torch.Tensor:
@@ -121,6 +209,182 @@ def _normalized_rates(values: torch.Tensor) -> torch.Tensor:
     return values / (math.pi ** 2)
 
 
+def _smooth_initial_states(coordinates: torch.Tensor, count: int,
+                           seed: int) -> torch.Tensor:
+    """Localized smooth initial conditions, one per scenario.
+
+    Gaussian bumps rather than draws from the operator's own eigenbasis: a
+    truncated learner basis has to face energy it cannot represent, otherwise
+    the projection residual would be an artifact of the generator.
+    """
+    generator = torch.Generator().manual_seed(seed)
+    low = coordinates.min(0).values
+    span = (coordinates.max(0).values - low)
+    states = []
+    for _ in range(count):
+        field = torch.zeros(len(coordinates), dtype=torch.float64)
+        for _ in range(3):
+            center = low + span * torch.rand(2, generator=generator).double()
+            width = .10 + .10 * float(torch.rand(1, generator=generator))
+            amplitude = float(torch.randn(1, generator=generator))
+            field = field + amplitude * torch.exp(
+                -((coordinates.double() - center) ** 2).sum(1) / (2 * width ** 2))
+        states.append(field - field.mean())
+    return torch.stack(states)
+
+
+def irregular_field_tensor(
+        holes: tuple[Hole, ...] = DEFAULT_HOLES, *,
+        polygon: Polygon = UNIT_SQUARE, resolution: int = 16,
+        n_scenarios: int = 20, n_time: int = 16, basis_cutoff: int = 32,
+        truth_modes: int = 60, contrast: float = .3, reaction: float = .15,
+        time_span: tuple[float, float] = (.15, 3.), mesh_seed: int = 0,
+        scenario_seed: int = 7717, hole_condition: str = "neumann",
+        permutation_seed: int = 9173) -> GroupedFieldDataset:
+    """``Y(scenario, time, node)``: the same PDE from different initial states.
+
+    This is the plainest spatiotemporal setting there is — a family of
+    simulations on one domain, observed at a few percent of its entries — and it
+    needs no source/receiver semantics to explain.  It shares the mesh, the
+    operator, the four spatial bases and the leakage rules with
+    :func:`irregular_green_tensor`, so the two settings differ only in what the
+    non-spatial modes mean.
+    """
+    green = irregular_green_tensor(
+        holes, polygon=polygon, resolution=resolution, n_time=n_time,
+        n_sources=min(n_scenarios, 8), basis_cutoff=basis_cutoff,
+        truth_modes=truth_modes, contrast=contrast, reaction=reaction,
+        time_span=time_span, mesh_seed=mesh_seed, hole_condition=hole_condition,
+        permutation_seed=permutation_seed)
+    matrices = dict(green.operator_matrices)
+    coordinates = matrices["coordinates"]
+    truth_values = matrices["truth_eigenvalues"]
+    truth_vectors = matrices["truth_eigenvectors"]
+    mass = matrices["mass"].double()
+
+    initial = _smooth_initial_states(coordinates, n_scenarios, scenario_seed)
+    amplitudes = initial @ mass @ truth_vectors.double()
+    time = torch.linspace(time_span[0], time_span[1], n_time, dtype=torch.float64)
+    decay = torch.exp(-time[:, None] * (reaction + truth_values.double()[None, :]))
+    values = torch.einsum("sq,tq,nq->stn", amplitudes, decay,
+                          truth_vectors.double())
+    values = (values - values.mean()) / values.std().clamp_min(1e-12)
+
+    matrices.pop("source_nodes", None)
+    metadata = dict(green.metadata)
+    metadata.update({"tensor_semantics": "scenario x time x node",
+                     "n_scenarios": int(n_scenarios),
+                     "scenario_seed": int(scenario_seed),
+                     "coordinate_groups": [[0], [1], [2]]})
+    metadata.pop("source_node_indices", None)
+    specs = tuple(green.basis_specs[:1] * 3)
+    return GroupedFieldDataset(
+        green.name.replace("irregular_green", "irregular_field"), values.float(),
+        ("scenario", "time", "node"), specs, (False, False, False),
+        "generated:geoaware.irregular_green_data.irregular_field_tensor",
+        "Diffusion field on a polygonal domain with obstacles, one slice per "
+        "initial condition; the spatial mode indexes mesh nodes.",
+        metadata=metadata, groups=((0,), (1,), (2,)),
+        operator_matrices=matrices)
+
+
+def wall_field_tensor(
+        walls: tuple[Wall, ...] = (), *, resolution: int = 18,
+        n_scenarios: int = 20, n_time: int = 16, basis_cutoff: int = 32,
+        truth_modes: int = 60, contrast: float = .3, reaction: float = .15,
+        time_span: tuple[float, float] = (.15, 3.), mesh_seed: int = 0,
+        scenario_seed: int = 7717, permutation_seed: int = 9173
+        ) -> GroupedFieldDataset:
+    """``Y(scenario, time, node)`` on one square mesh divided by thin baffles.
+
+    Every wall layout uses the *same* mesh and the *same* nodes; only the
+    material inside the baffles changes.  A control therefore differs from the
+    proposed model in exactly one respect — whether its operator knows the
+    barriers — with no confound from meshing, node ordering or interpolation.
+    """
+    mesh = build_mesh(resolution, (), polygon=UNIT_SQUARE, seed=mesh_seed)
+    centroids = triangle_centroids(mesh)
+    truth_material = wall_coefficient(centroids, walls, contrast, background=True)
+    learner_material = wall_coefficient(centroids, walls, 0., background=False)
+    truth_stiffness, mass = assemble_p1(mesh, truth_material)
+    nominal_stiffness, _ = assemble_p1(mesh, learner_material)
+    blind_stiffness, _ = assemble_p1(mesh, 1.)
+    coordinates = mesh.nodes
+    n_nodes = mesh.n_nodes
+    truth_modes = min(truth_modes, n_nodes)
+
+    truth_values, truth_vectors = generalized_eigenpairs(
+        truth_stiffness, mass, truth_modes)
+    rates = _normalized_rates(truth_values)
+    initial = _smooth_initial_states(coordinates, n_scenarios, scenario_seed)
+    amplitudes = initial @ mass @ truth_vectors
+    time = torch.linspace(time_span[0], time_span[1], n_time, dtype=torch.float64)
+    decay = torch.exp(-time[:, None] * (reaction + rates[None, :]))
+    values = torch.einsum("sq,tq,nq->stn", amplitudes, decay, truth_vectors)
+    values = (values - values.mean()) / values.std().clamp_min(1e-12)
+
+    nominal_values, wall_basis = generalized_eigenpairs(
+        nominal_stiffness, mass, basis_cutoff)
+    blind_values, blind_basis = generalized_eigenpairs(
+        blind_stiffness, mass, basis_cutoff)
+    box_basis, box_values = _bounding_box_product_basis(
+        coordinates, mass, basis_cutoff)
+    permutation = torch.randperm(
+        n_nodes, generator=torch.Generator().manual_seed(permutation_seed))
+    time_cutoff = min(basis_cutoff, n_time)
+    time_basis = torch.linalg.qr(
+        torch.exp(-time[:, None] * (reaction
+                                    + _normalized_rates(nominal_values)[:time_cutoff][None, :])),
+        mode="reduced").Q[:, :time_cutoff]
+
+    spatial = {
+        "fem_correct": (wall_basis, _normalized_rates(nominal_values)),
+        "topology_erased": (blind_basis, _normalized_rates(blind_values)),
+        "bounding_box_product": (box_basis, box_values[:box_basis.shape[1]]),
+        "permuted": (wall_basis[permutation], _normalized_rates(nominal_values)),
+    }
+    matrices = {
+        "mass": mass.float(), "nominal_stiffness": nominal_stiffness.float(),
+        # The same operator with the barriers removed.  Pairing it with the
+        # geometry-aware one turns the comparison into a clean 2x2: geometry
+        # known or not, crossed with spectral truncation or a free table under a
+        # smoothness penalty.
+        "blind_stiffness": blind_stiffness.float(),
+        "coordinates": coordinates.float(), "time_basis": time_basis.float(),
+        "time_eigenvalues": _normalized_rates(nominal_values)[:time_cutoff].float(),
+    }
+    for name, (basis, eigenvalues) in spatial.items():
+        matrices[f"{name}_basis"] = basis.float()
+        matrices[f"{name}_eigenvalues"] = eigenvalues[:basis.shape[1]].float()
+
+    metadata = mesh_metadata(mesh, truth_stiffness, mass) | {
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "boundary_condition": "Neumann on the outer square",
+        "tensor_semantics": "scenario x time x node",
+        "walls": [{k: (list(v) if isinstance(v, tuple) else v)
+                   for k, v in vars(w).items()} for w in walls],
+        "wall_kinds": [type(w).__name__ for w in walls],
+        "operator_information_tier":
+            "geometry (mesh, boundary and barrier layout known; background material unknown)",
+        "log_diffusivity_contrast": float(contrast), "reaction": float(reaction),
+        "basis_cutoff": int(basis_cutoff), "time_cutoff": int(time_cutoff),
+        "truth_modes": int(truth_modes), "n_free_nodes": int(n_nodes),
+        "n_scenarios": int(n_scenarios), "scenario_seed": int(scenario_seed),
+        "time_span": [float(time_span[0]), float(time_span[1])],
+        "permutation_seed": int(permutation_seed),
+        "coordinate_groups": [[0], [1], [2]],
+    }
+    specs = tuple(BasisSpec("neumann", max(1, basis_cutoff - 1), name)
+                  for name in ("scenario", "decay-time", "node"))
+    return GroupedFieldDataset(
+        f"wall_field_w{len(walls)}_r{resolution}_k{basis_cutoff}", values.float(),
+        ("scenario", "time", "node"), specs, (False, False, False),
+        "generated:geoaware.irregular_green_data.wall_field_tensor",
+        "Diffusion field on a square divided by thin impermeable baffles; all "
+        "layouts share one mesh and differ only in the barrier material.",
+        metadata=metadata, groups=((0,), (1,), (2,)), operator_matrices=matrices)
+
+
 def irregular_green_tensor(
         holes: tuple[Hole, ...] = DEFAULT_HOLES, *,
         polygon: Polygon = UNIT_SQUARE, resolution: int = 20,
@@ -188,6 +452,9 @@ def irregular_green_tensor(
     }
     matrices = {
         "mass": mass.float(),
+        "blind_stiffness": erased_operator.float(),
+        "truth_eigenvalues": rates.float(),
+        "truth_eigenvectors": truth_vectors.float(),
         "nominal_stiffness": nominal_operator.float(),
         "coordinates": coordinates.float(),
         "source_nodes": sources,
