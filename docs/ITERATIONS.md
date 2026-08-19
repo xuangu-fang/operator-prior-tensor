@@ -323,3 +323,44 @@ of confounding it with the representation.
 
 Artifacts: `results/geometry_family_screen_r6`, `results/field_family_screen_r6`
 and their summaries.
+
+## Iteration 7 — barriers, sensor placement, and an identifiability rule
+
+**Design.** One fixed square mesh, five barrier layouts ordered by how much
+geometry there is to know: `open` (none), `labyrinth`, `arc` (curved),
+`chamber`, `sealed_4` (four sealed quadrants).  Barriers are thin bands of
+near-zero conductivity inside the mesh, so every layout shares one node set and
+a control differs from the proposed model in exactly one respect.  The learner
+is told where the barriers are and never sees the smooth background material.
+
+**The 2x2 that isolates geometry.**  Two axes crossed: whether the operator
+knows the barriers, and whether the factor is a truncated spectral basis or a
+free table under the matching smoothness penalty.  On `sealed_4` at 5% sensors,
+the geometry-aware spectral model reaches `0.173` and the geometry-aware
+penalized table `0.180`, while their geometry-blind counterparts reach `0.372`
+and `1.078`.  On `open`, where there is nothing to know, the two spectral
+variants return identical numbers and so do the two penalized ones.  Geometry,
+not the representation, is the active ingredient — and the spectral form buys
+the same accuracy with 5.4x fewer parameters (528 against 2864).
+
+**A protocol bug found and fixed before it consumed a run.**  The experiment
+runner had been calling the sensor mask without naming the node axis, so
+"spatial sensors" was selecting `(time, node)` pairs rather than nodes.  The
+corrected protocol observes complete trajectories at a few mesh nodes and holds
+out every other node.
+
+**An identifiability rule, not a tuning knob.**  Under the corrected protocol
+the first configuration collapsed: with 16 observed nodes out of 324, a basis
+cutoff of 32 and rank 8 leaves 256 node coefficients constrained at 16
+locations, and every spectral model returned NRMSE near 1 while only a
+coordinate network survived.  The cutoff has to stay commensurate with the
+number of observed nodes.  At 10% sensors (32 of 324) with cutoff 10 and rank
+`(4,4,6)`, the geometry-aware model reaches `0.151` against `0.512` for the
+geometry-blind spectral basis, `0.422` for a wide coordinate network and
+`0.456` for a parameter-matched one — a 2.6--3.4x margin that is stable across
+cutoffs 6, 10 and 16 (`0.168 / 0.151 / 0.166`), so it does not rest on one
+hand-picked truncation.
+
+**Status.** Full five-layout, three-ratio, three-seed tables running under both
+the random-entry and sensor protocols on selection seeds 41--43.  Cutoff and
+rank were chosen here and must be frozen before any fresh-seed confirmation.

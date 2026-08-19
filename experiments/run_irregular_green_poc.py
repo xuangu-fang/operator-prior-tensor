@@ -225,7 +225,11 @@ def main():
         for mask in args.masks.split(","):
             for ratio in (float(v) for v in args.ratios.split(",")):
                 for seed in (int(v) for v in args.seeds.split(",")):
-                    split = make_observation_split(data, ratio, mask, seed)
+                    # A spatial sensor is a mesh node observed for its whole
+                    # trajectory.  The node axis differs between settings, so it
+                    # is passed explicitly rather than left to a default.
+                    split = make_observation_split(
+                        data, ratio, mask, seed, sensor_axes=(node_axis,))
                     observed = torch.where(split.observed)[0]
                     generator = torch.Generator().manual_seed(seed + 4401)
                     noisy = truth.clone()
