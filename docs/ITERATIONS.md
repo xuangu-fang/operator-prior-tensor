@@ -524,3 +524,46 @@ at least as structured as the source.
 the blind baselines' `0.65`): swapping the basis changes the column
 normalization, so transferred coefficients are not calibrated in absolute terms.
 Only the function space transfers, not the coordinates in it.
+
+## Iteration 9 — frozen fresh-seed confirmation: the predeclared gate passes
+
+Seeds `101--105`, never previously run on this benchmark.  Configuration exactly
+as predeclared in Iteration 8: cutoff 10, ranks `(4,4,6)`, 400 updates, 10%
+noise, random cold start.  Nothing was tuned in response to these numbers.
+
+**Sensor protocol at 10%, mean ± sample std over five fresh seeds.**
+
+| model | open | labyrinth | arc | chamber | sealed_4 |
+|---|---:|---:|---:|---:|---:|
+| geometry operator (ours) | 0.260±0.019 | 0.237±0.026 | 0.238±0.009 | **0.246±0.096** | **0.167±0.013** |
+| topology erased | 0.260±0.019 | 0.271±0.025 | 0.267±0.019 | 0.477±0.111 | 0.629±0.223 |
+| bounding-box product | 0.247±0.035 | 0.258±0.041 | 0.269±0.050 | 0.475±0.114 | 0.627±0.221 |
+| neural coordinates (wide) | 0.269±0.020 | 0.279±0.017 | 0.305±0.026 | 0.342±0.048 | 0.467±0.078 |
+| neural coordinates (matched) | 0.274±0.025 | 0.290±0.039 | 0.319±0.062 | 0.372±0.026 | 0.540±0.063 |
+| discrete Tucker | 1.578±0.194 | 1.575±0.193 | 1.584±0.190 | 1.596±0.151 | 1.578±0.152 |
+| permuted control | 1.232±0.054 | 1.222±0.067 | 1.244±0.092 | 1.254±0.073 | 1.199±0.045 |
+
+**Gate, item by item.**  On `chamber`: 5/5 paired wins against topology-erased,
+5/5 against the bounding-box basis, 4/5 against the wide coordinate network,
+mean `0.246 < .5`.  On `sealed_4`: 5/5, 5/5, 5/5, mean `0.167 < .5`.  On the
+barrier-free control the geometry-aware and topology-erased models return
+*identical* numbers to three decimals with identical standard deviations, so the
+invalidation clause is not triggered — there is no capacity or conditioning
+confound to explain the margin elsewhere.  **The predeclared gate passes.**
+
+**Random entries, all three ratios.**  Stronger than the sensor protocol and,
+unlike the frozen one-dimensional result, it holds down to 2%.  On `sealed_4`
+the proposed model reaches `0.150 / 0.160 / 0.180` at 10% / 5% / 2% against
+`0.418 / 0.426 / 0.452` for the blind spectral bases and `0.236 / 0.238 / 0.263`
+for the wide coordinate network, with 5/5 paired wins against both on every
+layout that has barriers, and identical numbers to topology-erased on `open`.
+
+**Scope.**  The claim confirmed here is conditional and stated as such: an
+operator-defined factor space helps exactly on domains whose geometry carries
+information, by a margin that grows with how much of it there is, and helps not
+at all when there is none.  Extreme sparsity is no longer a NO-GO region under
+random entries, but the sensor protocol at 5% remains high-variance
+(`0.304±0.278` on `sealed_4`) and is not claimed.
+
+Artifacts: `results/wall_confirmation_sensors_r9`,
+`results/wall_confirmation_random_r9`.
