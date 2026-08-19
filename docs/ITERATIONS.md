@@ -167,3 +167,114 @@ straw-man baseline.
 **Execution order.** Preserve R4 → implement regular 2-D grouped phase diagram
 → implement irregular FEM/hole grouped mode → test hybrid neural unknown modes
 → consume an external PDE benchmark.
+
+## Design probe R5a — the regular 2-D joint-vs-per-axis POC is degenerate
+
+**Status.** Pre-registration probe only.  No seeds, no gate and no confirmation
+budget were consumed; the models below were never scored for promotion.
+
+**What was built.** `src/geoaware/operator_diagnostics.py` (separability,
+low-frequency subspace and grouped projection residuals, mass-orthonormal
+generalized eigenpairs, eigenvalue-ranked product basis),
+`src/geoaware/joint_diffusion_2d.py` (Q1 finite-element anisotropic diffusion
+`A_eta = [[a_x, eta c],[eta c, a_y]]` on the unit square) and
+`src/geoaware/grouped_operator_tucker.py` (order-M Tucker over a coordinate
+partition, with operator / smoothness-penalized table / neural group factors).
+The frozen order-3 implementation and all R4 artifacts are untouched.
+
+**Correctness checks that did pass.** At `eta = 0` the Q1 stiffness matrix
+equals `K_x (x) M_y + M_x (x) K_y` to `1e-10`, the consistent mass matrix
+factors as `M_x (x) M_y`, and both `epsilon_sep` and `epsilon_sub` vanish, so
+the joint and per-axis bases span the same space by construction rather than by
+luck.  Generalized eigenvectors satisfy `Phi^T M Phi = I` and
+`K Phi = M Phi Lambda`; grouping and ungrouping preserve every entry; a fixed
+seed reproduces the operator, mask and fit bitwise.
+
+**Falsified hypothesis 1: `epsilon_sub` predicts representational advantage.**
+At `eta = .6` the joint and per-axis low-frequency subspaces are far apart
+(`epsilon_sub = .374`) while their projection residuals on the field are
+indistinguishable (`.0556` vs `.0546`).  Two very different 16-dimensional
+low-frequency spaces are equally good for a generically smooth field, so
+operator-level non-separability does not by itself create a completion
+advantage.
+
+**Falsified hypothesis 2: the advantage regime is usable.**  The joint basis
+does win decisively at long diffusion times — residual `.0008` versus `.0460`
+at `eta = .9`, and still `.0008` versus `.0190` when the product basis is given
+36 columns.  But the spatial 99%-energy rank of the tensor falls from 11 to 5
+over the same interval: the regime where the joint operator wins is the regime
+where free decay has collapsed onto the operator's own slowest eigenvectors,
+which the learner is handed exactly.  That is the eigenbasis-generated truth
+listed as a stop condition in the report, not evidence.
+
+**Two structural limits of this generator.**  The PSD constraint `|eta s| <= 1`
+keeps the coupling perturbative, so `epsilon_sep` never exceeds `.090`; and a
+linear semigroup driven by a few smooth bumps is intrinsically low rank
+(time-mode participation ratio `1.1--1.5` at every time span), which is why a
+400-step seven-model smoke placed every method near NRMSE `.25` at 10%.
+
+**Decision.** Do not promote the standalone regular-grid POC-B.  Fixing it
+would require both forced broad-spectrum responses and a rotated
+strongly-anisotropic operator, and would still argue the grouping question
+indirectly.  Fold the comparison into the irregular-domain POC instead, where
+the per-axis comparator is the bounding-box product basis that ignores holes —
+a control practitioners actually use, on a field whose structure is not the
+learner's own eigenbasis.  `grouped_operator_tucker.py`,
+`operator_diagnostics.py` and the `spatial_sensors` mask carry over unchanged;
+`joint_diffusion_2d.py` is retained as the exactness fixture for the grouped
+implementation.
+
+## Iteration 5b — geometry-aware Green completion on a holed domain (screen)
+
+**Status.** Three-seed screen on selection seeds `41--43`, 400 updates.  No
+confirmation seeds were consumed and no gate was declared passed.
+
+**Setting.** ``Y(t, receiver-node, source-node)`` for a diffusion Green response
+on the unit square minus two circular discs, Neumann outside and Dirichlet on
+the hole rims, P1 finite elements, shape `16 x 211 x 20`.  Both spatial axes
+index the same mesh nodes, so the setting is the frozen 1-D benchmark with the
+spatial coordinate replaced by a mesh.  Truth uses a variable diffusivity; every
+learner basis comes from the constant-coefficient operator, so geometry is known
+metadata and the material is not.  All four spatial bases have 32 columns on the
+identical node set, which removes any need for interpolation between controls.
+
+**Result at 10% random entries.**  The geometry-aware basis is best of seven:
+`0.363±0.020` versus topology-erased `0.400±0.023` (3/3 paired wins),
+bounding-box cosines `0.422±0.023` (3/3), a wider coordinate MLP
+`0.383±0.056` (2/3), a free factor table `1.082±0.482` (3/3), the same table
+with the mesh operator as a smoothness penalty `1.027±0.439` (3/3), and the
+node-permuted control `1.647±0.231` (3/3).  Near the hole rims the ordering is
+the same: `0.585 / 0.613 / 0.659`.  Ordinary discrete tensor completion and
+Laplacian-smoothed completion are both around NRMSE 1 where the geometry-aware
+model reaches `0.36`, and matching the smoothness penalty without truncating the
+spectrum does not recover the gap.
+
+**Negative result 1: the advantage does not extend to sparser regimes.**  At 5%
+the geometry-aware model `0.888±0.059` loses to bounding-box `0.706±0.086`
+(0/3) and to topology-erased `0.745±0.213` (1/3).  At 2% every spectral variant
+exceeds NRMSE 1.  The coordinate MLP is far stronger at both ratios
+(`0.458` and `0.682`) and remains competitive at 10%.  With 32 basis columns
+and ranks `(4,8,8)` the model has 832 parameters, four times the frozen 1-D
+configuration, so cutoff and rank have not yet been selected for this benchmark;
+that selection is still allowed on seeds 41--43 and must precede any
+confirmation.
+
+**Negative result 2: the receiver-fiber mask does not run.**  Every model lies
+between `0.97` and `1.8` at all three ratios and the permuted control beats the
+proposed model 3/3 at 10%.  With 16 times and 20 sources a 10% fiber mask keeps
+only about 32 of 320 `(time, source)` pairs, so the factors are not identifiable
+rather than badly estimated.  This cell is reported as a non-functioning
+protocol, not as a comparison.
+
+**Prior diagnostic that must be reported with the above.**  The geometry-aware
+basis has the *worst* product-space projection residual of the three spectral
+variants (`0.041` versus `0.023` and `0.019`, in both the entrywise and the
+mass-weighted norm).  Its advantage at 10% therefore comes from estimation
+variance, not from a lower approximation floor — the same mechanism the cutoff
+sweep established in physical iteration 2, now reproduced on a mesh.
+
+**Decision.** Continue.  The claim that ordinary and merely-smoothed tensor
+completion fail on an irregular domain while an operator-defined subspace works
+is supported at 10%.  Before any fresh-seed confirmation, select basis cutoff
+and Tucker rank on seeds 41--43, and either fix or drop the fiber protocol.
+Artifact: `results/irregular_green_screen_r5b/results.json`.

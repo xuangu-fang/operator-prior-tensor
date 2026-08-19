@@ -1,0 +1,2646 @@
+{
+  "geometries": {
+    "2_holes": {
+      "name": "irregular_green_h2_r16_k32",
+      "shape": [
+        16,
+        211,
+        20
+      ],
+      "metadata": {
+        "mesh_hash": "5bbf22f5c923c8ba",
+        "resolution": 16,
+        "n_nodes": 267,
+        "n_triangles": 420,
+        "domain_area": 0.877257452829697,
+        "holes": [
+          {
+            "center": [
+              0.32,
+              0.62
+            ],
+            "radius": 0.15
+          },
+          {
+            "center": [
+              0.68,
+              0.33
+            ],
+            "radius": 0.13
+          }
+        ],
+        "n_outer_boundary_nodes": 60,
+        "n_hole_boundary_nodes": 56,
+        "stiffness_checksum": "ea6df70fcb4e59c7",
+        "mass_checksum": "53d1a8a7095a402c",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "boundary_condition": "Neumann on the outer square, Dirichlet on hole rims",
+        "discretization": "P1 finite elements on a Delaunay mesh",
+        "operator_information_tier": "geometry (mesh and boundary known, material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 32,
+        "time_cutoff": 16,
+        "truth_modes": 60,
+        "n_free_nodes": 211,
+        "n_sources": 20,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "source_node_indices": [
+          0,
+          8,
+          15,
+          27,
+          51,
+          66,
+          83,
+          91,
+          98,
+          99,
+          103,
+          131,
+          134,
+          141,
+          149,
+          187,
+          191,
+          195,
+          199,
+          210
+        ],
+        "source_selection": "deterministic farthest-point sampling",
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "spatial_basis_columns": {
+          "fem_correct": 32,
+          "topology_erased": 32,
+          "bounding_box_product": 32,
+          "permuted": 32
+        }
+      },
+      "projection_residuals": {
+        "fem_operator": 0.04123026798579569,
+        "topology_erased": 0.02259980737181522,
+        "bounding_box": 0.01930403166310109,
+        "permuted": 0.8424941878276745
+      },
+      "boundary_band_nodes": 48
+    }
+  },
+  "arguments": {
+    "output": "results/irregular_green_screen_r5b",
+    "layouts": "2_holes",
+    "models": "fem_operator,topology_erased,bounding_box,neural_coords,discrete_table,laplacian_table,permuted",
+    "ratios": ".02,.05,.10",
+    "masks": "random,receiver_fibers",
+    "seeds": "41,42,43",
+    "resolution": 16,
+    "n_time": 16,
+    "n_sources": 20,
+    "basis_cutoff": 32,
+    "truth_modes": 60,
+    "contrast": 0.3,
+    "time_span": ".15,3.0",
+    "ranks": "4,8,8",
+    "hidden": 48,
+    "steps": 400,
+    "power": 1.5,
+    "reg": 0.002,
+    "noise": 0.1,
+    "device": "cuda"
+  },
+  "results": [
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.387021541595459,
+        "nrmse": 1.388813853263855,
+        "mae": 0.5356347560882568,
+        "boundary_band_nrmse": 1.6763206720352173
+      },
+      "observed_fit_nrmse": 0.20461487770080566,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 5.066835356876254
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.51288902759552,
+        "nrmse": 1.5148440599441528,
+        "mae": 0.6029395461082458,
+        "boundary_band_nrmse": 1.6273202896118164
+      },
+      "observed_fit_nrmse": 0.20105913281440735,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.9956129351630807
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.34389066696167,
+        "nrmse": 1.3456273078918457,
+        "mae": 0.5122973918914795,
+        "boundary_band_nrmse": 2.1418282985687256
+      },
+      "observed_fit_nrmse": 0.16079725325107574,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.9421321521513164
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.6444970965385437,
+        "nrmse": 0.6453299522399902,
+        "mae": 0.18517354130744934,
+        "boundary_band_nrmse": 0.9336147904396057
+      },
+      "observed_fit_nrmse": 0.18518806993961334,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.629074019845575
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.5628868341445923,
+        "nrmse": 1.5649064779281616,
+        "mae": 0.8385769128799438,
+        "boundary_band_nrmse": 2.6108179092407227
+      },
+      "observed_fit_nrmse": 0.07194922119379044,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.126396095380187
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.8836243152618408,
+        "nrmse": 1.8860583305358887,
+        "mae": 0.8015072345733643,
+        "boundary_band_nrmse": 2.2316999435424805
+      },
+      "observed_fit_nrmse": 0.11490532010793686,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.6762680714018643
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.6233081817626953,
+        "nrmse": 1.6254059076309204,
+        "mae": 0.7119585275650024,
+        "boundary_band_nrmse": 2.9611752033233643
+      },
+      "observed_fit_nrmse": 0.2300858050584793,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 3.0260951658710837
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.1595946550369263,
+        "nrmse": 1.1599615812301636,
+        "mae": 0.36519426107406616,
+        "boundary_band_nrmse": 1.3097764253616333
+      },
+      "observed_fit_nrmse": 0.1296231746673584,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.8547893897630274
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.3777940273284912,
+        "nrmse": 1.3782299757003784,
+        "mae": 0.49953511357307434,
+        "boundary_band_nrmse": 1.8064497709274292
+      },
+      "observed_fit_nrmse": 0.16736222803592682,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.9694193517789245
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.3481192588806152,
+        "nrmse": 1.348545789718628,
+        "mae": 0.5223348736763,
+        "boundary_band_nrmse": 1.8268753290176392
+      },
+      "observed_fit_nrmse": 0.189836785197258,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.56754778791219
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.642417311668396,
+        "nrmse": 0.6426205635070801,
+        "mae": 0.17855791747570038,
+        "boundary_band_nrmse": 1.0007683038711548
+      },
+      "observed_fit_nrmse": 0.17683109641075134,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.2856290517374873
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.538936972618103,
+        "nrmse": 1.5394238233566284,
+        "mae": 0.750235915184021,
+        "boundary_band_nrmse": 2.3794119358062744
+      },
+      "observed_fit_nrmse": 0.06309371441602707,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 1.8884643521159887
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.4891105890274048,
+        "nrmse": 1.4895817041397095,
+        "mae": 0.5493165254592896,
+        "boundary_band_nrmse": 1.550339698791504
+      },
+      "observed_fit_nrmse": 0.08496276289224625,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.4208470741286874
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.9203028678894043,
+        "nrmse": 1.920910358428955,
+        "mae": 0.6878222227096558,
+        "boundary_band_nrmse": 3.4886019229888916
+      },
+      "observed_fit_nrmse": 0.2776578366756439,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.7890346152707934
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.483046531677246,
+        "nrmse": 1.4802414178848267,
+        "mae": 0.5304387807846069,
+        "boundary_band_nrmse": 1.7607070207595825
+      },
+      "observed_fit_nrmse": 0.19643685221672058,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.8297267919406295
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.6567838191986084,
+        "nrmse": 1.6536500453948975,
+        "mae": 0.6082208752632141,
+        "boundary_band_nrmse": 1.9378437995910645
+      },
+      "observed_fit_nrmse": 0.2237798571586609,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.88800086081028
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.4508389234542847,
+        "nrmse": 1.4480947256088257,
+        "mae": 0.5168665051460266,
+        "boundary_band_nrmse": 2.104353189468384
+      },
+      "observed_fit_nrmse": 0.17088612914085388,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 3.035363167989999
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.7605382204055786,
+        "nrmse": 0.7590996623039246,
+        "mae": 0.20077213644981384,
+        "boundary_band_nrmse": 1.2988396883010864
+      },
+      "observed_fit_nrmse": 0.1655946969985962,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.553800324909389
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.602014183998108,
+        "nrmse": 1.5989840030670166,
+        "mae": 0.8263679146766663,
+        "boundary_band_nrmse": 2.562870502471924
+      },
+      "observed_fit_nrmse": 0.06629607826471329,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.0462191719561815
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 43,
+      "metrics": {
+        "rmse": 2.0265369415283203,
+        "nrmse": 2.0227036476135254,
+        "mae": 0.8217567801475525,
+        "boundary_band_nrmse": 2.726558208465576
+      },
+      "observed_fit_nrmse": 0.12856487929821014,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.4022555369883776
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.02,
+      "ratio_actual": 0.01999407634139061,
+      "n_observed": 1350,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.8351237773895264,
+        "nrmse": 1.8316526412963867,
+        "mae": 0.7387756109237671,
+        "boundary_band_nrmse": 3.4475746154785156
+      },
+      "observed_fit_nrmse": 0.24385294318199158,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.5332716810517013
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.9100934267044067,
+        "nrmse": 0.9088736772537231,
+        "mae": 0.33187153935432434,
+        "boundary_band_nrmse": 1.242042899131775
+      },
+      "observed_fit_nrmse": 0.22472167015075684,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.5743676987476647
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.6481136083602905,
+        "nrmse": 0.6472449898719788,
+        "mae": 0.18845361471176147,
+        "boundary_band_nrmse": 0.9831509590148926
+      },
+      "observed_fit_nrmse": 0.14016149938106537,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.660496556200087
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.6096838116645813,
+        "nrmse": 0.6088666915893555,
+        "mae": 0.18244145810604095,
+        "boundary_band_nrmse": 1.0471035242080688
+      },
+      "observed_fit_nrmse": 0.1420963853597641,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.529011456761509
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.5229341983795166,
+        "nrmse": 0.5222333073616028,
+        "mae": 0.1489337533712387,
+        "boundary_band_nrmse": 0.7706440091133118
+      },
+      "observed_fit_nrmse": 0.257602721452713,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.3402946228161454
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.4692432880401611,
+        "nrmse": 1.4672740697860718,
+        "mae": 0.6272198557853699,
+        "boundary_band_nrmse": 2.081387996673584
+      },
+      "observed_fit_nrmse": 0.1688057780265808,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 1.8916353569366038
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.7944436073303223,
+        "nrmse": 1.7920385599136353,
+        "mae": 0.5543817281723022,
+        "boundary_band_nrmse": 2.2978551387786865
+      },
+      "observed_fit_nrmse": 0.1535789519548416,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.415121520869434
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.741635799407959,
+        "nrmse": 1.7393015623092651,
+        "mae": 0.6423280239105225,
+        "boundary_band_nrmse": 2.8527326583862305
+      },
+      "observed_fit_nrmse": 0.4172695279121399,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.4980208189226687
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.8249081373214722,
+        "nrmse": 0.8207918405532837,
+        "mae": 0.19828610122203827,
+        "boundary_band_nrmse": 1.0298696756362915
+      },
+      "observed_fit_nrmse": 0.14448873698711395,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.5297302617691457
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.6018871665000916,
+        "nrmse": 0.5988837480545044,
+        "mae": 0.15953925251960754,
+        "boundary_band_nrmse": 0.8774786591529846
+      },
+      "observed_fit_nrmse": 0.1490045189857483,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.604725328274071
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.7760549187660217,
+        "nrmse": 0.7721824049949646,
+        "mae": 0.19785675406455994,
+        "boundary_band_nrmse": 1.080505609512329
+      },
+      "observed_fit_nrmse": 0.14913028478622437,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.5969591340981424
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.4041658341884613,
+        "nrmse": 0.4021490514278412,
+        "mae": 0.11561083048582077,
+        "boundary_band_nrmse": 0.6139224171638489
+      },
+      "observed_fit_nrmse": 0.27906325459480286,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.3525227988138795
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.2265187501907349,
+        "nrmse": 1.2203984260559082,
+        "mae": 0.4120728373527527,
+        "boundary_band_nrmse": 1.5148091316223145
+      },
+      "observed_fit_nrmse": 0.10574499517679214,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 1.907284895889461
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0666882991790771,
+        "nrmse": 1.0613654851913452,
+        "mae": 0.2714017629623413,
+        "boundary_band_nrmse": 1.5433605909347534
+      },
+      "observed_fit_nrmse": 0.1051621064543724,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.4815941620618105
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.7217036485671997,
+        "nrmse": 1.7131123542785645,
+        "mae": 0.5884479880332947,
+        "boundary_band_nrmse": 3.0747828483581543
+      },
+      "observed_fit_nrmse": 0.42851191759109497,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.548771359026432
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.9351285099983215,
+        "nrmse": 0.9335048198699951,
+        "mae": 0.2814245820045471,
+        "boundary_band_nrmse": 1.0973544120788574
+      },
+      "observed_fit_nrmse": 0.18739305436611176,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.640139394905418
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.9915630221366882,
+        "nrmse": 0.9898413419723511,
+        "mae": 0.25289222598075867,
+        "boundary_band_nrmse": 1.275255560874939
+      },
+      "observed_fit_nrmse": 0.158407524228096,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.6661179335787892
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.7374093532562256,
+        "nrmse": 0.7361289858818054,
+        "mae": 0.21057400107383728,
+        "boundary_band_nrmse": 1.4422770738601685
+      },
+      "observed_fit_nrmse": 0.1559196412563324,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.6774721099063754
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.4518129229545593,
+        "nrmse": 0.45102840662002563,
+        "mae": 0.13718388974666595,
+        "boundary_band_nrmse": 0.6147814989089966
+      },
+      "observed_fit_nrmse": 0.2942180633544922,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.841151709202677
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.737221121788025,
+        "nrmse": 1.7342047691345215,
+        "mae": 0.7217339873313904,
+        "boundary_band_nrmse": 2.466912031173706
+      },
+      "observed_fit_nrmse": 0.20331983268260956,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.187745259143412
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 2.071390390396118,
+        "nrmse": 2.067793846130371,
+        "mae": 0.7050803303718567,
+        "boundary_band_nrmse": 2.960876226425171
+      },
+      "observed_fit_nrmse": 0.2315009981393814,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.7121771220117807
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 2.1498711109161377,
+        "nrmse": 2.1461381912231445,
+        "mae": 0.6648898124694824,
+        "boundary_band_nrmse": 4.132253170013428
+      },
+      "observed_fit_nrmse": 0.37096747756004333,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.8082488160580397
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.35569462180137634,
+        "nrmse": 0.3553342819213867,
+        "mae": 0.11856141686439514,
+        "boundary_band_nrmse": 0.5612406730651855
+      },
+      "observed_fit_nrmse": 0.1565937101840973,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.990926492959261
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.39194124937057495,
+        "nrmse": 0.3915441632270813,
+        "mae": 0.13436074554920197,
+        "boundary_band_nrmse": 0.6094789505004883
+      },
+      "observed_fit_nrmse": 0.16962078213691711,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.7706198757514358
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.40766268968582153,
+        "nrmse": 0.40724968910217285,
+        "mae": 0.12360469251871109,
+        "boundary_band_nrmse": 0.6165167093276978
+      },
+      "observed_fit_nrmse": 0.17692478001117706,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.835340681951493
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.42790940403938293,
+        "nrmse": 0.4274758994579315,
+        "mae": 0.134260892868042,
+        "boundary_band_nrmse": 0.6535192728042603
+      },
+      "observed_fit_nrmse": 0.3147529661655426,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.7191556748002768
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.8060693144798279,
+        "nrmse": 0.8052526712417603,
+        "mae": 0.2224552035331726,
+        "boundary_band_nrmse": 1.3140517473220825
+      },
+      "observed_fit_nrmse": 0.11023930460214615,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.115477397106588
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.6520694494247437,
+        "nrmse": 0.651408851146698,
+        "mae": 0.1789085566997528,
+        "boundary_band_nrmse": 0.9736301898956299
+      },
+      "observed_fit_nrmse": 0.12043090164661407,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.710786629933864
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.7044190168380737,
+        "nrmse": 1.7026922702789307,
+        "mae": 0.5422912240028381,
+        "boundary_band_nrmse": 2.9776999950408936
+      },
+      "observed_fit_nrmse": 0.5545210242271423,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.8760515176691115
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.3884727954864502,
+        "nrmse": 0.38643375039100647,
+        "mae": 0.12412553280591965,
+        "boundary_band_nrmse": 0.5615971088409424
+      },
+      "observed_fit_nrmse": 0.1811453104019165,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.662618964910507
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.4290143847465515,
+        "nrmse": 0.42676255106925964,
+        "mae": 0.12743224203586578,
+        "boundary_band_nrmse": 0.6111207008361816
+      },
+      "observed_fit_nrmse": 0.18084867298603058,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.6241372753866017
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.4512513279914856,
+        "nrmse": 0.4488827884197235,
+        "mae": 0.12803231179714203,
+        "boundary_band_nrmse": 0.7078431248664856
+      },
+      "observed_fit_nrmse": 0.1798829585313797,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.5868845931254327
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.3221679627895355,
+        "nrmse": 0.3204769492149353,
+        "mae": 0.1059686690568924,
+        "boundary_band_nrmse": 0.5706709027290344
+      },
+      "observed_fit_nrmse": 0.2770923972129822,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.390001150779426
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.8069014549255371,
+        "nrmse": 0.8026661276817322,
+        "mae": 0.22644132375717163,
+        "boundary_band_nrmse": 1.3437238931655884
+      },
+      "observed_fit_nrmse": 0.113074392080307,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 1.9198831040412188
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.9248585104942322,
+        "nrmse": 0.9200040698051453,
+        "mae": 0.21050161123275757,
+        "boundary_band_nrmse": 1.6666191816329956
+      },
+      "observed_fit_nrmse": 0.12520775198936462,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.42849573912099
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.401038646697998,
+        "nrmse": 1.3936848640441895,
+        "mae": 0.48765599727630615,
+        "boundary_band_nrmse": 2.02152156829834
+      },
+      "observed_fit_nrmse": 0.6224109530448914,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.664413684979081
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.3482017517089844,
+        "nrmse": 0.3482246994972229,
+        "mae": 0.1257610023021698,
+        "boundary_band_nrmse": 0.6310581564903259
+      },
+      "observed_fit_nrmse": 0.16627757251262665,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.561231612227857
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.3825780749320984,
+        "nrmse": 0.3826032876968384,
+        "mae": 0.13031668961048126,
+        "boundary_band_nrmse": 0.6186904907226562
+      },
+      "observed_fit_nrmse": 0.17680606245994568,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.7353677712380886
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.4103153645992279,
+        "nrmse": 0.41034242510795593,
+        "mae": 0.12512075901031494,
+        "boundary_band_nrmse": 0.6513549089431763
+      },
+      "observed_fit_nrmse": 0.17701920866966248,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.8091152692213655
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 0.4022062122821808,
+        "nrmse": 0.40223273634910583,
+        "mae": 0.11689672619104385,
+        "boundary_band_nrmse": 0.5689747333526611
+      },
+      "observed_fit_nrmse": 0.3519986867904663,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.93194497609511
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.6389977931976318,
+        "nrmse": 1.6391057968139648,
+        "mae": 0.36956319212913513,
+        "boundary_band_nrmse": 2.1773324012756348
+      },
+      "observed_fit_nrmse": 0.13453401625156403,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.142583447974175
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.5088869333267212,
+        "nrmse": 1.5089863538742065,
+        "mae": 0.2659287750720978,
+        "boundary_band_nrmse": 2.1297152042388916
+      },
+      "observed_fit_nrmse": 0.12827017903327942,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.7754131029359996
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.8457520008087158,
+        "nrmse": 1.8458737134933472,
+        "mae": 0.5492264032363892,
+        "boundary_band_nrmse": 3.4906797409057617
+      },
+      "observed_fit_nrmse": 0.5743150115013123,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 3.048609500285238
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.0195239782333374,
+        "nrmse": 1.0140998363494873,
+        "mae": 0.45078712701797485,
+        "boundary_band_nrmse": 1.0842640399932861
+      },
+      "observed_fit_nrmse": 0.10386738181114197,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.8744074162095785
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.0686992406845093,
+        "nrmse": 1.0630134344100952,
+        "mae": 0.46573391556739807,
+        "boundary_band_nrmse": 1.109337568283081
+      },
+      "observed_fit_nrmse": 0.0936335101723671,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.9468001341447234
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.1239826679229736,
+        "nrmse": 1.1180027723312378,
+        "mae": 0.512212336063385,
+        "boundary_band_nrmse": 1.1783462762832642
+      },
+      "observed_fit_nrmse": 0.09270481765270233,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.848056409973651
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.9930179715156555,
+        "nrmse": 0.987734854221344,
+        "mae": 0.4749200940132141,
+        "boundary_band_nrmse": 1.0482449531555176
+      },
+      "observed_fit_nrmse": 0.10796594619750977,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.56999986525625
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.0507813692092896,
+        "nrmse": 1.0451909303665161,
+        "mae": 0.5005226135253906,
+        "boundary_band_nrmse": 1.2174235582351685
+      },
+      "observed_fit_nrmse": 0.05159119889140129,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.0346349542960525
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.0817538499832153,
+        "nrmse": 1.0759986639022827,
+        "mae": 0.5116126537322998,
+        "boundary_band_nrmse": 1.3033146858215332
+      },
+      "observed_fit_nrmse": 0.060622334480285645,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.3950308128260076
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.0080395936965942,
+        "nrmse": 1.0026766061782837,
+        "mae": 0.438585102558136,
+        "boundary_band_nrmse": 1.1010764837265015
+      },
+      "observed_fit_nrmse": 0.8133437633514404,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.5048043690621853
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0376111268997192,
+        "nrmse": 1.032238483428955,
+        "mae": 0.41814225912094116,
+        "boundary_band_nrmse": 1.0748803615570068
+      },
+      "observed_fit_nrmse": 0.11624541878700256,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.736016768962145
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.135565996170044,
+        "nrmse": 1.1296862363815308,
+        "mae": 0.49023255705833435,
+        "boundary_band_nrmse": 1.2569383382797241
+      },
+      "observed_fit_nrmse": 0.10541766881942749,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.8823488922789693
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0352667570114136,
+        "nrmse": 1.0299062728881836,
+        "mae": 0.4437333047389984,
+        "boundary_band_nrmse": 1.1548137664794922
+      },
+      "observed_fit_nrmse": 0.10222578793764114,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.979646464344114
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0035176277160645,
+        "nrmse": 0.998321533203125,
+        "mae": 0.3482891619205475,
+        "boundary_band_nrmse": 1.0485888719558716
+      },
+      "observed_fit_nrmse": 0.11788642406463623,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.739834717940539
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0424609184265137,
+        "nrmse": 1.0370632410049438,
+        "mae": 0.42451390624046326,
+        "boundary_band_nrmse": 1.1589206457138062
+      },
+      "observed_fit_nrmse": 0.06875883787870407,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.1847375226207078
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.1688350439071655,
+        "nrmse": 1.1627830266952515,
+        "mae": 0.5403620004653931,
+        "boundary_band_nrmse": 1.6313607692718506
+      },
+      "observed_fit_nrmse": 0.06904251873493195,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.6445034411735833
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.023542881011963,
+        "nrmse": 1.0182430744171143,
+        "mae": 0.39791378378868103,
+        "boundary_band_nrmse": 1.087479829788208
+      },
+      "observed_fit_nrmse": 0.8010983467102051,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 3.0866328557021916
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.0394034385681152,
+        "nrmse": 1.030275821685791,
+        "mae": 0.3064219653606415,
+        "boundary_band_nrmse": 1.0201054811477661
+      },
+      "observed_fit_nrmse": 0.12406302243471146,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 3.089705450925976
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.0421515703201294,
+        "nrmse": 1.0329997539520264,
+        "mae": 0.30469247698783875,
+        "boundary_band_nrmse": 1.018816590309143
+      },
+      "observed_fit_nrmse": 0.09438478201627731,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.8802676456980407
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.0423190593719482,
+        "nrmse": 1.0331658124923706,
+        "mae": 0.3070845901966095,
+        "boundary_band_nrmse": 1.0231742858886719
+      },
+      "observed_fit_nrmse": 0.09397213160991669,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.9604652761481702
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.0296111106872559,
+        "nrmse": 1.0205694437026978,
+        "mae": 0.3078795373439789,
+        "boundary_band_nrmse": 0.9820541143417358
+      },
+      "observed_fit_nrmse": 0.11143393069505692,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.6805842709727585
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.0519654750823975,
+        "nrmse": 1.0427274703979492,
+        "mae": 0.31191736459732056,
+        "boundary_band_nrmse": 1.0417461395263672
+      },
+      "observed_fit_nrmse": 0.059430401772260666,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 1.9364262432791293
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.051838755607605,
+        "nrmse": 1.0426019430160522,
+        "mae": 0.3125368356704712,
+        "boundary_band_nrmse": 1.033452033996582
+      },
+      "observed_fit_nrmse": 0.0676211267709732,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.4870863370597363
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.02,
+      "ratio_actual": 0.01875000074505806,
+      "n_observed": 1266,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.0407116413116455,
+        "nrmse": 1.0315724611282349,
+        "mae": 0.30134260654449463,
+        "boundary_band_nrmse": 1.0200390815734863
+      },
+      "observed_fit_nrmse": 0.8591659069061279,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.787638232111931
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.2881349325180054,
+        "nrmse": 1.2955471277236938,
+        "mae": 0.7143323421478271,
+        "boundary_band_nrmse": 1.5751581192016602
+      },
+      "observed_fit_nrmse": 0.12903361022472382,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 3.1234000180847943
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.4358469247817993,
+        "nrmse": 1.4441090822219849,
+        "mae": 0.8258626461029053,
+        "boundary_band_nrmse": 1.9235258102416992
+      },
+      "observed_fit_nrmse": 0.11893804371356964,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.90639617620036
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.3029338121414185,
+        "nrmse": 1.3104312419891357,
+        "mae": 0.7573702335357666,
+        "boundary_band_nrmse": 1.9076513051986694
+      },
+      "observed_fit_nrmse": 0.11414787173271179,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.8278254098258913
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.6886850595474243,
+        "nrmse": 1.6984021663665771,
+        "mae": 1.1052982807159424,
+        "boundary_band_nrmse": 3.22859787940979
+      },
+      "observed_fit_nrmse": 0.13629987835884094,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.665430605877191
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.347099781036377,
+        "nrmse": 1.3548513650894165,
+        "mae": 0.8265138864517212,
+        "boundary_band_nrmse": 2.020212173461914
+      },
+      "observed_fit_nrmse": 0.08942664414644241,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.1485615577548742
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 2.112940788269043,
+        "nrmse": 2.1250991821289062,
+        "mae": 0.9513167142868042,
+        "boundary_band_nrmse": 2.6615548133850098
+      },
+      "observed_fit_nrmse": 0.08461927622556686,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.6202305019833148
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.0518735647201538,
+        "nrmse": 1.0579262971878052,
+        "mae": 0.5346835851669312,
+        "boundary_band_nrmse": 1.3141590356826782
+      },
+      "observed_fit_nrmse": 0.8623409271240234,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.9192638471722603
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0778831243515015,
+        "nrmse": 1.0563687086105347,
+        "mae": 0.40474367141723633,
+        "boundary_band_nrmse": 1.0750000476837158
+      },
+      "observed_fit_nrmse": 0.12216708064079285,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.82944672787562
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.1534441709518433,
+        "nrmse": 1.13042151927948,
+        "mae": 0.42193952202796936,
+        "boundary_band_nrmse": 1.1273980140686035
+      },
+      "observed_fit_nrmse": 0.1072385311126709,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 3.107212027069181
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0698094367980957,
+        "nrmse": 1.048456072807312,
+        "mae": 0.4368528723716736,
+        "boundary_band_nrmse": 1.1284123659133911
+      },
+      "observed_fit_nrmse": 0.11582870036363602,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.7534294580109417
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.8890805244445801,
+        "nrmse": 0.8713345527648926,
+        "mae": 0.28045228123664856,
+        "boundary_band_nrmse": 0.9257482290267944
+      },
+      "observed_fit_nrmse": 0.12389028072357178,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.4543280340731144
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.045162558555603,
+        "nrmse": 1.0243011713027954,
+        "mae": 0.3979701101779938,
+        "boundary_band_nrmse": 1.0860100984573364
+      },
+      "observed_fit_nrmse": 0.08723226189613342,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.045780179090798
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0719248056411743,
+        "nrmse": 1.0505292415618896,
+        "mae": 0.4001818001270294,
+        "boundary_band_nrmse": 1.0816487073898315
+      },
+      "observed_fit_nrmse": 0.08503549546003342,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.681062560994178
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.0529351234436035,
+        "nrmse": 1.0319186449050903,
+        "mae": 0.38636115193367004,
+        "boundary_band_nrmse": 1.0957945585250854
+      },
+      "observed_fit_nrmse": 0.787570059299469,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.869183850940317
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.149545669555664,
+        "nrmse": 1.1300321817398071,
+        "mae": 0.4470727741718292,
+        "boundary_band_nrmse": 1.2057191133499146
+      },
+      "observed_fit_nrmse": 0.10223309695720673,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.870783814229071
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.0886002779006958,
+        "nrmse": 1.07012140750885,
+        "mae": 0.42165350914001465,
+        "boundary_band_nrmse": 1.0921885967254639
+      },
+      "observed_fit_nrmse": 0.09983929991722107,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.9640601431019604
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.136574149131775,
+        "nrmse": 1.1172808408737183,
+        "mae": 0.46905285120010376,
+        "boundary_band_nrmse": 1.3647239208221436
+      },
+      "observed_fit_nrmse": 0.09913723170757294,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.727779073175043
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.130573034286499,
+        "nrmse": 1.1113816499710083,
+        "mae": 0.43653568625450134,
+        "boundary_band_nrmse": 1.2371796369552612
+      },
+      "observed_fit_nrmse": 0.13495050370693207,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.3275763667188585
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.178540587425232,
+        "nrmse": 1.1585350036621094,
+        "mae": 0.4804949462413788,
+        "boundary_band_nrmse": 1.3437316417694092
+      },
+      "observed_fit_nrmse": 0.08432319760322571,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 1.9098014519549906
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.4080089330673218,
+        "nrmse": 1.384108066558838,
+        "mae": 0.5561635494232178,
+        "boundary_band_nrmse": 1.7114410400390625
+      },
+      "observed_fit_nrmse": 0.08818501979112625,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.384572156239301
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.05,
+      "ratio_actual": 0.05000000074505806,
+      "n_observed": 3376,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.0812569856643677,
+        "nrmse": 1.0629026889801025,
+        "mae": 0.4128280580043793,
+        "boundary_band_nrmse": 1.187509298324585
+      },
+      "observed_fit_nrmse": 0.8630309104919434,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.515938791912049
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.509729027748108,
+        "nrmse": 1.5328632593154907,
+        "mae": 0.8625280261039734,
+        "boundary_band_nrmse": 2.2730541229248047
+      },
+      "observed_fit_nrmse": 0.12526796758174896,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.62138923862949
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.9018560647964478,
+        "nrmse": 1.9309989213943481,
+        "mae": 1.0261272192001343,
+        "boundary_band_nrmse": 2.4923081398010254
+      },
+      "observed_fit_nrmse": 0.11885189265012741,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.5529952910728753
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.6797394752502441,
+        "nrmse": 1.7054787874221802,
+        "mae": 0.9273242354393005,
+        "boundary_band_nrmse": 2.6916072368621826
+      },
+      "observed_fit_nrmse": 0.1190328299999237,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.864668461959809
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 0.8607842326164246,
+        "nrmse": 0.8739743828773499,
+        "mae": 0.3809244930744171,
+        "boundary_band_nrmse": 1.3135602474212646
+      },
+      "observed_fit_nrmse": 0.15994654595851898,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.736765175126493
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.7367075681686401,
+        "nrmse": 1.7633198499679565,
+        "mae": 1.0861002206802368,
+        "boundary_band_nrmse": 3.1342759132385254
+      },
+      "observed_fit_nrmse": 0.10229139775037766,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.1676797796972096
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 2.3595149517059326,
+        "nrmse": 2.3956706523895264,
+        "mae": 1.21796452999115,
+        "boundary_band_nrmse": 4.811644077301025
+      },
+      "observed_fit_nrmse": 0.10124961286783218,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.7251560748554766
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 41,
+      "metrics": {
+        "rmse": 1.2692469358444214,
+        "nrmse": 1.2886961698532104,
+        "mae": 0.6943227648735046,
+        "boundary_band_nrmse": 1.9833745956420898
+      },
+      "observed_fit_nrmse": 0.8520376682281494,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 3.045025385916233
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.233715534210205,
+        "nrmse": 1.198757290840149,
+        "mae": 0.5289008617401123,
+        "boundary_band_nrmse": 1.577765941619873
+      },
+      "observed_fit_nrmse": 0.11601771414279938,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 3.144557830877602
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.2204965353012085,
+        "nrmse": 1.185912847518921,
+        "mae": 0.4968824088573456,
+        "boundary_band_nrmse": 1.45099675655365
+      },
+      "observed_fit_nrmse": 0.11169718205928802,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 3.3024895670823753
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.283928394317627,
+        "nrmse": 1.2475472688674927,
+        "mae": 0.577626645565033,
+        "boundary_band_nrmse": 1.6866217851638794
+      },
+      "observed_fit_nrmse": 0.11234668642282486,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 3.0750543870963156
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 0.9528824090957642,
+        "nrmse": 0.9258817434310913,
+        "mae": 0.3290802240371704,
+        "boundary_band_nrmse": 1.2664366960525513
+      },
+      "observed_fit_nrmse": 0.13606776297092438,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.695948853623122
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.2713520526885986,
+        "nrmse": 1.2353273630142212,
+        "mae": 0.556598961353302,
+        "boundary_band_nrmse": 1.606195330619812
+      },
+      "observed_fit_nrmse": 0.09906783699989319,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.121944596990943
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.488796353340149,
+        "nrmse": 1.4466102123260498,
+        "mae": 0.5420926213264465,
+        "boundary_band_nrmse": 1.5309792757034302
+      },
+      "observed_fit_nrmse": 0.09470532089471817,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.6548018767498434
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 42,
+      "metrics": {
+        "rmse": 1.1845821142196655,
+        "nrmse": 1.151016116142273,
+        "mae": 0.5164058208465576,
+        "boundary_band_nrmse": 1.6279575824737549
+      },
+      "observed_fit_nrmse": 0.8341460824012756,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.8199503738433123
+    },
+    {
+      "layout": "2_holes",
+      "model": "fem_operator",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.4406335353851318,
+        "nrmse": 1.4031256437301636,
+        "mae": 0.6774649620056152,
+        "boundary_band_nrmse": 1.991852879524231
+      },
+      "observed_fit_nrmse": 0.10539095848798752,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.04123026798579569,
+      "elapsed_seconds": 2.805996950250119
+    },
+    {
+      "layout": "2_holes",
+      "model": "topology_erased",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.2921165227890015,
+        "nrmse": 1.2584753036499023,
+        "mae": 0.6282064914703369,
+        "boundary_band_nrmse": 1.5154907703399658
+      },
+      "observed_fit_nrmse": 0.11623981595039368,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.02259980737181522,
+      "elapsed_seconds": 2.942585456185043
+    },
+    {
+      "layout": "2_holes",
+      "model": "bounding_box",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.2873189449310303,
+        "nrmse": 1.2538026571273804,
+        "mae": 0.6176632046699524,
+        "boundary_band_nrmse": 1.781299352645874
+      },
+      "observed_fit_nrmse": 0.1011713445186615,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.01930403166310109,
+      "elapsed_seconds": 2.7741920803673565
+    },
+    {
+      "layout": "2_holes",
+      "model": "neural_coords",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.142613410949707,
+        "nrmse": 1.11286461353302,
+        "mae": 0.4314078092575073,
+        "boundary_band_nrmse": 1.6930663585662842
+      },
+      "observed_fit_nrmse": 0.13713277876377106,
+      "parameters": 6096,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 3.5407250826247036
+    },
+    {
+      "layout": "2_holes",
+      "model": "discrete_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.4515159130096436,
+        "nrmse": 1.413724660873413,
+        "mae": 0.6955405473709106,
+        "boundary_band_nrmse": 2.1772804260253906
+      },
+      "observed_fit_nrmse": 0.08929170668125153,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 1.9567501679994166
+    },
+    {
+      "layout": "2_holes",
+      "model": "laplacian_table",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.698241949081421,
+        "nrmse": 1.654026985168457,
+        "mae": 0.7054985165596008,
+        "boundary_band_nrmse": 2.5563600063323975
+      },
+      "observed_fit_nrmse": 0.09048502147197723,
+      "parameters": 2168,
+      "core_size": 256,
+      "projection_residual": null,
+      "elapsed_seconds": 2.524138543754816
+    },
+    {
+      "layout": "2_holes",
+      "model": "permuted",
+      "mask": "receiver_fibers",
+      "ratio": 0.1,
+      "ratio_actual": 0.10000000149011612,
+      "n_observed": 6752,
+      "seed": 43,
+      "metrics": {
+        "rmse": 1.1031261682510376,
+        "nrmse": 1.0744054317474365,
+        "mae": 0.47007808089256287,
+        "boundary_band_nrmse": 1.3421744108200073
+      },
+      "observed_fit_nrmse": 0.840338408946991,
+      "parameters": 832,
+      "core_size": 256,
+      "projection_residual": 0.8424941878276745,
+      "elapsed_seconds": 2.6057134051807225
+    }
+  ]
+}

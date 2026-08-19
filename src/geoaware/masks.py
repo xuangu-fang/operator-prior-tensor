@@ -30,7 +30,8 @@ def _ravel(indices: torch.Tensor, shape: tuple[int, ...]) -> torch.Tensor:
 
 
 def make_observation_split(dataset: FieldDataset, ratio: float, kind: str = "random",
-                           seed: int = 0) -> ObservationSplit:
+                           seed: int = 0,
+                           sensor_axes: tuple[int, ...] = (1, 2)) -> ObservationSplit:
     if not 0 < ratio < 1:
         raise ValueError("ratio must lie in (0, 1)")
     shape, ndim = dataset.shape, len(dataset.shape)
@@ -56,6 +57,23 @@ def make_observation_split(dataset: FieldDataset, ratio: float, kind: str = "ran
         chosen_count = max(1, min(n_fibers, round(ratio * n_fibers)))
         chosen = torch.randperm(n_fibers, generator=g)[:chosen_count]
         observed = torch.isin(fiber_ids, chosen)
+        held_out = ~observed
+        return ObservationSplit(observed, held_out, torch.ones_like(observed), ratio,
+                                float(observed.float().mean()), kind, seed)
+    elif kind == "spatial_sensors":
+        # A sensor observes every entry that shares its position on
+        # ``sensor_axes``.  Unlike ``sensor_tracks`` the remaining axes need not
+        # be a leading time axis, so this works for grouped spatiotemporal
+        # tensors such as time x x x y x scenario.  Missingness is a contiguous
+        # region of the domain, not scattered entries.
+        if any(axis >= ndim for axis in sensor_axes):
+            raise ValueError("sensor_axes must index existing modes")
+        sensor_shape = tuple(shape[axis] for axis in sensor_axes)
+        n_sites = math.prod(sensor_shape)
+        chosen_count = max(1, min(n_sites, round(ratio * n_sites)))
+        chosen = torch.randperm(n_sites, generator=g)[:chosen_count]
+        site_ids = _ravel(idx[:, list(sensor_axes)], sensor_shape)
+        observed = torch.isin(site_ids, chosen)
         held_out = ~observed
         return ObservationSplit(observed, held_out, torch.ones_like(observed), ratio,
                                 float(observed.float().mean()), kind, seed)
