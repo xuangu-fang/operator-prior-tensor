@@ -465,3 +465,62 @@ scarce coordinate is space: the truncation is what makes the geometry usable.
 
 Artifacts: `results/wall_family_sensors_r7`, `results/wall_family_random_r7`
 and their summaries.
+
+### 8b — where the geometry advantage switches on
+
+Reading the sensor table against the bias floor a geometry-blind basis pays
+gives a quantitative boundary rather than a qualitative claim.
+
+| layout | blind bias floor | blind / ours | neural / ours |
+|---|---:|---:|---:|
+| open | 0.082 | 1.00 | 1.24 |
+| labyrinth | 0.104 | 1.01 | 1.14 |
+| arc | 0.116 | 1.03 | 1.29 |
+| chamber | 0.303 | 2.03 | 1.65 |
+| sealed_4 | 0.391 | 3.18 | 2.58 |
+
+The proposed model attains `0.158--0.223` across the family.  The advantage
+against the blind spectral basis is exactly 1.00 while the blind bias floor
+stays below that attainable error, and rises steeply once the floor exceeds it.
+So the operative statement is not "geometry helps" but: **a geometry prior pays
+off precisely when the approximation error of ignoring the geometry becomes
+comparable to the error the estimator could otherwise achieve.**  That is the
+same bias--variance boundary the frozen one-dimensional work established for
+spectral cutoff, now measured along a geometric axis, and it predicts where the
+method is and is not worth using.
+
+### 8c — the factor space transfers between geometries, with a stated direction
+
+Fit on one barrier layout at 10% sensors, then move to another layout by
+swapping only the spatial basis.  Three adaptations are compared so that a
+core-only refit — the natural move for an operator model and a poor one for a
+network — is not quoted as if it were everyone's best option: core-only,
+full fine-tuning, and training on the target observations alone.  Target data is
+2% sensors.  Averages over five pairs and three seeds:
+
+| model | source | zero-shot | few-shot (core) | few-shot (full) | scratch |
+|---|---:|---:|---:|---:|---:|
+| geometry operator (ours) | 0.191 | 1.512 | **0.535** | 0.976 | 1.013 |
+| topology erased | 0.370 | 0.649 | 7.703 | 4.128 | 3.443 |
+| neural coordinates | 0.340 | 0.651 | 3.764 | 0.742 | 1.039 |
+| discrete Tucker | 1.543 | 1.502 | 20.086 | 1.425 | 1.482 |
+
+The cleanest statement is internal: refitting only the core after a basis swap
+beats training the same model on the target alone in **15 of 15** pair-seed
+cells (`0.535` against `1.013`).  The representation is genuinely carried over
+rather than relearned, and full fine-tuning *hurts* (`0.976`), so the value lies
+in not re-estimating the factors from 2% of a new domain.
+
+Against each baseline's own best adaptation the result has a direction.
+Transferring *into* a strongly barriered target wins 3/3 everywhere
+(`chamber -> sealed_4`, `open -> sealed_4`), while `sealed_4 -> open` loses 0/3
+to topology-erased.  That is a consistency check rather than a defect: on a
+barrier-free target the topology-erased operator *is* the correct one, and a
+model carrying structure from a sealed source brings structure the target does
+not have.  The rule to state is that transfer helps when the target geometry is
+at least as structured as the source.
+
+**Limitation.** Zero-shot is poor for the proposed model (`1.512`, worse than
+the blind baselines' `0.65`): swapping the basis changes the column
+normalization, so transferred coefficients are not calibrated in absolute terms.
+Only the function space transfers, not the coordinates in it.
