@@ -379,3 +379,42 @@ only from `0.655` to `0.643`, against `0.152` at cutoff 10.  Recovering real
 pruning would require a factor posterior, which is exactly the component the
 report rules out for this paper.  The code was reverted; the cutoff is reported
 as a selected-and-frozen bias--variance hyperparameter with an explicit rule.
+
+## Iteration 8 — predeclared fresh-seed confirmation (written before the run)
+
+Everything below is fixed now, on selection seeds only, and must not be changed
+after the confirmation numbers are seen.
+
+**Frozen configuration.**  Barrier setting `wall_field_tensor`; tensor
+`Y(scenario, time, node)` with 20 scenarios, 16 times, mesh resolution 18 on the
+unit square; truth modes 60; background log-diffusivity contrast `.3`; reaction
+`.15`; time span `(.15, 3.)`; observation noise 10% of the observed standard
+deviation; observed-only normalization.  Model: basis cutoff 10, ranks
+`(4, 4, 6)`, Sobolev power 1.5, regularization `.002`, AdamW at `3e-3`, 400
+updates, random cold start, no early stopping.
+
+**Layouts.** `open`, `labyrinth`, `arc`, `chamber`, `sealed_4`.  `open` is the
+control in which the advantage must vanish.
+
+**Protocols.** Random entries and spatial sensors, at 2%, 5% and 10%.
+
+**Baselines.** `topology_erased` and `bounding_box` (geometry-blind spectral),
+`laplacian_geo` and `laplacian_blind` (penalized free table, geometry known or
+not), `neural_coords` (wide coordinate MLP) and `neural_matched` (parameter
+matched), `discrete_table` (no prior), `permuted` (destructive control).
+
+**Confirmation seeds.** `101, 102, 103, 104, 105`.  These have never been run on
+this benchmark and may not be used to choose anything.
+
+**Predeclared gate.**  On the sensor protocol at 10%, the geometry-aware model
+must reach at least 4/5 paired wins against *both* geometry-blind spectral
+bases and against the wide coordinate network, on at least the two strongest
+layouts (`chamber`, `sealed_4`), with mean NRMSE below `.5`.  On `open` the
+geometry-aware and geometry-blind spectral models must agree to within seed
+noise; a win there would indicate a confound and invalidates the round.
+
+**What a failure means.** If the gate fails only at 2%, the claim is scoped to
+5--10% and extreme sparsity becomes a stated NO-GO region, as in the frozen
+one-dimensional work.  If it fails on `chamber` and `sealed_4` at 10%, the
+barrier mechanism does not survive fresh seeds and the line returns to
+diagnostics rather than being re-tuned.
