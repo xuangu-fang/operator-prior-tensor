@@ -38,7 +38,10 @@ The main claim is a measurable bias--variance phase boundary, not universal supe
 - `results/`: immutable raw artifacts migrated from the hub.
 - `docs/TECHNICAL_REPORT.md`: formulation, inference, baselines, dataset cards, and current evidence.
 - `docs/PAPER_TECHNICAL_REPORT_ZH.md`: paper-facing Chinese Introduction/Method,
-  frozen confirmation design, complete fresh-seed table, and claim boundaries.
+  frozen confirmation design, complete fresh-seed table, claim boundaries, exact
+  operator provenance, irregular-domain POC plan, and a new-session handoff.
+- `docs/DATASETS_AND_RESOURCES.md`: local/shared datasets, official resources,
+  operator-metadata requirements, leakage rules, and dataset implementation order.
 - `docs/ITERATIONS.md`: repository-local research diary.
 - `docs/SHARED_PROTOCOL.md`: shared audit discipline inherited from the hub.
 

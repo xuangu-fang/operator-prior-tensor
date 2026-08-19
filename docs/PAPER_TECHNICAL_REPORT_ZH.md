@@ -1,6 +1,6 @@
 # 方向 1 论文级技术报告：用物理算子约束连续 Tucker 因子
 
-更新时间：2026-08-16
+更新时间：2026-08-19
 
 实验冻结版本：`diffusion_confirmation_r4`
 当前判断：**随机缺失与 receiver-fiber 的 10% 确认 gate 通过；source-fiber 只有 3/5，因而是有边界的 GO，不是“极稀疏条件下普遍优于神经张量”。**
@@ -315,3 +315,182 @@ shape 为 `18×24×24`，三个 modes 分别是 time、receiver 和 source。con
 4. source-fiber 失败应作为机制问题研究：它可能来自 time–receiver pair 覆盖不足导致的 factor identifiability，而不是 core 表达能力。只有预先定义的新协议和新 seeds 才能验证这一解释。
 
 当前不建议增加更复杂的 attention、operator encoder 或 full factor posterior。论文价值来自一个简单可解释的限制、一个可测的失配量和一组严格冻结的对照。
+
+## 9. 一个容易误解但必须讲清的问题：每一维的算子从哪里来？
+
+### 9.1 不需要假设“张量每一维都有一条独立 PDE”
+
+公式中写了 $\mathcal A_1,\mathcal A_2,\mathcal A_3$，这只是说每个 tensor mode 都需要一个可审计的函数空间先验，并不意味着研究者必须事先知道三条互不相关的 PDE。当前 Green-response POC 恰好只从**同一条扩散 PDE** 出发：
+
+\[
+\partial_tu+(L_a+\kappa I)u=0,
+\qquad L_a=-\partial_x(a(x)\partial_x).
+\]
+
+若 $L_a\psi_q=\mu_q\psi_q$，其 Green kernel 具有
+
+\[
+G(t,x_r,x_s)=\sum_q e^{-t(\kappa+\mu_q)}\psi_q(x_r)\psi_q(x_s)c_q
+\]
+
+这样的分离结构。因此三个 mode basis 的来源是：
+
+| Tensor mode | 坐标 | basis 来源 | 当前 POC 的实现 |
+|---|---|---|---|
+| time | $t$ | 空间算子 eigenvalue 诱导的半群衰减 $e^{-t(\kappa+\mu_q)}$ | 对前 8 个参考衰减函数做 QR 正交化 |
+| receiver | $x_r$ | Green operator 输出侧的 eigenfunctions | 常系数参考扩散算子的前 8 个 eigenvectors |
+| source | $x_s$ | Green operator 输入侧/伴随侧的 eigenfunctions | 自伴情形与 receiver 使用同一组 eigenvectors |
+
+所以真正的建模问题不是“如何猜出每一维的 PDE”，而是：**这个 mode 的 index 是否带有已知的物理关系；若有，哪个离散算子最诚实地表达该关系？**
+
+对非自伴算子，source 和 receiver 不应再强行共用同一组基；自然选择是输出侧使用 right modes，输入侧使用 adjoint/left modes。对参数、材料编号等没有可信算子的 mode，可以保留 neural factor 或普通 factor table，形成 operator/neural hybrid Tucker。不能为了套公式而人为发明一个 PDE。
+
+### 9.2 算子信息按可信度分四档
+
+后续实验必须明确自己属于哪一档，不得混写：
+
+1. **精确算子：** simulator 的离散 stiffness/mass matrix 与边界条件可得。此时可直接求低频谱，主要研究有限截断和稀疏估计。
+2. **名义算子：** PDE family 和边界条件已知，但材料系数未知或有偏。当前 POC 属于这一档：真值是变系数扩散，learner 只见常系数 reference operator。
+3. **几何算子：** 只知道网格、边界和孔洞，不知道精确 PDE 系数。可用 Laplace--Beltrami、FEM Laplacian 或 graph Laplacian；论文应称 geometry prior，而不是 exact physics prior。
+4. **无可信算子：** 既无拓扑/几何，也无 PDE family。方向一不适用，应该退回 neural functional tensor；这也是方法的适用边界，而不是需要用复杂 encoder 掩盖的问题。
+
+### 9.3 不规则边界和孔洞应怎样进入模型
+
+在二维不规则域 $\Omega_g$ 上，不应分别为 $x$ 和 $y$ 人造两条一维 PDE。将所有有效 mesh nodes 视为一个空间 mode，有限元离散后求
+
+\[
+K_g\phi_k=\lambda_k M_g\phi_k,
+\]
+
+其中 $K_g$ 是包含边界条件和材料系数的 stiffness matrix，$M_g$ 是 mass matrix。孔洞通过 mesh connectivity 和 hole boundary condition 直接改变 $K_g$，从而改变 eigenfunctions。若张量是 $Y(t,x_r,x_s)$，则形状仍为 `time × receiver-node × source-node`，只是两个空间 axes 的 index 都来自同一个不规则 mesh，而不是规则网格坐标。
+
+这给出一种明确的几何泛化含义：对新几何 $g'$，重新由其 $K_{g'},M_{g'}$ 计算低频 basis，再复用共享的小维映射/core 或进行少量观测下的适配。当前代码尚未验证这一点；现有 1D POC 只证明了“名义算子失配下仍可能降低方差”。
+
+## 10. 当前 POC 的可执行规格：另一个 session 应先原样复现
+
+### 10.1 数据生成与 learner 可见信息
+
+- 网格：24 个空间点，Neumann zero-flux boundary；18 个时间点均匀覆盖 `0.025–0.55`。
+- 真值 diffusivity：$a(x)=\exp\{\cos(2\pi x)+0.35\sin(3\pi x+0.37)\}$，其数值范围约为 `0.265–3.349`。
+- 真值：变系数离散算子的前 14 个 modes，reaction $\kappa=0.15$，谱幅度乘 $(1+\mu_q)^{-0.18}$。
+- learner basis：常系数算子，即把 contrast 设为 0，只保留前 8 个 modes；learner 不读取真实 eigenvectors。
+- tensor shape：`18 × 24 × 24`，对应 time、receiver、source；product-space projection residual 为 `0.0698647`。
+- 噪声：只在 observed entries 上加入标准差 `0.1 × std(Y_Ω)` 的独立高斯噪声；均值和尺度也只能由 observed entries 估计。
+
+实现入口是 `src/geoaware/tensor_data.py::make_diffusion_green_tensor`。复现时首先检查 metadata 中的 truth/reference spectra、diffusivity range、projection residual 和 shape，任一不一致都不得把结果与 R4 合并。
+
+### 10.2 训练与评估冻结项
+
+- rank `(4,5,5)`；operator cutoff `(8,8,8)`；Operator Tucker 共 212 个参数。
+- AdamW，learning rate `3e-3`，400 updates，random cold start；不按 validation early-stop。
+- observation ratios 为 2%、5%、10%；mask 为 random、source-fibers、receiver-fibers。
+- selection seeds `41–43` 只能解释早期 cutoff/rank 选择；confirmation seeds `101–105` 不能再用于选择。
+- 主指标在**所有未观测 entries** 上计算 NRMSE；同时报告 MAE、逐 seed paired wins 和 projection residual。
+- 主对照：宽 Neural Functional Tucker、210 参数匹配 Neural Functional Tucker、wrong-operator Tucker。wrong operator 必须只置乱 basis 的 index 对齐，同时保持 eigenvalues、参数量、优化器和 mask 不变。
+
+可执行入口为 `experiments/run_tensor_bayes.py`，冻结汇总由 `experiments/analyze_confirmation_gate.py` 生成。新的 session 不应先重调当前 POC；应先复现表 5.3，再另开 experiment id。
+
+主确认实验的等价命令为：
+
+```bash
+PYTHONPATH=src python experiments/run_tensor_bayes.py \
+  --output results/diffusion_confirmation_r4_reproduction \
+  --task diffusion_green --mismatch 1 --basis-cutoff 8 --truth-modes 14 \
+  --models geo_btucker,neural_functional_tucker,neural_functional_tucker_matched,wrong_btucker \
+  --ratios .02,.05,.10 --masks random,source_fibers,receiver_fibers \
+  --seeds 101,102,103,104,105 --tucker-ranks 4,5,5 \
+  --steps 400 --power 1.5 --reg .002 --noise .1 --init random --device cuda
+```
+
+若当前 CLI 或 CUDA 环境使该命令不能运行，应修复兼容性并记录 commit，不得静默更换 seeds、预算或数据参数。
+
+### 10.3 已完成四轮迭代说明了什么
+
+| 轮次 | 唯一改变 | 结论 |
+|---|---|---|
+| R1 operator mismatch | contrast 从 0 增至 2 | projection residual 从约 0.046 增至 0.097；10% 较常见正信号，2%/5% 不稳定 |
+| R2 cutoff | cutoff 5/8/12 | residual `0.165/0.070/0.025`，但 2% NRMSE `0.293/0.273/0.331`；更低投影偏差不等于更低恢复误差 |
+| R3 Tucker rank | `(3,4,4)/(4,5,5)/(6,7,7)` | 10% 信号跨多个 rank 存在，2% 仍受估计方差/优化限制 |
+| R4 frozen confirmation | 新 seeds 101–105 | random 与 receiver-fiber 10% 达 4/5；source-fiber 和极稀疏条件未过 gate |
+
+这四轮共同支持的是 bias--variance phase diagram，而不是“谱基越精确越好”或“物理先验在 2% 一定赢”。
+
+## 11. 最新计划：三个递进 POC，而不是继续加组件
+
+### POC-A：不规则域 + 孔洞的受控 Green tensor（最高优先级）
+
+**目的。** 检验最初设想的几何含义是否成立：边界和孔洞改变算子谱时，geometry-correct basis 是否比规则网格/错误几何 basis 更适合稀疏 functional Tucker。
+
+**最小生成器。** 在单位方形减去 0/1/2 个圆孔的域上，用固定 mesh policy 解 screened diffusion/heat equation。每个 geometry 输出离散 $K_g,M_g$、node coordinates、boundary tags、solution/Green responses。首轮只做自伴椭圆/扩散，不加入 advection、非线性或移动边界。
+
+**张量定义。** 优先使用 `time × receiver-node × source-node` Green tensor；若完整 source-node 扫描成本太高，可固定 16–32 个可复现 source locations，但必须保留 source coordinates 和 source-to-mesh map。
+
+**四个必要模型。**
+
+1. geometry-correct FEM spectral Tucker：由当前 geometry 的 $(K_g,M_g)$ 求基；
+2. wrong-geometry Tucker：使用另一个孔洞布局的基，经明确 node correspondence/interpolation 后输入；
+3. geometry-blind Neural Functional Tucker：输入坐标与时间，容量宽于 proposed；
+4. Laplacian-regularized discrete Tucker：使用同一 mesh graph 的平滑正则，但不做谱截断，排除“任意平滑都有效”。
+
+**实验轴。** observations 2%/5%/10%，random 与 source/receiver fibers；孔边界附近单独报告 boundary-band NRMSE。geometry mismatch 用孔位置偏移或孔半径偏移连续控制，并同时画 `projection residual → held-out NRMSE`。
+
+**首轮 gate。** 3 seeds、400 updates。geometry-correct 在至少一个 5% 或 10% structured mask 上达到 3/3 paired wins，且相对 Neural Tucker 平均 NRMSE 降低至少 10%；wrong-geometry 明显退化；若只在训练几何内有效而 unseen geometry 失败，论文主张退回“geometry-specific completion”。
+
+### POC-B：只知道部分物理的 hybrid mode factors（第二优先级）
+
+**目的。** 回答现实中某些 axes 没有已知 PDE 的问题，并防止方法被误解为要求每维精确算子。
+
+构造 `time × receiver-node × material-parameter` tensor：time 与 receiver 使用参考扩散谱，material parameter 使用小 MLP factor。与 all-neural Tucker、错误地给 parameter mode 使用 RBF/Laplacian basis、以及 oracle operator Tucker 比较。只改变第三个 mode 的先验，保持 core/rank/预算一致。
+
+成功标准不是必须超过 oracle，而是 hybrid 显著优于“强行给所有 mode 加错误算子”，并接近 all-neural 的灵活性，同时在 5%/10% 下优于 all-neural 的方差。
+
+### POC-C：外部数据压力测试（第三优先级）
+
+公开数据不应直接替代 controlled POC，因为很多数据没有离散算子或 Green source/receiver 语义。优先顺序是：
+
+1. PDEBench 中扩散/反应扩散或 Darcy 数据：可复用其生成代码，补存离散 operator metadata；
+2. AirfRANS 或 RealPDEBench cylinder：只用于检验 geometry-only Laplacian 是否仍有用，不能声称 exact operator prior；
+3. OpenFWI/The Well acoustic：source–receiver–time 语义很合适，但波动算子、吸收边界和可能的非自伴/高频行为会引入另一篇论文级复杂度，暂不作为第一外部 gate。
+
+外部数据若所有方法 NRMSE 接近 1，应判为任务未跑通，不讨论小幅相对优势。
+
+## 12. 新 session 的工程交接清单
+
+### 12.1 建议新增而不是改坏冻结实现
+
+```text
+src/geoaware/
+├── irregular_fem.py          # mesh、K/M、边界标签和低频广义特征对
+├── irregular_green_data.py   # irregular-domain Green tensor 与 metadata
+├── basis_transfer.py         # 新旧 geometry 间可审计的 node mapping
+└── hybrid_operator_tucker.py # operator/neural 混合 mode factor
+experiments/
+├── run_irregular_green_poc.py
+├── run_irregular_mismatch_sweep.py
+└── run_hybrid_mode_poc.py
+tests/
+├── test_irregular_fem.py
+├── test_irregular_green_data.py
+└── test_hybrid_operator_tucker.py
+```
+
+冻结的 `make_diffusion_green_tensor` 与 R4 artifacts 不应原地修改。新数据版本必须保存：mesh hash、geometry parameters、boundary types、$K/M$ checksum、eigensolver tolerance、source locations、split、mask indices、noise seed 和 projection residual。
+
+### 12.2 最低测试要求
+
+1. generalized eigenvectors 满足 $\Phi^TM\Phi\approx I$ 和 $K\Phi\approx M\Phi\Lambda$；
+2. 孔内不存在有效 observation node，孔边界标签可重建；
+3. 同 seed 的 mesh、source 和 mask bitwise reproducible；
+4. wrong-geometry control 不得意外读取 truth basis；
+5. normalization 只使用 training observations；
+6. held-out metric 不包含 observed entries；
+7. 3-seed screening 结束后先形成机器可读 summary，再决定是否消费 5-seed confirmation。
+
+### 12.3 明确停止条件
+
+- 若 correct 与 wrong geometry 的 projection residual 和恢复误差都不可区分，先检查 tensor 是否真的包含边界敏感结构，不增加网络复杂度。
+- 若 correct residual 明显更低但恢复不更好，优先调 cutoff/rank/regularization 的 bias--variance 轴，而不是加入 attention。
+- 若所有方法 NRMSE 接近 1，说明 task、mask 或优化尚未跑通；不能把 proposed 的微小领先当作正信号。
+- 若只有 exact truth operator 有效而 nominal/geometry operator 完全失败，方向一只能定位为 simulator-metadata method，不能讲广泛几何感知。
+
+共享数据的位置、官方资源、准入条件和各数据适合哪一类实验，见 [`DATASETS_AND_RESOURCES.md`](DATASETS_AND_RESOURCES.md)。
