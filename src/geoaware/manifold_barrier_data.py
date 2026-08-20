@@ -33,8 +33,8 @@ import torch
 from .bases import BasisSpec
 from .joint_diffusion_2d import GroupedFieldDataset
 from .operator_diagnostics import generalized_eigenpairs
-from .simplex_fem import (SimplexMesh, assemble, build_box_mesh,
-                          build_sphere_mesh)
+from .simplex_fem import (SimplexMesh, assemble, assemble_sparse,
+                          build_box_mesh, build_sphere_mesh)
 
 
 @dataclass(frozen=True)
@@ -166,18 +166,15 @@ def barrier_coefficient(centroids: torch.Tensor, barriers: tuple,
     return material
 
 
-def _mass_orthonormalize(basis: torch.Tensor, mass: torch.Tensor) -> torch.Tensor:
+def _mass_orthonormalize(basis: torch.Tensor, mass) -> torch.Tensor:
     """Orthonormalize columns in the mass inner product, dropping dependencies.
 
-    Cholesky rather than the symmetric square root used by the planar module:
-    it spans the same subspace at a fraction of the cost, which matters once the
-    mesh has a thousand nodes instead of three hundred.
+    Delegates to the matrix-free routine: the Gram matrix is ``r x r`` whatever
+    the mesh, so the same code serves a six-hundred-node sphere and a
+    hundred-thousand-node one, dense mass matrix or sparse.
     """
-    factor = torch.linalg.cholesky(mass.double())
-    whitened = factor.T @ basis.double()
-    q, r = torch.linalg.qr(whitened, mode="reduced")
-    keep = r.diagonal().abs() > 1e-9 * r.diagonal().abs().max().clamp_min(1e-30)
-    return torch.linalg.solve_triangular(factor.T, q[:, keep], upper=True)
+    from .operator_diagnostics import mass_orthonormalize_columns
+    return mass_orthonormalize_columns(basis, mass)
 
 
 def _bounding_box_product_basis(coordinates: torch.Tensor, mass: torch.Tensor,
@@ -281,7 +278,8 @@ def barrier_field_tensor(
         reaction: float = .15, time_span: tuple[float, float] = (.15, 3.),
         mesh_seed: int = 0, scenario_seed: int = 7717,
         permutation_seed: int = 9173, dynamics: str = "diffusion",
-        wave_speed: float = 1., damping: float = .05) -> GroupedFieldDataset:
+        wave_speed: float = 1., damping: float = .05,
+        sparse: bool = False) -> GroupedFieldDataset:
     """``Y(scenario, time, node)`` on a cube or a sphere divided by barriers.
 
     ``dynamics`` selects the time propagator applied to the *same* operator
@@ -312,19 +310,31 @@ def barrier_field_tensor(
                                          background=True)
     learner_material = barrier_coefficient(centroids, barriers, 0.,
                                            background=False)
-    truth_stiffness, mass = assemble(mesh, truth_material)
-    nominal_stiffness, _ = assemble(mesh, learner_material)
-    blind_stiffness, _ = assemble(mesh, 1.)
+    if sparse:
+        from .operator_diagnostics import sparse_eigenpairs
+        truth_stiffness, mass = assemble_sparse(mesh, truth_material)
+        nominal_stiffness, _ = assemble_sparse(mesh, learner_material)
+        blind_stiffness, _ = assemble_sparse(mesh, 1.)
+        eigenpairs = sparse_eigenpairs
+        def apply_mass(x):
+            return torch.from_numpy(mass @ x.double().numpy()).double()
+    else:
+        truth_stiffness, mass = assemble(mesh, truth_material)
+        nominal_stiffness, _ = assemble(mesh, learner_material)
+        blind_stiffness, _ = assemble(mesh, 1.)
+        eigenpairs = generalized_eigenpairs
+        def apply_mass(x):
+            return mass.double() @ x.double()
     coordinates = mesh.nodes
     n_nodes = mesh.n_nodes
     truth_modes = min(truth_modes, n_nodes)
 
-    truth_values, truth_vectors = generalized_eigenpairs(
+    truth_values, truth_vectors = eigenpairs(
         truth_stiffness, mass, truth_modes)
     rates = _normalized_rates(truth_values)
     initial = _smooth_initial_states(coordinates, n_scenarios, scenario_seed,
                                      on_sphere=geometry == "sphere")
-    amplitudes = initial @ mass @ truth_vectors
+    amplitudes = initial @ apply_mass(truth_vectors)
     time = torch.linspace(time_span[0], time_span[1], n_time, dtype=torch.float64)
     if dynamics == "diffusion":
         propagator = torch.exp(-time[:, None] * (reaction + rates[None, :]))
@@ -337,9 +347,9 @@ def barrier_field_tensor(
     values = torch.einsum("sq,tq,nq->stn", amplitudes, propagator, truth_vectors)
     values = (values - values.mean()) / values.std().clamp_min(1e-12)
 
-    nominal_values, aware_basis = generalized_eigenpairs(
+    nominal_values, aware_basis = eigenpairs(
         nominal_stiffness, mass, basis_cutoff)
-    blind_values, blind_basis = generalized_eigenpairs(
+    blind_values, blind_basis = eigenpairs(
         blind_stiffness, mass, basis_cutoff)
     box_basis, box_values = _bounding_box_product_basis(
         coordinates, mass, basis_cutoff)
@@ -369,9 +379,12 @@ def barrier_field_tensor(
             coordinates, mass, basis_cutoff)
         spatial["lat_lon_product"] = (chart_basis,
                                       chart_values[:chart_basis.shape[1]])
-    matrices = {
+    # The dense operators exist only for the penalized-table controls, the one
+    # component that cannot be written matrix-free.  On a large mesh they are
+    # omitted and the runner skips those controls rather than silently failing.
+    matrices = ({} if sparse else {
         "mass": mass.float(), "nominal_stiffness": nominal_stiffness.float(),
-        "blind_stiffness": blind_stiffness.float(),
+        "blind_stiffness": blind_stiffness.float()}) | {
         "coordinates": coordinates.float(), "time_basis": time_basis.float(),
         "time_eigenvalues": _normalized_rates(nominal_values)[:time_cutoff].float(),
     }
@@ -390,7 +403,7 @@ def barrier_field_tensor(
         "boundary_condition": "Neumann on the cube; closed manifold on the sphere",
         "tensor_semantics": "scenario x time x node",
         "mesh_hash": mesh.hash(), "n_cells": int(len(mesh.cells)),
-        "domain_measure": mesh.volume(),
+        "domain_measure": mesh.volume(), "sparse_operators": bool(sparse),
         "barriers": [{k: (list(v) if isinstance(v, tuple) else v)
                       for k, v in vars(b).items()} for b in barriers],
         "barrier_kinds": [type(b).__name__ for b in barriers],

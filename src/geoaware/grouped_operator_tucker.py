@@ -136,12 +136,26 @@ class GroupedOperatorTucker(nn.Module):
     """Tucker model whose factors live on coordinate groups, not on axes."""
 
     def __init__(self, specs: Sequence[GroupFactorSpec], power: float = 1.5,
-                 device: str = "cuda"):
+                 device: str = "cuda", core: str = "dense"):
+        """``core="diagonal"`` makes this a CP model instead of a Tucker one.
+
+        Every group then needs the same rank, and the core is the vector of
+        component weights rather than a full array.  Having both under one class
+        matters for the comparison: a CP baseline and the proposed model share
+        the optimizer, the normalization, the prior and the closed-form core
+        posterior, so a difference between them is a difference in the model and
+        not in how it was fitted.
+        """
         super().__init__()
         if len(specs) < 2:
             raise ValueError("a grouped Tucker needs at least two groups")
+        if core not in ("dense", "diagonal"):
+            raise ValueError("core must be 'dense' or 'diagonal'")
         self.specs = list(specs)
         self.ranks = tuple(int(spec.rank) for spec in self.specs)
+        self.diagonal_core = core == "diagonal"
+        if self.diagonal_core and len(set(self.ranks)) != 1:
+            raise ValueError("a diagonal core requires one rank for every group")
         self.power = power
         self.device_name = device if torch.cuda.is_available() else "cpu"
 
@@ -163,8 +177,9 @@ class GroupedOperatorTucker(nn.Module):
                 self._slot.append(("neural", len(self.networks)))
                 self.networks.append(_NeuralGroupFactor(
                     spec.coordinates, spec.rank, spec.hidden))
+        core_shape = (self.ranks[0],) if self.diagonal_core else self.ranks
         self.core = nn.Parameter(
-            torch.randn(*self.ranks) / math.sqrt(math.prod(self.ranks)))
+            torch.randn(*core_shape) / math.sqrt(math.prod(core_shape)))
         self._buffers_moved = False
         self._posterior = None
 
@@ -194,17 +209,26 @@ class GroupedOperatorTucker(nn.Module):
         return out
 
     @staticmethod
-    def design(indices: torch.Tensor,
-               factors: Sequence[torch.Tensor]) -> torch.Tensor:
-        """Row-wise Kronecker product of the selected factor rows."""
+    def design(indices: torch.Tensor, factors: Sequence[torch.Tensor], *,
+               diagonal: bool = False) -> torch.Tensor:
+        """Row-wise Kronecker product of the selected factor rows.
+
+        With ``diagonal=True`` the row-wise *Khatri-Rao* product is taken
+        instead, which is the design matrix of a CP model: the core collapses
+        from a full ``r1 x r2 x r3`` array to a length-``r`` vector of component
+        weights.  Both forms are linear in the core, so the same closed-form
+        posterior serves CP and Tucker without a second derivation.
+        """
         z = factors[0][indices[:, 0]]
         for mode in range(1, len(factors)):
             other = factors[mode][indices[:, mode]]
-            z = (z[:, :, None] * other[:, None, :]).reshape(len(indices), -1)
+            z = (z * other if diagonal else
+                 (z[:, :, None] * other[:, None, :]).reshape(len(indices), -1))
         return z
 
     def forward(self, indices: torch.Tensor) -> torch.Tensor:
-        return self.design(indices, self.factor_tables()) @ self.core.flatten()
+        return (self.design(indices, self.factor_tables(),
+                            diagonal=self.diagonal_core) @ self.core.flatten())
 
     def factor_prior(self) -> torch.Tensor:
         total = self.core.square().mean()
@@ -257,7 +281,8 @@ class GroupedOperatorTucker(nn.Module):
     @torch.no_grad()
     def _fit_core_posterior(self, ix: torch.Tensor, y: torch.Tensor):
         """Exact Gaussian core posterior conditional on the fitted factors."""
-        z = self.design(ix, self.factor_tables()).double()
+        z = self.design(ix, self.factor_tables(),
+                        diagonal=self.diagonal_core).double()
         yd = y.double()
         p = z.shape[1]
         eye = torch.eye(p, device=z.device, dtype=z.dtype)
@@ -300,7 +325,8 @@ class GroupedOperatorTucker(nn.Module):
         cov = self._posterior["cov"].to(device)
         means, variances = [], []
         for start in range(0, len(ix), chunk_size):
-            z = self.design(ix[start:start + chunk_size], factors)
+            z = self.design(ix[start:start + chunk_size], factors,
+                            diagonal=self.diagonal_core)
             means.append((z @ mean_core).cpu())
             variances.append(((z @ cov) * z).sum(1).clamp_min(0).cpu())
         mean, var = torch.cat(means), torch.cat(variances)
@@ -321,7 +347,8 @@ class GroupedOperatorTucker(nn.Module):
             torch.full_like(core_energy, self._posterior["alpha"]), core_energy,
             spectral, None, self._posterior["history"],
             {"ranks": self.ranks, "power": self.power,
-             "core_size": math.prod(self.ranks),
+             "core_kind": "diagonal" if self.diagonal_core else "dense",
+             "core_size": int(self.core.numel()),
              "group_kinds": [spec.kind for spec in self.specs],
              "group_names": [spec.name for spec in self.specs],
              "group_sizes": [spec.size for spec in self.specs],

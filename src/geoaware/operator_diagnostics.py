@@ -157,7 +157,105 @@ def product_projection_residual(values: torch.Tensor,
         if basis is None:
             continue
         q = torch.linalg.qr(basis.double(), mode="reduced").Q
-        projected = torch.tensordot(q @ q.T, projected, dims=([1], [mode]))
+        # ``q @ (q.T @ x)`` rather than ``(q @ q.T) @ x``: the bracketed form
+        # never materializes an ``N x N`` projector, so the diagnostic remains
+        # computable on meshes where that matrix would not fit in memory.
+        coefficients = torch.tensordot(q.T, projected, dims=([1], [mode]))
+        projected = torch.tensordot(q, coefficients, dims=([1], [0]))
         projected = projected.movedim(0, mode)
     return float((values.double() - projected).norm() /
                  values.double().norm().clamp_min(1e-12))
+
+
+def sparse_eigenpairs(stiffness, mass, count: int, *, shift: float = -1e-6):
+    """Lowest ``count`` solutions of ``K phi = lambda M phi`` for sparse ``K``.
+
+    Shift-invert Lanczos, which converges on the *low* end of the spectrum in
+    time proportional to the number of modes requested rather than to the number
+    of nodes cubed.  That asymmetry is the whole reason this method can be run on
+    a mesh of any realistic size: the learner only ever needs the leading few
+    modes, never the full spectrum.
+
+    The shift is slightly negative because a pure Neumann operator is singular --
+    the constant field has zero energy -- so factorizing at exactly zero would
+    fail.  Eigenvectors come back mass-orthonormal, matching the dense path.
+    """
+    import numpy as np
+    from scipy.sparse.linalg import eigsh
+
+    if count < 1 or count > stiffness.shape[0] - 1:
+        raise ValueError("count must lie in [1, matrix size - 1]")
+    values, vectors = eigsh(stiffness.astype(float), k=count,
+                            M=mass.astype(float), sigma=shift, which="LM")
+    order = np.argsort(values)
+    values, vectors = values[order], vectors[:, order]
+    # eigsh returns M-orthonormal vectors up to sign; fix the sign convention so
+    # a basis is reproducible across runs and platforms.
+    signs = np.sign(vectors[np.abs(vectors).argmax(axis=0), np.arange(count)])
+    signs[signs == 0] = 1.
+    return (torch.from_numpy(values).double(),
+            torch.from_numpy(vectors * signs).double())
+
+
+def mass_orthonormalize_columns(basis: torch.Tensor, mass) -> torch.Tensor:
+    """M-orthonormalize a tall, thin matrix without touching anything ``N x N``.
+
+    ``B -> B L^{-T}`` where ``L L^T = B^T M B`` is a Cholesky factor of a
+    ``r x r`` Gram matrix.  The dense counterpart whitens with ``M^{1/2}``, which
+    costs a full eigendecomposition of the mass matrix; this spans exactly the
+    same subspace for a cost that does not grow with the mesh.
+    """
+    import numpy as np
+    from scipy.sparse import issparse
+
+    columns = basis.double()
+    applied = (torch.from_numpy(mass @ columns.numpy()).double() if issparse(mass)
+               else mass.double() @ columns)
+    gram = _symmetrize(columns.T @ applied)
+    # Drop directions that the mass inner product cannot distinguish.
+    values, vectors = torch.linalg.eigh(gram)
+    keep = values > 1e-10 * float(values.max().clamp_min(1e-30))
+    reduced = vectors[:, keep] / values[keep].sqrt()
+    return columns @ reduced
+
+
+def mode_observability(basis: torch.Tensor, observed_rows: torch.Tensor
+                       ) -> torch.Tensor:
+    """How visible each basis column is at the observed rows, relative to chance.
+
+    A value of one means the column carries the same share of its energy on the
+    observed rows as a uniformly spread field would; a value near zero means the
+    column is essentially invisible to the measurement.
+
+    This is the quantity the earlier cutoff rule was really about.  Ranking modes
+    by eigenvalue orders them by frequency, and frequency is not the thing that
+    makes a mode estimable: a mode localized inside a near-impermeable barrier
+    has the *lowest* eigenvalue in the spectrum and is the least observable
+    column in the basis, because sensors almost never land inside the barrier.
+    Fitting it leaves its coefficient unconstrained, and the model then
+    extrapolates by whatever that coefficient happens to be.
+
+    Only the basis and the observation mask enter, so this can be computed before
+    any data is fitted and applied identically to every spectral model.
+    """
+    if observed_rows.dtype != torch.bool:
+        mask = torch.zeros(basis.shape[0], dtype=torch.bool)
+        mask[observed_rows] = True
+        observed_rows = mask
+    energy = basis.double().square()
+    share = energy[observed_rows].sum(0) / energy.sum(0).clamp_min(1e-30)
+    fraction = max(float(observed_rows.double().mean()), 1e-12)
+    return share / fraction
+
+
+def observable_modes(basis: torch.Tensor, observed_rows: torch.Tensor, *,
+                     threshold: float = .1) -> torch.Tensor:
+    """Columns of ``basis`` worth keeping given where the measurements are.
+
+    The first column is always kept: on a Neumann problem it is the constant
+    mode, which is observable by construction, and dropping every column would
+    leave no model at all.
+    """
+    keep = mode_observability(basis, observed_rows) >= threshold
+    keep[0] = True
+    return torch.where(keep)[0]

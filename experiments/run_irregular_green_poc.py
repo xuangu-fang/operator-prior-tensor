@@ -179,11 +179,22 @@ def main():
     parser.add_argument("--power", type=float, default=1.5)
     parser.add_argument("--reg", type=float, default=.002)
     parser.add_argument("--noise", type=float, default=.1)
+    # Sparse assembly and shift-invert Lanczos: nothing of size N x N is ever
+    # formed, so the mesh can leave the few-hundred-node regime.  The penalized
+    # table controls need a dense operator and are skipped when this is on.
+    parser.add_argument("--sparse", action="store_true")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
     ranks = tuple(int(v) for v in args.ranks.split(","))
+    if args.sparse:
+        dropped = [m for m in args.models.split(",") if m.startswith("laplacian")]
+        if dropped:
+            print(f"sparse operators: skipping {dropped} (they need a dense N x N "
+                  f"penalty matrix)", flush=True)
+            args.models = ",".join(m for m in args.models.split(",")
+                                   if not m.startswith("laplacian"))
     rows, geometries = [], {}
     for layout in args.layouts.split(","):
         # wall layouts live in WALL_LAYOUTS; polygonal ones in LAYOUTS
@@ -192,7 +203,7 @@ def main():
                 WALL_LAYOUTS[layout], resolution=args.resolution,
                 n_scenarios=args.n_sources, n_time=args.n_time,
                 basis_cutoff=args.basis_cutoff, truth_modes=args.truth_modes,
-                contrast=args.contrast,
+                contrast=args.contrast, sparse=args.sparse,
                 truth_refinement=args.truth_refinement,
                 time_span=tuple(float(v) for v in args.time_span.split(",")))
         else:

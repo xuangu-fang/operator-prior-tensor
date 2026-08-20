@@ -191,3 +191,41 @@ def _convex_hull_faces(points: np.ndarray) -> np.ndarray:
         # Orient every face outwards so subdivision keeps a consistent winding.
         faces.append(simplex if normal @ equation[:3] > 0 else simplex[::-1])
     return np.asarray(faces, dtype=np.int64)
+
+
+def assemble_sparse(mesh: SimplexMesh, coefficient: torch.Tensor | float = 1.):
+    """Stiffness and mass as SciPy CSR matrices.
+
+    Identical mathematics to :func:`assemble`, but nothing of size ``N x N`` is
+    ever materialized densely.  A P1 operator has a bounded number of non-zeros
+    per row regardless of how fine the mesh is, so this is what lets the
+    benchmark leave the few-hundred-node regime the dense path is stuck in.
+    """
+    from scipy.sparse import coo_matrix
+
+    volumes = cell_volumes(mesh)
+    if float(volumes.min()) <= 0:
+        raise ValueError("degenerate simplex in the mesh")
+    gradients = barycentric_gradients(mesh)
+    if isinstance(coefficient, torch.Tensor):
+        if len(coefficient) != len(mesh.cells):
+            raise ValueError("one coefficient per cell is required")
+        material = coefficient.double()
+    else:
+        material = torch.full((len(mesh.cells),), float(coefficient),
+                              dtype=torch.float64)
+
+    local_stiffness = ((gradients @ gradients.transpose(1, 2))
+                       * (volumes * material)[:, None, None])
+    corners = mesh.cells.shape[1]
+    pattern = torch.eye(corners, dtype=torch.float64) + 1.
+    local_mass = (volumes / (corners * (corners + 1)))[:, None, None] * pattern
+
+    rows = mesh.cells[:, :, None].expand(-1, -1, corners).reshape(-1).numpy()
+    columns = mesh.cells[:, None, :].expand(-1, corners, -1).reshape(-1).numpy()
+    shape = (mesh.n_nodes, mesh.n_nodes)
+    stiffness = coo_matrix((local_stiffness.reshape(-1).numpy(), (rows, columns)),
+                           shape=shape).tocsr()
+    mass = coo_matrix((local_mass.reshape(-1).numpy(), (rows, columns)),
+                      shape=shape).tocsr()
+    return stiffness, mass

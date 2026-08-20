@@ -102,15 +102,25 @@ def test_wave_dynamics_keep_energy_out_of_the_slowest_modes():
     assert "shallow water" in hyperbolic.metadata["pde"]
 
     def late_share(data, count=4):
-        """Energy in the slowest few modes, on the last time slice."""
+        """Energy in the slowest few modes at the final time.
+
+        Both the coefficients and the total are taken in the mass inner product.
+        Mixing the two -- an M-weighted numerator over a Euclidean denominator --
+        rescales the answer by the element size and makes a collapsed field look
+        spread out.
+        """
         basis = data.operator_matrices["fem_correct_basis"].double()
         mass = data.operator_matrices["mass"].double()
         final = data.values.double()[:, -1, :]
-        projected = final @ mass @ basis[:, :count]
-        return float(projected.square().sum() / final.square().sum().clamp_min(1e-12))
+        coefficients = final @ mass @ basis[:, :count]
+        total = (final * (final @ mass)).sum()
+        return float(coefficients.square().sum() / total.clamp_min(1e-12))
 
+    # Diffusion leaves almost nothing outside the slowest handful of modes; the
+    # shallow-water propagator keeps most of the energy above them for all time.
     assert late_share(parabolic) > .9
-    assert late_share(hyperbolic) < late_share(parabolic)
+    assert late_share(hyperbolic) < .25
+    assert late_share(hyperbolic, 12) < late_share(parabolic, 12)
 
 
 def test_barrier_material_knows_the_layout_and_not_the_background():
@@ -147,3 +157,51 @@ def test_every_layout_shares_one_mesh_and_node_set():
                                reference.operator_matrices["mass"])
             assert torch.equal(data.operator_matrices["blind_stiffness"],
                                reference.operator_matrices["blind_stiffness"])
+
+
+def test_sparse_and_dense_paths_agree_exactly():
+    """The sparse route must be an implementation detail, not a second method.
+
+    Shift-invert Lanczos on a sparse operator and a full dense eigendecomposition
+    solve the same problem; if they disagree, every large-mesh result would be
+    reporting a different benchmark than the small-mesh ones.
+    """
+    from geoaware.irregular_green_data import WALL_LAYOUTS, wall_field_tensor
+
+    common = dict(resolution=14, n_scenarios=6, n_time=6, basis_cutoff=8,
+                  truth_modes=30, contrast=.3)
+    dense = wall_field_tensor(WALL_LAYOUTS["sealed_4"], **common)
+    sparse = wall_field_tensor(WALL_LAYOUTS["sealed_4"], sparse=True, **common)
+    assert torch.equal(dense.values, sparse.values)
+    for name in ("fem_correct", "topology_erased", "bounding_box_product"):
+        left = dense.operator_matrices[f"{name}_basis"]
+        right = sparse.operator_matrices[f"{name}_basis"]
+        assert left.shape == right.shape
+        # Bases may differ by a sign or an internal rotation within a degenerate
+        # eigenspace, so the invariant to check is the subspace, not the columns.
+        overlap = torch.linalg.svdvals(
+            torch.linalg.qr(left.double()).Q.T @ torch.linalg.qr(right.double()).Q)
+        assert float(overlap.min()) > .999
+    assert sparse.metadata["sparse_operators"] is True
+    # The dense-only operators are absent rather than silently wrong.
+    assert "mass" in dense.operator_matrices
+    assert "mass" not in sparse.operator_matrices
+
+
+def test_the_sphere_result_is_a_continuum_property_not_a_mesh_artifact():
+    """Refining the mesh must not move the numbers the claim rests on."""
+    residuals = {}
+    for subdivisions in (3, 4):
+        data = barrier_field_tensor((), geometry="sphere",
+                                    subdivisions=subdivisions, n_scenarios=8,
+                                    n_time=8, basis_cutoff=12, truth_modes=40,
+                                    dynamics="wave", sparse=True)
+        residuals[subdivisions] = {
+            name: product_projection_residual(
+                data.values,
+                [None, None, data.operator_matrices[f"{name}_basis"]])
+            for name in ("fem_correct", "lat_lon_product")}
+    for name in ("fem_correct", "lat_lon_product"):
+        coarse, fine = residuals[3][name], residuals[4][name]
+        assert abs(coarse - fine) < .05, (name, coarse, fine)
+    assert residuals[4]["lat_lon_product"] > 3 * residuals[4]["fem_correct"]

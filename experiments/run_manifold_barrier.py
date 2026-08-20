@@ -50,8 +50,14 @@ def seed_all(seed: int):
     torch.manual_seed(seed)
 
 
-def build_specs(name, data, ranks, hidden, power, matched_hidden=10):
-    """Same decoder everywhere; only the spatial factor's function space moves."""
+def build_specs(name, data, ranks, hidden, power, matched_hidden=10, cache=None):
+    """Same decoder everywhere; only the spatial factor's function space moves.
+
+    ``cache`` holds the Sobolev penalty matrices.  Building one costs three dense
+    eigendecompositions of the full node-by-node operator, which is seconds at
+    three hundred nodes and minutes at two and a half thousand, so it is built
+    once per layout rather than once per fit.
+    """
     matrices = data.operator_matrices
     specs = [GroupFactorSpec("table", ranks[0], data.shape[0], name="scenario"),
              GroupFactorSpec("operator", ranks[1], data.shape[1],
@@ -72,11 +78,18 @@ def build_specs(name, data, ranks, hidden, power, matched_hidden=10):
     elif name in ("discrete_table", "laplacian_geo", "laplacian_blind"):
         penalty = None
         if name.startswith("laplacian"):
-            stiffness = matrices["nominal_stiffness" if name == "laplacian_geo"
-                                 else "blind_stiffness"]
-            reference, _ = generalized_eigenpairs(stiffness, matrices["mass"], 2)
-            penalty = sobolev_penalty_operator(stiffness, matrices["mass"],
-                                               power, reference)
+            if cache is None or name not in cache:
+                stiffness = matrices["nominal_stiffness" if name == "laplacian_geo"
+                                     else "blind_stiffness"]
+                reference, _ = generalized_eigenpairs(stiffness, matrices["mass"], 2)
+                built = sobolev_penalty_operator(stiffness, matrices["mass"],
+                                                 power, reference)
+                if cache is None:
+                    penalty = built
+                else:
+                    cache[name] = built
+            if cache is not None:
+                penalty = cache[name]
         specs.append(GroupFactorSpec("table", ranks[2], size,
                                      penalty_operator=penalty, name="node"))
     else:
@@ -110,6 +123,10 @@ def main():
     parser.add_argument("--power", type=float, default=1.5)
     parser.add_argument("--reg", type=float, default=.002)
     parser.add_argument("--noise", type=float, default=.1)
+    # Sparse assembly and shift-invert Lanczos: nothing of size N x N is ever
+    # formed, so the mesh can leave the few-hundred-node regime.  The penalized
+    # table controls need a dense operator and are skipped when this is on.
+    parser.add_argument("--sparse", action="store_true")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
@@ -118,6 +135,12 @@ def main():
     layouts = (args.layouts.split(",") if args.layouts else list(catalogue))
     models = (args.models.split(",") if args.models else
               [m for m in MODELS if args.geometry == "sphere" or m != "lat_lon"])
+    if args.sparse:
+        dropped = [m for m in models if m.startswith("laplacian")]
+        if dropped:
+            print(f"sparse operators: skipping {dropped} (they need a dense N x N "
+                  f"penalty matrix)", flush=True)
+            models = [m for m in models if not m.startswith("laplacian")]
     ranks = tuple(int(v) for v in args.ranks.split(","))
 
     rows, geometries = [], {}
@@ -127,7 +150,7 @@ def main():
             subdivisions=args.subdivisions, n_scenarios=args.n_scenarios,
             n_time=args.n_time, basis_cutoff=args.basis_cutoff,
             truth_modes=args.truth_modes, contrast=args.contrast,
-            dynamics=args.dynamics,
+            dynamics=args.dynamics, sparse=args.sparse,
             time_span=tuple(float(v) for v in args.time_span.split(",")))
         matrices = data.operator_matrices
         residuals = {name: product_projection_residual(
@@ -140,6 +163,7 @@ def main():
         print(f"[{layout}] nodes={data.shape[2]} residuals="
               + " ".join(f"{k}={v:.3f}" for k, v in residuals.items()), flush=True)
 
+        penalty_cache: dict = {}
         index = grouped_indices(data.shape, ((0,), (1,), (2,)))
         truth = data.values.flatten()
         for mask in args.masks.split(","):
@@ -161,7 +185,8 @@ def main():
                         started = time.perf_counter()
                         model = GroupedOperatorTucker(
                             build_specs(name, data, ranks, args.hidden,
-                                        args.power, args.matched_hidden),
+                                        args.power, args.matched_hidden,
+                                        cache=penalty_cache),
                             power=args.power, device=args.device)
                         model.fit(index[observed], y, steps=args.steps,
                                   reg_weight=args.reg, seed=seed)

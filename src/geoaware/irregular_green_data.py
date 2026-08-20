@@ -151,8 +151,9 @@ def _mass_orthonormalize(basis: torch.Tensor, mass: torch.Tensor) -> torch.Tenso
     return inverse_sqrt(mass) @ q[:, keep]
 
 
-def _bounding_box_product_basis(coordinates: torch.Tensor, mass: torch.Tensor,
-                                count: int) -> tuple[torch.Tensor, torch.Tensor]:
+def _bounding_box_product_basis(coordinates: torch.Tensor, mass,
+                                count: int, *, sparse: bool = False
+                                ) -> tuple[torch.Tensor, torch.Tensor]:
     """Separable Neumann cosine modes of the enclosing square at node positions.
 
     Modes are ranked by ``k^2 + l^2``, the eigenvalue of the square's Laplacian,
@@ -167,6 +168,9 @@ def _bounding_box_product_basis(coordinates: torch.Tensor, mass: torch.Tensor,
     columns = (torch.cos(math.pi * x * pairs[:, 0].double())
                * torch.cos(math.pi * y * pairs[:, 1].double()))
     eigenvalues = (pairs.double() ** 2).sum(1)
+    if sparse:
+        from .operator_diagnostics import mass_orthonormalize_columns
+        return mass_orthonormalize_columns(columns, mass), eigenvalues
     return _mass_orthonormalize(columns, mass), eigenvalues
 
 
@@ -336,7 +340,7 @@ def wall_field_tensor(
         truth_modes: int = 60, contrast: float = .3, reaction: float = .15,
         time_span: tuple[float, float] = (.15, 3.), mesh_seed: int = 0,
         scenario_seed: int = 7717, permutation_seed: int = 9173,
-        truth_refinement: int = 1) -> GroupedFieldDataset:
+        truth_refinement: int = 1, sparse: bool = False) -> GroupedFieldDataset:
     """``Y(scenario, time, node)`` on one square mesh divided by thin baffles.
 
     Every wall layout uses the *same* mesh and the *same* nodes; only the
@@ -357,9 +361,27 @@ def wall_field_tensor(
     centroids = triangle_centroids(mesh)
     truth_material = wall_coefficient(centroids, walls, contrast, background=True)
     learner_material = wall_coefficient(centroids, walls, 0., background=False)
-    truth_stiffness, mass = assemble_p1(mesh, truth_material)
-    nominal_stiffness, _ = assemble_p1(mesh, learner_material)
-    blind_stiffness, _ = assemble_p1(mesh, 1.)
+    if sparse:
+        # Nothing of size N x N is formed.  A P1 operator has a bounded number
+        # of non-zeros per row, and the learner only ever needs the leading few
+        # eigenpairs, so the cost of the whole construction grows roughly with
+        # the number of nodes rather than with its cube.
+        from .simplex_fem import SimplexMesh, assemble_sparse
+        from .operator_diagnostics import sparse_eigenpairs
+        simplex = SimplexMesh(mesh.nodes, mesh.triangles, "triangles")
+        truth_stiffness, mass = assemble_sparse(simplex, truth_material)
+        nominal_stiffness, _ = assemble_sparse(simplex, learner_material)
+        blind_stiffness, _ = assemble_sparse(simplex, 1.)
+        eigenpairs = sparse_eigenpairs
+        def apply_mass(x):
+            return torch.from_numpy(mass @ x.double().numpy()).double()
+    else:
+        truth_stiffness, mass = assemble_p1(mesh, truth_material)
+        nominal_stiffness, _ = assemble_p1(mesh, learner_material)
+        blind_stiffness, _ = assemble_p1(mesh, 1.)
+        eigenpairs = generalized_eigenpairs
+        def apply_mass(x):
+            return mass.double() @ x.double()
     coordinates = mesh.nodes
     n_nodes = mesh.n_nodes
     truth_modes = min(truth_modes, n_nodes)
@@ -378,11 +400,12 @@ def wall_field_tensor(
         truth_mesh, truth_operator, truth_mass = mesh, truth_stiffness, mass
     truth_modes = min(truth_modes, truth_mesh.n_nodes)
 
-    truth_values, truth_vectors = generalized_eigenpairs(
+    truth_values, truth_vectors = eigenpairs(
         truth_operator, truth_mass, truth_modes)
     rates = _normalized_rates(truth_values)
     initial = _smooth_initial_states(truth_mesh.nodes, n_scenarios, scenario_seed)
-    amplitudes = initial @ truth_mass @ truth_vectors
+    amplitudes = (initial @ apply_mass(truth_vectors) if truth_mesh is mesh
+                  else initial @ truth_mass.double() @ truth_vectors)
     time = torch.linspace(time_span[0], time_span[1], n_time, dtype=torch.float64)
     decay = torch.exp(-time[:, None] * (reaction + rates[None, :]))
     values = torch.einsum("sq,tq,nq->stn", amplitudes, decay, truth_vectors)
@@ -390,12 +413,12 @@ def wall_field_tensor(
         values = interpolate_p1(truth_mesh, values, coordinates)
     values = (values - values.mean()) / values.std().clamp_min(1e-12)
 
-    nominal_values, wall_basis = generalized_eigenpairs(
+    nominal_values, wall_basis = eigenpairs(
         nominal_stiffness, mass, basis_cutoff)
-    blind_values, blind_basis = generalized_eigenpairs(
+    blind_values, blind_basis = eigenpairs(
         blind_stiffness, mass, basis_cutoff)
     box_basis, box_values = _bounding_box_product_basis(
-        coordinates, mass, basis_cutoff)
+        coordinates, mass, basis_cutoff, sparse=sparse)
     permutation = torch.randperm(
         n_nodes, generator=torch.Generator().manual_seed(permutation_seed))
     time_cutoff = min(basis_cutoff, n_time)
@@ -411,12 +434,18 @@ def wall_field_tensor(
         "permuted": (wall_basis[permutation], _normalized_rates(nominal_values)),
     }
     matrices = {
+        "coordinates_only": True} if sparse else {}
+    # The dense operators exist only for the penalized-table controls, which are
+    # the one component that cannot be expressed matrix-free.  On a large mesh
+    # they are omitted and those controls are skipped, which the runner checks.
+    matrices = matrices | ({} if sparse else {
         "mass": mass.float(), "nominal_stiffness": nominal_stiffness.float(),
         # The same operator with the barriers removed.  Pairing it with the
         # geometry-aware one turns the comparison into a clean 2x2: geometry
         # known or not, crossed with spectral truncation or a free table under a
         # smoothness penalty.
-        "blind_stiffness": blind_stiffness.float(),
+        "blind_stiffness": blind_stiffness.float()})
+    matrices = matrices | {
         "coordinates": coordinates.float(), "time_basis": time_basis.float(),
         "time_eigenvalues": _normalized_rates(nominal_values)[:time_cutoff].float(),
     }
@@ -424,7 +453,9 @@ def wall_field_tensor(
         matrices[f"{name}_basis"] = basis.float()
         matrices[f"{name}_eigenvalues"] = eigenvalues[:basis.shape[1]].float()
 
-    metadata = mesh_metadata(mesh, truth_stiffness, mass) | {
+    metadata = ({"mesh_hash": mesh.hash(), "n_nodes": int(mesh.n_nodes),
+                 "n_cells": int(len(mesh.triangles)), "sparse_operators": True}
+                if sparse else mesh_metadata(mesh, truth_stiffness, mass)) | {
         "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
         "boundary_condition": "Neumann on the outer square",
         "tensor_semantics": "scenario x time x node",
