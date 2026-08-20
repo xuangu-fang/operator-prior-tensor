@@ -693,3 +693,103 @@ the benchmark is meaningful.
 Artifacts: `results/wall_refined_truth_x2_r10`,
 `results/wall_refined_truth_x3_r10`, `results/inverse_crime_summary_r10`,
 `results/inverse_crime_summary_random_r10`.
+
+## Iteration 11 — sparse operators, and the meshes stop being toys
+
+Every result up to here was computed with dense ``N x N`` matrices: the operator
+was assembled densely, its spectrum came from a full eigendecomposition, the
+Sobolev penalty needed three more of them, and the projection diagnostic formed
+an explicit ``N x N`` projector.  That caps the benchmark at a few hundred
+nodes.  A reviewer reading "324 mesh nodes" is entitled to ask whether the
+method is anything but a toy.
+
+The cap was never a property of the method.  The learner needs the *leading*
+sixteen eigenpairs and nothing else, which is exactly what shift-invert Lanczos
+on a sparse operator delivers in time proportional to the number of modes rather
+than to the cube of the number of nodes.  Four changes were enough:
+
+- ``simplex_fem.assemble_sparse`` builds SciPy CSR matrices with the identical
+  element formula, so nothing of size ``N x N`` is ever materialized.
+- ``operator_diagnostics.sparse_eigenpairs`` uses ``eigsh`` with a small negative
+  shift, since a pure Neumann operator is singular at zero.
+- ``mass_orthonormalize_columns`` whitens through an ``r x r`` Gram matrix
+  instead of ``M^{1/2}``, which costs the same at any mesh size.
+- ``product_projection_residual`` brackets as ``q (q^T x)`` rather than
+  ``(q q^T) x``.
+
+Verified rather than assumed: on a mesh where both paths fit, the tensors are
+bit-identical and the eigenvalues agree to `5.7e-13`.  The speedups are large --
+a 642-node sphere spectrum drops from `32.0 s` to `0.11 s`, and a 2 562-node
+dataset from `264 s` to `0.9 s` -- and the reach changes qualitatively:
+
+| mesh | dense | sparse |
+|---|---|---|
+| 642-node sphere | 32.0 s | 0.11 s |
+| 2 562-node sphere dataset | 264 s | 0.9 s |
+| 40 962-node sphere | out of reach | 35.6 s |
+| 76 940-node plane | out of reach | 50.2 s |
+
+**What the larger meshes then revealed.**  Two things that a few hundred nodes
+had been hiding, both of which changed the design rather than being tuned away.
+
+*The resolution-18 setting was flattering the method.*  The baffles are `0.04`
+wide against a coarse element of `0.056`, so the learner's own operator
+represented them as a jagged single-element layer -- thicker and more continuous
+than the real barrier, which helps a geometry-aware basis more than a blind one.
+Across resolutions the blind-to-aware bias ratio on `sealed_4` reads
+`6.28 / 3.16 / 3.71 / 3.38 / 3.97` at 324 / 1 452 / 5 520 / 21 952 / 76 940
+nodes.  The converged number is `3.2--4.0x`, not `6.3x`, and that is what should
+be claimed.
+
+*A barrier at a thousand-to-one contrast is its own slow subsystem.*  Once the
+barrier occupies several elements it acquires interior modes whose eigenvalues
+are lower than anything outside it, so a truncated basis spends its leading
+columns describing the inside of a wall.  On `chamber` at 5 520 nodes the
+geometry-aware bias floor was then *worse* than the blind one (`0.35` against
+`0.24`) until the cutoff passed 32.  At a hundred-to-one contrast the effect
+disappears and every layout is clean:
+
+| barrier conductivity | labyrinth | chamber | sealed_4 |
+|---|---:|---:|---:|
+| `1e-3` | 0.77 | 0.67 | 6.87 |
+| **`1e-2`** | **5.92** | **5.03** | **12.89** |
+| `3e-2` | 10.60 | 9.35 | 18.36 |
+| `1e-1` | 6.50 | 5.64 | 10.50 |
+
+`3e-2` scores best and is not what was chosen.  The value is set at `1e-2` for a
+statement about the physics -- a barrier whose own relaxation is slower than the
+dynamics being observed is a different problem -- and the sweep is reported so
+the choice can be checked.
+
+### 11b — a mode nobody measures is a mode nobody can constrain
+
+At 1 452 nodes the geometry-aware model failed outright under sensor sampling:
+held-out NRMSE `1.246` on `sealed_4` and `1.606` on `chamber`, while fitting the
+observed entries perfectly (`0.139`) and predicting values in `[-74.8, 77.5]`
+for a field lying in `[-5.8, 10.4]`.  The geometry-blind model was fine.
+
+The cause is visible before any fitting.  Measuring how much of each basis
+column's energy sits on observed nodes, relative to the fraction of nodes
+observed, the aware basis at that resolution reads
+`1.00, 1.01, 1.00, 1.00, 0.004, 0.001, 0.001, 0.002, 1.06, 0.84`.  Modes five
+through eight are the barrier-interior modes: sensors essentially never land
+inside a thin barrier, so those coefficients are constrained by nothing and the
+model extrapolates by whatever they happen to be.  The blind basis has no such
+column, which is why it never showed the failure.
+
+This sharpens the empirical cutoff rule from Iteration 7 into something
+computable.  What makes a mode estimable is not that its eigenvalue is small --
+a barrier-interior mode has the *lowest* eigenvalue in the spectrum and is the
+least observable column in the basis.  ``observable_modes`` therefore screens on
+the basis and the observation mask alone, never on the data, and is applied
+identically to every spectral model, so it cannot favour one of them.  It is a
+no-op wherever nothing is unobservable:
+
+| resolution | layout | least observable mode | without screen | with screen |
+|---|---|---:|---:|---:|
+| 324 | `sealed_4` | 0.839 | 0.157 | 0.157 |
+| 1 452 | `sealed_4` | 0.001 | 1.246 | **0.169** |
+| 1 452 | `chamber` | 0.000 | 1.606 | **0.251** |
+| 5 520 | `sealed_4` | 0.529 | 0.166 | 0.166 |
+
+Artifacts: `src/geoaware/simplex_fem.py`, `src/geoaware/operator_diagnostics.py`.
