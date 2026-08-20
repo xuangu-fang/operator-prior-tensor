@@ -1,0 +1,122 @@
+{
+  "mask": "random",
+  "ratio": 0.1,
+  "spearman": {
+    "floor_vs_advantage": 0.806060606060606,
+    "floor_vs_blind_error": 0.5757575757575758,
+    "normalized_floor_vs_advantage": 0.8787878787878788,
+    "inverse_ours_vs_advantage": 0.9030303030303031
+  },
+  "points": [
+    {
+      "family": "barrier",
+      "layout": "open",
+      "blind_bias_floor": 0.08146061535376323,
+      "ours": 0.2398742228746414,
+      "blind": 0.2398742228746414,
+      "neural": 0.25283694863319395,
+      "difficulty": 0.3395972038076582,
+      "blind_over_ours": 1.0,
+      "neural_over_ours": 1.0540396779745977
+    },
+    {
+      "family": "domain",
+      "layout": "square",
+      "blind_bias_floor": 0.0814606170282175,
+      "ours": 0.23987423479557038,
+      "blind": 0.23987423479557038,
+      "neural": 0.25277273654937743,
+      "difficulty": 0.33959719391138954,
+      "blind_over_ours": 1.0,
+      "neural_over_ours": 1.0537719349675034
+    },
+    {
+      "family": "domain",
+      "layout": "L_shape",
+      "blind_bias_floor": 0.08602912958765367,
+      "ours": 0.18101711869239806,
+      "blind": 0.20628223419189454,
+      "neural": 0.2154370903968811,
+      "difficulty": 0.4752541097167874,
+      "blind_over_ours": 1.1395730728784244,
+      "neural_over_ours": 1.1901476056691236
+    },
+    {
+      "family": "barrier",
+      "layout": "labyrinth",
+      "blind_bias_floor": 0.10430106972171947,
+      "ours": 0.21659593284130096,
+      "blind": 0.24596256017684937,
+      "neural": 0.2574619442224503,
+      "difficulty": 0.4815467601514959,
+      "blind_over_ours": 1.1355825428036326,
+      "neural_over_ours": 1.1886739554389125
+    },
+    {
+      "family": "domain",
+      "layout": "center_hole",
+      "blind_bias_floor": 0.1137708369951002,
+      "ours": 0.17967632412910461,
+      "blind": 0.20916740894317626,
+      "neural": 0.2295435220003128,
+      "difficulty": 0.6331988231980487,
+      "blind_over_ours": 1.1641345066302733,
+      "neural_over_ours": 1.2775390587096862
+    },
+    {
+      "family": "barrier",
+      "layout": "arc",
+      "blind_bias_floor": 0.11615622834004072,
+      "ours": 0.23283428251743316,
+      "blind": 0.2558072626590729,
+      "neural": 0.2792109578847885,
+      "difficulty": 0.49887940506073747,
+      "blind_over_ours": 1.0986666563585612,
+      "neural_over_ours": 1.1991831910057444
+    },
+    {
+      "family": "domain",
+      "layout": "two_holes",
+      "blind_bias_floor": 0.12990347238710323,
+      "ours": 0.21278780400753022,
+      "blind": 0.2408830851316452,
+      "neural": 0.27143304646015165,
+      "difficulty": 0.6104836364705665,
+      "blind_over_ours": 1.1320342641588648,
+      "neural_over_ours": 1.275604340794579
+    },
+    {
+      "family": "domain",
+      "layout": "U_shape",
+      "blind_bias_floor": 0.16180088278363072,
+      "ours": 0.16188649833202362,
+      "blind": 0.22929505705833436,
+      "neural": 0.18354437351226807,
+      "difficulty": 0.9994711384255326,
+      "blind_over_ours": 1.4163939514465136,
+      "neural_over_ours": 1.1337843205171125
+    },
+    {
+      "family": "barrier",
+      "layout": "chamber",
+      "blind_bias_floor": 0.3030229189618941,
+      "ours": 0.20810367166996002,
+      "blind": 0.3611309289932251,
+      "neural": 0.24954883456230165,
+      "difficulty": 1.4561151974409674,
+      "blind_over_ours": 1.7353414579150586,
+      "neural_over_ours": 1.1991563270352634
+    },
+    {
+      "family": "barrier",
+      "layout": "sealed_4",
+      "blind_bias_floor": 0.3908385588632277,
+      "ours": 0.1499975323677063,
+      "blind": 0.4178250253200531,
+      "neural": 0.2355694055557251,
+      "difficulty": 2.6056332573866614,
+      "blind_over_ours": 2.7855459934886815,
+      "neural_over_ours": 1.5704885396264157
+    }
+  ]
+}

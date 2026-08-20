@@ -567,3 +567,77 @@ random entries, but the sensor protocol at 5% remains high-variance
 
 Artifacts: `results/wall_confirmation_sensors_r9`,
 `results/wall_confirmation_random_r9`.
+
+## Iteration 10 — a second geometry family, and a prediction rather than a description
+
+Iteration 8b read a phase boundary off the barrier family: the geometry prior
+pays off once the bias floor of ignoring the geometry approaches the error the
+estimator could otherwise attain.  Fitted on one family, that is a description.
+This iteration tests it out of sample on a family whose geometry enters by a
+different mechanism entirely.
+
+**Design.**  Polygonal domains instead of internal barriers: a plain square (the
+control), one circular obstacle, two obstacles, an L and a U.  Geometry now
+enters through the *shape of the domain* — nodes are absent where the obstacle
+is, and a reentrant corner forces the field around — rather than through
+material inside a fixed mesh.  Nothing else changes: the same PDE, the same
+tensor semantics `Y(scenario, time, node)`, the same frozen learner
+configuration (cutoff 10, ranks `(4,4,6)`, 400 updates, 10% noise), the same
+nine models and the same fresh seeds `101--105`.
+
+Because the domains differ, layouts no longer share a node set, so this family
+cannot support the exactly-one-difference argument the barrier family carries.
+It is reported as an out-of-sample test of the boundary, not as a replacement
+main table.
+
+**Result — the advantage is real, consistent, and modest.**  Random entries at
+10%, mean over five seeds, with ours-versus-topology-erased paired wins:
+
+| layout | blind bias floor | ours | topology erased | neural coords | discrete Tucker | paired wins |
+|---|---:|---:|---:|---:|---:|---|
+| `square` (control) | 0.081 | 0.240 | 0.240 | 0.253 | 0.796 | 0/5 (exact tie) |
+| `L_shape` | 0.086 | 0.181 | 0.206 | 0.215 | 0.507 | 5/5 |
+| `center_hole` | 0.114 | 0.180 | 0.209 | 0.230 | 0.707 | 5/5 |
+| `two_holes` | 0.130 | 0.213 | 0.241 | 0.271 | 0.766 | 4/5 |
+| `U_shape` | 0.162 | 0.162 | 0.229 | 0.184 | 0.484 | 5/5 |
+
+On the plain square the geometry-aware and topology-erased models again return
+*identical* numbers, so the negative control holds in a second family.  The
+margins against the blind spectral basis are 1.13--1.42x, well below the
+1.74--2.79x the barrier family reaches, and that is exactly what the boundary
+predicts from these smaller bias floors.  Under spatial sensors the ordering is
+the same (1.12--1.27x, 4/5 wins on every geometry-bearing layout).
+
+**Limitation, stated plainly.**  Under spatial sensors at 2% and 5% the spectral
+models lose to a coordinate network on this family (at 2%, `0.99` against
+`0.56` on `U_shape`).  With roughly six observed nodes out of 300, cutoff 10 and
+rank 6 leave sixty node coefficients constrained at six locations: the same
+identifiability rule from Iteration 7, now on the wrong side of it.  The claim
+under sparse sensors remains a 10% claim.
+
+### 10b — one training-free scalar orders both families
+
+Pooling the ten geometries from the two families and asking whether the bias
+floor — computable from the data and the candidate bases *before any model is
+fitted* — orders the realized advantage:
+
+| protocol | Spearman(floor, blind/ours) | control: Spearman(1/ours, blind/ours) |
+|---|---:|---:|
+| spatial sensors, 10% | **+0.915** | +0.600 |
+| random entries, 10% | +0.806 | +0.903 |
+
+The control is the point.  A normalized x axis (floor divided by the error ours
+attains) scores higher — `+0.915` and `+0.879` — but it shares a denominator
+with the reported advantage, and under random entries `1/ours` *alone* reaches
+`+0.903`.  So the normalized version cannot be quoted as evidence, and the
+random-entry correlation is not claimed either.  What survives is the sensor
+protocol, where the un-shared pre-fit scalar reaches `+0.915` while the
+shared-denominator control only manages `+0.600`: there, the boundary predicts
+across mechanisms rather than merely describing one family.
+
+That is the strongest form the claim has taken so far — the method comes with a
+diagnostic that says, without training anything, whether it is worth using.
+
+Artifacts: `results/irregular_domain_sensors_r10`,
+`results/irregular_domain_random_r10`, their summaries, and
+`results/phase_curve_r10`.
