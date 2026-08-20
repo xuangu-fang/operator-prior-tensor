@@ -39,7 +39,9 @@ def main():
     parser.add_argument("--seeds", default="101,102,103,104,105")
     parser.add_argument("--n-scenarios", type=int, default=12)
     parser.add_argument("--n-time", type=int, default=12)
-    parser.add_argument("--basis-cutoff", type=int, default=16)
+    # Omitted by default: each family carries the cutoff that equalizes its
+    # geometry-aware approximation floor, fixed before any fitting.
+    parser.add_argument("--basis-cutoff", type=int, default=None)
     parser.add_argument("--truth-modes", type=int, default=60)
     parser.add_argument("--noise", type=float, default=.1)
     parser.add_argument("--als-iters", type=int, default=200)

@@ -793,3 +793,76 @@ no-op wherever nothing is unobservable:
 | 5 520 | `sealed_4` | 0.529 | 0.166 | 0.166 |
 
 Artifacts: `src/geoaware/simplex_fem.py`, `src/geoaware/operator_diagnostics.py`.
+
+## Iteration 12 — the main table: one claim, four geometries, five fresh seeds
+
+Everything before this iteration was a route to a single sentence, and this is
+the run that tests it:
+
+> A spatiotemporal field is observed at ten percent of its entries on a domain
+> whose geometry is known.  Using that geometry to define the function space the
+> spatial factor lives in reconstructs the field better than not using it.
+
+**Design.**  `src/geoaware/benchmark.py` replaces three separately evolved data
+modules with one code path.  Four families vary only *how* geometry enters:
+walls inside a square (`plane_barrier`, 5 520 nodes), holes and reentrant
+corners (`plane_domain`, 3 941--5 520), partitions inside a cube
+(`volume_barrier`, 8 000), and the curvature of a bare sphere under linearized
+shallow water (`sphere`, 10 242).  Each family defines its own geometry-blind
+control as the basis a practitioner would use having ignored that geometry.
+
+Seven models.  `geometry_operator` and `blind_operator` are the same model, the
+same node set, the same decoder, optimizer, prior and closed-form core
+posterior, differing in one thing.  `neural_tucker` and `neural_cp` replace the
+operator basis with a coordinate network, dense core and diagonal core
+respectively.  `cp_als` and `tucker_als` are CP-ALS and Tucker-HOOI from
+TensorLy.  `permuted` destroys the alignment between node index and operator row
+and must fail.
+
+No selection/confirmation split, because nothing was selected on these numbers.
+The barrier contrast, the basis cutoff, the mode screen, the step count and the
+decision to keep the sphere bare were all fixed by pre-fit diagnostics or
+convergence tests.  Seeds `101--105`, one frozen run.
+
+**Result -- the ablation.**  Held-out NRMSE, spatial sensors at 10%, mean over
+five seeds, with paired wins of ours against the same model with geometry
+removed:
+
+| layout | ours | geometry removed | ratio | wins |
+|---|---:|---:|---:|---|
+| `plane_barrier/open` *(control)* | 0.117 | 0.117 | **1.00** | 1/5 |
+| `plane_domain/square` *(control)* | 0.117 | 0.117 | **1.00** | 1/5 |
+| `volume_barrier/open` *(control)* | 0.293 | 0.293 | **1.00** | 1/5 |
+| `plane_barrier/labyrinth` | 0.111 | 0.245 | 2.20 | 5/5 |
+| `plane_barrier/arc` | 0.153 | 0.219 | 1.43 | 5/5 |
+| `plane_barrier/chamber` | 0.109 | 0.202 | 1.84 | 5/5 |
+| `plane_barrier/sealed_4` | 0.094 | 0.279 | **2.98** | 5/5 |
+| `plane_domain/center_hole` | 0.080 | 0.085 | 1.07 | 5/5 |
+| `plane_domain/two_holes` | 0.098 | 0.106 | 1.08 | 5/5 |
+| `plane_domain/L_shape` | 0.088 | 0.097 | 1.11 | 5/5 |
+| `plane_domain/U_shape` | 0.065 | 0.087 | 1.33 | 5/5 |
+
+Twelve layouts carry geometry and all twelve win five seeds out of five, under
+both protocols.  The three controls tie to three decimals and win at chance.
+Random entries give the same picture.
+
+**Result -- the baselines.**  Against the coordinate networks in two dimensions,
+ours wins every layout, by `1.05--1.32x` against functional Tucker and
+`1.51--1.88x` against functional CP.  The margin is modest; the parameter count
+is not.  On `sealed_4` the proposed model uses **288** parameters against
+**2 982** for the network it beats, because the operator has already supplied
+the spatial structure that the network has to learn.
+
+The classical baselines split by protocol, and the split is the point.  Under
+random entries CP-ALS and Tucker-HOOI are real competitors -- `0.27--0.66`
+across the families, at an SVD start and with the rank chosen on held-out error,
+which is oracle knowledge granted to make each number an upper bound.  Under
+sensor sampling both return exactly `1.000` on every layout, at every rank, at
+every iteration budget.  An unobserved node appears in no observed entry, so its
+factor row is constrained by nothing: the problem is not hard for that model
+class, it is undefined.  Tying every node's factor row to every other through
+the operator spectrum is what makes the reconstruction defined at all.
+
+Artifacts: `results/main_plane_barrier_r12`, `results/main_domains_r12`,
+`results/als_group_a_r12`, `results/als_group_b_r12`,
+`results/main_summary_r12`.

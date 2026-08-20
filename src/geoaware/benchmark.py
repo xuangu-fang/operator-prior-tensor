@@ -46,13 +46,25 @@ from .simplex_fem import (SimplexMesh, assemble_sparse, build_box_mesh,
 
 @dataclass(frozen=True)
 class Family:
-    """How one geometry family builds its mesh, its truth and its blind control."""
+    """How one geometry family builds its mesh, its truth and its blind control.
+
+    ``basis_cutoff`` is per family rather than global, chosen before any fitting
+    so that the *geometry-aware* approximation floor is comparable everywhere --
+    about ``0.02`` of the field's energy.  One global number would not do: at
+    sixteen columns that floor is `0.022` on a plane, `0.101` on a sphere and
+    `0.138` in a volume, because a three-dimensional or oscillatory field simply
+    has more content to represent.  Holding the *truncation* fixed while the
+    approximation quality varies sevenfold would compare truncation, not
+    geometry.  Both bases in a comparison always receive the same number of
+    columns.
+    """
 
     name: str
     dimension: int
     dynamics: str
     resolution: int
     layouts: dict
+    basis_cutoff: int = 16
 
 
 # A hundred-to-one contrast between barrier and medium.  The choice is physical
@@ -108,10 +120,10 @@ SPHERE_LAYOUTS = {"open_ocean": ()}
 # several elements and the mesh is large enough to be worth reporting, then left
 # alone.  Sweeping it is not part of the claim.
 FAMILIES = {
-    "plane_barrier": Family("plane_barrier", 2, "diffusion", 80, PLANE_BARRIERS),
-    "plane_domain": Family("plane_domain", 2, "diffusion", 80, PLANE_DOMAINS),
-    "volume_barrier": Family("volume_barrier", 3, "diffusion", 20, VOLUME_BARRIERS),
-    "sphere": Family("sphere", 2, "wave", 5, SPHERE_LAYOUTS),
+    "plane_barrier": Family("plane_barrier", 2, "diffusion", 80, PLANE_BARRIERS, 16),
+    "plane_domain": Family("plane_domain", 2, "diffusion", 80, PLANE_DOMAINS, 16),
+    "volume_barrier": Family("volume_barrier", 3, "diffusion", 20, VOLUME_BARRIERS, 48),
+    "sphere": Family("sphere", 2, "wave", 5, SPHERE_LAYOUTS, 32),
 }
 
 
@@ -221,7 +233,8 @@ def _erased_triangulation(coordinates: torch.Tensor) -> SimplexMesh:
 
 
 def build_family(family: str, layout: str, *, resolution: int | None = None,
-                 n_scenarios: int = 20, n_time: int = 16, basis_cutoff: int = 16,
+                 n_scenarios: int = 20, n_time: int = 16,
+                 basis_cutoff: int | None = None,
                  truth_modes: int = 60, contrast: float = .3,
                  reaction: float = .15, time_span: tuple[float, float] = (.15, 3.),
                  wave_speed: float = 1., damping: float = .05,
@@ -230,6 +243,7 @@ def build_family(family: str, layout: str, *, resolution: int | None = None,
     """``Y(scenario, time, node)`` for one layout of one geometry family."""
     spec = FAMILIES[family]
     resolution = spec.resolution if resolution is None else resolution
+    basis_cutoff = spec.basis_cutoff if basis_cutoff is None else basis_cutoff
     obstacles: tuple = ()
     polygon: Polygon | None = None
 

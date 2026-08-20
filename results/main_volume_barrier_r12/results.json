@@ -1,0 +1,5343 @@
+{
+  "arguments": {
+    "output": "results/main_volume_barrier_r12",
+    "families": "volume_barrier",
+    "models": "geometry_operator,blind_operator,neural_tucker,neural_cp,cp_als,tucker_als,permuted",
+    "ratios": ".10",
+    "masks": "spatial_sensors,random",
+    "seeds": "101,102,103,104,105",
+    "n_scenarios": 12,
+    "n_time": 12,
+    "basis_cutoff": 16,
+    "truth_modes": 60,
+    "ranks": "4,4,6",
+    "cp_rank": 6,
+    "hidden": 48,
+    "steps": 1500,
+    "power": 1.5,
+    "reg": 0.002,
+    "noise": 0.1,
+    "als_iters": 200,
+    "device": "cuda"
+  },
+  "geometries": {
+    "volume_barrier/open": {
+      "name": "volume_barrier_open_r20_k16",
+      "shape": [
+        12,
+        12,
+        8000
+      ],
+      "metadata": {
+        "family": "volume_barrier",
+        "layout": "open",
+        "resolution": 20,
+        "ambient_dimension": 3,
+        "manifold_dimension": 3,
+        "dynamics": "diffusion",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "tensor_semantics": "scenario x time x node",
+        "mesh_hash": "ce704fd3e90184f7",
+        "n_nodes": 8000,
+        "n_cells": 47596,
+        "domain_measure": 1.0000000001100866,
+        "blind_operator_is": "same nodes, geometry removed",
+        "obstacles": [],
+        "polygon_vertices": null,
+        "operator_information_tier": "geometry (mesh and obstacle layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 16,
+        "time_cutoff": 12,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.1381155922466358,
+        "blind_operator": 0.13811559223411246,
+        "flat_chart": 0.13897825589858553,
+        "permuted": 0.9919390011064819
+      }
+    },
+    "volume_barrier/window": {
+      "name": "volume_barrier_window_r20_k16",
+      "shape": [
+        12,
+        12,
+        8000
+      ],
+      "metadata": {
+        "family": "volume_barrier",
+        "layout": "window",
+        "resolution": 20,
+        "ambient_dimension": 3,
+        "manifold_dimension": 3,
+        "dynamics": "diffusion",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "tensor_semantics": "scenario x time x node",
+        "mesh_hash": "ce704fd3e90184f7",
+        "n_nodes": 8000,
+        "n_cells": 47596,
+        "domain_measure": 1.0000000001100866,
+        "blind_operator_is": "same nodes, geometry removed",
+        "obstacles": [
+          {
+            "axis": 0,
+            "center": 0.5,
+            "half_width": 0.05,
+            "window": [
+              [
+                0.35,
+                0.65
+              ],
+              [
+                0.35,
+                0.65
+              ]
+            ],
+            "conductivity": 0.01
+          }
+        ],
+        "polygon_vertices": null,
+        "operator_information_tier": "geometry (mesh and obstacle layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 16,
+        "time_cutoff": 12,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.14268736140925797,
+        "blind_operator": 0.3012203000609535,
+        "flat_chart": 0.3012252920361186,
+        "permuted": 0.9953592402000652
+      }
+    },
+    "volume_barrier/chamber": {
+      "name": "volume_barrier_chamber_r20_k16",
+      "shape": [
+        12,
+        12,
+        8000
+      ],
+      "metadata": {
+        "family": "volume_barrier",
+        "layout": "chamber",
+        "resolution": 20,
+        "ambient_dimension": 3,
+        "manifold_dimension": 3,
+        "dynamics": "diffusion",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "tensor_semantics": "scenario x time x node",
+        "mesh_hash": "ce704fd3e90184f7",
+        "n_nodes": 8000,
+        "n_cells": 47596,
+        "domain_measure": 1.0000000001100866,
+        "blind_operator_is": "same nodes, geometry removed",
+        "obstacles": [
+          {
+            "axis": 0,
+            "center": 0.5,
+            "half_width": 0.05,
+            "window": [
+              [
+                0.44,
+                0.56
+              ],
+              [
+                0.44,
+                0.56
+              ]
+            ],
+            "conductivity": 0.01
+          }
+        ],
+        "polygon_vertices": null,
+        "operator_information_tier": "geometry (mesh and obstacle layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 16,
+        "time_cutoff": 12,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.1296629949835918,
+        "blind_operator": 0.330524165818263,
+        "flat_chart": 0.3305987510926198,
+        "permuted": 0.9958708796181821
+      }
+    },
+    "volume_barrier/sealed_8": {
+      "name": "volume_barrier_sealed_8_r20_k16",
+      "shape": [
+        12,
+        12,
+        8000
+      ],
+      "metadata": {
+        "family": "volume_barrier",
+        "layout": "sealed_8",
+        "resolution": 20,
+        "ambient_dimension": 3,
+        "manifold_dimension": 3,
+        "dynamics": "diffusion",
+        "pde": "d_t u + (-div(a grad u) + reaction I) u = 0",
+        "tensor_semantics": "scenario x time x node",
+        "mesh_hash": "ce704fd3e90184f7",
+        "n_nodes": 8000,
+        "n_cells": 47596,
+        "domain_measure": 1.0000000001100866,
+        "blind_operator_is": "same nodes, geometry removed",
+        "obstacles": [
+          {
+            "axis": 0,
+            "center": 0.5,
+            "half_width": 0.05,
+            "window": [],
+            "conductivity": 0.01
+          },
+          {
+            "axis": 1,
+            "center": 0.5,
+            "half_width": 0.05,
+            "window": [],
+            "conductivity": 0.01
+          },
+          {
+            "axis": 2,
+            "center": 0.5,
+            "half_width": 0.05,
+            "window": [],
+            "conductivity": 0.01
+          }
+        ],
+        "polygon_vertices": null,
+        "operator_information_tier": "geometry (mesh and obstacle layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 16,
+        "time_cutoff": 12,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.18972690748841137,
+        "blind_operator": 0.4098290445552011,
+        "flat_chart": 0.4096560751710019,
+        "permuted": 0.9975000900771909
+      }
+    }
+  },
+  "results": [
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29322487115859985,
+        "nrmse": 0.2935140132904053,
+        "mae": 0.1573953628540039
+      },
+      "elapsed_seconds": 60.60621300898492
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29322487115859985,
+        "nrmse": 0.2935140132904053,
+        "mae": 0.1573953628540039
+      },
+      "elapsed_seconds": 48.259500904008746
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2763768136501312,
+        "nrmse": 0.2766493558883667,
+        "mae": 0.15449383854866028
+      },
+      "elapsed_seconds": 40.711847397033125
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3152008056640625,
+        "nrmse": 0.3155116140842438,
+        "mae": 0.1891026645898819
+      },
+      "elapsed_seconds": 36.804770306218415
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.9990143775939941,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.5448237657546997
+      },
+      "elapsed_seconds": 13.183241399005055
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.535974025726318,
+        "nrmse": 7.543405055999756,
+        "mae": 6.888410568237305
+      },
+      "elapsed_seconds": 10.3831522972323
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.001169204711914,
+        "nrmse": 1.0021564960479736,
+        "mae": 0.5343775153160095
+      },
+      "elapsed_seconds": 46.30645913304761
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29355186223983765,
+        "nrmse": 0.29358118772506714,
+        "mae": 0.15708088874816895
+      },
+      "elapsed_seconds": 45.244942726101726
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29355189204216003,
+        "nrmse": 0.2935812175273895,
+        "mae": 0.15708090364933014
+      },
+      "elapsed_seconds": 36.496303563937545
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.27550020813941956,
+        "nrmse": 0.2755277156829834,
+        "mae": 0.1537960320711136
+      },
+      "elapsed_seconds": 42.40162576921284
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.34072428941726685,
+        "nrmse": 0.3407583236694336,
+        "mae": 0.1884542554616928
+      },
+      "elapsed_seconds": 41.21912193810567
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.9998996257781982,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.5454677939414978
+      },
+      "elapsed_seconds": 10.526716138236225
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.26380729675293,
+        "nrmse": 7.264533042907715,
+        "mae": 6.745521545410156
+      },
+      "elapsed_seconds": 7.850229954812676
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9996479749679565,
+        "nrmse": 0.9997478127479553,
+        "mae": 0.535963773727417
+      },
+      "elapsed_seconds": 43.77242365805432
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2938603460788727,
+        "nrmse": 0.29370710253715515,
+        "mae": 0.15567325055599213
+      },
+      "elapsed_seconds": 38.939384036231786
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2938603460788727,
+        "nrmse": 0.29370710253715515,
+        "mae": 0.15567325055599213
+      },
+      "elapsed_seconds": 39.090162970125675
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.27538323402404785,
+        "nrmse": 0.27523961663246155,
+        "mae": 0.15260764956474304
+      },
+      "elapsed_seconds": 41.317626749165356
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.31782403588294983,
+        "nrmse": 0.31765830516815186,
+        "mae": 0.189035564661026
+      },
+      "elapsed_seconds": 43.57929315883666
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0005215406417847,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5459291934967041
+      },
+      "elapsed_seconds": 12.46237302199006
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 6.775374412536621,
+        "nrmse": 6.771841049194336,
+        "mae": 6.1532979011535645
+      },
+      "elapsed_seconds": 36.942230810876936
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0001689195632935,
+        "nrmse": 0.9996473789215088,
+        "mae": 0.5342429876327515
+      },
+      "elapsed_seconds": 45.59050614479929
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29247409105300903,
+        "nrmse": 0.29201096296310425,
+        "mae": 0.15471436083316803
+      },
+      "elapsed_seconds": 44.001223971601576
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29247409105300903,
+        "nrmse": 0.29201096296310425,
+        "mae": 0.15471427142620087
+      },
+      "elapsed_seconds": 40.35145303606987
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2743763029575348,
+        "nrmse": 0.27394184470176697,
+        "mae": 0.15191484987735748
+      },
+      "elapsed_seconds": 43.108529162593186
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3374493718147278,
+        "nrmse": 0.3369150459766388,
+        "mae": 0.18593059480190277
+      },
+      "elapsed_seconds": 42.387326332274824
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0015861988067627,
+        "nrmse": 1.000000238418579,
+        "mae": 0.5460163354873657
+      },
+      "elapsed_seconds": 12.881199918221682
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 6.237767696380615,
+        "nrmse": 6.227890491485596,
+        "mae": 5.368625640869141
+      },
+      "elapsed_seconds": 18.981329860165715
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.004196286201477,
+        "nrmse": 1.0026061534881592,
+        "mae": 0.534263551235199
+      },
+      "elapsed_seconds": 42.61202426627278
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.292390912771225,
+        "nrmse": 0.29243043065071106,
+        "mae": 0.15493546426296234
+      },
+      "elapsed_seconds": 39.71018788218498
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.292390912771225,
+        "nrmse": 0.29243043065071106,
+        "mae": 0.15493549406528473
+      },
+      "elapsed_seconds": 35.3877529152669
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2737313508987427,
+        "nrmse": 0.2737683653831482,
+        "mae": 0.15180253982543945
+      },
+      "elapsed_seconds": 48.45729915006086
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.32169124484062195,
+        "nrmse": 0.3217347264289856,
+        "mae": 0.191019669175148
+      },
+      "elapsed_seconds": 41.6616373131983
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.9998652338981628,
+        "nrmse": 1.0000003576278687,
+        "mae": 0.5450946688652039
+      },
+      "elapsed_seconds": 13.830682230181992
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.036043167114258,
+        "nrmse": 7.036994457244873,
+        "mae": 6.380159854888916
+      },
+      "elapsed_seconds": 10.51922578876838
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0027775764465332,
+        "nrmse": 1.0029131174087524,
+        "mae": 0.5349647998809814
+      },
+      "elapsed_seconds": 34.08357189176604
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2940681278705597,
+        "nrmse": 0.2940722405910492,
+        "mae": 0.15737102925777435
+      },
+      "elapsed_seconds": 36.556676445994526
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2940680980682373,
+        "nrmse": 0.2940722107887268,
+        "mae": 0.15737102925777435
+      },
+      "elapsed_seconds": 41.20914102578536
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.27721360325813293,
+        "nrmse": 0.27721747756004333,
+        "mae": 0.15378659963607788
+      },
+      "elapsed_seconds": 43.01083530904725
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.31243500113487244,
+        "nrmse": 0.31243935227394104,
+        "mae": 0.18455155193805695
+      },
+      "elapsed_seconds": 55.26119305798784
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.6338338255882263,
+        "nrmse": 0.6338426470756531,
+        "mae": 0.28299567103385925
+      },
+      "elapsed_seconds": 13.112004002090544
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 3.3566672801971436,
+        "nrmse": 3.3567140102386475,
+        "mae": 1.4891453981399536
+      },
+      "elapsed_seconds": 54.612781597767025
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9961379170417786,
+        "nrmse": 0.9961518049240112,
+        "mae": 0.5329976677894592
+      },
+      "elapsed_seconds": 43.97293290309608
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29310500621795654,
+        "nrmse": 0.2932705283164978,
+        "mae": 0.15752172470092773
+      },
+      "elapsed_seconds": 53.7221900629811
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29310500621795654,
+        "nrmse": 0.2932705283164978,
+        "mae": 0.15752172470092773
+      },
+      "elapsed_seconds": 53.808022232260555
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.27587705850601196,
+        "nrmse": 0.27603283524513245,
+        "mae": 0.15432780981063843
+      },
+      "elapsed_seconds": 57.52533475821838
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3434596657752991,
+        "nrmse": 0.3436536192893982,
+        "mae": 0.18953129649162292
+      },
+      "elapsed_seconds": 44.91802960727364
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.6399880647659302,
+        "nrmse": 0.6403494477272034,
+        "mae": 0.2952408194541931
+      },
+      "elapsed_seconds": 26.906623356044292
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.804130792617798,
+        "nrmse": 2.8057143688201904,
+        "mae": 1.1358553171157837
+      },
+      "elapsed_seconds": 44.25050952238962
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9947925806045532,
+        "nrmse": 0.9953543543815613,
+        "mae": 0.5312128067016602
+      },
+      "elapsed_seconds": 54.91354689793661
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2930811047554016,
+        "nrmse": 0.293145090341568,
+        "mae": 0.15520571172237396
+      },
+      "elapsed_seconds": 56.44269183464348
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2930811047554016,
+        "nrmse": 0.293145090341568,
+        "mae": 0.15520571172237396
+      },
+      "elapsed_seconds": 45.806966175790876
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.28004175424575806,
+        "nrmse": 0.2801028788089752,
+        "mae": 0.15334607660770416
+      },
+      "elapsed_seconds": 50.578824571333826
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3181073069572449,
+        "nrmse": 0.3181767463684082,
+        "mae": 0.18677330017089844
+      },
+      "elapsed_seconds": 45.21666101086885
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.7133322358131409,
+        "nrmse": 0.7134879231452942,
+        "mae": 0.3016996383666992
+      },
+      "elapsed_seconds": 20.960110161453485
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.870742082595825,
+        "nrmse": 2.871368646621704,
+        "mae": 1.2209351062774658
+      },
+      "elapsed_seconds": 20.908103003632277
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9961163401603699,
+        "nrmse": 0.9963337779045105,
+        "mae": 0.5318660140037537
+      },
+      "elapsed_seconds": 56.44122374011204
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29511749744415283,
+        "nrmse": 0.29494595527648926,
+        "mae": 0.15748699009418488
+      },
+      "elapsed_seconds": 44.86749901995063
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29511749744415283,
+        "nrmse": 0.29494595527648926,
+        "mae": 0.15748699009418488
+      },
+      "elapsed_seconds": 53.528352074790746
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2778390347957611,
+        "nrmse": 0.2776775360107422,
+        "mae": 0.1545707881450653
+      },
+      "elapsed_seconds": 55.62580429390073
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.31337955594062805,
+        "nrmse": 0.31319740414619446,
+        "mae": 0.18440350890159607
+      },
+      "elapsed_seconds": 46.224568248260766
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.7159856557846069,
+        "nrmse": 0.7155694961547852,
+        "mae": 0.31167054176330566
+      },
+      "elapsed_seconds": 13.949392607901245
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 3.1055386066436768,
+        "nrmse": 3.103733539581299,
+        "mae": 1.3107914924621582
+      },
+      "elapsed_seconds": 51.156255254056305
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9980398416519165,
+        "nrmse": 0.9974597096443176,
+        "mae": 0.5333081483840942
+      },
+      "elapsed_seconds": 51.1369785326533
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29294276237487793,
+        "nrmse": 0.2929881513118744,
+        "mae": 0.1553662121295929
+      },
+      "elapsed_seconds": 53.364169674925506
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29294276237487793,
+        "nrmse": 0.2929881513118744,
+        "mae": 0.1553662121295929
+      },
+      "elapsed_seconds": 52.134491640143096
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.27548062801361084,
+        "nrmse": 0.27552330493927,
+        "mae": 0.1524270921945572
+      },
+      "elapsed_seconds": 45.753461559303105
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3230713903903961,
+        "nrmse": 0.32312145829200745,
+        "mae": 0.1886754184961319
+      },
+      "elapsed_seconds": 43.932893686927855
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.6423256993293762,
+        "nrmse": 0.6424252390861511,
+        "mae": 0.2795524299144745
+      },
+      "elapsed_seconds": 13.098127732984722
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.9375510215759277,
+        "nrmse": 2.9380061626434326,
+        "mae": 1.2833740711212158
+      },
+      "elapsed_seconds": 21.360694812145084
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9971928000450134,
+        "nrmse": 0.997347354888916,
+        "mae": 0.5317983627319336
+      },
+      "elapsed_seconds": 53.78771455027163
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.27264681458473206,
+        "nrmse": 0.2727871239185333,
+        "mae": 0.1381770372390747
+      },
+      "elapsed_seconds": 53.72020055213943
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.37392839789390564,
+        "nrmse": 0.374120831489563,
+        "mae": 0.23761573433876038
+      },
+      "elapsed_seconds": 49.659164731856436
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.25712814927101135,
+        "nrmse": 0.2572604715824127,
+        "mae": 0.1467127650976181
+      },
+      "elapsed_seconds": 56.15116863604635
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.2898726761341095,
+        "nrmse": 0.2900218665599823,
+        "mae": 0.1713501513004303
+      },
+      "elapsed_seconds": 54.18178327800706
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.9994851350784302,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7274313569068909
+      },
+      "elapsed_seconds": 15.074180600233376
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.539085388183594,
+        "nrmse": 7.542965412139893,
+        "mae": 6.888101100921631
+      },
+      "elapsed_seconds": 4.571356417611241
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0016250610351562,
+        "nrmse": 1.0021405220031738,
+        "mae": 0.7311405539512634
+      },
+      "elapsed_seconds": 43.18863563798368
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.262628972530365,
+        "nrmse": 0.26267117261886597,
+        "mae": 0.13839633762836456
+      },
+      "elapsed_seconds": 55.66669356217608
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.3724897801876068,
+        "nrmse": 0.3725496232509613,
+        "mae": 0.23739515244960785
+      },
+      "elapsed_seconds": 53.28038495499641
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.25450098514556885,
+        "nrmse": 0.25454187393188477,
+        "mae": 0.14659053087234497
+      },
+      "elapsed_seconds": 49.2150616068393
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.2888055145740509,
+        "nrmse": 0.28885191679000854,
+        "mae": 0.17197003960609436
+      },
+      "elapsed_seconds": 37.93285361677408
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.9998388886451721,
+        "nrmse": 0.9999995827674866,
+        "mae": 0.7279070019721985
+      },
+      "elapsed_seconds": 28.807537691202015
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.265735626220703,
+        "nrmse": 7.266903400421143,
+        "mae": 6.746037006378174
+      },
+      "elapsed_seconds": 17.505330401007086
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0059603452682495,
+        "nrmse": 1.0061219930648804,
+        "mae": 0.7340219616889954
+      },
+      "elapsed_seconds": 35.22514116298407
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.26242437958717346,
+        "nrmse": 0.2623749375343323,
+        "mae": 0.13518688082695007
+      },
+      "elapsed_seconds": 50.92652829317376
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.3718278408050537,
+        "nrmse": 0.37175777554512024,
+        "mae": 0.23698961734771729
+      },
+      "elapsed_seconds": 54.56964950310066
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.25558340549468994,
+        "nrmse": 0.2555352449417114,
+        "mae": 0.1461777240037918
+      },
+      "elapsed_seconds": 52.956355700735
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.31598106026649475,
+        "nrmse": 0.31592151522636414,
+        "mae": 0.18406841158866882
+      },
+      "elapsed_seconds": 41.53796044923365
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0001881122589111,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.7281084656715393
+      },
+      "elapsed_seconds": 13.936678980011493
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 6.776970386505127,
+        "nrmse": 6.775693416595459,
+        "mae": 6.15054988861084
+      },
+      "elapsed_seconds": 13.798792602028698
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.006638765335083,
+        "nrmse": 1.0064491033554077,
+        "mae": 0.7323852181434631
+      },
+      "elapsed_seconds": 55.43145228875801
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.27654212713241577,
+        "nrmse": 0.2761267423629761,
+        "mae": 0.13525882363319397
+      },
+      "elapsed_seconds": 54.04175711236894
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.37423327565193176,
+        "nrmse": 0.37367117404937744,
+        "mae": 0.23472459614276886
+      },
+      "elapsed_seconds": 52.865458802785724
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2532574534416199,
+        "nrmse": 0.25287705659866333,
+        "mae": 0.14148357510566711
+      },
+      "elapsed_seconds": 56.51058769412339
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.32025349140167236,
+        "nrmse": 0.3197724521160126,
+        "mae": 0.18188340961933136
+      },
+      "elapsed_seconds": 47.783123441040516
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.00150465965271,
+        "nrmse": 1.0000003576278687,
+        "mae": 0.7284300327301025
+      },
+      "elapsed_seconds": 22.244543315842748
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 6.232590675354004,
+        "nrmse": 6.223228931427002,
+        "mae": 5.353724956512451
+      },
+      "elapsed_seconds": 47.81750802695751
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.007217526435852,
+        "nrmse": 1.005704641342163,
+        "mae": 0.7314669489860535
+      },
+      "elapsed_seconds": 55.641433734912425
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.28791701793670654,
+        "nrmse": 0.28782641887664795,
+        "mae": 0.14928697049617767
+      },
+      "elapsed_seconds": 54.03863949002698
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.37487804889678955,
+        "nrmse": 0.37476006150245667,
+        "mae": 0.2363111823797226
+      },
+      "elapsed_seconds": 51.620624688919634
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.25254499912261963,
+        "nrmse": 0.25246551632881165,
+        "mae": 0.14270587265491486
+      },
+      "elapsed_seconds": 57.682385214138776
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.29003608226776123,
+        "nrmse": 0.2899447977542877,
+        "mae": 0.17088057100772858
+      },
+      "elapsed_seconds": 59.97746912389994
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0003156661987305,
+        "nrmse": 1.0000008344650269,
+        "mae": 0.7278242707252502
+      },
+      "elapsed_seconds": 26.745566105935723
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.036573886871338,
+        "nrmse": 7.034359455108643,
+        "mae": 6.377016544342041
+      },
+      "elapsed_seconds": 16.84094617376104
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.008734941482544,
+        "nrmse": 1.0084174871444702,
+        "mae": 0.7331687808036804
+      },
+      "elapsed_seconds": 66.41997166769579
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2633402347564697,
+        "nrmse": 0.2632574439048767,
+        "mae": 0.13837452232837677
+      },
+      "elapsed_seconds": 60.72164095705375
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.3721046447753906,
+        "nrmse": 0.3719876706600189,
+        "mae": 0.23666174709796906
+      },
+      "elapsed_seconds": 52.29752537980676
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.25426185131073,
+        "nrmse": 0.2541819214820862,
+        "mae": 0.14400851726531982
+      },
+      "elapsed_seconds": 60.952450848184526
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.2877131998538971,
+        "nrmse": 0.28762274980545044,
+        "mae": 0.1694003790616989
+      },
+      "elapsed_seconds": 61.873462033923715
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.5503267049789429,
+        "nrmse": 0.5501537322998047,
+        "mae": 0.2578815221786499
+      },
+      "elapsed_seconds": 28.12951954221353
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 3.346886157989502,
+        "nrmse": 3.3458340167999268,
+        "mae": 1.5785119533538818
+      },
+      "elapsed_seconds": 59.98560468805954
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9992355108261108,
+        "nrmse": 0.9989213943481445,
+        "mae": 0.7309712767601013
+      },
+      "elapsed_seconds": 63.206460861023515
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.26778000593185425,
+        "nrmse": 0.2679075300693512,
+        "mae": 0.1391409933567047
+      },
+      "elapsed_seconds": 59.66364717902616
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.37173184752464294,
+        "nrmse": 0.37190887331962585,
+        "mae": 0.23673216998577118
+      },
+      "elapsed_seconds": 59.82136311195791
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2541014850139618,
+        "nrmse": 0.2542225122451782,
+        "mae": 0.14491911232471466
+      },
+      "elapsed_seconds": 63.69983391603455
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.30022692680358887,
+        "nrmse": 0.30036991834640503,
+        "mae": 0.18081766366958618
+      },
+      "elapsed_seconds": 59.37327527627349
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.531400203704834,
+        "nrmse": 0.5316532850265503,
+        "mae": 0.25672289729118347
+      },
+      "elapsed_seconds": 14.870222621131688
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.5767788887023926,
+        "nrmse": 2.5780060291290283,
+        "mae": 1.0351413488388062
+      },
+      "elapsed_seconds": 53.77975030336529
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9975942969322205,
+        "nrmse": 0.9980694055557251,
+        "mae": 0.7303571105003357
+      },
+      "elapsed_seconds": 61.20852982997894
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.26157158613204956,
+        "nrmse": 0.26163285970687866,
+        "mae": 0.13602107763290405
+      },
+      "elapsed_seconds": 57.59958459530026
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.37191954255104065,
+        "nrmse": 0.3720066547393799,
+        "mae": 0.2362029105424881
+      },
+      "elapsed_seconds": 49.264794782269746
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2549535930156708,
+        "nrmse": 0.2550133168697357,
+        "mae": 0.1450594961643219
+      },
+      "elapsed_seconds": 51.43311585439369
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3161969482898712,
+        "nrmse": 0.31627100706100464,
+        "mae": 0.18399347364902496
+      },
+      "elapsed_seconds": 51.130555405747145
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.653130054473877,
+        "nrmse": 0.6532830595970154,
+        "mae": 0.2967836856842041
+      },
+      "elapsed_seconds": 20.793119236826897
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.6551127433776855,
+        "nrmse": 2.6557347774505615,
+        "mae": 1.0860304832458496
+      },
+      "elapsed_seconds": 31.204306644853204
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9978019595146179,
+        "nrmse": 0.9980356693267822,
+        "mae": 0.7302150726318359
+      },
+      "elapsed_seconds": 46.011637857183814
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2630214989185333,
+        "nrmse": 0.26292699575424194,
+        "mae": 0.13889656960964203
+      },
+      "elapsed_seconds": 48.87180652283132
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.3723161220550537,
+        "nrmse": 0.37218233942985535,
+        "mae": 0.23763249814510345
+      },
+      "elapsed_seconds": 47.49272897280753
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2551670968532562,
+        "nrmse": 0.2550754249095917,
+        "mae": 0.14669135212898254
+      },
+      "elapsed_seconds": 41.81444374239072
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.31964054703712463,
+        "nrmse": 0.31952568888664246,
+        "mae": 0.18610888719558716
+      },
+      "elapsed_seconds": 37.02048181928694
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.6725420951843262,
+        "nrmse": 0.6723004579544067,
+        "mae": 0.30280616879463196
+      },
+      "elapsed_seconds": 26.72153856512159
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 3.142681837081909,
+        "nrmse": 3.141552686691284,
+        "mae": 1.497780680656433
+      },
+      "elapsed_seconds": 47.63311327714473
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9993364214897156,
+        "nrmse": 0.9989773631095886,
+        "mae": 0.7306117415428162
+      },
+      "elapsed_seconds": 41.30973792262375
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2646511495113373,
+        "nrmse": 0.26465073227882385,
+        "mae": 0.1356014758348465
+      },
+      "elapsed_seconds": 41.25894528022036
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.37188106775283813,
+        "nrmse": 0.37188050150871277,
+        "mae": 0.23530204594135284
+      },
+      "elapsed_seconds": 38.465592285152525
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.25241121649742126,
+        "nrmse": 0.2524108290672302,
+        "mae": 0.14108876883983612
+      },
+      "elapsed_seconds": 39.57346023293212
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.2893786132335663,
+        "nrmse": 0.28937816619873047,
+        "mae": 0.1682531088590622
+      },
+      "elapsed_seconds": 35.61487751407549
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.5470724105834961,
+        "nrmse": 0.5470715761184692,
+        "mae": 0.24374470114707947
+      },
+      "elapsed_seconds": 14.29493254981935
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.794804334640503,
+        "nrmse": 2.794800043106079,
+        "mae": 1.1591328382492065
+      },
+      "elapsed_seconds": 32.34751727199182
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9982438683509827,
+        "nrmse": 0.9982423186302185,
+        "mae": 0.7297579050064087
+      },
+      "elapsed_seconds": 40.44381470698863
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.24982956051826477,
+        "nrmse": 0.24995964765548706,
+        "mae": 0.12839289009571075
+      },
+      "elapsed_seconds": 36.323624063748866
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.38984304666519165,
+        "nrmse": 0.39004603028297424,
+        "mae": 0.25828614830970764
+      },
+      "elapsed_seconds": 45.80749784130603
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.23724310100078583,
+        "nrmse": 0.23736663162708282,
+        "mae": 0.13375577330589294
+      },
+      "elapsed_seconds": 54.27047695731744
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.27065786719322205,
+        "nrmse": 0.27079880237579346,
+        "mae": 0.15907937288284302
+      },
+      "elapsed_seconds": 52.03032214799896
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.9994791150093079,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7646002173423767
+      },
+      "elapsed_seconds": 17.10140335513279
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.539772987365723,
+        "nrmse": 7.543698787689209,
+        "mae": 6.887993812561035
+      },
+      "elapsed_seconds": 6.955354386009276
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0016881227493286,
+        "nrmse": 1.0022096633911133,
+        "mae": 0.7677145004272461
+      },
+      "elapsed_seconds": 48.10352893406525
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.24262000620365143,
+        "nrmse": 0.24266816675662994,
+        "mae": 0.12816981971263885
+      },
+      "elapsed_seconds": 48.31870771525428
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.38865143060684204,
+        "nrmse": 0.3887285590171814,
+        "mae": 0.2582990825176239
+      },
+      "elapsed_seconds": 51.24421310098842
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.23395639657974243,
+        "nrmse": 0.23400282859802246,
+        "mae": 0.13331924378871918
+      },
+      "elapsed_seconds": 55.71465410711244
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.28058743476867676,
+        "nrmse": 0.28064313530921936,
+        "mae": 0.17077676951885223
+      },
+      "elapsed_seconds": 51.54751686239615
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.9998011589050293,
+        "nrmse": 0.9999995827674866,
+        "mae": 0.7651327252388
+      },
+      "elapsed_seconds": 33.53457161877304
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.266173362731934,
+        "nrmse": 7.267615795135498,
+        "mae": 6.746143817901611
+      },
+      "elapsed_seconds": 20.319230755791068
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.005752682685852,
+        "nrmse": 1.0059523582458496,
+        "mae": 0.7706986665725708
+      },
+      "elapsed_seconds": 44.60448593413457
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.24477794766426086,
+        "nrmse": 0.24473890662193298,
+        "mae": 0.12849999964237213
+      },
+      "elapsed_seconds": 52.626520548947155
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.3873597979545593,
+        "nrmse": 0.38729801774024963,
+        "mae": 0.2572251260280609
+      },
+      "elapsed_seconds": 53.15714567201212
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.23390315473079681,
+        "nrmse": 0.23386584222316742,
+        "mae": 0.13158868253231049
+      },
+      "elapsed_seconds": 53.89487232686952
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.2939838469028473,
+        "nrmse": 0.29393696784973145,
+        "mae": 0.17094695568084717
+      },
+      "elapsed_seconds": 43.22904421295971
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0001591444015503,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.7652586102485657
+      },
+      "elapsed_seconds": 37.09000321710482
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 6.77731990814209,
+        "nrmse": 6.776238918304443,
+        "mae": 6.150094509124756
+      },
+      "elapsed_seconds": 33.19660699600354
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0075533390045166,
+        "nrmse": 1.0073926448822021,
+        "mae": 0.769178032875061
+      },
+      "elapsed_seconds": 53.69935004925355
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2543272376060486,
+        "nrmse": 0.25398483872413635,
+        "mae": 0.1252341866493225
+      },
+      "elapsed_seconds": 53.583802193868905
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.39069753885269165,
+        "nrmse": 0.39017152786254883,
+        "mae": 0.2560056447982788
+      },
+      "elapsed_seconds": 49.504006013739854
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.23374256491661072,
+        "nrmse": 0.23342786729335785,
+        "mae": 0.1292915642261505
+      },
+      "elapsed_seconds": 49.19405714981258
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.2981104254722595,
+        "nrmse": 0.29770907759666443,
+        "mae": 0.1687151938676834
+      },
+      "elapsed_seconds": 47.028559427242726
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0013482570648193,
+        "nrmse": 1.0000001192092896,
+        "mae": 0.7655972242355347
+      },
+      "elapsed_seconds": 21.173201055265963
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 6.231389999389648,
+        "nrmse": 6.223000526428223,
+        "mae": 5.350546360015869
+      },
+      "elapsed_seconds": 34.52581036137417
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.007312297821045,
+        "nrmse": 1.0059560537338257,
+        "mae": 0.7682583332061768
+      },
+      "elapsed_seconds": 53.94225277379155
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2507825791835785,
+        "nrmse": 0.2506971061229706,
+        "mae": 0.1270013153553009
+      },
+      "elapsed_seconds": 51.518084600102156
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.3909563422203064,
+        "nrmse": 0.390823096036911,
+        "mae": 0.25716647505760193
+      },
+      "elapsed_seconds": 47.33483326388523
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2345951348543167,
+        "nrmse": 0.23451517522335052,
+        "mae": 0.1310943067073822
+      },
+      "elapsed_seconds": 55.015081014018506
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.27005764842033386,
+        "nrmse": 0.26996561884880066,
+        "mae": 0.1577838957309723
+      },
+      "elapsed_seconds": 50.18995417887345
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.000341773033142,
+        "nrmse": 1.0000008344650269,
+        "mae": 0.7651345729827881
+      },
+      "elapsed_seconds": 20.928439382929355
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.036626815795898,
+        "nrmse": 7.034228801727295,
+        "mae": 6.376587390899658
+      },
+      "elapsed_seconds": 12.242534992285073
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0095171928405762,
+        "nrmse": 1.0091731548309326,
+        "mae": 0.7702340483665466
+      },
+      "elapsed_seconds": 54.291504577733576
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.24343986809253693,
+        "nrmse": 0.24338088929653168,
+        "mae": 0.1283862292766571
+      },
+      "elapsed_seconds": 43.693474465981126
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.38774222135543823,
+        "nrmse": 0.3876482844352722,
+        "mae": 0.2572483420372009
+      },
+      "elapsed_seconds": 46.323958348017186
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.23547372221946716,
+        "nrmse": 0.23541666567325592,
+        "mae": 0.13207848370075226
+      },
+      "elapsed_seconds": 49.29127280181274
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.29395854473114014,
+        "nrmse": 0.29388731718063354,
+        "mae": 0.17147572338581085
+      },
+      "elapsed_seconds": 50.69346297206357
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.5263665914535522,
+        "nrmse": 0.5262390375137329,
+        "mae": 0.24839045107364655
+      },
+      "elapsed_seconds": 20.61248257989064
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 3.302624464035034,
+        "nrmse": 3.3018243312835693,
+        "mae": 1.4997992515563965
+      },
+      "elapsed_seconds": 39.024423921946436
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9982112646102905,
+        "nrmse": 0.997969388961792,
+        "mae": 0.7672185897827148
+      },
+      "elapsed_seconds": 44.79237358411774
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2443273514509201,
+        "nrmse": 0.24441662430763245,
+        "mae": 0.12836675345897675
+      },
+      "elapsed_seconds": 53.35861119814217
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.387501060962677,
+        "nrmse": 0.38764265179634094,
+        "mae": 0.2572687864303589
+      },
+      "elapsed_seconds": 49.42144685005769
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2340451031923294,
+        "nrmse": 0.2341306209564209,
+        "mae": 0.13217994570732117
+      },
+      "elapsed_seconds": 53.169715237338096
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.2808358371257782,
+        "nrmse": 0.28093844652175903,
+        "mae": 0.1687232255935669
+      },
+      "elapsed_seconds": 46.091370075941086
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.4901629686355591,
+        "nrmse": 0.49034205079078674,
+        "mae": 0.24101684987545013
+      },
+      "elapsed_seconds": 25.477467603981495
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.5326149463653564,
+        "nrmse": 2.5335402488708496,
+        "mae": 0.9990809559822083
+      },
+      "elapsed_seconds": 40.40866606682539
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9981671571731567,
+        "nrmse": 0.9985318779945374,
+        "mae": 0.7675946354866028
+      },
+      "elapsed_seconds": 48.88938571000472
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2437022477388382,
+        "nrmse": 0.2437697947025299,
+        "mae": 0.12831388413906097
+      },
+      "elapsed_seconds": 48.4446345618926
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.38759955763816833,
+        "nrmse": 0.387706995010376,
+        "mae": 0.2570248246192932
+      },
+      "elapsed_seconds": 45.309919922146946
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2367427945137024,
+        "nrmse": 0.2368084043264389,
+        "mae": 0.1341126263141632
+      },
+      "elapsed_seconds": 45.91507357498631
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.29440826177597046,
+        "nrmse": 0.29448986053466797,
+        "mae": 0.1712837964296341
+      },
+      "elapsed_seconds": 48.71950220083818
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.6385604739189148,
+        "nrmse": 0.6387374401092529,
+        "mae": 0.29276007413864136
+      },
+      "elapsed_seconds": 18.354498911183327
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.6242542266845703,
+        "nrmse": 2.624981641769409,
+        "mae": 1.0309808254241943
+      },
+      "elapsed_seconds": 30.411577600054443
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9972715377807617,
+        "nrmse": 0.9975479245185852,
+        "mae": 0.7669836282730103
+      },
+      "elapsed_seconds": 44.98140125768259
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2434285581111908,
+        "nrmse": 0.24336379766464233,
+        "mae": 0.12917068600654602
+      },
+      "elapsed_seconds": 48.240901194978505
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.38796743750572205,
+        "nrmse": 0.38786423206329346,
+        "mae": 0.2581484317779541
+      },
+      "elapsed_seconds": 44.38252108776942
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.23543547093868256,
+        "nrmse": 0.23537284135818481,
+        "mae": 0.13425593078136444
+      },
+      "elapsed_seconds": 51.240105857141316
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.30374675989151,
+        "nrmse": 0.30366596579551697,
+        "mae": 0.1775210201740265
+      },
+      "elapsed_seconds": 43.47647418593988
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.63526850938797,
+        "nrmse": 0.6350995302200317,
+        "mae": 0.28492143750190735
+      },
+      "elapsed_seconds": 18.037823849823326
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 3.145753860473633,
+        "nrmse": 3.1449170112609863,
+        "mae": 1.5306795835494995
+      },
+      "elapsed_seconds": 30.526467344723642
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.999207615852356,
+        "nrmse": 0.9989418387413025,
+        "mae": 0.7674707174301147
+      },
+      "elapsed_seconds": 43.84236120712012
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.24398218095302582,
+        "nrmse": 0.24399037659168243,
+        "mae": 0.12592053413391113
+      },
+      "elapsed_seconds": 44.196065897122025
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.3875199258327484,
+        "nrmse": 0.38753294944763184,
+        "mae": 0.25599735975265503
+      },
+      "elapsed_seconds": 47.09669797774404
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2332429140806198,
+        "nrmse": 0.23325075209140778,
+        "mae": 0.12905672192573547
+      },
+      "elapsed_seconds": 49.633895326871425
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.2695077359676361,
+        "nrmse": 0.26951679587364197,
+        "mae": 0.15497133135795593
+      },
+      "elapsed_seconds": 51.64888926036656
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.5067143440246582,
+        "nrmse": 0.506731390953064,
+        "mae": 0.22935794293880463
+      },
+      "elapsed_seconds": 16.81603102805093
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.7730798721313477,
+        "nrmse": 2.7731730937957764,
+        "mae": 1.1308362483978271
+      },
+      "elapsed_seconds": 49.931378179229796
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9988054633140564,
+        "nrmse": 0.9988390207290649,
+        "mae": 0.7672818899154663
+      },
+      "elapsed_seconds": 45.149172998033464
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 15,
+      "parameters": 282,
+      "metrics": {
+        "rmse": 0.3449847996234894,
+        "nrmse": 0.3451537787914276,
+        "mae": 0.17815683782100677
+      },
+      "elapsed_seconds": 54.6974252727814
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.4649930000305176,
+        "nrmse": 0.46522077918052673,
+        "mae": 0.3224596679210663
+      },
+      "elapsed_seconds": 51.54003858100623
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2905541658401489,
+        "nrmse": 0.29069650173187256,
+        "mae": 0.1887669861316681
+      },
+      "elapsed_seconds": 51.95592281036079
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3131837546825409,
+        "nrmse": 0.31333714723587036,
+        "mae": 0.19831106066703796
+      },
+      "elapsed_seconds": 38.390815797261894
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.999509871006012,
+        "nrmse": 0.999999463558197,
+        "mae": 0.7204938530921936
+      },
+      "elapsed_seconds": 44.09537583775818
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.5418477058410645,
+        "nrmse": 7.545541763305664,
+        "mae": 6.889215469360352
+      },
+      "elapsed_seconds": 78.63428860576823
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 15,
+      "parameters": 282,
+      "metrics": {
+        "rmse": 1.0134849548339844,
+        "nrmse": 1.0139813423156738,
+        "mae": 0.7379849553108215
+      },
+      "elapsed_seconds": 52.32537764310837
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.34921014308929443,
+        "nrmse": 0.348914235830307,
+        "mae": 0.17337749898433685
+      },
+      "elapsed_seconds": 46.52236078074202
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.4655919075012207,
+        "nrmse": 0.4651973843574524,
+        "mae": 0.32252827286720276
+      },
+      "elapsed_seconds": 46.94748323736712
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.29169538617134094,
+        "nrmse": 0.2914482355117798,
+        "mae": 0.18595397472381592
+      },
+      "elapsed_seconds": 49.196715507656336
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.31510448455810547,
+        "nrmse": 0.3148374855518341,
+        "mae": 0.19854402542114258
+      },
+      "elapsed_seconds": 48.099680161103606
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0008476972579956,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.721786618232727
+      },
+      "elapsed_seconds": 34.60544083407149
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.268184185028076,
+        "nrmse": 7.262025356292725,
+        "mae": 6.745874881744385
+      },
+      "elapsed_seconds": 72.45432470925152
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.021536946296692,
+        "nrmse": 1.0206713676452637,
+        "mae": 0.7427803874015808
+      },
+      "elapsed_seconds": 44.76145979762077
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 15,
+      "parameters": 282,
+      "metrics": {
+        "rmse": 0.30405402183532715,
+        "nrmse": 0.3039267063140869,
+        "mae": 0.17071764171123505
+      },
+      "elapsed_seconds": 42.14847083482891
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.4653363823890686,
+        "nrmse": 0.46514153480529785,
+        "mae": 0.3225747346878052
+      },
+      "elapsed_seconds": 43.73519764281809
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.29190027713775635,
+        "nrmse": 0.2917780578136444,
+        "mae": 0.18658190965652466
+      },
+      "elapsed_seconds": 46.10228584893048
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3568100333213806,
+        "nrmse": 0.3566606342792511,
+        "mae": 0.2480965554714203
+      },
+      "elapsed_seconds": 38.41756336577237
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0004185438156128,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.7213321924209595
+      },
+      "elapsed_seconds": 24.533552257809788
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 6.7786760330200195,
+        "nrmse": 6.775837421417236,
+        "mae": 6.147637367248535
+      },
+      "elapsed_seconds": 77.18113572103903
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 15,
+      "parameters": 282,
+      "metrics": {
+        "rmse": 1.0072177648544312,
+        "nrmse": 1.0067960023880005,
+        "mae": 0.7326322793960571
+      },
+      "elapsed_seconds": 41.42906382121146
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.34476566314697266,
+        "nrmse": 0.3442155718803406,
+        "mae": 0.17557944357395172
+      },
+      "elapsed_seconds": 43.067586947232485
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.46651357412338257,
+        "nrmse": 0.4657692313194275,
+        "mae": 0.321735143661499
+      },
+      "elapsed_seconds": 47.44932816410437
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.2910250723361969,
+        "nrmse": 0.2905607223510742,
+        "mae": 0.1871216893196106
+      },
+      "elapsed_seconds": 43.20649070898071
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.36096397042274475,
+        "nrmse": 0.36038804054260254,
+        "mae": 0.2501736581325531
+      },
+      "elapsed_seconds": 31.31446818076074
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0015981197357178,
+        "nrmse": 1.0,
+        "mae": 0.722015380859375
+      },
+      "elapsed_seconds": 40.1545166852884
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 6.227836608886719,
+        "nrmse": 6.217899799346924,
+        "mae": 5.345301151275635
+      },
+      "elapsed_seconds": 34.05856815865263
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.006773829460144,
+        "nrmse": 1.0051674842834473,
+        "mae": 0.7307170629501343
+      },
+      "elapsed_seconds": 47.46784337516874
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.31994909048080444,
+        "nrmse": 0.31985387206077576,
+        "mae": 0.17303723096847534
+      },
+      "elapsed_seconds": 45.428802845068276
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.4650972783565521,
+        "nrmse": 0.46495887637138367,
+        "mae": 0.3210536539554596
+      },
+      "elapsed_seconds": 40.290711713023484
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.28806430101394653,
+        "nrmse": 0.28797855973243713,
+        "mae": 0.1857720911502838
+      },
+      "elapsed_seconds": 35.20625072857365
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.36111217737197876,
+        "nrmse": 0.36100471019744873,
+        "mae": 0.2508307993412018
+      },
+      "elapsed_seconds": 46.446706670336425
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 1.0002983808517456,
+        "nrmse": 1.0000007152557373,
+        "mae": 0.7212899327278137
+      },
+      "elapsed_seconds": 21.7645874931477
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 7.036526679992676,
+        "nrmse": 7.034432411193848,
+        "mae": 6.376760005950928
+      },
+      "elapsed_seconds": 16.49469608301297
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0117231607437134,
+        "nrmse": 1.011422038078308,
+        "mae": 0.734856128692627
+      },
+      "elapsed_seconds": 46.067317265085876
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.2964968681335449,
+        "nrmse": 0.2966574430465698,
+        "mae": 0.170796200633049
+      },
+      "elapsed_seconds": 33.01197723625228
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.46274712681770325,
+        "nrmse": 0.4629977345466614,
+        "mae": 0.32261964678764343
+      },
+      "elapsed_seconds": 33.620493814814836
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.28828155994415283,
+        "nrmse": 0.28843769431114197,
+        "mae": 0.18715792894363403
+      },
+      "elapsed_seconds": 38.388409555889666
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.3083784282207489,
+        "nrmse": 0.30854544043540955,
+        "mae": 0.1985529512166977
+      },
+      "elapsed_seconds": 35.62589006731287
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.4168970286846161,
+        "nrmse": 0.41712281107902527,
+        "mae": 0.2359304428100586
+      },
+      "elapsed_seconds": 20.463238045107573
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 3.3092169761657715,
+        "nrmse": 3.311009168624878,
+        "mae": 1.6254757642745972
+      },
+      "elapsed_seconds": 75.39151462400332
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 101,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9992286562919617,
+        "nrmse": 0.9997698068618774,
+        "mae": 0.7311137318611145
+      },
+      "elapsed_seconds": 34.54056574497372
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.3209635317325592,
+        "nrmse": 0.32113513350486755,
+        "mae": 0.1729060858488083
+      },
+      "elapsed_seconds": 44.8738390491344
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.4625576138496399,
+        "nrmse": 0.462804913520813,
+        "mae": 0.32202208042144775
+      },
+      "elapsed_seconds": 46.07667814893648
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.286355584859848,
+        "nrmse": 0.2865086793899536,
+        "mae": 0.1857716292142868
+      },
+      "elapsed_seconds": 43.066153490915895
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.31053030490875244,
+        "nrmse": 0.3106963336467743,
+        "mae": 0.19642360508441925
+      },
+      "elapsed_seconds": 39.54664485901594
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.43257930874824524,
+        "nrmse": 0.43281057476997375,
+        "mae": 0.24108485877513885
+      },
+      "elapsed_seconds": 40.60129826515913
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.6384642124176025,
+        "nrmse": 2.6398749351501465,
+        "mae": 1.2500163316726685
+      },
+      "elapsed_seconds": 75.61583946365863
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 102,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9992179274559021,
+        "nrmse": 0.9997521638870239,
+        "mae": 0.7307825684547424
+      },
+      "elapsed_seconds": 40.5830939700827
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29715782403945923,
+        "nrmse": 0.297201931476593,
+        "mae": 0.17203816771507263
+      },
+      "elapsed_seconds": 43.013641734141856
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.4628562927246094,
+        "nrmse": 0.462924987077713,
+        "mae": 0.32176437973976135
+      },
+      "elapsed_seconds": 45.38754979800433
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.28850221633911133,
+        "nrmse": 0.28854504227638245,
+        "mae": 0.1850043386220932
+      },
+      "elapsed_seconds": 45.17152430489659
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.30831125378608704,
+        "nrmse": 0.30835700035095215,
+        "mae": 0.1927095502614975
+      },
+      "elapsed_seconds": 34.66046893177554
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.4910387396812439,
+        "nrmse": 0.4911116063594818,
+        "mae": 0.27795231342315674
+      },
+      "elapsed_seconds": 45.13540701428428
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.78256893157959,
+        "nrmse": 2.7829818725585938,
+        "mae": 1.2921470403671265
+      },
+      "elapsed_seconds": 57.28254521405324
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 103,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9990705251693726,
+        "nrmse": 0.9992188215255737,
+        "mae": 0.7295201420783997
+      },
+      "elapsed_seconds": 47.70128957275301
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.30810198187828064,
+        "nrmse": 0.30797260999679565,
+        "mae": 0.17200179398059845
+      },
+      "elapsed_seconds": 44.4800843722187
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.46305593848228455,
+        "nrmse": 0.4628615081310272,
+        "mae": 0.32149234414100647
+      },
+      "elapsed_seconds": 33.88560707075521
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.28970447182655334,
+        "nrmse": 0.2895828187465668,
+        "mae": 0.18793885409832
+      },
+      "elapsed_seconds": 37.015240830369294
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.36687302589416504,
+        "nrmse": 0.36671897768974304,
+        "mae": 0.2514152526855469
+      },
+      "elapsed_seconds": 41.47115864884108
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.4772353768348694,
+        "nrmse": 0.4770349860191345,
+        "mae": 0.2553628385066986
+      },
+      "elapsed_seconds": 41.521850392222404
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 3.04144549369812,
+        "nrmse": 3.040168285369873,
+        "mae": 1.441397786140442
+      },
+      "elapsed_seconds": 40.124690564814955
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 104,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 1.0005515813827515,
+        "nrmse": 1.0001314878463745,
+        "mae": 0.7296869158744812
+      },
+      "elapsed_seconds": 44.47255356237292
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.29913076758384705,
+        "nrmse": 0.29924073815345764,
+        "mae": 0.17146874964237213
+      },
+      "elapsed_seconds": 39.91757624736056
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.462873637676239,
+        "nrmse": 0.46304380893707275,
+        "mae": 0.320819228887558
+      },
+      "elapsed_seconds": 41.5954509768635
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 3030,
+      "metrics": {
+        "rmse": 0.28409555554389954,
+        "nrmse": 0.2842000126838684,
+        "mae": 0.18217559158802032
+      },
+      "elapsed_seconds": 36.80126170208678
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 2840,
+      "metrics": {
+        "rmse": 0.35787951946258545,
+        "nrmse": 0.3580110967159271,
+        "mae": 0.24847707152366638
+      },
+      "elapsed_seconds": 32.80141043709591
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48144,
+      "metrics": {
+        "rmse": 0.4575119912624359,
+        "nrmse": 0.45768019556999207,
+        "mae": 0.25776147842407227
+      },
+      "elapsed_seconds": 30.88457434810698
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": null,
+      "parameters": 48192,
+      "metrics": {
+        "rmse": 2.7460854053497314,
+        "nrmse": 2.7470948696136475,
+        "mae": 1.3072689771652222
+      },
+      "elapsed_seconds": 74.58348868787289
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 105,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "basis_columns_kept": 16,
+      "parameters": 288,
+      "metrics": {
+        "rmse": 0.9993876814842224,
+        "nrmse": 0.9997550845146179,
+        "mae": 0.7304075956344604
+      },
+      "elapsed_seconds": 33.56263623898849
+    }
+  ]
+}
