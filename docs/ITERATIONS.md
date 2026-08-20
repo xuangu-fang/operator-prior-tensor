@@ -641,3 +641,55 @@ diagnostic that says, without training anything, whether it is worth using.
 Artifacts: `results/irregular_domain_sensors_r10`,
 `results/irregular_domain_random_r10`, their summaries, and
 `results/phase_curve_r10`.
+
+### 10c — the advantage survives without the inverse crime
+
+Every result so far solved the truth with the same discretization the learner's
+operator is built from: one mesh, one node ordering, one P1 assembly, differing
+only in material.  The truth field therefore lay exactly in the span of sixty
+eigenvectors of a close relative of the learner's own operator, and the forward
+model error was identically zero — the inverse crime.  Since the claim is
+precisely that the operator's eigenbasis spans the field well, that is circular,
+and it favours the geometry-aware basis specifically, because its operator is
+the near relative and the blind one is not.
+
+**What changed.**  The truth is now solved on an independently seeded mesh two
+or three times finer — 1097 and 2381 nodes against the learner's 324, with
+different node positions and a different triangulation — and interpolated onto
+the learner's nodes with P1 elements.  Point location uses the fine mesh's own
+triangle list, so no triangle spanning a barrier is ever used to interpolate
+across it.  The learner's operators are untouched, and the interpolation happens
+before any basis is applied, so every basis pays the same error.
+
+**Cost, measured.**  The geometry-aware bias floor on `sealed_4` rises from
+`0.062` to `0.125` (2x) and `0.065` (3x); the blind floor barely moves
+(`0.391` to `0.335` and `0.383`).  Removing the crime does penalize the proposed
+model, and only the proposed model — as it should.
+
+**Result — sensors at 10%, ours against topology-erased, paired wins over the
+five confirmation seeds:**
+
+| refinement | open | labyrinth | arc | chamber | sealed_4 |
+|---|---|---|---|---|---|
+| 1x (crime present) | 0/5 (1.00x) | 4/5 (1.14x) | 5/5 (1.12x) | 5/5 (1.94x) | 5/5 (3.76x) |
+| **2x (crime avoided)** | 0/5 (1.00x) | 5/5 (1.12x) | 5/5 (1.39x) | 4/5 (1.79x) | 5/5 (2.21x) |
+| **3x (crime avoided)** | 0/5 (1.00x) | 5/5 (1.13x) | 5/5 (1.53x) | 5/5 (1.89x) | 5/5 (3.54x) |
+
+Random entries give the same picture (`1.17--2.69x` at 3x, 5/5 everywhere with a
+barrier).  Absolute errors rise across the board — `labyrinth` from `0.237` to
+`0.375` — because the learner's coarse operator now carries a real
+discretization error where before it carried none.  The ordering, the paired
+wins and the exact tie on `open` all survive, and two independent refinement
+factors agree, so this is not one lucky mesh.
+
+**A caveat that is reported rather than hidden.**  Below resolution 18 the
+result is not reliable: the baffles are `0.04` wide against a coarse element of
+`0.056`, so the learner's own operator represents them as a jagged
+single-element layer.  At resolution 16 with a 2x truth the blind-to-aware bias
+ratio collapses to `1.2--1.4` from `3.3--5.6`.  That is a statement about
+under-resolved sub-element barriers, not about the method, but it bounds where
+the benchmark is meaningful.
+
+Artifacts: `results/wall_refined_truth_x2_r10`,
+`results/wall_refined_truth_x3_r10`, `results/inverse_crime_summary_r10`,
+`results/inverse_crime_summary_random_r10`.
