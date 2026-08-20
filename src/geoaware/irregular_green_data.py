@@ -38,8 +38,9 @@ import torch
 
 from .bases import BasisSpec
 from .irregular_fem import (UNIT_SQUARE, Hole, IrregularMesh, Polygon,
-                            assemble_p1, build_mesh, free_nodes, mesh_metadata,
-                            restrict, triangle_centroids)
+                            assemble_p1, build_mesh, free_nodes,
+                            interpolate_p1, mesh_metadata, restrict,
+                            triangle_centroids)
 from .joint_diffusion_2d import GroupedFieldDataset
 from .operator_diagnostics import generalized_eigenpairs
 
@@ -240,7 +241,8 @@ def irregular_field_tensor(
         truth_modes: int = 60, contrast: float = .3, reaction: float = .15,
         time_span: tuple[float, float] = (.15, 3.), mesh_seed: int = 0,
         scenario_seed: int = 7717, hole_condition: str = "neumann",
-        permutation_seed: int = 9173) -> GroupedFieldDataset:
+        permutation_seed: int = 9173,
+        truth_refinement: int = 1) -> GroupedFieldDataset:
     """``Y(scenario, time, node)``: the same PDE from different initial states.
 
     This is the plainest spatiotemporal setting there is — a family of
@@ -262,12 +264,42 @@ def irregular_field_tensor(
     truth_vectors = matrices["truth_eigenvectors"]
     mass = matrices["mass"].double()
 
-    initial = _smooth_initial_states(coordinates, n_scenarios, scenario_seed)
-    amplitudes = initial @ mass @ truth_vectors.double()
     time = torch.linspace(time_span[0], time_span[1], n_time, dtype=torch.float64)
-    decay = torch.exp(-time[:, None] * (reaction + truth_values.double()[None, :]))
-    values = torch.einsum("sq,tq,nq->stn", amplitudes, decay,
-                          truth_vectors.double())
+    if truth_refinement > 1:
+        # Solve the truth on an independently seeded finer mesh of the *same*
+        # domain and interpolate onto the learner's nodes, so the learner's
+        # operator is a discretization of the continuum problem rather than the
+        # generator of the data itself.  Both the geometry-aware and the
+        # geometry-blind basis pay the identical interpolation error.
+        fine = build_mesh((resolution - 1) * truth_refinement + 1, holes,
+                          polygon=polygon, seed=mesh_seed + 977 * truth_refinement)
+        fine_stiffness, fine_mass_full = assemble_p1(
+            fine, _variable_diffusivity(triangle_centroids(fine), contrast))
+        fine_keep = free_nodes(fine, hole_condition, "neumann")
+        fine_mass = restrict(fine_mass_full, fine_keep)
+        fine_values, fine_vectors = generalized_eigenpairs(
+            restrict(fine_stiffness, fine_keep), fine_mass,
+            min(truth_modes, len(fine_keep)))
+        fine_coordinates = fine.nodes[fine_keep]
+        initial = _smooth_initial_states(fine_coordinates, n_scenarios,
+                                         scenario_seed)
+        amplitudes = initial @ fine_mass @ fine_vectors
+        decay = torch.exp(-time[:, None]
+                          * (reaction + _normalized_rates(fine_values)[None, :]))
+        on_free = torch.einsum("sq,tq,nq->stn", amplitudes, decay, fine_vectors)
+        # Constrained rim nodes carry the Dirichlet value, so the field is
+        # complete on the fine mesh before it is interpolated.
+        full = torch.zeros(n_scenarios, n_time, fine.n_nodes, dtype=torch.float64)
+        full[..., fine_keep] = on_free
+        values = interpolate_p1(fine, full, coordinates.double())
+    else:
+        fine = None
+        initial = _smooth_initial_states(coordinates, n_scenarios, scenario_seed)
+        amplitudes = initial @ mass @ truth_vectors.double()
+        decay = torch.exp(-time[:, None]
+                          * (reaction + truth_values.double()[None, :]))
+        values = torch.einsum("sq,tq,nq->stn", amplitudes, decay,
+                              truth_vectors.double())
     values = (values - values.mean()) / values.std().clamp_min(1e-12)
 
     matrices.pop("source_nodes", None)
@@ -275,6 +307,16 @@ def irregular_field_tensor(
     metadata.update({"tensor_semantics": "scenario x time x node",
                      "n_scenarios": int(n_scenarios),
                      "scenario_seed": int(scenario_seed),
+                     "truth_refinement": int(truth_refinement),
+                     "truth_mesh_hash": fine.hash() if fine is not None
+                                        else metadata.get("mesh_hash"),
+                     "truth_mesh_nodes": int(fine.n_nodes) if fine is not None
+                                         else int(len(coordinates)),
+                     "inverse_crime":
+                         "avoided: truth solved on an independent finer mesh "
+                         "and interpolated" if truth_refinement > 1 else
+                         "present: truth and learner operators share one "
+                         "discretization",
                      "coordinate_groups": [[0], [1], [2]]})
     metadata.pop("source_node_indices", None)
     specs = tuple(green.basis_specs[:1] * 3)
@@ -293,14 +335,23 @@ def wall_field_tensor(
         n_scenarios: int = 20, n_time: int = 16, basis_cutoff: int = 32,
         truth_modes: int = 60, contrast: float = .3, reaction: float = .15,
         time_span: tuple[float, float] = (.15, 3.), mesh_seed: int = 0,
-        scenario_seed: int = 7717, permutation_seed: int = 9173
-        ) -> GroupedFieldDataset:
+        scenario_seed: int = 7717, permutation_seed: int = 9173,
+        truth_refinement: int = 1) -> GroupedFieldDataset:
     """``Y(scenario, time, node)`` on one square mesh divided by thin baffles.
 
     Every wall layout uses the *same* mesh and the *same* nodes; only the
     material inside the baffles changes.  A control therefore differs from the
     proposed model in exactly one respect — whether its operator knows the
     barriers — with no confound from meshing, node ordering or interpolation.
+
+    ``truth_refinement`` above one solves the truth on an independently seeded
+    mesh that many times finer and interpolates it onto the learner's nodes.
+    The learner's operator is then a discretization of the same continuum
+    problem rather than the very object that generated the data, which is what
+    an inverse-crime objection asks for.  Every basis — geometry-aware and
+    geometry-blind alike — pays the same discretization error, so the
+    comparison is unchanged.  The default of one reproduces the frozen tensors
+    bit for bit.
     """
     mesh = build_mesh(resolution, (), polygon=UNIT_SQUARE, seed=mesh_seed)
     centroids = triangle_centroids(mesh)
@@ -313,14 +364,30 @@ def wall_field_tensor(
     n_nodes = mesh.n_nodes
     truth_modes = min(truth_modes, n_nodes)
 
+    if truth_refinement > 1:
+        # A different mesh *and* a different jitter seed: refinement alone would
+        # leave the fine nodes nested inside the coarse ones on the structured
+        # part of the grid.
+        truth_mesh = build_mesh((resolution - 1) * truth_refinement + 1, (),
+                                polygon=UNIT_SQUARE,
+                                seed=mesh_seed + 977 * truth_refinement)
+        truth_operator, truth_mass = assemble_p1(
+            truth_mesh, wall_coefficient(triangle_centroids(truth_mesh), walls,
+                                         contrast, background=True))
+    else:
+        truth_mesh, truth_operator, truth_mass = mesh, truth_stiffness, mass
+    truth_modes = min(truth_modes, truth_mesh.n_nodes)
+
     truth_values, truth_vectors = generalized_eigenpairs(
-        truth_stiffness, mass, truth_modes)
+        truth_operator, truth_mass, truth_modes)
     rates = _normalized_rates(truth_values)
-    initial = _smooth_initial_states(coordinates, n_scenarios, scenario_seed)
-    amplitudes = initial @ mass @ truth_vectors
+    initial = _smooth_initial_states(truth_mesh.nodes, n_scenarios, scenario_seed)
+    amplitudes = initial @ truth_mass @ truth_vectors
     time = torch.linspace(time_span[0], time_span[1], n_time, dtype=torch.float64)
     decay = torch.exp(-time[:, None] * (reaction + rates[None, :]))
     values = torch.einsum("sq,tq,nq->stn", amplitudes, decay, truth_vectors)
+    if truth_mesh is not mesh:
+        values = interpolate_p1(truth_mesh, values, coordinates)
     values = (values - values.mean()) / values.std().clamp_min(1e-12)
 
     nominal_values, wall_basis = generalized_eigenpairs(
@@ -369,6 +436,13 @@ def wall_field_tensor(
         "log_diffusivity_contrast": float(contrast), "reaction": float(reaction),
         "basis_cutoff": int(basis_cutoff), "time_cutoff": int(time_cutoff),
         "truth_modes": int(truth_modes), "n_free_nodes": int(n_nodes),
+        "truth_refinement": int(truth_refinement),
+        "truth_mesh_hash": truth_mesh.hash(),
+        "truth_mesh_nodes": int(truth_mesh.n_nodes),
+        "inverse_crime":
+            "avoided: truth solved on an independent finer mesh and interpolated"
+            if truth_refinement > 1 else
+            "present: truth and learner operators share one discretization",
         "n_scenarios": int(n_scenarios), "scenario_seed": int(scenario_seed),
         "time_span": [float(time_span[0]), float(time_span[1])],
         "permutation_seed": int(permutation_seed),

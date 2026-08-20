@@ -272,3 +272,39 @@ def mesh_metadata(mesh: IrregularMesh, stiffness: torch.Tensor,
         "stiffness_checksum": checksum(stiffness),
         "mass_checksum": checksum(mass),
     }
+
+
+def interpolate_p1(mesh: IrregularMesh, values: torch.Tensor,
+                   points: torch.Tensor) -> torch.Tensor:
+    """Evaluate a nodal P1 field of ``mesh`` at arbitrary ``points``.
+
+    Used to solve the truth on a mesh the learner's operator was *not* built
+    from.  Point location goes through the mesh's own triangle list rather than
+    a fresh Delaunay hull, so a triangle that spans a hole is never used to
+    interpolate across it.
+
+    ``values`` may carry any number of leading axes; the last one indexes nodes.
+    """
+    nodes = mesh.nodes.double()
+    corners = nodes[mesh.triangles]                       # (T, 3, 2)
+    origin = corners[:, 0]
+    edge_a, edge_b = corners[:, 1] - origin, corners[:, 2] - origin
+    det = edge_a[:, 0] * edge_b[:, 1] - edge_a[:, 1] * edge_b[:, 0]
+    det = torch.where(det.abs() < 1e-14, torch.full_like(det, 1e-14), det)
+
+    offset = points.double()[None, :, :] - origin[:, None, :]   # (T, P, 2)
+    beta = (offset[..., 0] * edge_b[:, None, 1]
+            - offset[..., 1] * edge_b[:, None, 0]) / det[:, None]
+    gamma = (edge_a[:, None, 0] * offset[..., 1]
+             - edge_a[:, None, 1] * offset[..., 0]) / det[:, None]
+    alpha = 1. - beta - gamma
+    weights = torch.stack((alpha, beta, gamma), dim=-1)         # (T, P, 3)
+
+    # The containing triangle is the one whose least barycentric coordinate is
+    # largest; for a point inside the mesh that value is non-negative, and for a
+    # point just outside it degrades to the nearest triangle rather than failing.
+    chosen = weights.min(dim=-1).values.argmax(dim=0)           # (P,)
+    picked = weights[chosen, torch.arange(len(points))]         # (P, 3)
+    vertices = mesh.triangles[chosen]                           # (P, 3)
+    gathered = values.double()[..., vertices]                   # (..., P, 3)
+    return (gathered * picked).sum(-1).to(values.dtype)

@@ -161,6 +161,10 @@ def main():
     parser.add_argument("--n-sources", type=int, default=20)
     parser.add_argument("--basis-cutoff", type=int, default=32)
     parser.add_argument("--truth-modes", type=int, default=60)
+    # Above one, the truth is solved on an independently seeded mesh this many
+    # times finer and interpolated onto the learner's nodes, so the learner's
+    # operator is no longer the object that generated the data.
+    parser.add_argument("--truth-refinement", type=int, default=1)
     parser.add_argument("--contrast", type=float, default=.3)
     parser.add_argument("--hole-condition", choices=["neumann", "dirichlet"],
                         default="neumann",
@@ -189,6 +193,7 @@ def main():
                 n_scenarios=args.n_sources, n_time=args.n_time,
                 basis_cutoff=args.basis_cutoff, truth_modes=args.truth_modes,
                 contrast=args.contrast,
+                truth_refinement=args.truth_refinement,
                 time_span=tuple(float(v) for v in args.time_span.split(",")))
         else:
             polygon, holes = LAYOUTS[layout]
@@ -200,7 +205,9 @@ def main():
                 hole_condition=args.hole_condition)
             data = (irregular_green_tensor(holes, n_sources=args.n_sources, **common)
                     if args.setting == "green" else
-                    irregular_field_tensor(holes, n_scenarios=args.n_sources, **common))
+                    irregular_field_tensor(holes, n_scenarios=args.n_sources,
+                                           truth_refinement=args.truth_refinement,
+                                           **common))
         matrices = data.operator_matrices
         residuals = {}
         for name, key in BASIS_KEY.items():
