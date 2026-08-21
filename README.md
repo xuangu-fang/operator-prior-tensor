@@ -1,63 +1,106 @@
 # Operator-Prior Tensor
 
-Operator-informed Bayesian CP/Tucker for recovering continuous physical tensors from at most 10% observations.
+**Geometry-aware tensor factorization through operator-defined functional
+subspaces.**
 
-This repository is Track 1 of the [Physics-Informed Tensor Learning Hub](https://github.com/xuangu-fang/Geo-Aware-Tensor). It is intentionally scoped to one question:
+The whole repository tests one sentence:
 
-> When does an operator-defined factor space improve sample efficiency, and when does operator mismatch create irreducible bias?
+> **Whether a geometry prior is worth using can be computed before any model is
+> fitted.**  Where it is worth using, writing the geometry into the function
+> space that the spatial factor lives in reconstructs a sparsely observed field
+> substantially better; where it is not, the advantage is exactly zero.
 
-The next method extension is **Group-wise Operator-Prior Tucker**: a physical
-operator is attached to the coordinate group on which it is actually defined.
-A joint spatial operator may constrain a grouped `(x,y)` factor; modes without
-a reliable operator retain neural functional factors. Per-axis operators are an
-efficient exact/approximate special case whose separability error must be
-measured, not the default physical assumption.
+Ordinary tensor completion treats a node as an index.  Two points on opposite
+sides of an impermeable wall are then as related as two neighbours, which is
+wrong for the physics and, when the observations are sensors rather than random
+entries, leaves an unobserved node constrained by nothing at all.  We take the
+known geometry, assemble the corresponding operator, and let its leading
+eigenfunctions be the dictionary the spatial factor is written in.
 
-## Current direction: geometry-aware factorization
+This repository is Track 1 of the [Physics-Informed Tensor Learning
+Hub](https://github.com/xuangu-fang/Geo-Aware-Tensor).
 
-**Geometry-aware group-wise tensor factorization through operator-defined
-functional subspaces.**  When a physical tensor lives on a domain with a
-non-trivial boundary — obstacles, baffles, sealed chambers — ordinary tensor
-completion has no way to know that two Euclidean-nearby points may be far apart
-for the physics.  We extract that boundary information as the spectrum of a
-discrete operator and use it to define the factor space.
+## The benchmark: four geometries, one code path
 
-The benchmark keeps one fixed mesh on the unit square and varies only the
-barriers inside it, so every control differs from the proposed model in exactly
-one respect — whether its operator knows the geometry — with no interpolation
-between node sets.  The learner is told where the barriers are and never sees
-the smooth background material, so this is a geometry prior, not exact physics.
+`src/geoaware/benchmark.py` builds every dataset.  Four families vary only *how*
+geometry enters the problem, and each defines its own geometry-blind control —
+the basis a practitioner would use having ignored that geometry:
 
-At 10% of mesh nodes observed for their whole trajectory (three seeds,
-selection seeds 41--43):
+| family | geometry is | nodes | geometry-blind control |
+|---|---|---:|---|
+| `plane_barrier` | impermeable walls inside a square | 5 520 | the same operator, walls removed |
+| `plane_domain` | circular holes and reentrant corners | 3 941–5 520 | a triangulation connecting straight across |
+| `volume_barrier` | partitions inside a cube | 8 000 | the same operator, partitions removed |
+| `sphere` | curvature of a closed surface (shallow water) | 10 242 | the latitude–longitude product basis |
 
-| model | open | labyrinth | arc | chamber | sealed_4 |
-|---|---:|---:|---:|---:|---:|
-| geometry operator (ours) | 0.217 | 0.218 | 0.223 | **0.197** | **0.158** |
-| topology erased | 0.217 | 0.221 | 0.230 | 0.401 | 0.502 |
-| bounding-box product | 0.222 | 0.234 | 0.255 | 0.399 | 0.502 |
-| neural coordinates (wide) | 0.269 | 0.249 | 0.289 | 0.326 | 0.408 |
-| discrete Tucker | 1.476 | 1.472 | 1.495 | 1.506 | 1.617 |
-| permuted control | 1.204 | 1.202 | 1.221 | 1.310 | 1.220 |
+The proposed model and its blind counterpart share the node set, the decoder,
+the optimizer, the prior and the closed-form core posterior.  They differ in one
+thing.  The learner is told where the obstacles are and never sees the smooth
+background material, so this is a geometry prior, not known physics.
 
-Three things hold together.  On the barrier-free control the geometry-aware and
-topology-erased models return *identical* numbers, so the margin is not a
-capacity artifact.  The margin then grows monotonically with how much geometry
-there is to know, reaching 3.2x against blind spectral bases and 2.6x against a
-six-times larger coordinate network.  And ordinary discrete completion fails
-everywhere the method works.
+Two sampling protocols ask different questions.  Under **random entries** every
+node appears in many observed entries, so a classical factorization is
+well-posed and the comparison is a fair fight.  Under **spatial sensors** an
+unobserved node appears in *no* observed entry: its factor row is constrained by
+zero equations, and CP-ALS returns exactly nothing there.  That is a property
+asserted in `tests/test_benchmark.py`, not a margin.
 
-The advantage switches on at a measurable place: it is exactly 1.00 while the
-bias floor of ignoring the geometry stays below the attainable error, and rises
-steeply once it exceeds it.
+Baselines are the ones a tensor reader asks for first — CP by ALS and Tucker by
+HOOI, taken from TensorLy rather than reimplemented — plus their functional
+counterparts whose factors are coordinate networks.  CP is also available inside
+the proposed model as a diagonal core, so a CP baseline can share every part of
+the fitting procedure and differ only in the model.
 
-Refitting only the small Tucker core after swapping in a new layout's basis
-beats training the same model on the new layout's 2% alone in 15 of 15
-pair-seed cells, so the factor space itself transfers between geometries.
+## The main result
 
-Earlier rounds are kept rather than discarded: two falsified design hypotheses
-and one failed attempt to learn the spectral cutoff are recorded in
-`docs/ITERATIONS.md`.
+Held-out NRMSE at 10% of nodes observed for their whole trajectory, five fresh
+seeds, ours against **the same model with the geometry removed** -- same node
+set, same decoder, same optimizer, same prior, same closed-form core posterior:
+
+| layout | ours | geometry removed | ratio | paired wins |
+|---|---:|---:|---:|---|
+| `plane_barrier/open` *(control)* | 0.117 | 0.117 | **1.00** | 1/5 |
+| `plane_domain/square` *(control)* | 0.117 | 0.117 | **1.00** | 1/5 |
+| `volume_barrier/open` *(control)* | 0.273 | 0.273 | **1.00** | 0/5 |
+| `plane_barrier/labyrinth` | 0.111 | 0.245 | 2.20 | 5/5 |
+| `plane_barrier/chamber` | 0.109 | 0.202 | 1.84 | 5/5 |
+| `plane_barrier/sealed_4` | 0.094 | 0.279 | **2.98** | 5/5 |
+| `plane_domain/U_shape` | 0.065 | 0.087 | 1.33 | 5/5 |
+| `volume_barrier/sealed_8` | 0.299 | 0.381 | 1.27 | 5/5 |
+| `sphere/open_ocean` | 0.315 | 0.591 | **1.87** | 5/5 |
+
+Twelve layouts carry geometry and all twelve win five seeds out of five, under
+both sampling protocols.  The three layouts that carry none tie to three
+decimals and win at chance.  Nothing was selected on these numbers.
+
+Against a coordinate network in two dimensions the margin is modest and the
+parameter count is not: **288** parameters against **2 982** on `sealed_4`, for
+a better reconstruction, because the operator supplies the spatial structure the
+network has to learn.
+
+## When it works, and when it does not
+
+The condition is not that the operator class is right.  Adding a
+divergence-free flow to the truth while leaving the learner untouched, a sealed
+layout keeps a **6.5x** advantage at a hundred times the diffusive rate, because
+nothing crosses a sealed wall however fast it is carried.  A layout with an
+aperture loses the advantage completely (**0.95x**) at the same Peclet number,
+because the flow simply carries the field through it.
+
+> The geometry has to still constrain where the field can be.  A barrier the
+> dynamics can route around has stopped being geometry.
+
+Two external datasets sit outside that condition and show no advantage, as it
+predicts: measured flow past a cylinder (RealPDEBench, particle-image
+velocimetry) at `1.00--1.08x`, and 24 lid-driven cavities across aspect ratios
+`0.2` to `5.0` (CFDBench) at `0.74--1.07x`.  A cylinder in an open channel and
+an open box do not constrain a flow.
+
+Known limitations, with mechanisms rather than excuses, are in
+`docs/ITERATIONS.md`: a ceiling in three dimensions under sensor sampling, where
+mode counts grow like `k^d` and the identifiability limit arrives first; and two
+falsified design hypotheses and one failed attempt to learn the spectral cutoff,
+kept rather than discarded.
 
 ## Frozen one-dimensional anchor
 
@@ -86,13 +129,16 @@ The main claim is a measurable bias--variance phase boundary, not universal supe
 
 ## Repository map
 
-- `src/geoaware/`: active modules are `grouped_operator_tucker.py` (order-M Tucker
-  over coordinate groups), `irregular_fem.py` (self-contained P1 meshing on
-  polygonal domains), `irregular_green_data.py` (barrier layouts and the two
-  tensor settings), `operator_diagnostics.py` (bias floors and subspace
-  residuals), and `masks.py`.  The frozen one-dimensional path —
-  `tensor_bayes.py`, `tensor_data.py`, `operator_tucker_baselines.py`,
-  `bases.py` — is unchanged.
+- `src/geoaware/`: `benchmark.py` builds every dataset in the main experiment;
+  `grouped_operator_tucker.py` is the model (Tucker or CP, operator / table /
+  neural factors, closed-form core posterior); `simplex_fem.py` is P1 finite
+  elements on simplices of any dimension, flat or curved, dense or sparse;
+  `als_baselines.py` wraps TensorLy; `operator_diagnostics.py` holds the
+  pre-fit diagnostics — projection residuals, sparse eigenpairs, and the mode
+  observability screen.  `irregular_fem.py`, `irregular_green_data.py` and
+  `manifold_barrier_data.py` back the earlier rounds.  The frozen
+  one-dimensional path — `tensor_bayes.py`, `tensor_data.py`,
+  `operator_tucker_baselines.py`, `bases.py` — is unchanged.
 - `experiments/`: fixed-budget phase-diagram runners and analysis.
 - `results/`: immutable raw artifacts migrated from the hub.
 - `docs/TECHNICAL_REPORT.md`: formulation, inference, baselines, dataset cards, and current evidence.
