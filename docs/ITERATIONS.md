@@ -866,3 +866,100 @@ the operator spectrum is what makes the reconstruction defined at all.
 Artifacts: `results/main_plane_barrier_r12`, `results/main_domains_r12`,
 `results/als_group_a_r12`, `results/als_group_b_r12`,
 `results/main_summary_r12`.
+
+## Iteration 13 — two real datasets, and what they actually taught
+
+The largest remaining gap was that every dataset in this repository is generated
+by the same code that supplies the learner's operator.  Two external datasets
+were tried.  Both gave no advantage, and finding out *why* changed the claim.
+
+### 13a — measured cylinder flow: no advantage
+
+RealPDEBench `cylinder/real`: particle-image velocimetry of water past a
+physical cylinder, 11 records at Reynolds `1 875--11 625`, 998 frames on a
+32x64 grid.  Nothing about it was produced here, so the inverse-crime question
+does not arise at all.
+
+The obstacle is unambiguous in the data -- time-averaged speed is `0.088` within
+three cells of the centre and `0.198` beyond six -- and a stated rule (cells
+below the second percentile of mean speed, covered by a disc) puts a cylinder of
+radius `3.96` cells at row `16.56`, column `22.12`.  Removing it leaves 1 998
+nodes of 2 048.
+
+The geometry-aware basis does not help: blind-to-aware projection ratios of
+`1.00`, `1.01` and `1.08` at cutoffs 8, 16 and 32.  Neither does correcting the
+boundary condition to no-slip, which is the physically right one for velocity at
+a wall and makes matters *worse* (`0.85`), nor switching the field to the
+transverse component or to vorticity.
+
+### 13b — lid-driven cavity across 24 geometries: no advantage
+
+CFDBench `cavity/geo`: 24 OpenFOAM cavities covering every combination of height
+and width in `{0.01 ... 0.05}`, aspect ratios `0.2` to `5.0`, each on a 64x64
+grid.  Knowing the true aspect ratio changes which sixteen cosine modes are the
+leading ones, and using the right ones is *worse* than using the square's:
+ratios from `0.74` to `1.07`.  The four aspect-ratio-one cases tie at exactly
+`1.00`, which at least confirms the control is wired correctly.
+
+### 13c — the mechanism, isolated: geometry has to still constrain the field
+
+The first hypothesis was that both datasets are transport-dominated and that a
+Laplacian is therefore the wrong operator class.  That hypothesis is **wrong**,
+and a controlled sweep says so.
+
+`build_advected_barrier` adds a divergence-free cellular flow to the truth,
+scaled by a Peclet number, while the learner's operator, basis, mesh and
+barriers are untouched.  The velocity is zero inside the barriers, so the
+geometry stays exactly as real as it was.  Sensors at 10%, three seeds:
+
+| layout | Pe | ours | geometry removed | neural | blind/ours |
+|---|---:|---:|---:|---:|---:|
+| `chamber` *(has an aperture)* | 0 | 0.012 | 0.206 | 0.054 | **17.7** |
+| `chamber` | 10 | 0.030 | 0.109 | 0.051 | 3.6 |
+| `chamber` | 100 | 0.013 | 0.012 | 0.012 | **0.95** |
+| `sealed_4` *(fully sealed)* | 0 | 0.026 | 0.279 | 0.064 | **10.7** |
+| `sealed_4` | 10 | 0.022 | 0.280 | 0.065 | 12.9 |
+| `sealed_4` | 100 | 0.033 | 0.215 | 0.044 | **6.5** |
+
+The two curves end in different places, and that is the finding.  Transport does
+not break the operator prior as such: on `sealed_4` at a hundred times the
+diffusive rate the advantage is still `6.5x`, because nothing can cross a sealed
+wall no matter how fast it is carried.  On `chamber` the aperture lets the flow
+carry the field straight through, and by `Pe = 100` the geometry constrains
+nothing and the advantage is exactly gone.
+
+So the condition is not "the operator class must be right".  It is:
+
+> **the geometry must still constrain where the field can be.**  A barrier that
+> the dynamics can route around stops being geometry, however solid it is.
+
+That is what both real datasets have in common.  A cylinder is a small isolated
+body in an open channel and a lid-driven cavity is an open box; in each the flow
+goes wherever it likes, so there is no constraint for an operator to encode.  It
+is not that they are hard -- it is that they are outside the stated condition,
+and the condition is checkable before fitting.
+
+### 13d — three dimensions: truncation is what binds
+
+Twelve configurations on `volume_barrier/sealed_8`, selection seeds `41--43`,
+sensors at 10%:
+
+| cutoff | ranks | aware floor | ours | geometry removed | neural | blind/ours |
+|---:|---|---:|---:|---:|---:|---:|
+| 16 | (4,4,6) | 0.190 | 0.354 | 0.466 | 0.292 | 1.32 |
+| 32 | (8,8,16) | 0.140 | 0.363 | 0.328 | 0.176 | 0.90 |
+| 48 | (8,8,16) | 0.070 | **0.207** | 0.309 | 0.177 | **1.50** |
+
+A coordinate network is better at all twelve.  The proposed model improves
+monotonically as cutoff and rank rise together, and the ablation is *strongest*
+at its best configuration, so geometry is doing work throughout -- what binds is
+the spectral truncation.  Reaching a given approximation error in a volume needs
+mode counts growing like `k^d`, and the cutoff cannot simply be raised: with
+8 000 nodes and 10% sensors, 800 nodes are observed, and cutoff 48 at rank 16 is
+768 node coefficients.  The identifiability rule from Iteration 7 is reached
+before the truncation stops binding.
+
+Stated plainly: **under sensor sampling in three dimensions the method has a
+ceiling that is computable in advance, and a coordinate network does better.**
+
+Artifacts: `src/geoaware/cylinder_flow.py`, `results/advection_limit_r13`.

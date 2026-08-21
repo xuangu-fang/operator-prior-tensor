@@ -40,8 +40,8 @@ from .irregular_green_data import ArcWall, Wall
 from .joint_diffusion_2d import GroupedFieldDataset
 from .manifold_barrier_data import Cap, Partition
 from .operator_diagnostics import (mass_orthonormalize_columns, sparse_eigenpairs)
-from .simplex_fem import (SimplexMesh, assemble_sparse, build_box_mesh,
-                          build_sphere_mesh)
+from .simplex_fem import (SimplexMesh, assemble_advection_sparse,
+                          assemble_sparse, build_box_mesh, build_sphere_mesh)
 
 
 @dataclass(frozen=True)
@@ -367,4 +367,125 @@ def build_family(family: str, layout: str, *, resolution: int | None = None,
         "generated:geoaware.benchmark.build_family",
         f"{spec.dynamics} field on a {family} geometry; all layouts in a family "
         "share one node set and differ only in the geometry the operator sees.",
+        metadata=metadata, groups=((0,), (1,), (2,)), operator_matrices=matrices)
+
+
+def _cellular_velocity(centroids: torch.Tensor) -> torch.Tensor:
+    """A divergence-free cellular flow, tangential to the outer boundary."""
+    x, y = centroids[:, 0], centroids[:, 1]
+    return torch.stack([torch.sin(math.pi * x) * torch.cos(math.pi * y),
+                        -torch.cos(math.pi * x) * torch.sin(math.pi * y)], 1)
+
+
+def build_advected_barrier(layout: str, peclet: float, *, resolution: int = 80,
+                           n_scenarios: int = 12, n_time: int = 12,
+                           basis_cutoff: int = 16, contrast: float = .3,
+                           reaction: float = .15,
+                           time_span: tuple[float, float] = (.15, 3.),
+                           steps: int = 600, mesh_seed: int = 0,
+                           scenario_seed: int = 7717,
+                           permutation_seed: int = 9173) -> GroupedFieldDataset:
+    """The barrier family, with transport added to the truth and not to the prior.
+
+    The learner assembles the same geometry-aware Laplacian at every Peclet
+    number; only the physics generating the data changes.  That isolates a
+    question the rest of the benchmark cannot ask: the method is given the right
+    geometry but an increasingly wrong *operator class*, and the point at which
+    that stops being survivable is what two real datasets ran into.
+
+    The velocity vanishes inside the barriers, because a wall has no flow
+    through it.  Without that, transport would simply carry the field across the
+    obstacles and the geometry would stop being real -- which is a different
+    failure and would confound the measurement.
+
+    The truth is time-stepped with Crank-Nicolson rather than expanded in
+    eigenfunctions, since an advection-diffusion operator is not symmetric.
+    """
+    from scipy.sparse.linalg import splu
+
+    planar = build_mesh(resolution, (), polygon=UNIT_SQUARE, seed=mesh_seed)
+    mesh = SimplexMesh(planar.nodes, planar.triangles, "triangles")
+    centroids = mesh.centroids()
+    obstacles = PLANE_BARRIERS[layout]
+    truth_stiffness, mass = assemble_sparse(
+        mesh, _material(centroids, obstacles, contrast, background=True))
+    aware_stiffness, _ = assemble_sparse(
+        mesh, _material(centroids, obstacles, 0., background=False))
+    blind_stiffness, _ = assemble_sparse(mesh, 1.)
+
+    velocity = _cellular_velocity(centroids) * peclet
+    solid = torch.zeros(len(centroids), dtype=torch.bool)
+    for obstacle in obstacles:
+        solid |= obstacle.contains(centroids)
+    velocity[solid] = 0.
+    advection = assemble_advection_sparse(mesh, velocity)
+
+    time = torch.linspace(time_span[0], time_span[1], n_time, dtype=torch.float64)
+    initial = _initial_states(mesh.nodes, n_scenarios, scenario_seed,
+                              on_sphere=False)
+    step = float(time_span[1]) / steps
+    generator = truth_stiffness + advection + reaction * mass
+    solver = splu((mass + .5 * step * generator).tocsc())
+    explicit = (mass - .5 * step * generator).tocsc()
+    state = initial.numpy().T.copy()
+    wanted = np.clip((time.numpy() / step).round().astype(int), 1, steps)
+    frames, cursor = [], 0
+    for index in range(1, steps + 1):
+        state = solver.solve(explicit @ state)
+        while cursor < n_time and wanted[cursor] == index:
+            frames.append(state.copy())
+            cursor += 1
+    values = torch.from_numpy(np.stack(frames, 0)).permute(2, 0, 1).double()
+    values = (values - values.mean()) / values.std().clamp_min(1e-12)
+
+    aware_values, aware_basis = sparse_eigenpairs(aware_stiffness, mass,
+                                                 basis_cutoff)
+    blind_values, blind_basis = sparse_eigenpairs(blind_stiffness, mass,
+                                                 basis_cutoff)
+    chart_basis, chart_values = _flat_chart_basis(mesh.nodes, mass, basis_cutoff)
+    permutation = torch.randperm(
+        mesh.n_nodes, generator=torch.Generator().manual_seed(permutation_seed))
+    scale = math.pi ** 2
+    # No operator is claimed for the time axis here either: with transport the
+    # decay curves of the nominal operator are no longer the right family.
+    time_basis = torch.linalg.qr(
+        torch.stack([time ** k for k in range(min(basis_cutoff, n_time))], 1),
+        mode="reduced").Q
+
+    spatial = {
+        "geometry_operator": (aware_basis, aware_values / scale),
+        "blind_operator": (blind_basis, blind_values / scale),
+        "flat_chart": (chart_basis, chart_values[:chart_basis.shape[1]]),
+        "permuted": (aware_basis[permutation], aware_values / scale),
+    }
+    matrices = {"coordinates": mesh.nodes.float(),
+                "time_basis": time_basis.float(),
+                "time_eigenvalues": torch.arange(
+                    time_basis.shape[1], dtype=torch.float32)}
+    for name, (basis, eigenvalues) in spatial.items():
+        matrices[f"{name}_basis"] = basis.float()
+        matrices[f"{name}_eigenvalues"] = eigenvalues[:basis.shape[1]].float()
+
+    metadata = {
+        "family": "advected_barrier", "layout": layout,
+        "peclet": float(peclet), "resolution": int(resolution),
+        "pde": "d_t u + b . grad u - div(a grad u) + reaction u = 0",
+        "advection": "divergence-free cellular flow, zero inside the barriers",
+        "time_integration": f"Crank-Nicolson, {steps} steps",
+        "tensor_semantics": "scenario x time x node",
+        "mesh_hash": mesh.hash(), "n_nodes": int(mesh.n_nodes),
+        "operator_information_tier":
+            "geometry known; operator class increasingly wrong",
+        "basis_cutoff": int(basis_cutoff), "n_scenarios": int(n_scenarios),
+        "time_span": [float(time_span[0]), float(time_span[1])],
+        "coordinate_groups": [[0], [1], [2]],
+    }
+    specs = tuple(BasisSpec("neumann", max(1, basis_cutoff - 1), name)
+                  for name in ("scenario", "time", "node"))
+    return GroupedFieldDataset(
+        f"advected_{layout}_pe{peclet:g}_k{basis_cutoff}", values.float(),
+        ("scenario", "time", "node"), specs, (False, False, False),
+        "generated:geoaware.benchmark.build_advected_barrier",
+        "Advection-diffusion past thin barriers; the learner's operator knows "
+        "the geometry but not the transport.",
         metadata=metadata, groups=((0,), (1,), (2,)), operator_matrices=matrices)

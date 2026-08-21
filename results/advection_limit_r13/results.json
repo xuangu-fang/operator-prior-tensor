@@ -1,0 +1,1548 @@
+{
+  "arguments": {
+    "output": "results/advection_limit_r13",
+    "layouts": "chamber,sealed_4",
+    "peclet": "0,3,10,30,100",
+    "models": "geometry_operator,blind_operator,neural_tucker",
+    "mask": "spatial_sensors",
+    "ratio": 0.1,
+    "seeds": "101,102,103",
+    "ranks": "4,4,6",
+    "hidden": 48,
+    "steps": 1500,
+    "noise": 0.1,
+    "device": "cuda"
+  },
+  "results": [
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.011526341550052166
+      },
+      "elapsed_seconds": 16.697696642950177
+    },
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.20913749933242798
+      },
+      "elapsed_seconds": 22.34059898229316
+    },
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.07023249566555023
+      },
+      "elapsed_seconds": 23.665415717754513
+    },
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.011299427598714828
+      },
+      "elapsed_seconds": 22.151618444826454
+    },
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.20367395877838135
+      },
+      "elapsed_seconds": 22.31077222013846
+    },
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.03492237254977226
+      },
+      "elapsed_seconds": 23.474470199085772
+    },
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.012281326577067375
+      },
+      "elapsed_seconds": 21.989935192279518
+    },
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.2049262970685959
+      },
+      "elapsed_seconds": 21.645575886126608
+    },
+    {
+      "layout": "chamber",
+      "peclet": 0.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009450904092994468,
+        "blind_operator": 0.2029066698585033,
+        "permuted": 0.9840564146020463
+      },
+      "metrics": {
+        "nrmse": 0.058196377009153366
+      },
+      "elapsed_seconds": 23.624107058160007
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.019422845914959908
+      },
+      "elapsed_seconds": 21.582555897999555
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.1770971417427063
+      },
+      "elapsed_seconds": 21.380653826985508
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.07018314301967621
+      },
+      "elapsed_seconds": 23.21547457575798
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.027423948049545288
+      },
+      "elapsed_seconds": 21.593075834214687
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.171752467751503
+      },
+      "elapsed_seconds": 21.96922892332077
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.05077508091926575
+      },
+      "elapsed_seconds": 23.63088686298579
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.022578848525881767
+      },
+      "elapsed_seconds": 21.898023740854114
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.1722099930047989
+      },
+      "elapsed_seconds": 22.35761335399002
+    },
+    {
+      "layout": "chamber",
+      "peclet": 3.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.008597365000768523,
+        "blind_operator": 0.16932821554177352,
+        "permuted": 0.820956148352449
+      },
+      "metrics": {
+        "nrmse": 0.06469463557004929
+      },
+      "elapsed_seconds": 22.943543585017323
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.03077610582113266
+      },
+      "elapsed_seconds": 22.701148737221956
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.11017704010009766
+      },
+      "elapsed_seconds": 21.791796238627285
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.05184822529554367
+      },
+      "elapsed_seconds": 22.899471210781485
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.03011990897357464
+      },
+      "elapsed_seconds": 21.719797427300364
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.10895077139139175
+      },
+      "elapsed_seconds": 22.107426240108907
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.051711320877075195
+      },
+      "elapsed_seconds": 23.51960437791422
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.030210159718990326
+      },
+      "elapsed_seconds": 22.028064029291272
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.10822001099586487
+      },
+      "elapsed_seconds": 22.799973770976067
+    },
+    {
+      "layout": "chamber",
+      "peclet": 10.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010022009725876803,
+        "blind_operator": 0.10383852551859667,
+        "permuted": 0.49087423831247895
+      },
+      "metrics": {
+        "nrmse": 0.05007270723581314
+      },
+      "elapsed_seconds": 24.387418932281435
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.018400682136416435
+      },
+      "elapsed_seconds": 23.30258741695434
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.049288686364889145
+      },
+      "elapsed_seconds": 23.724277013912797
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.0339040644466877
+      },
+      "elapsed_seconds": 24.21790304686874
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.020322460681200027
+      },
+      "elapsed_seconds": 23.066489645279944
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.04853390157222748
+      },
+      "elapsed_seconds": 22.945103321690112
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.03511334955692291
+      },
+      "elapsed_seconds": 24.19988546008244
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.018912404775619507
+      },
+      "elapsed_seconds": 23.04167311033234
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.048152610659599304
+      },
+      "elapsed_seconds": 23.846298752818257
+    },
+    {
+      "layout": "chamber",
+      "peclet": 30.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.009374678091276449,
+        "blind_operator": 0.04526395765485141,
+        "permuted": 0.19852541797780748
+      },
+      "metrics": {
+        "nrmse": 0.03818192705512047
+      },
+      "elapsed_seconds": 24.789667974226177
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.012547697871923447
+      },
+      "elapsed_seconds": 23.7546629589051
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.011462417431175709
+      },
+      "elapsed_seconds": 24.22150272829458
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.013345645740628242
+      },
+      "elapsed_seconds": 24.118888259865344
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.013138488866388798
+      },
+      "elapsed_seconds": 23.480869234073907
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.013300764374434948
+      },
+      "elapsed_seconds": 22.969105788040906
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.012956124730408192
+      },
+      "elapsed_seconds": 24.4908361393027
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.012991839088499546
+      },
+      "elapsed_seconds": 20.63383053475991
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.013264575973153114
+      },
+      "elapsed_seconds": 16.925828127656132
+    },
+    {
+      "layout": "chamber",
+      "peclet": 100.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.001818937897518188,
+        "blind_operator": 0.0032714051776541997,
+        "permuted": 0.012925909407106808
+      },
+      "metrics": {
+        "nrmse": 0.011139659211039543
+      },
+      "elapsed_seconds": 23.171238746028394
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.008736799471080303
+      },
+      "elapsed_seconds": 22.446947540156543
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.281204491853714
+      },
+      "elapsed_seconds": 22.225077693816274
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.06417402625083923
+      },
+      "elapsed_seconds": 23.645314855966717
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.052848413586616516
+      },
+      "elapsed_seconds": 22.231337456032634
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.2796338200569153
+      },
+      "elapsed_seconds": 21.465438982937485
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.06803600490093231
+      },
+      "elapsed_seconds": 22.99691177206114
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.016064144670963287
+      },
+      "elapsed_seconds": 21.98387835500762
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.27634480595588684
+      },
+      "elapsed_seconds": 21.92736159916967
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 0.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.002356421213015471,
+        "blind_operator": 0.2713674055868838,
+        "permuted": 0.9967072532424166
+      },
+      "metrics": {
+        "nrmse": 0.05876798927783966
+      },
+      "elapsed_seconds": 22.699642980936915
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.01662844605743885
+      },
+      "elapsed_seconds": 21.883223386947066
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.2791729271411896
+      },
+      "elapsed_seconds": 21.932103694882244
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.06883319467306137
+      },
+      "elapsed_seconds": 23.445477934088558
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.03560500591993332
+      },
+      "elapsed_seconds": 22.218969098757952
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.2780471742153168
+      },
+      "elapsed_seconds": 22.51863321196288
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.05232662707567215
+      },
+      "elapsed_seconds": 23.27549388213083
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.014537974260747433
+      },
+      "elapsed_seconds": 21.91044445289299
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.27769824862480164
+      },
+      "elapsed_seconds": 22.663493716157973
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 3.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.003827098653285986,
+        "blind_operator": 0.2732469902576685,
+        "permuted": 0.995846726561815
+      },
+      "metrics": {
+        "nrmse": 0.05869228020310402
+      },
+      "elapsed_seconds": 22.55403922777623
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.024407735094428062
+      },
+      "elapsed_seconds": 21.817342795897275
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.2802092730998993
+      },
+      "elapsed_seconds": 21.929142103996128
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.069022536277771
+      },
+      "elapsed_seconds": 23.005953712388873
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.016203366219997406
+      },
+      "elapsed_seconds": 21.543863097205758
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.27984556555747986
+      },
+      "elapsed_seconds": 22.478734690696
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.05996169522404671
+      },
+      "elapsed_seconds": 24.3137296307832
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.024833206087350845
+      },
+      "elapsed_seconds": 23.93028519814834
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.27939727902412415
+      },
+      "elapsed_seconds": 23.42103452794254
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 10.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.010260547539948659,
+        "blind_operator": 0.2747909831588172,
+        "permuted": 0.9873611382646741
+      },
+      "metrics": {
+        "nrmse": 0.06570689380168915
+      },
+      "elapsed_seconds": 25.03353318478912
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.034374505281448364
+      },
+      "elapsed_seconds": 23.561618040781468
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.25711214542388916
+      },
+      "elapsed_seconds": 22.816619168035686
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.062458593398332596
+      },
+      "elapsed_seconds": 24.227860521990806
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.02643018402159214
+      },
+      "elapsed_seconds": 23.606770858168602
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.2578694820404053
+      },
+      "elapsed_seconds": 23.08090787101537
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.05676885321736336
+      },
+      "elapsed_seconds": 24.23226358788088
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.025880595669150352
+      },
+      "elapsed_seconds": 24.06194342300296
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.2573286294937134
+      },
+      "elapsed_seconds": 23.982309215236455
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 30.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.02234628309709071,
+        "blind_operator": 0.25267873514208916,
+        "permuted": 0.9105029546676723
+      },
+      "metrics": {
+        "nrmse": 0.061649784445762634
+      },
+      "elapsed_seconds": 25.863673789892346
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "geometry_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.03307957574725151
+      },
+      "elapsed_seconds": 23.261987522710115
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "blind_operator",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.21530629694461823
+      },
+      "elapsed_seconds": 23.87726744124666
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "neural_tucker",
+      "seed": 101,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.05045219138264656
+      },
+      "elapsed_seconds": 25.634244905784726
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "geometry_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.03421737253665924
+      },
+      "elapsed_seconds": 23.468112010974437
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "blind_operator",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.21480490267276764
+      },
+      "elapsed_seconds": 16.412457161583006
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "neural_tucker",
+      "seed": 102,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.03779888525605202
+      },
+      "elapsed_seconds": 23.267441373784095
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "geometry_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.03323053941130638
+      },
+      "elapsed_seconds": 23.461480039171875
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "blind_operator",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.21459972858428955
+      },
+      "elapsed_seconds": 23.664447229355574
+    },
+    {
+      "layout": "sealed_4",
+      "peclet": 100.0,
+      "model": "neural_tucker",
+      "seed": 103,
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "projection_residuals": {
+        "geometry_operator": 0.029444099714679074,
+        "blind_operator": 0.21123921482876748,
+        "permuted": 0.7458385786767877
+      },
+      "metrics": {
+        "nrmse": 0.04498208314180374
+      },
+      "elapsed_seconds": 25.21411011693999
+    }
+  ]
+}

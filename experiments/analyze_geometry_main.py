@@ -46,11 +46,17 @@ def load(paths, als_paths=()):
     cell, the dedicated run wins: it is the one that gave the baseline an SVD
     start and its best rank.
     """
-    rows, geometries = [], {}
+    rows, geometries = {}, {}
     for path in paths:
         payload = json.loads((path / "results.json").read_text())
-        rows.extend(payload["results"])
+        # Later inputs supersede earlier ones cell by cell, so a rerun of one
+        # family can be passed alongside the run it replaces without silently
+        # averaging the two together.
+        for row in payload["results"]:
+            rows[(row["family"], row["layout"], row["model"], row["mask"],
+                  row["ratio"], row["seed"])] = row
         geometries.update(payload.get("geometries", {}))
+    rows = list(rows.values())
     replacements = []
     for path in als_paths:
         replacements.extend(json.loads((path / "results.json").read_text())["results"])

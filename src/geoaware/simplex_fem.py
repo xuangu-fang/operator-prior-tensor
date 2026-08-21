@@ -229,3 +229,34 @@ def assemble_sparse(mesh: SimplexMesh, coefficient: torch.Tensor | float = 1.):
     mass = coo_matrix((local_mass.reshape(-1).numpy(), (rows, columns)),
                       shape=shape).tocsr()
     return stiffness, mass
+
+
+def assemble_advection_sparse(mesh: SimplexMesh, velocity: torch.Tensor):
+    """Sparse ``C`` with ``C_ij = int phi_i (b . grad phi_j)`` for a P1 mesh.
+
+    Advection is what the operator prior does *not* know about.  A geometry-aware
+    Laplacian describes how a field spreads; it says nothing about a field being
+    carried somewhere, and once transport dominates diffusion the leading
+    eigenfunctions of the Laplacian stop being where the field lives.  Having
+    this term available is what turns that from an explanation into a
+    measurement.
+
+    ``velocity`` is one vector per cell, so a divergence-free field can be
+    imposed exactly at the element level.
+    """
+    from scipy.sparse import coo_matrix
+
+    volumes = cell_volumes(mesh)
+    gradients = barycentric_gradients(mesh)             # (T, k+1, n)
+    if velocity.shape != (len(mesh.cells), mesh.nodes.shape[1]):
+        raise ValueError("velocity needs one vector per cell")
+    # P1 test functions integrate to volume / (k+1) over a simplex, and the
+    # gradient of a P1 basis function is constant on it.
+    corners = mesh.cells.shape[1]
+    flux = (gradients.double() @ velocity.double()[:, :, None]).squeeze(-1)
+    local = (flux[:, None, :] * (volumes / corners)[:, None, None]
+             ).expand(-1, corners, -1)
+    rows = mesh.cells[:, :, None].expand(-1, -1, corners).reshape(-1).numpy()
+    columns = mesh.cells[:, None, :].expand(-1, corners, -1).reshape(-1).numpy()
+    return coo_matrix((local.reshape(-1).numpy(), (rows, columns)),
+                      shape=(mesh.n_nodes, mesh.n_nodes)).tocsr()
