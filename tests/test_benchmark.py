@@ -173,7 +173,7 @@ def test_classical_completion_is_undefined_under_sensor_sampling():
 def test_every_family_builds_and_records_what_it_did():
     for family, spec in FAMILIES.items():
         resolution = {"plane_barrier": 20, "plane_domain": 20,
-                      "volume_barrier": 7, "sphere": 3}[family]
+                      "volume_barrier": 7, "sphere": 3, "floorplan": 24}[family]
         for layout in spec.layouts:
             data = build_family(family, layout, resolution=resolution, **SMALL)
             assert torch.isfinite(data.values).all()
@@ -189,3 +189,66 @@ def test_every_family_builds_and_records_what_it_did():
                 data.operator_matrices["permuted_basis"].sort(dim=0).values,
                 data.operator_matrices["geometry_operator_basis"].sort(dim=0).values,
                 atol=1e-6)
+
+
+def test_a_floor_plan_constrains_the_field_and_an_open_plan_does_not():
+    """The family the Peclet condition says should work, and its control.
+
+    Rooms communicate only through doorways, so a wall is a real constraint on
+    where a released scalar can go.  An open plan has no walls, and there the
+    two operators must coincide exactly -- otherwise the ladder below would be
+    measuring something other than the plan.
+    """
+    # The reported resolution, not a smaller one: a 0.12 m wall on a 12 m floor
+    # is sub-element below about 130 and then leaks, which understates the very
+    # thing this test checks.
+    options = dict(n_scenarios=6, n_time=6, basis_cutoff=12, truth_modes=30)
+    plain = build_family("floorplan", "open_plan", **options)
+    assert torch.allclose(plain.operator_matrices["geometry_operator_basis"],
+                          plain.operator_matrices["blind_operator_basis"],
+                          atol=1e-6)
+    assert abs(_residual(plain, "geometry_operator")
+               - _residual(plain, "blind_operator")) < 1e-6
+
+    ratios = {}
+    for layout in ("corridor", "apartment", "lab_suite"):
+        data = build_family("floorplan", layout, **options)
+        assert data.metadata["n_walls"] > 0
+        assert data.metadata["doorway_width_metres"] == .9
+        # The provenance is stated rather than implied.
+        assert "not traced from a particular building" in \
+            data.metadata["geometry_provenance"]
+        ratios[layout] = (_residual(data, "blind_operator")
+                          / _residual(data, "geometry_operator"))
+    # An inner room reachable only through an airlock constrains the field more
+    # than rooms off a corridor; the ordering is the point, not the values.
+    assert ratios["lab_suite"] > ratios["corridor"] > 1.5
+
+
+def test_the_contraction_matches_the_design_matrix_it_replaces():
+    """Predicting mode by mode must be the same model, only cheaper.
+
+    The design matrix has one column per core entry, so a large core made it
+    larger than the data.  Contracting instead is what makes ranks that reach
+    the approximation floor affordable, and it would be worthless if it changed
+    the answer.
+    """
+    data = build_family("plane_barrier", "sealed_4", resolution=20, **SMALL)
+    matrices = data.operator_matrices
+    index = grouped_indices(data.shape, ((0,), (1,), (2,)))[:512]
+    for core, ranks in (("dense", (3, 4, 5)), ("diagonal", (4, 4, 4))):
+        specs = [GroupFactorSpec("table", ranks[0], data.shape[0], name="scenario"),
+                 GroupFactorSpec("operator", ranks[1], data.shape[1],
+                                 basis=matrices["time_basis"],
+                                 eigenvalues=matrices["time_eigenvalues"],
+                                 name="time"),
+                 GroupFactorSpec("operator", ranks[2], data.shape[2],
+                                 basis=matrices["geometry_operator_basis"],
+                                 eigenvalues=matrices["geometry_operator_eigenvalues"],
+                                 name="node")]
+        torch.manual_seed(0)
+        model = GroupedOperatorTucker(specs, device="cpu", core=core)
+        factors = model.factor_tables()
+        direct = model.design(index, factors,
+                              diagonal=core == "diagonal") @ model.core.flatten()
+        assert torch.allclose(model.contract(index, factors), direct, atol=1e-5)

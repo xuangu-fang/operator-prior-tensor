@@ -1,160 +1,153 @@
-# Operator-Prior Tensor
+# Geometry-aware Tensor Factorization through Operator-defined Functional Subspaces
 
-**Geometry-aware tensor factorization through operator-defined functional
-subspaces.**
+Track 1 of the [Physics-Informed Tensor Learning Hub](https://github.com/xuangu-fang/Geo-Aware-Tensor).
 
-The whole repository tests one sentence:
+---
 
-> **Whether a geometry prior is worth using can be computed before any model is
-> fitted.**  Where it is worth using, writing the geometry into the function
-> space that the spatial factor lives in reconstructs a sparsely observed field
-> substantially better; where it is not, the advantage is exactly zero.
+## 交接文档从这里开始
 
-Ordinary tensor completion treats a node as an index.  Two points on opposite
-sides of an impermeable wall are then as related as two neighbours, which is
-wrong for the physics and, when the observations are sensors rather than random
-entries, leaves an unobserved node constrained by nothing at all.  We take the
-known geometry, assemble the corresponding operator, and let its leading
-eigenfunctions be the dictionary the spatial factor is written in.
+| 文档 | 内容 |
+|---|---|
+| **[`docs/HANDOVER_ZH.md`](docs/HANDOVER_ZH.md)** | **主文档**：公式推导、诊断量、踩过的坑、全部实验设定、related work、代码地图 |
+| [`docs/DATASETS.md`](docs/DATASETS.md) | 数据来源、生成流程、从零重建（含外部数据下载链接与处理脚本） |
+| [`docs/ITERATIONS.md`](docs/ITERATIONS.md) | 研究日志：按时间顺序的全部迭代，**含失败与被推翻的假设** |
+| [`docs/TODO.md`](docs/TODO.md) | 待办，以及明确**不做**的事和理由 |
+| [`docs/PAPER_TECHNICAL_REPORT_ZH.md`](docs/PAPER_TECHNICAL_REPORT_ZH.md) | 论文向技术报告（§14–15 是当前结论） |
 
-This repository is Track 1 of the [Physics-Informed Tensor Learning
-Hub](https://github.com/xuangu-fang/Geo-Aware-Tensor).
+新同学建议顺序：本页 → `HANDOVER_ZH.md` 第一、二部分 → 跑一遍 §5.4 的命令 →
+`HANDOVER_ZH.md` 第四部分（坑）。
 
-## The benchmark: four geometries, one code path
+---
 
-`src/geoaware/benchmark.py` builds every dataset.  Four families vary only *how*
-geometry enters the problem, and each defines its own geometry-blind control —
-the basis a practitioner would use having ignored that geometry:
+## 这个项目在做什么
 
-| family | geometry is | nodes | geometry-blind control |
-|---|---|---:|---|
-| `plane_barrier` | impermeable walls inside a square | 5 520 | the same operator, walls removed |
-| `plane_domain` | circular holes and reentrant corners | 3 941–5 520 | a triangulation connecting straight across |
-| `volume_barrier` | partitions inside a cube | 8 000 | the same operator, partitions removed |
-| `sphere` | curvature of a closed surface (shallow water) | 10 242 | the latitude–longitude product basis |
+一句话：
 
-The proposed model and its blind counterpart share the node set, the decoder,
-the optimizer, the prior and the closed-form core posterior.  They differ in one
-thing.  The learner is told where the obstacles are and never sees the smooth
-background material, so this is a geometry prior, not known physics.
+> **几何先验值不值得用，可以在拟合任何模型之前算出来。**
+> 值得用时，把几何写进空间因子所在的函数空间，稀疏观测下的重构显著更好；不值得用时，
+> 优势精确为零。
 
-Two sampling protocols ask different questions.  Under **random entries** every
-node appears in many observed entries, so a classical factorization is
-well-posed and the comparison is a fair fight.  Under **spatial sensors** an
-unobserved node appears in *no* observed entry: its factor row is constrained by
-zero equations, and CP-ALS returns exactly nothing there.  That is a property
-asserted in `tests/test_benchmark.py`, not a margin.
+普通张量补全把网格节点当作无意义的类别编号——墙两侧相距 5 厘米的两点，和同一房间里
+相距 5 米的两点，在它看来是一样的。我们把已知几何装配成算子，用它的前 $K$ 个特征函数
+作为空间因子的字典：
 
-Baselines are the ones a tensor reader asks for first — CP by ALS and Tucker by
-HOOI, taken from TensorLy rather than reimplemented — plus their functional
-counterparts whose factors are coordinate networks.  CP is also available inside
-the proposed model as a diagonal core, so a CP baseline can share every part of
-the fitting procedure and differ only in the model.
+$$
+U_{\text{node}} = \Phi W, \qquad K\phi_k = \lambda_k M \phi_k .
+$$
 
-## The main result
+待学参数从 $N \times R$（如 $5520 \times 16$）降到 $K \times R$（如 $16 \times 16$），
+而且每个节点的因子行都通过 $\Phi$ 与其余节点绑定。
 
-Held-out NRMSE at 10% of nodes observed for their whole trajectory, five fresh
-seeds, ours against **the same model with the geometry removed** -- same node
-set, same decoder, same optimizer, same prior, same closed-form core posterior:
+---
 
-| layout | ours | geometry removed | ratio | paired wins |
+## 主结果
+
+**核心消融**：`geometry_operator` 与 `blind_operator` 是**同一个模型**——同一节点集、
+decoder、优化器、先验、闭式核后验——只差算子知不知道几何。10% 传感器观测，五个全新种子：
+
+| 布局 | ours | 去掉几何 | 倍数 | 配对胜 |
 |---|---:|---:|---:|---|
-| `plane_barrier/open` *(control)* | 0.117 | 0.117 | **1.00** | 1/5 |
-| `plane_domain/square` *(control)* | 0.117 | 0.117 | **1.00** | 1/5 |
-| `volume_barrier/open` *(control)* | 0.273 | 0.273 | **1.00** | 0/5 |
-| `plane_barrier/labyrinth` | 0.111 | 0.245 | 2.20 | 5/5 |
-| `plane_barrier/chamber` | 0.109 | 0.202 | 1.84 | 5/5 |
-| `plane_barrier/sealed_4` | 0.094 | 0.279 | **2.98** | 5/5 |
-| `plane_domain/U_shape` | 0.065 | 0.087 | 1.33 | 5/5 |
-| `volume_barrier/sealed_8` | 0.299 | 0.381 | 1.27 | 5/5 |
-| `sphere/open_ocean` | 0.315 | 0.591 | **1.87** | 5/5 |
+| `plane_barrier/open` *(对照)* | 0.021 | 0.021 | **1.00** | 2/5 |
+| `plane_domain/square` *(对照)* | 0.021 | 0.021 | **1.00** | 2/5 |
+| `volume_barrier/open` *(对照)* | 0.039 | 0.039 | **1.00** | 4/5 |
+| `floorplan/open_plan` *(对照)* | 0.018 | 0.018 | **1.00** | — |
+| `plane_domain/U_shape` | 0.019 | 0.045 | 2.35 | 5/5 |
+| `plane_barrier/chamber` | 0.048 | 0.178 | 3.70 | 5/5 |
+| `floorplan/apartment` | — | — | **8.23** | 5/5 |
+| `plane_barrier/sealed_4` | 0.029 | 0.267 | **9.19** | 5/5 |
+| `floorplan/lab_suite` | — | — | **11.44** | 5/5 |
+| `sphere/open_ocean` | 0.041 | 0.563 | **13.91** | 5/5 |
 
-Twelve layouts carry geometry and all twelve win five seeds out of five, under
-both sampling protocols.  The three layouts that carry none tie to three
-decimals and win at chance.  Nothing was selected on these numbers.
+十五个带几何的布局在两个采样协议下**全部 5/5**；四个无几何的对照并列到小数点后三位、
+胜率随机。二维十个布局**全部战胜坐标网络**（1.50–2.72×），且参数少一个量级
+（288 vs 2 982）。
 
-Against a coordinate network in two dimensions the margin is modest and the
-parameter count is not: **288** parameters against **2 982** on `sealed_4`, for
-a better reconstruction, because the operator supplies the spatial structure the
-network has to learn.
+**经典方法在传感器采样下不是弱，是未定义**：未观测节点的因子行出现在零个方程里，
+CP-ALS 与 Tucker-HOOI（SVD 初始化、开天眼选秩、跑满迭代）精确返回 1.000。同样两个例程
+在随机缺失下是 0.27–0.66 的正常对手。
 
-## When it works, and when it does not
+**不是只对扩散有效**：同一套几何换成阻尼波动方程，随机缺失 10% 下 1.80–2.79×。
 
-The condition is not that the operator class is right.  Adding a
-divergence-free flow to the truth while leaving the learner untouched, a sealed
-layout keeps a **6.5x** advantage at a hundred times the diffusive rate, because
-nothing crosses a sealed wall however fast it is carried.  A layout with an
-aperture loses the advantage completely (**0.95x**) at the same Peclet number,
-because the flow simply carries the field through it.
+---
 
-> The geometry has to still constrain where the field can be.  A barrier the
-> dynamics can route around has stopped being geometry.
+## 什么时候不该用
 
-Two external datasets sit outside that condition and show no advantage, as it
-predicts: measured flow past a cylinder (RealPDEBench, particle-image
-velocimetry) at `1.00--1.08x`, and 24 lid-driven cavities across aspect ratios
-`0.2` to `5.0` (CFDBench) at `0.74--1.07x`.  A cylinder in an open channel and
-an open box do not constrain a flow.
+条件不是"算子类别正确"，而是：
 
-Known limitations, with mechanisms rather than excuses, are in
-`docs/ITERATIONS.md`: a ceiling in three dimensions under sensor sampling, where
-mode counts grow like `k^d` and the identifiability limit arrives first; and two
-falsified design hypotheses and one failed attempt to learn the spectral cutoff,
-kept rather than discarded.
+> **几何必须仍然约束场能去哪里。动力学能绕开的障碍，不再是几何。**
 
-## Frozen one-dimensional anchor
+给真值加入对流（学习器不动，速度在墙内为零）：全密封布局在对流强过扩散一百倍时仍有
+**6.5×**；有开口的布局同样条件下降到 **0.95×**——流体直接从开口穿过去了。
 
-- Observation ratios: 2%, 5%, and 10%; the confirmation uses five fresh seeds
-  and exactly 400 updates after freezing cutoff 8 and rank `(4,5,5)` on the
-  earlier three selection seeds.
-- The synthetic principal-angle phase boundary is now complemented by a
-  variable-coefficient diffusion Green-response benchmark.  Its mismatch
-  changes physical eigenfunctions and decay rates; every result stores the
-  measured oracle projection residual.
-- On the physical benchmark, 10% random and receiver-fiber masks both reach
-  the predeclared 4/5 paired-win gate against a wide Neural Functional Tucker.
-  Random NRMSE is `0.165±0.010` vs `0.207±0.054`; receiver-fiber is
-  `0.217±0.052` vs `0.269±0.112`.
-- The claim has a sharp boundary: source-fiber reaches only 3/5 wins at 10%,
-  and 2% structured masks favor the neural baseline.  This is a conditional GO,
-  not a claim of universal superiority under extreme sparsity.
-- Basis cutoff has a real bias--variance tradeoff: reducing projection residual
-  from 0.165 to 0.025 does not monotonically improve 2% reconstruction.
-- Matched Tucker rank sweeps show that the 10% signal is not explained by one
-  hand-picked core size, while 2% remains optimization/data limited.
+两个外部真实数据集落在条件之外，结果与条件一致：圆柱绕流（PIV 实测）1.00–1.08×，
+方腔流 24 种长宽比 0.74–1.07×。开放通道里的孤立障碍不约束流场。
 
-The main claim is a measurable bias--variance phase boundary, not universal superiority over neural functional tensor models.
+---
 
-![Advantage against how much geometry there is to know](results/wall_sensors_summary_r7/advantage_vs_geometry_strength.png)
+## 应用：几何值多少个传感器
 
-## Repository map
+`apartment`（11 310 节点）：
 
-- `src/geoaware/`: `benchmark.py` builds every dataset in the main experiment;
-  `grouped_operator_tucker.py` is the model (Tucker or CP, operator / table /
-  neural factors, closed-form core posterior); `simplex_fem.py` is P1 finite
-  elements on simplices of any dimension, flat or curved, dense or sparse;
-  `als_baselines.py` wraps TensorLy; `operator_diagnostics.py` holds the
-  pre-fit diagnostics — projection residuals, sparse eigenpairs, and the mode
-  observability screen.  `irregular_fem.py`, `irregular_green_data.py` and
-  `manifold_barrier_data.py` back the earlier rounds.  The frozen
-  one-dimensional path — `tensor_bayes.py`, `tensor_data.py`,
-  `operator_tucker_baselines.py`, `bases.py` — is unchanged.
-- `experiments/`: fixed-budget phase-diagram runners and analysis.
-- `results/`: immutable raw artifacts migrated from the hub.
-- `docs/TECHNICAL_REPORT.md`: formulation, inference, baselines, dataset cards, and current evidence.
-- `docs/PAPER_TECHNICAL_REPORT_ZH.md`: paper-facing Chinese Introduction/Method,
-  frozen confirmation design, complete fresh-seed table, claim boundaries, exact
-  operator provenance, the group-wise formulation, joint-vs-axis phase experiment,
-  irregular-domain POC plan, and a new-session handoff.
-- `docs/DATASETS_AND_RESOURCES.md`: local/shared datasets, official resources,
-  operator-metadata requirements, leakage rules, and dataset implementation order.
-- `docs/ITERATIONS.md`: repository-local research diary.
-- `docs/SHARED_PROTOCOL.md`: shared audit discipline inherited from the hub.
+| 传感器 | ours | 去掉几何 | 神经 Tucker |
+|---:|---:|---:|---:|
+| 113 (1%) | **0.040** | 0.194 | 0.228 |
+| 2 262 (20%) | 0.020 | 0.177 | 0.160 |
 
-## Quick check
+**基线在 20 倍预算下仍达不到我们 1% 预算的精度**，而且几乎不随传感器数改善。它们不是
+数据不够，是函数空间放不下墙上的断层。
+
+![精度 vs 传感器数](results/figures_r14/sensor_budget.png)
+
+---
+
+## 快速开始
 
 ```bash
-PYTHONPATH=src python -m pytest -q
+export PYTHONPATH=src
+python -m pytest -q                       # 56 项，约 75 秒
+
+# 主表的一个家族
+python experiments/run_geometry_main.py \
+  --families plane_barrier --masks spatial_sensors,random --ratios .10 \
+  --seeds 201,202,203,204,205 --steps 1500 --n-scenarios 12 --n-time 12 \
+  --ranks 12,10,16 --output results/my_run
+
+# 论文图
+python experiments/plot_floorplan_basis.py --output results/my_figs --layout apartment
+python experiments/plot_reconstruction.py  --output results/my_figs --layout apartment
 ```
 
-Large datasets and caches are not committed. Generated results must record seeds, masks, observation ratios, optimization budgets, and the exact generator or dataset version.
+依赖：`torch`、`numpy`、`scipy`、`tensorly`、`matplotlib`。**不需要**任何网格库——
+网格是自建的（`scipy.spatial.Delaunay`）。主表数据全部由代码生成，不需要下载任何文件。
+
+---
+
+## 三个必须先知道的坑
+
+1. **不要从别的实验照搬秩。** `(4,4,6)` 来自 $18\times24\times24$ 的一维实验，搬到
+   5 000+ 节点的网格上会让整张表**秩受限**——`sealed_4` 的 2.98× 实际是 9.73×。
+   诊断办法：每行输出的 `attained_over_floor`，健康值 1.0–1.5。
+2. **分辨率由最小几何特征定，不是由节点数定。** 障碍比一个单元还薄时结果不可信，
+   **而且偏差方向不可预测**（我们两次都踩了，一次夸大一次低估）。
+3. **cutoff 有两条规则，必须同时满足**：近似能力跨设定可比，且 `cutoff × rank`
+   不超过传感器数。只满足第一条会让"更好的基估不出来，输给估得准的差基"。
+
+细节见 [`docs/HANDOVER_ZH.md`](docs/HANDOVER_ZH.md) 第四部分。
+
+---
+
+## 代码地图
+
+| 文件 | 职责 |
+|---|---|
+| `src/geoaware/benchmark.py` | **所有主实验的数据入口**，四个几何家族一条路径 |
+| `src/geoaware/floorplan.py` | 楼层平面家族（米制真实尺寸） |
+| `src/geoaware/grouped_operator_tucker.py` | **模型**：Tucker/CP、三种因子、闭式核后验 |
+| `src/geoaware/operator_diagnostics.py` | **诊断量**：投影残差、稀疏特征对、可观测性 |
+| `src/geoaware/simplex_fem.py` | 任意维单纯形 P1 有限元，稠密与稀疏 |
+| `src/geoaware/als_baselines.py` | TensorLy 的 CP-ALS / Tucker-HOOI |
+| `experiments/run_geometry_main.py` | 主实验 runner |
+| `experiments/plot_*.py` | 论文图 |
+
+早期轮次的模块与当前未引用的模块见 `HANDOVER_ZH.md` 第六部分——**删除前先确认没有
+`results/` 产物需要它们**。
