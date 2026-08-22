@@ -1,8 +1,9 @@
-.venv/
-.python-packages/
 __pycache__/
-.pytest_cache/
-*.py[cod]
-runs/
-data/
-checkpoints/
+*.pyc
+.venv/
+# LaTeX intermediates; the PDF itself is committed.
+docs/tex/*.aux
+docs/tex/*.log
+docs/tex/*.out
+docs/tex/*.toc
+docs/tex/build*.log

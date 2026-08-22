@@ -1,0 +1,53 @@
+% Shared preamble.  Kept separate so the document body stays readable.
+\usepackage[UTF8]{ctex}
+\setCJKmainfont{Noto Serif CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\setCJKmonofont{Noto Sans Mono CJK SC}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,multirow,array}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{graphicx}
+\graphicspath{{../../results/figures_r14/}}
+\usepackage[table]{xcolor}
+\usepackage{geometry}
+\geometry{a4paper,margin=2.4cm}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,
+            urlcolor=blue!55!black]{hyperref}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\usepackage{enumitem}
+\setlist{itemsep=2pt,parsep=0pt,topsep=3pt}
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\addtolength{\topmargin}{-2pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small 几何感知张量分解}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Algorithm environment in Chinese.
+\floatname{algorithm}{算法}
+\renewcommand{\algorithmicrequire}{\textbf{输入：}}
+\renewcommand{\algorithmicensure}{\textbf{输出：}}
+\algrenewcommand\algorithmicfor{\textbf{对}}
+\algrenewcommand\algorithmicdo{\textbf{执行}}
+\algrenewcommand\algorithmicwhile{\textbf{当}}
+\algrenewcommand\algorithmicif{\textbf{若}}
+\algrenewcommand\algorithmicthen{\textbf{则}}
+\algrenewcommand\algorithmicelse{\textbf{否则}}
+\algrenewcommand\algorithmicend{\textbf{结束}}
+\algrenewcommand\algorithmicreturn{\textbf{返回}}
+
+% Notation shorthands used throughout.
+\newcommand{\bY}{\mathcal{Y}}
+\newcommand{\bG}{\mathcal{G}}
+\newcommand{\bA}{\mathcal{A}}
+\newcommand{\Rb}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Sen}{\mathcal{S}}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\code}[1]{\texttt{\small #1}}
+
+\theoremstyle{definition}
+\newtheorem{principle}{准则}

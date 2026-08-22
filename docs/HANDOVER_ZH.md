@@ -3,6 +3,9 @@
 面向接手本项目的同学。本文档假设你没有读过之前的任何记录，目标是让你在读完之后能够
 **独立复现全部结果、理解每一个设计决定的来历、并且知道哪些坑已经踩过**。
 
+- **技术文稿 PDF（论文体例，公式与图表保证渲染）**：[`tex/report.pdf`](tex/report.pdf)
+  ——重新编译用 `docs/tex/build.sh`（需要 `texlive-xetex`、`texlive-lang-chinese`、
+  `fonts-noto-cjk`）
 - 研究日志（按时间顺序的全部迭代，含失败）：[`ITERATIONS.md`](ITERATIONS.md)
 - 数据集来源与从零重建方法：[`DATASETS.md`](DATASETS.md)
 - 待办与明确不做的事：[`TODO.md`](TODO.md)

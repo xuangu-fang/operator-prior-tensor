@@ -114,6 +114,7 @@ vs 神经网络的 2 982 个）。
 
 | 文档 | 内容 |
 |---|---|
+| **[`docs/tex/report.pdf`](docs/tex/report.pdf)** | **技术文稿（PDF，15 页）**。论文体例：动机与背景、任务设定、方法与推导、算法表、实验设定与结果、已知边界。公式与图表都正常渲染，适合打印和离线阅读 |
 | **[`docs/HANDOVER_ZH.md`](docs/HANDOVER_ZH.md)** | **主文档**。第零部分不用公式讲清全部要点；之后是推导、算法表、从零跑动指南、踩过的坑、全部实验设定、related work |
 | [`docs/DATASETS.md`](docs/DATASETS.md) | 数据来源、生成流程、从零重建（含外部数据下载链接） |
 | [`docs/ITERATIONS.md`](docs/ITERATIONS.md) | 研究日志：全部迭代，**含失败与被推翻的假设** |
