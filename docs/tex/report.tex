@@ -212,6 +212,138 @@ U_3=\Phi W,\qquad \Phi\in\Rb^{N_3\times K},\ W\in\Rb^{K\times R_3},\ K\ll N_3,
 由坐标平滑性间接约束、由图上的邻居间接约束；而式~\eqref{eq:core-idea} 让\textbf{每个
 节点都出现在每一列 $\phi_k$ 里}，因此每个未观测节点都被同一批 $KR_3$ 个系数确定。
 
+\subsection{论文主线：四个公式}
+\label{sec:four}
+
+\S\ref{sec:model}--\S\ref{sec:predict} 按实现顺序展开，便于接手的人对着代码读。
+\textbf{但论文正文不应该那样写}——那读起来像一条流水线：装配有限元、解特征问题、截断、
+加光滑罚。这四步合起来其实是\emph{一个对象}，下面给出。
+
+\paragraph{关键恒等式} 我们的先验是 $W_{kr}\sim\mathcal N\big(0,(1+\lambda_k)^{-p}\big)$，
+因子是 $U_3(\cdot,r)=\sum_kW_{kr}\phi_k$，于是
+\begin{equation}
+\mathrm{Cov}\big[U_3(\cdot,r)\big]
+=\sum_k(1+\lambda_k)^{-p}\,\phi_k\phi_k^\top .
+\end{equation}
+而算子 $\mathcal C=(\mathcal I+\mathcal A/\pi^2)^{-p}$ 的特征对\emph{恰好}是
+$\big((1+\lambda_k)^{-p},\ \phi_k\big)$。因此
+
+\begin{quote}
+\textbf{我们的先验就是域上一个高斯过程，其协方差算子由该几何自身的微分算子给出；
+所谓"谱截断"就是它的 Karhunen--Loève 截断。}
+\end{quote}
+
+这不是重新解释，是等式成立。且 $(\kappa^2-\Delta)^{p}$ 型精度的高斯场正是
+\textbf{Whittle--Matérn 族}（Lindgren 等人的 SPDE 表示），所以一句话可以说成：
+\emph{空间因子服从定义在该几何上的 Matérn 高斯过程先验}。
+
+于是全部方法是：
+
+\begin{align}
+&\textbf{几何 $\to$ 先验：}
+&&\mathcal C=\big(\mathcal I+\mathcal A/\pi^2\big)^{-p},
+\qquad \mathcal A=-\nabla\!\cdot\!\big(a(x)\nabla\big)+\kappa
+\label{eq:m1}\\[4pt]
+&\textbf{空间因子：}
+&&U_3(\cdot,r)\sim\mathcal{GP}(0,\mathcal C)
+\ \xrightarrow[\ \text{KL 截断}\ ]{}\
+\sum_{k\le K}w_{kr}\,\phi_k,\quad
+w_{kr}\sim\mathcal N\big(0,(1+\lambda_k)^{-p}\big)
+\label{eq:m2}\\[4pt]
+&\textbf{观测模型：}
+&&y_i\sim\mathcal N\big(z(i)^\top g,\ \beta^{-1}\big),
+\qquad z(i)=\bigotimes_{m}\tilde F_m(i_m,\cdot)
+\label{eq:m3}\\[4pt]
+&\textbf{核的后验：}
+&&p(g\mid y)=\mathcal N(\mu,\Sigma),\quad
+\Sigma=\big(\beta Z^\top Z+\alpha I\big)^{-1},\ \
+\mu=\beta\Sigma Z^\top y
+\label{eq:m4}
+\end{align}
+
+\paragraph{这样包装为什么更好}
+\begin{enumerate}
+\item \textbf{几何只出现一次}——在式~\eqref{eq:m1} 的 $\mathcal A$ 里。有限元、网格、
+特征求解全部退到 \eqref{eq:m1}$\to$\eqref{eq:m2} 的实现细节，正文不必出现。
+\item \textbf{字典与先验不再是两件事。} 之前要分别交代"用什么基"和"加什么罚"；
+现在 KL 展开同时给出两者，因为它们本来就出自同一个协方差算子。
+\item \textbf{截断不再是 ad hoc。} KL 截断在均方意义下是最优的有限秩近似，
+所以 $K$ 是一个\emph{近似阶数}而非一个随手设的超参。
+\item \textbf{接上了成熟的文献。} Matérn/SPDE 表示是高斯过程领域的标准工具，
+把本方法放进那个语境比自造一套术语更容易被理解，也更容易被检验。
+\end{enumerate}
+
+\paragraph{推断：利用条件共轭结构}
+式~\eqref{eq:m3} 有一个可以利用的结构：
+
+\begin{quote}
+\textbf{给定因子后，模型对核是线性的。}
+\end{quote}
+
+于是模型在核这一部分是\emph{条件共轭}的——核的后验有精确闭式，其超参
+$(\alpha,\beta)$ 也可由证据最大化直接定出；而因子非线性地进入 $z(i)$，没有闭式。
+我们据此采用与该结构对齐的推断：
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+参数 & 进入模型的方式 & 推断\\
+\midrule
+核 $g$ & \textbf{线性}（条件共轭） & \textbf{精确后验} $+$ 证据最大化定 $(\alpha,\beta)$\\
+因子 $\{W_g\},\theta,\{T_g\}$ & 非线性 & MAP 点估计\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+即在共轭的那一部分做精确边缘化，在其余部分做点估计——一种\emph{部分坍缩}
+（partially collapsed）的推断。它带来三件事：$(\alpha,\beta)$ 不需要人工设定；
+预测自带不确定度；有效参数个数 $\gamma$（式~\eqref{eq:gamma}）给出模型实际用掉的自由度。
+
+\paragraph{为什么不把因子也放进边缘似然}
+原则上可以把核积掉、只留边缘似然一个目标对因子求极大，形式上更统一。
+我们实测了这条路，它\textbf{与本方法所需的秩不相容}：每个梯度步都要形成 $Z^\top Z$，
+代价 $O(nP^2)$，而当前方案只在最后形成一次。
+
+\begin{center}\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+秩 & $P$ & 当前方案/步 & 边缘似然/步 & 倍数\\
+\midrule
+$(4,4,6)$ & $96$ & $32.9$ ms & $35.0$ ms & $1.1\times$\\
+$(8,6,10)$ & $480$ & $23.9$ ms & $58.9$ ms & $2.5\times$\\
+$(12,10,16)$ & $1920$ & $21.9$ ms & $404.8$ ms & $\mathbf{18.5\times}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+代价按 $P^2$ 增长，而 $P=1920$ 正是我们所用的值——单次拟合从 $33$ 秒变成 $10$ 分钟。
+在小核上两者代价相当，但小核恰好是被证明会导致秩受限、把主表低估三倍的那个配置
+（\S\ref{sec:pitfalls}）。
+
+更重要的是，\textbf{这个近似是良性的}。在代价尚可承受的秩 $(8,6,10)$ 上直接比较两者，
+精度几乎相同，估出的超参也在同一量级：
+
+\begin{center}\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+目标 & NRMSE & $\alpha$ & $\beta$\\
+\midrule
+当前方案（因子 MAP $+$ 核精确后验） & $0.0307$ & $4.8\times10^{2}$ & $9.33\times10^{1}$\\
+边缘似然（核积掉，对因子求极大） & $0.0300$ & $6.3\times10^{2}$ & $9.40\times10^{1}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+所以这个分工不是"只能这样做"，而是\textbf{精确做也是同一个结果，但贵 $18$ 倍}：
+它把 $O(nP^2)$ 的那一步从每步一次降到全程一次，使方法在能真正兑现基的秩上仍然可算。
+
+\paragraph{一个更优美但未验证的变体}
+式~\eqref{eq:m2} 的截断让参数量与网格规模无关（$KR_3$ 而非 $N_3R_3$），这正是稀疏
+传感器情形能用 $288$ 个参数工作的原因。若不截断，而直接以稀疏精度矩阵
+$(M+K/\pi^2)^{p}$ 作为 $U_3$ 的高斯马尔可夫随机场先验，则\textbf{不需要特征分解，
+截断阶数 $K$ 也随之消失}——未观测节点仍通过精度矩阵的邻接被约束。代价是参数量回到
+$N_3R_3$。这是值得做的后续方向，本文未验证，故只记录而不列入主线。
+
 \subsection{记号}
 \label{sec:notation}
 
