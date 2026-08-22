@@ -42,7 +42,8 @@ from .joint_diffusion_2d import GroupedFieldDataset
 from .manifold_barrier_data import Cap, Partition
 from .operator_diagnostics import (mass_orthonormalize_columns, sparse_eigenpairs)
 from .simplex_fem import (SimplexMesh, assemble_advection_sparse,
-                          assemble_sparse, build_box_mesh, build_sphere_mesh)
+                          assemble_sparse, build_box_mesh,
+                          build_sphere_mesh, to_torch_sparse)
 
 
 @dataclass(frozen=True)
@@ -140,6 +141,7 @@ FAMILIES = {
     # 5.2/9.9/13.9 at 130 against 5.1/10.2/13.8 at 240.
     "floorplan": Family("floorplan", 2, "diffusion", 130, _floorplan_layouts(), 16),
 }
+
 
 
 def _material(centroids: torch.Tensor, obstacles: tuple, contrast: float, *,
@@ -326,6 +328,7 @@ def build_family(family: str, layout: str, *, resolution: int | None = None,
         # the manifold -- so the blind control is the chart a per-axis method
         # would impose on it.
         blind_basis, blind_values = _lat_lon_basis(coordinates, mass, basis_cutoff)
+        blind_stiffness = None
     else:
         blind_stiffness, blind_mass = assemble_sparse(blind_mesh, 1.)
         blind_values, blind_basis = sparse_eigenpairs(blind_stiffness, blind_mass,
@@ -359,7 +362,16 @@ def build_family(family: str, layout: str, *, resolution: int | None = None,
                 # factor be evaluated anywhere in the domain and not only at the
                 # nodes (see GroupedOperatorTucker.predict_at).
                 "mesh_nodes": mesh.nodes.float(),
-                "mesh_cells": mesh.cells}
+                "mesh_cells": mesh.cells,
+                # Sparse operators for the graph-Laplacian regularised baseline:
+                # a free factor table paying the same smoothness price as the
+                # spectral factor, but not confined to the leading modes.  Kept
+                # sparse because the dense form needs three N-by-N
+                # eigendecompositions and does not fit at this mesh size.
+                "aware_stiffness": to_torch_sparse(aware_stiffness),
+                "blind_stiffness": to_torch_sparse(
+                    blind_stiffness if family != "sphere" else aware_stiffness),
+                "mass": to_torch_sparse(mass)}
     for name, (basis, eigenvalues) in spatial.items():
         matrices[f"{name}_basis"] = basis.float()
         matrices[f"{name}_eigenvalues"] = eigenvalues[:basis.shape[1]].float()

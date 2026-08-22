@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import random
 import time
 from pathlib import Path
@@ -48,7 +49,15 @@ SPECTRAL = {"geometry_operator": "geometry_operator",
             "flat_chart": "flat_chart",
             "permuted": "permuted"}
 MODELS = ("geometry_operator", "blind_operator", "flat_chart", "neural_tucker",
-          "neural_cp", "cp_als", "tucker_als", "permuted")
+          "neural_cp", "laplacian_geo", "laplacian_blind", "cp_als",
+          "tucker_als", "permuted")
+# The graph-Laplacian pair is the 2x2 that separates "geometry" from
+# "representation": a free factor table paying exactly the same smoothness price
+# as the spectral factor, with and without the geometry in the operator that
+# defines that price.  It is the baseline a reader who thinks "this is just
+# graph regularisation" will ask for.
+LAPLACIAN = {"laplacian_geo": "aware_stiffness",
+             "laplacian_blind": "blind_stiffness"}
 
 
 def seed_all(seed: int):
@@ -80,6 +89,14 @@ def build_specs(name, data, ranks, hidden, seen_nodes):
         specs.append(GroupFactorSpec("operator", min(node_rank, basis.shape[1]),
                                      data.shape[2], basis=basis,
                                      eigenvalues=eigenvalues, name="node"))
+    elif name in LAPLACIAN:
+        # phi^T (M + K/pi^2) phi = 1 + lambda, i.e. the Sobolev price at p = 1,
+        # which is the standard graph-Laplacian regulariser.  Sparse, so it
+        # costs nothing next to a dense penalty matrix that would not fit.
+        stiffness = matrices[LAPLACIAN[name]]
+        penalty = (matrices["mass"] + stiffness * (1. / math.pi ** 2)).coalesce()
+        specs.append(GroupFactorSpec("table", node_rank, data.shape[2],
+                                     penalty_operator=penalty, name="node"))
     else:
         specs.append(GroupFactorSpec("neural", node_rank, data.shape[2],
                                      coordinates=matrices["coordinates"],

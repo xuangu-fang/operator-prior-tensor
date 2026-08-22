@@ -260,3 +260,16 @@ def assemble_advection_sparse(mesh: SimplexMesh, velocity: torch.Tensor):
     columns = mesh.cells[:, None, :].expand(-1, corners, -1).reshape(-1).numpy()
     return coo_matrix((local.reshape(-1).numpy(), (rows, columns)),
                       shape=(mesh.n_nodes, mesh.n_nodes)).tocsr()
+
+
+def to_torch_sparse(matrix) -> torch.Tensor:
+    """A SciPy CSR matrix as a torch sparse tensor, for use inside a penalty.
+
+    Lives here rather than beside the callers because this is where the sparse
+    operators are produced, and because two dataset modules need it without
+    importing each other.
+    """
+    coo = matrix.tocoo()
+    indices = torch.from_numpy(np.stack([coo.row, coo.col])).long()
+    return torch.sparse_coo_tensor(
+        indices, torch.from_numpy(coo.data).float(), coo.shape).coalesce()

@@ -168,207 +168,357 @@ $\mathrm{NRMSE}=1$ 相当于用留出集均值作预测。
 %===========================================================================
 \section{方法}
 
-\subsection{总体思路}
+\subsection{出发点：神经张量分解，再往前一步}
+\label{sec:position}
 
-打个比方。要描述一栋楼里的温度分布，普通方法给模型一支笔，让它在整张平面图上随便画；
-我们的做法是先根据平面图裁出一批"积木"——\textbf{每块积木都自动在墙处断开、在门洞处
-连通}——然后让模型只能用这些积木拼。
+近年用张量分解做物理场重构的主流做法，是把离散的因子矩阵换成\textbf{空间的连续函数}：
+\begin{equation}
+U_3(i_3,r)\ \longrightarrow\ f_r(x_{i_3}),\qquad
+f_r=\text{坐标网络（MLP）的第 $r$ 个输出}.
+\end{equation}
+这类方法（下称\emph{神经张量分解}）解决了式~\eqref{eq:tucker} 把位置当编号的一半问题：
+它知道位置有坐标，因此相邻坐标给出相近的因子值。
 
-拼出来的结果天然不穿墙，因为每块积木本身就不穿墙；而且要学的东西少一个数量级。
+\textbf{但它只知道坐标，不知道连通性。} 对一个 MLP 来说，墙两侧相距 $5$ 厘米的两点
+就是"相邻"，因为欧氏距离小。它必须从数据里\emph{学出}墙的存在，而在稀疏观测下数据不
+足以支撑这件事——图~\ref{fig:recon} 右一是它的典型失败：浓度被平滑地抹过墙。
+
+比它更进一步的常见做法，是给因子加\textbf{图 Laplacian 正则}：用网格的邻接构造
+Laplacian $L$，在损失里加 $\operatorname{tr}(F^\top LF)$。这确实把连通性引入了，
+但引入的方式是\emph{惩罚}而非\emph{约束}——因子仍然有 $N_3\times R_3$ 个自由参数，
+只是被推向光滑。
+
+本文的做法是把连通性放进\textbf{参数化}而不是惩罚项：
+\begin{equation}
+U_3=\Phi W,\qquad \Phi\in\Rb^{N_3\times K},\ W\in\Rb^{K\times R_3},\ K\ll N_3,
+\label{eq:core-idea}
+\end{equation}
+其中 $\Phi$ 的列是\textbf{该几何上算子的低阶特征函数}。三者的关系是：
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+方法 & 空间因子的形式 & 自由参数（空间）\\
+\midrule
+离散 Tucker/CP & 自由表 $U_3$ & $N_3R_3$\\
+神经张量分解 & $\mathrm{MLP}_\theta(x)$ & $|\theta|$\\
+图 Laplacian 正则 & 自由表 $+$ $\operatorname{tr}(F^\top LF)$ 罚 & $N_3R_3$\\
+\textbf{本文} & $\Phi W$，$\Phi$ 由几何解出 & $KR_3$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+差别不只是参数量。在传感器采样下，前三者的未观测节点分别是：完全无约束、
+由坐标平滑性间接约束、由图上的邻居间接约束；而式~\eqref{eq:core-idea} 让\textbf{每个
+节点都出现在每一列 $\phi_k$ 里}，因此每个未观测节点都被同一批 $KR_3$ 个系数确定。
+
+\subsection{记号}
+\label{sec:notation}
+
+\begin{table}[htbp]\centering\small
+\caption{全文记号。}
+\begin{tabular}{@{}ll@{}}
+\toprule
+符号 & 含义\\
+\midrule
+$\bY\in\Rb^{N_1\times N_2\times N_3}$ & 观测张量，语义 $(\text{场景},\text{时间},\text{空间节点})$\\
+$\Om\subset[N_1]\times[N_2]\times[N_3]$ & 观测索引集，$n=|\Om|$\\
+$y\in\Rb^{n}$ & $\Om$ 上的带噪观测值\\
+$\Sen\subset[N_3]$ & 被观测到的空间节点集合（传感器位置）\\
+\midrule
+$\Om_{\mathrm{dom}}\subset\Rb^{d}$ & 物理域\\
+$\varphi_i$ & 节点 $i$ 的 P1 帽子函数\\
+$K,M\in\Rb^{N_3\times N_3}$ & 刚度矩阵与质量矩阵（稀疏）\\
+$\Phi=[\phi_1,\dots,\phi_K]$ & 谱基，$\Phi^\top M\Phi=I$\\
+$\lambda=(\lambda_1,\dots,\lambda_K)$ & 对应特征值，$\lambda_1\le\cdots\le\lambda_K$\\
+\midrule
+$g\in\{1,\dots,G\}$ & 坐标组的编号（本文 $G=3$）\\
+$W_g\in\Rb^{K_g\times R_g}$ & 算子组的\textbf{谱系数}（待学）\\
+$\theta$ & 神经组的网络参数（待学）\\
+$T_g$ & 自由表组的因子矩阵（待学）\\
+$\tilde F_g$ & 逐列单位 RMS 归一化后的因子\\
+$\bG\in\Rb^{R_1\times R_2\times R_3}$ & Tucker 核，$g=\mathrm{vec}(\bG)\in\Rb^{P}$，$P=\prod_mR_m$\\
+$Z\in\Rb^{n\times P}$ & 设计矩阵，第 $i$ 行为 $z(i)^\top$\\
+\midrule
+$\alpha$ & 核先验精度（待估）\\
+$\beta$ & 噪声精度（待估）\\
+$\mu,\Sigma$ & 核的后验均值与协方差\\
+$\gamma$ & 有效参数个数\\
+$c$ & 预测标准差的校准系数\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{概率模型}
+\label{sec:model}
+
+写出完整的生成式模型，后面每一步推断都对应其中一项。
+
+\paragraph{似然} 给定所有因子与核，
+\begin{equation}
+p\big(y \mid \{W_g\},\theta,\{T_g\},\,g;\,\beta\big)
+=\prod_{i\in\Om}\mathcal N\!\Big(y_i \,\Big|\; z(i)^\top g,\ \beta^{-1}\Big),
+\label{eq:likelihood}
+\end{equation}
+其中设计向量由归一化后的因子行逐行 Kronecker 积给出
+\begin{equation}
+z(i)=\tilde F_1(i_1,\cdot)\otimes\tilde F_2(i_2,\cdot)\otimes\tilde F_3(i_3,\cdot).
+\label{eq:design}
+\end{equation}
+\textbf{关键结构性质：给定因子后，模型对核 $g$ 是线性的}——这正是后文能对核做闭式
+后验的原因。
+
+\paragraph{核的先验} 各向同性高斯
+\begin{equation}
+p(g\mid\alpha)=\mathcal N\big(g \mid 0,\ \alpha^{-1}I_P\big).
+\label{eq:core-prior}
+\end{equation}
+
+\paragraph{谱系数的先验：几何在这里进入} 这是本文的核心。对算子组 $g$，
+\begin{equation}
+p(W_g)=\prod_{k=1}^{K_g}\prod_{r=1}^{R_g}
+\mathcal N\!\Big(W_{g,kr}\,\Big|\;0,\ \big[\rho\,(1+\lambda_{g,k})^{p}\big]^{-1}\Big),
+\qquad p=1.5 .
+\label{eq:spectral-prior}
+\end{equation}
+即\textbf{第 $k$ 个模态的系数，其先验精度按 $(1+\lambda_{g,k})^p$ 增长}。
+$\lambda_{g,k}$ 是几何算子的特征值，所以：
+
+\begin{itemize}
+\item 几何决定了\emph{哪些空间形状算低频}——这些形状在墙处断开、在门洞处连通；
+\item 先验说\emph{低频形状可以有大系数、高频形状必须小}；
+\item 因此\textbf{几何同时决定了字典和先验的形状}。这不是"先有字典再加个光滑罚"，
+两者出自同一个算子。
+\end{itemize}
+
+$(1+\lambda)^p$ 正是 Sobolev 范数 $\norm{u}_{H^p}^2$ 在该算子特征基下的权重，所以
+式~\eqref{eq:spectral-prior} 等价于对函数施加 $H^p$ 光滑性先验——但是\emph{在几何
+意义下的} $H^p$，不是欧氏意义下的。
+
+\paragraph{其余组的先验} 自由表组（若给定罚算子 $P_g$）取
+$p(T_g)\propto\exp\{-\tfrac{\rho}{2}\operatorname{tr}(T_g^\top P_gT_g)\}$；
+神经组取 $p(\theta)=\mathcal N(0,\rho^{-1}I)$。
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{basis_apartment.png}
-\caption{\textbf{拟合之前}的字典，不含任何数据。上行是本文的几何感知算子——特征函数
-在墙处断开、在门洞处连通，房间成为自然的"块"；中行是\emph{忘了墙}的同一算子，给出
-无视墙的平滑斜坡；下行是把楼当成矩形的可分基，完全盲目的棋盘格。
-方法的全部内容就是"空间因子被允许长什么样"。}
+\caption{\textbf{拟合之前}的字典 $\Phi$，不含任何数据。上行是几何算子的特征函数——
+在墙处断开、在门洞处连通；中行是\emph{忘了墙}的同一算子，给出无视墙的平滑斜坡；
+下行是把楼当成矩形的可分基。式~\eqref{eq:spectral-prior} 的先验精度
+$(1+\lambda_k)^p$ 也由同一个算子给出，所以\textbf{几何同时决定了字典和先验}。}
 \label{fig:basis}
 \end{figure}
 
-\subsection{算子及其谱基}
+\subsection{几何如何算出来：从域到 $(\Phi,\lambda)$}
 
-设域为 $\Om\subset\Rb^d$。取扩散型算子
-\begin{equation}
-\bA u=-\nabla\!\cdot\!\big(a(x)\nabla u\big)+\kappa u,
-\end{equation}
-$a(x)$ 为扩散系数，$\kappa$ 为反应率。障碍物实现为 $a(x)$ 取极小值的薄带
-（对比度 $100{:}1$，理由见 \S\ref{sec:pitfalls}）。
+上一节把 $\Phi,\lambda$ 当作已知。它们由域与障碍物唯一确定，过程不接触任何数据。
 
-\subsubsection{P1 有限元：那些"积木"是怎么算出来的}
+\subsubsection{算子}
+取扩散型算子 $\bA u=-\nabla\!\cdot\!(a(x)\nabla u)+\kappa u$，障碍物实现为 $a(x)$
+取极小值的薄带（对比度 $100{:}1$，理由见 \S\ref{sec:pitfalls}）。
 
-把域剖成单纯形（二维三角形、三维四面体）。对每个节点 $i$ 定义\textbf{帽子函数}
-$\varphi_i$：在节点 $i$ 上取 $1$，在其他所有节点上取 $0$，在每个单元内部线性变化。
-这些函数张成所有分片线性连续函数的空间，于是任何这样的函数可写成
+\subsubsection{P1 有限元离散}
+把域剖成单纯形。对每个节点 $i$ 定义\textbf{帽子函数} $\varphi_i$：在节点 $i$ 上取 $1$，
+其他节点上取 $0$，单元内线性。它们张成所有分片线性连续函数的空间，于是
 \begin{equation}
 u(x)=\sum_i u_i\,\varphi_i(x),
 \label{eq:nodal}
 \end{equation}
-其中 $u_i$ 是它在节点 $i$ 上的值。\textbf{函数与节点值向量一一对应}——这是后文
-\S\ref{sec:continuous} 的基础。
+$u_i$ 是它在节点 $i$ 上的值——\textbf{函数与节点值向量一一对应}（见 \S\ref{sec:continuous}）。
 
-在一个单元 $T$ 内用重心坐标 $\lambda_0,\dots,\lambda_k$ 描述。设顶点为
-$p_0,\dots,p_k$，记边矩阵 $E=[p_1-p_0;\dots;p_k-p_0]\in\Rb^{k\times n}$。
-由 $x-p_0=E^\top\lambda_{1:k}$ 两边左乘 $E$ 得
+在单元 $T$ 内用重心坐标描述。设顶点 $p_0,\dots,p_k$，边矩阵
+$E=[p_1-p_0;\dots;p_k-p_0]\in\Rb^{k\times n}$。由 $x-p_0=E^\top\lambda_{1:k}$
+左乘 $E$：
 \begin{equation}
-\lambda_{1:k}=(EE^\top)^{-1}E\,(x-p_0)
-\quad\Longrightarrow\quad
-\nabla\lambda_{1:k}=(EE^\top)^{-1}E,\qquad
-\nabla\lambda_0=-\sum_{i\ge1}\nabla\lambda_i,
+\lambda_{1:k}=(EE^\top)^{-1}E(x-p_0)
+\ \Longrightarrow\
+\nabla\lambda_{1:k}=(EE^\top)^{-1}E,\quad
+\nabla\lambda_0=-\sum_{i\ge1}\nabla\lambda_i .
 \end{equation}
-梯度在单元内为常数。单元体积为 $|T|=\sqrt{\det(EE^\top)}/k!$，于是
+单元体积 $|T|=\sqrt{\det(EE^\top)}/k!$，于是单元矩阵为
 \begin{equation}
-K^T_{ij}=a_T\,|T|\,\nabla\lambda_i\!\cdot\!\nabla\lambda_j,
+K^T_{ij}=a_T|T|\,\nabla\lambda_i\!\cdot\!\nabla\lambda_j,
 \qquad
-M^T_{ij}=\frac{|T|}{(k+1)(k+2)}\big(1+\delta_{ij}\big),
+M^T_{ij}=\frac{|T|}{(k+1)(k+2)}(1+\delta_{ij}),
 \label{eq:element}
 \end{equation}
-累加到全局得稀疏矩阵 $K,M$。
+累加到全局得稀疏 $K,M$。
 
 \begin{principle}[同一公式覆盖三种几何]
-$EE^\top$ 是\emph{诱导度量}。取 $k=n=2$ 是平面三角形，$k=n=3$ 是四面体，
-而 $k=2,\,n=3$——三维空间中的曲面三角形——式~\eqref{eq:element} 自动给出
-\textbf{Laplace–Beltrami 算子}。球面因此不需要任何特殊代码，只需要一张不同的网格。
+$EE^\top$ 是\emph{诱导度量}。$k=n=2$ 是平面三角形，$k=n=3$ 是四面体，
+$k=2,n=3$（三维中的曲面三角形）时式~\eqref{eq:element} 自动给出
+\textbf{Laplace--Beltrami 算子}。球面因此不需要特殊代码，只需要一张不同的网格；
+该性质由球面特征值必须等于解析解 $l(l+1)$ 的测试守护。
 \end{principle}
 
-该性质有测试守着：球面的特征值必须是解析解 $l(l+1)=0,2,2,2,6,\dots$。
-
 \subsubsection{谱基}
-
-取广义特征问题的最低 $K$ 个解
 \begin{equation}
-K\phi_k=\lambda_k M\phi_k,\qquad
-\lambda_1\le\cdots\le\lambda_K,\qquad
-\Phi=[\phi_1,\dots,\phi_K]\in\Rb^{N\times K},
+K\phi_k=\lambda_kM\phi_k,\qquad \Phi^\top M\Phi=I .
+\label{eq:eigen}
 \end{equation}
-并取\textbf{质量正交归一} $\Phi^\top M\Phi=I$。后者不是形式讲究：在非均匀网格上，
-普通欧氏正交会让\emph{节点密度}而非\emph{函数频率}决定什么算低频。
+\textbf{质量正交归一不是形式讲究}：在非均匀网格上，普通欧氏正交会让\emph{节点密度}
+而非\emph{函数频率}决定什么算低频。
 
-实现使用移位反演 Lanczos，移位取 $\sigma=-10^{-6}$（纯 Neumann 算子在 $0$ 处奇异）。
-代价与请求的模态数成正比而非 $N^3$：$642$ 节点的球面谱从稠密路径的 $32.0$ 秒降到
-$0.11$ 秒，$40\,962$ 节点的球面稠密不可行、稀疏 $35.6$ 秒。两条路径在都能跑的网格上
-给出\emph{逐位相同}的张量，特征值差 $5.7\times10^{-13}$。
+实现用移位反演 Lanczos，移位 $\sigma=-10^{-6}$（纯 Neumann 算子在 $0$ 处奇异）。
+代价与请求的模态数成正比而非 $N_3^3$：$642$ 节点的球面谱从稠密路径的 $32.0$ 秒降到
+$0.11$ 秒；$40\,962$ 节点稠密不可行、稀疏 $35.6$ 秒。两条路径在都能跑的网格上给出
+\emph{逐位相同}的张量，特征值差 $5.7\times10^{-13}$。
 
-\subsection{模型：分组算子先验 Tucker}
+\subsection{推断第一段：因子的 MAP 估计}
+\label{sec:stage1}
 
-坐标划分成若干\textbf{组} $g$，每组配一个因子：
+联合后验对 $(\{W_g\},\theta,\{T_g\},g)$ 不可解析。我们采取\textbf{分层近似}：
+先对因子取 MAP 点估计，再在因子固定的条件下对核做\emph{精确}后验。
+
+取式~\eqref{eq:likelihood}--\eqref{eq:spectral-prior} 的负对数并丢掉常数，
+MAP 目标为
 \begin{equation}
-F_g=
-\begin{cases}
-\Phi_g W_g & \text{算子组：该组有可信算子}\\
-T_g & \text{自由表：如"场景"这类枚举，没有算子可言}\\
-\mathrm{MLP}_\theta(x_g) & \text{神经组：有坐标但无可信算子}
-\end{cases}
-\end{equation}
-每组恰含一个张量轴时退化为逐轴模型。这一点很重要：方法\textbf{不要求}张量每一维
-都有一条独立 PDE。
-
-预测为
-\begin{equation}
-\hat y(i_1,i_2,i_3)=\sum_{r_1,r_2,r_3}\bG_{r_1r_2r_3}\prod_{m}\tilde F_m(i_m,r_m),
-\end{equation}
-其中 $\tilde F$ 是逐列单位 RMS 归一化后的因子。归一化让先验与尺度无关；代价是因子尺度
-不可辨识，但它被核吸收，而核正是唯一有后验的对象。
-
-\textbf{CP 是同一模型的对角核特例}：令 $R_1=R_2=R_3=R$、
-$\bG_{r_1r_2r_3}=w_r\delta_{r_1r_2r_3}$ 即可。这样做的意义在于：CP 基线与本方法
-共享优化器、归一化、先验和闭式后验，\textbf{两者的差异只能来自模型本身}。
-
-\subsection{先验}
-
-对算子组使用 Sobolev 谱罚
-\begin{equation}
-\mathcal R_g(W_g)=\frac{1}{K_gR_g}\sum_{k,r}(1+\lambda_{g,k})^{p}\,
-\widetilde W_{g,kr}^{2},\qquad p=1.5,
-\label{eq:sobolev}
-\end{equation}
-即高频模态付更高代价——$(1+\lambda_k)^p$ 正是 Sobolev 范数在特征基下的权重。
-
-对自由表组（若给定罚算子 $P$）使用 $\operatorname{tr}(F^\top PF)$，其中 $P$ 满足
-$\phi_k^\top P\phi_k=(1+\lambda_k)^p$。这构造出关键对照：\textbf{自由表付与谱因子
-完全相同的频率代价，唯一差别是它不被限制在前 $K$ 个模态里}——这正是"是几何起作用
-还是截断起作用"这个消融所需要的。
-
-总目标为
-\begin{equation}
-\mathcal L=\frac{1}{|\Om|}\sum_{i\in\Om}\big(\hat y_i-y_i\big)^2
-+\beta_{\mathrm{reg}}\Big[\overline{\bG^2}+\sum_g\mathcal R_g\Big],
-\qquad \beta_{\mathrm{reg}}=2\times10^{-3}.
+\mathcal L=\frac{1}{n}\sum_{i\in\Om}\big(z(i)^\top g-y_i\big)^2
++\beta_{\mathrm{reg}}\Big[\underbrace{\overline{g^2}}_{\text{核先验}}
++\sum_{g}\underbrace{\frac{1}{K_gR_g}\sum_{k,r}(1+\lambda_{g,k})^{p}
+\widetilde W_{g,kr}^{2}}_{\text{谱先验，式~\eqref{eq:spectral-prior}}}\Big],
 \label{eq:loss}
 \end{equation}
+$\beta_{\mathrm{reg}}=2\times10^{-3}$ 吸收了 $\rho/\beta$ 的比值。
+用 AdamW 优化（学习率 $3\times10^{-3}$，权重衰减 $10^{-6}$，梯度裁剪 $5.0$，
+$T=1500$ 步，冷随机初始化，无早停），\textbf{保留目标值最优的检查点而非最后一步}。
 
-\subsection{推断：两段式}
+\paragraph{归一化的作用} $\tilde F$ 是逐列单位 RMS 归一化的。这让先验与因子尺度无关，
+也让不同组可比。代价是因子的整体尺度不可辨识——但它被核吸收，而核正是下一段唯一
+做完整后验的对象，所以这个不可辨识性不影响不确定度量化。
 
-\paragraph{第一段（因子）} AdamW，学习率 $3\times10^{-3}$，权重衰减 $10^{-6}$，
-梯度裁剪 $5.0$，$1500$ 步，冷随机初始化，无早停，但保留\emph{目标值最优}的检查点
-而非最后一步的迭代。
+\subsection{推断第二段：核的精确后验与证据最大化}
+\label{sec:stage2}
 
-\paragraph{第二段（核）} 固定因子后，模型对核是\textbf{线性}的。记
+固定 $\tilde F$ 后，由式~\eqref{eq:likelihood} 与~\eqref{eq:core-prior}，
+核的条件后验是精确高斯：
 \begin{equation}
-z(i)^\top=\Big(\tilde F_1(i_1,r_1)\tilde F_2(i_2,r_2)\tilde F_3(i_3,r_3)\Big)_{r_1r_2r_3}
-\in\Rb^{p},\qquad p=R_1R_2R_3,
-\end{equation}
-即三个因子行的逐行 Kronecker 积（CP 情形为 Khatri--Rao 积，$p=R$）。取
-$p(\bG)=\mathcal N(0,\alpha^{-1}I)$、$p(y\mid\bG)=\mathcal N(Z\mathrm{vec}(\bG),\beta^{-1}I)$，
-标准结果给出
-\begin{equation}
+p(g\mid y,\alpha,\beta)=\mathcal N(g\mid\mu,\Sigma),
+\qquad
 \Sigma=\big(\beta Z^\top Z+\alpha I\big)^{-1},
 \qquad
 \mu=\beta\,\Sigma\,Z^\top y .
 \label{eq:posterior}
 \end{equation}
-$\alpha,\beta$ 用证据不动点（type-II 最大似然）估计。定义有效参数个数
-$\gamma=p-\alpha\operatorname{tr}(\Sigma)$，迭代
+
+\paragraph{$\alpha,\beta$ 从数据自己定} 对核做边缘化，得到\textbf{证据}
 \begin{equation}
-\alpha\leftarrow\frac{\gamma}{\norm{\mu}^2},
-\qquad
-\beta\leftarrow\frac{|\Om|-\gamma}{\norm{y-Z\mu}^2}.
+p(y\mid\alpha,\beta)=\int\!\mathcal N(y\mid Zg,\beta^{-1}I)\,
+\mathcal N(g\mid0,\alpha^{-1}I)\,\mathrm dg,
+\end{equation}
+其对数为
+\begin{equation}
+\log p(y\mid\alpha,\beta)=\frac{P}{2}\log\alpha+\frac{n}{2}\log\beta
+-\frac{\beta}{2}\norm{y-Z\mu}^2-\frac{\alpha}{2}\norm{\mu}^2
+-\frac12\log\big|\beta Z^\top Z+\alpha I\big|-\frac n2\log2\pi .
 \label{eq:evidence}
 \end{equation}
+对 $\alpha,\beta$ 求导置零，得 MacKay 不动点。记 $Z^\top Z$ 的特征值为
+$\{\ell_k\}$，定义\textbf{有效参数个数}
+\begin{equation}
+\gamma=\sum_{k=1}^{P}\frac{\beta\ell_k}{\beta\ell_k+\alpha}
+\;=\;P-\alpha\operatorname{tr}(\Sigma)\ \in[0,P],
+\label{eq:gamma}
+\end{equation}
+则
+\begin{equation}
+\boxed{\ \alpha\leftarrow\frac{\gamma}{\norm{\mu}^2},
+\qquad
+\beta\leftarrow\frac{n-\gamma}{\norm{y-Z\mu}^2}\ }
+\label{eq:fixedpoint}
+\end{equation}
+交替迭代式~\eqref{eq:posterior} 与~\eqref{eq:fixedpoint} 至收敛（至多 $80$ 次）。
+
+$\gamma$ 的含义值得说明：式~\eqref{eq:gamma} 中每一项 $\beta\ell_k/(\beta\ell_k+\alpha)$
+落在 $[0,1]$，衡量\emph{第 $k$ 个方向被数据确定的程度}——数据信息 $\beta\ell_k$ 远大于
+先验精度 $\alpha$ 时接近 $1$，反之接近 $0$。因此 $\gamma$ 是"实际被用掉的参数个数"，
+而 $P-\gamma$ 是被先验压住的部分。
 
 \begin{principle}[在特征基中迭代]
-$Z^\top Z$ 在整个不动点循环中\emph{不变}，所以只做一次对角化
-$Z^\top Z=V\Lambda V^\top$，此后每次迭代都在特征基下进行——协方差是对角的、
-迹是求和、均值是逐元素缩放——把每次迭代从 $O(p^3)$ 降到 $O(p)$。
-核为 $1920$ 时这是"整个拟合被这个循环主导"与"不被主导"的差别。
+$Z^\top Z$ 在整个循环中\emph{不变}。做一次对角化 $Z^\top Z=V\Lambda V^\top$，
+记 $b=V^\top Z^\top y$、$\pi=\beta\lambda+\alpha$，则
+\begin{equation*}
+\tilde\mu=\beta\,b\oslash\pi,\quad
+\operatorname{tr}(\Sigma)=\textstyle\sum_k\pi_k^{-1},\quad
+\norm{y-Z\mu}^2=\norm{y}^2-2\tilde\mu^\top b+\textstyle\sum_k\lambda_k\tilde\mu_k^2 ,
+\end{equation*}
+每次迭代从 $O(P^3)$ 降到 $O(P)$。$P=1920$ 时这是"整个拟合被这个循环主导"与
+"不被主导"的差别。
 \end{principle}
 
-预测方差为 $z^\top\Sigma z+\beta^{-1}$，再乘一个由留一残差得到的校准系数
-（杠杆值修正，取 $95$ 分位除以 $1.96$，截断在 $[0.5,4]$）。因此误差棒是
-\emph{经过校准}的，不是裸后验方差。
+\paragraph{这一层贝叶斯买到了什么} (i) 核的正则强度 $\alpha$ 与噪声水平 $\beta$
+\textbf{不需要人工设定}，由证据自动定；(ii) 得到预测的不确定度（下一节）；
+(iii) $\gamma$ 给出模型实际用掉的自由度，可用于诊断。
 
-\paragraph{明确没有做的} 因子上没有后验。这是设计取舍，代价见 \S\ref{sec:pitfalls}
-关于谱 ARD 的负结果。
+\paragraph{明确没有做的} 因子上没有后验。这是刻意的取舍，代价是明确的：我们尝试过用
+per-column ARD 自动确定谱截断 $K$，\textbf{失败且原因是结构性的}——点估计的 ARD 不动点
+$\alpha_k=R/\sum_rW_{kr}^2$ 缺少后验协方差项，罚项对每列恒为 $\rho R$，什么都剪不掉
+（\S\ref{sec:pitfalls}）。要真正剪枝需要因子上的后验。
 
-\subsection{前向计算：不物化设计矩阵}
+\subsection{预测分布与校准}
+\label{sec:predict}
 
-朴素实现显式构造 $Z$。当核有 $1920$ 个元素、观测有 $65$k 行时，$Z$ 是
-$1.25\times10^8$ 个数（$500$ MB），且每个梯度步重建一次。正确做法是按模态依次收缩：
+对任一条目，把核边缘化掉，预测分布为高斯：
+\begin{equation}
+p(y_*\mid y)=\mathcal N\!\Big(y_* \,\Big|\; z_*^\top\mu,\ \
+\underbrace{z_*^\top\Sigma z_*}_{\text{参数不确定}}
++\underbrace{\beta^{-1}}_{\text{观测噪声}}\Big).
+\label{eq:predictive}
+\end{equation}
+
+\paragraph{为什么还要校准} 式~\eqref{eq:predictive} 只反映了\emph{核}的不确定性。
+因子是点估计，它们的不确定性没有被计入，所以式~\eqref{eq:predictive} 会
+\textbf{系统性低估}。我们用留一交叉验证做一次标量校正：记杠杆值
+$h_i=\beta\,z_i^\top\Sigma z_i$，留一残差与其标准差为
+\begin{equation}
+e_i^{\mathrm{loo}}=\frac{y_i-z_i^\top\mu}{1-h_i},
+\qquad
+s_i=\sqrt{\beta^{-1}+z_i^\top\Sigma z_i},
+\end{equation}
+取
+\begin{equation}
+c=\mathrm{clip}\!\left(\frac{Q_{0.95}\big(|e^{\mathrm{loo}}_i|/s_i\big)}{1.96},
+\ 0.5,\ 4\right),
+\qquad
+\sigma_*=c\sqrt{z_*^\top\Sigma z_*+\beta^{-1}} .
+\label{eq:calibration}
+\end{equation}
+取 $95$ 分位而非标准差，是为了不被少数离群残差主导；除以 $1.96$ 使得
+$c=1$ 对应"经验 $95\%$ 区间恰好等于高斯 $95\%$ 区间"。截断在 $[0.5,4]$ 防止极端情形。
+
+\subsection{计算：不物化设计矩阵}
+
+朴素实现显式构造 $Z$。当 $P=1920$、$n=65$k 时，$Z$ 是 $1.25\times10^8$ 个数
+（$500$ MB），且每个梯度步重建一次。改为按模态依次收缩：
 \begin{equation}
 t^{(1)}_{n,r_2r_3}=\sum_{r_1}\tilde F_1\bG_{r_1r_2r_3},\quad
-t^{(2)}_{n,r_3}=\sum_{r_2}\tilde F_2 t^{(1)}_{n,r_2r_3},\quad
-\hat y_n=\sum_{r_3}\tilde F_3 t^{(2)}_{n,r_3}.
+t^{(2)}_{n,r_3}=\sum_{r_2}\tilde F_2t^{(1)}_{n,r_2r_3},\quad
+\hat y_n=\sum_{r_3}\tilde F_3t^{(2)}_{n,r_3},
 \end{equation}
-结果完全相同（float32 下差 $2.4\times10^{-6}$，对角核精确为 $0$），算术量约 $2.4$ 倍少，
-峰值内存降一个数量级。$1920$ 元素的核因此与 $96$ 元素的一样快。
+结果完全相同（float32 下差 $2.4\times10^{-6}$，对角核精确为 $0$），
+算术量约 $2.4$ 倍少，峰值内存降一个数量级。
+
+\paragraph{CP 是同一模型的对角核特例} 令 $R_1=R_2=R_3=R$、
+$\bG_{r_1r_2r_3}=w_r\delta_{r_1r_2r_3}$，式~\eqref{eq:design} 的 Kronecker 积退化为
+Khatri--Rao 积，$P=R$。\textbf{意义在于：CP 基线与本方法共享优化器、归一化、先验和
+闭式后验，两者的差异只能来自模型本身。}
 
 \subsection{空间因子是一个函数，不是查找表}
 \label{sec:continuous}
 
 由式~\eqref{eq:nodal}，$\Phi$ 的每一列是一个 P1 函数，矩阵只是它的节点迹。
-在任意点求值即重心插值：找到含 $x$ 的单元，
+在任意点求值即重心插值：
 \begin{equation}
 u(x)=\sum_{i\in T(x)}\lambda_i(x)\,u_i .
 \end{equation}
-因此本模型\textbf{与坐标神经网络一样可以在域内任意位置求值}，只是求值方式从"前向过
-一个 MLP"换成"单元内重心插值"。
+因此本模型\textbf{与神经张量分解一样可以在域内任意位置求值}，只是求值方式从"前向过
+一个 MLP"换成"单元内重心插值"，而式~\eqref{eq:predictive} 的后验原样沿用。
 
 实测（$5\,520$ 节点上拟合，在 $4\,000$ 个\emph{非节点}位置查询，与独立的 $34\,355$
 节点细网格真值比较）：非节点位置 NRMSE $=0.0278$，节点上 $=0.0265$，相差 $5\%$。
 
-三个边界需要说清：(i) P1 插值在网格尺度上是二阶的，神经场原则上更光滑，但\emph{我们
-在墙处的断裂是精确的}（它是从算子解出来的）；(ii) 域外无定义，而"墙外面没有场"本来
-就是正确答案；(iii) 自由表不能插值——两个类别标签之间没有中点，代码对此报错而非静默
-插值。
+三个边界：(i) P1 插值在网格尺度上是二阶的，神经场原则上更光滑，但\emph{我们在墙处的
+断裂是精确的}；(ii) 域外无定义，而"墙外面没有场"本来就是正确答案；(iii) 自由表不能
+插值——两个类别标签之间没有中点，代码对此报错而非静默插值。
 
 %===========================================================================
 \section{算法}
@@ -469,13 +619,19 @@ $T$ & \code{steps} & $1500$ & 收敛测试：$1500\to4000$ 无变化\\
 \end{table}
 
 %===========================================================================
-\section{拟合前诊断量}
+\section{内部工具：如何挑选合适的数据集与配置}
 \label{sec:diag}
 
-这些量\textbf{在拟合之前}即可计算，只用真值张量、候选基和观测掩码。
-它们是本方法区别于"试试看"的地方。
+\begin{quote}\small
+\textbf{本节不进入论文正文。} 这里的量是\emph{我们自己}在筛选数据集、确定分辨率与
+截断阶数时使用的工具——它们只用真值张量、候选基与观测掩码，在拟合任何模型之前就能算出来，
+因此能在花费 GPU 时间之前判断一个设定值不值得跑。把它们写下来是为了让接手的人不必
+重新踩一遍坑，而不是作为方法的组成部分。
+\end{quote}
 
-\paragraph{投影残差（基能否张成这个场）}
+\paragraph{投影残差（基能否张成这个场）}\ 用途：\emph{判断一个候选数据集有没有
+几何信号}。若几何盲基与几何感知基的残差之比接近 $1$，这个设定就没有可争的东西，
+不必跑。
 \begin{equation}
 \varepsilon(\Phi)=\frac{\norm{\bY-\bY\times_3(QQ^\top)}_F}{\norm{\bY}_F},
 \qquad Q=\mathrm{qr}(\Phi),
@@ -483,7 +639,7 @@ $T$ & \code{steps} & $1500$ & 收敛测试：$1500\to4000$ 无变化\\
 即\textbf{偏差下限}。实现必须写成 $Q(Q^\top\bY)$ 而非 $(QQ^\top)\bY$，
 否则要物化 $N\times N$ 的投影算子。
 
-\paragraph{可观测性（这个模态在传感器上被激发吗）}
+\paragraph{可观测性（这个模态在传感器上被激发吗）}\ 用途：\emph{诊断诡异的失败}。
 \begin{equation}
 v_k=\frac{\sum_{i\in\Sen}\phi_k(i)^2}{\sum_i\phi_k(i)^2}\Big/\frac{|\Sen|}{N}.
 \end{equation}
@@ -492,7 +648,8 @@ v_k=\frac{\sum_{i\in\Sen}\phi_k(i)^2}{\sum_i\phi_k(i)^2}\Big/\frac{|\Sen|}{N}.
 预测范围 $[-74.8,\,77.8]$ 而真值在 $[-5.8,\,10.4]$，其可见度为
 $v_5..v_8=0.004,\,0.001,\,0.001,\,0.002$。
 
-\paragraph{Headroom（秩能否兑现这个基）}
+\paragraph{Headroom（秩能否兑现这个基）}\ 用途：\emph{判断当前的比较是否有意义}。
+这是本项目代价最大的一课，见 \S\ref{sec:pitfalls}。
 \begin{equation}
 \text{headroom}=\frac{\text{实际达到的 NRMSE}}{\text{该模型自身的投影残差}}.
 \end{equation}

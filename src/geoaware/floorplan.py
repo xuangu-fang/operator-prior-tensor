@@ -32,7 +32,7 @@ from .irregular_fem import UNIT_SQUARE, Polygon, build_mesh
 from .joint_diffusion_2d import GroupedFieldDataset
 from .operator_diagnostics import (mass_orthonormalize_columns,
                                    sparse_eigenpairs)
-from .simplex_fem import SimplexMesh, assemble_sparse
+from .simplex_fem import SimplexMesh, assemble_sparse, to_torch_sparse
 
 # A wall is a thin band of very low diffusivity.  The hundred-to-one contrast is
 # the same one the synthetic barrier family uses, and for the same reason: push
@@ -186,7 +186,10 @@ def floorplan_tensor(layout: str, *, resolution: int = 90, n_scenarios: int = 12
                 "time_basis": time_basis.float(),
                 "time_eigenvalues": reference.float(),
                 "mesh_nodes": mesh.nodes.float(),
-                "mesh_cells": mesh.cells}
+                "mesh_cells": mesh.cells,
+                "aware_stiffness": to_torch_sparse(aware_stiffness),
+                "blind_stiffness": to_torch_sparse(open_stiffness),
+                "mass": to_torch_sparse(mass)}
     for name, (basis, eigenvalues) in spatial.items():
         matrices[f"{name}_basis"] = basis.float()
         matrices[f"{name}_eigenvalues"] = eigenvalues[:basis.shape[1]].float()

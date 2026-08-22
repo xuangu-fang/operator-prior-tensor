@@ -196,7 +196,9 @@ class GroupedOperatorTucker(nn.Module):
                 if spec.eigenvalues is not None:
                     spec.eigenvalues = spec.eigenvalues.float().to(device)
                 if spec.penalty_operator is not None:
-                    spec.penalty_operator = spec.penalty_operator.float().to(device)
+                    # Sparse penalties stay sparse: the dense form of the same
+                    # matrix does not fit at these mesh sizes.
+                    spec.penalty_operator = spec.penalty_operator.to(device)
             self._buffers_moved = True
         return device
 
