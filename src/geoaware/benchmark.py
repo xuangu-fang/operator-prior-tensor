@@ -26,6 +26,7 @@ meshes are thousands of nodes rather than hundreds.
 
 from __future__ import annotations
 
+import dataclasses
 from dataclasses import dataclass
 import math
 
@@ -119,11 +120,25 @@ SPHERE_LAYOUTS = {"open_ocean": ()}
 # One resolution per family, chosen once so that the barrier is resolved by
 # several elements and the mesh is large enough to be worth reporting, then left
 # alone.  Sweeping it is not part of the claim.
+def _floorplan_layouts():
+    from .floorplan import LAYOUTS
+    return LAYOUTS
+
+
 FAMILIES = {
     "plane_barrier": Family("plane_barrier", 2, "diffusion", 80, PLANE_BARRIERS, 16),
     "plane_domain": Family("plane_domain", 2, "diffusion", 80, PLANE_DOMAINS, 16),
     "volume_barrier": Family("volume_barrier", 3, "diffusion", 20, VOLUME_BARRIERS, 48),
     "sphere": Family("sphere", 2, "wave", 5, SPHERE_LAYOUTS, 32),
+    # Rooms and doorways: the family the Peclet sweep says should work, on a
+    # geometry that looks like something rather than like a test case.
+    # Resolution 130 puts the element size (0.093 m) below the wall thickness
+    # (0.12 m).  Below that the walls leak and the advantage is *understated*
+    # -- the opposite direction from the sub-element barriers of Iteration 11,
+    # and the same lesson: an unresolved obstacle gives an untrustworthy number
+    # whose sign you cannot even predict.  The ladder is converged from here:
+    # 5.2/9.9/13.9 at 130 against 5.1/10.2/13.8 at 240.
+    "floorplan": Family("floorplan", 2, "diffusion", 130, _floorplan_layouts(), 16),
 }
 
 
@@ -244,6 +259,15 @@ def build_family(family: str, layout: str, *, resolution: int | None = None,
     spec = FAMILIES[family]
     resolution = spec.resolution if resolution is None else resolution
     basis_cutoff = spec.basis_cutoff if basis_cutoff is None else basis_cutoff
+    if family == "floorplan":
+        from .floorplan import floorplan_tensor
+        return floorplan_tensor(layout, resolution=resolution,
+                                n_scenarios=n_scenarios, n_time=n_time,
+                                basis_cutoff=basis_cutoff,
+                                truth_modes=truth_modes, contrast=contrast,
+                                time_span=time_span, mesh_seed=mesh_seed,
+                                scenario_seed=scenario_seed,
+                                permutation_seed=permutation_seed)
     obstacles: tuple = ()
     polygon: Polygon | None = None
 
@@ -489,3 +513,46 @@ def build_advected_barrier(layout: str, peclet: float, *, resolution: int = 80,
         "Advection-diffusion past thin barriers; the learner's operator knows "
         "the geometry but not the transport.",
         metadata=metadata, groups=((0,), (1,), (2,)), operator_matrices=matrices)
+
+
+def build_operator_variant(family: str, layout: str, dynamics: str, *,
+                           resolution: int | None = None, n_scenarios: int = 12,
+                           n_time: int = 12, basis_cutoff: int | None = None,
+                           truth_modes: int = 60, contrast: float = .3,
+                           reaction: float = .15, wave_speed: float = 1.,
+                           damping: float = .05,
+                           time_span: tuple[float, float] = (.15, 3.),
+                           mesh_seed: int = 0, scenario_seed: int = 7717,
+                           permutation_seed: int = 9173) -> GroupedFieldDataset:
+    """The same geometry under a different equation.
+
+    Every planar family in this benchmark relaxes.  The obvious question is
+    whether the geometry prior is really a statement about geometry or a
+    statement about diffusion, and the way to answer it is to keep the mesh, the
+    barriers, the learner and its basis fixed and change only the propagator.
+
+    ``dynamics="wave"`` replaces ``exp(-lambda t)`` with a damped
+    ``cos(c sqrt(lambda) t)``.  That matters beyond breadth: a parabolic field
+    collapses onto the operator's slowest eigenvectors, which is the degeneracy
+    R5a flagged, while an oscillatory one keeps energy across the spectrum for
+    all time and is strictly less generous to a truncated basis.
+    """
+    spec = FAMILIES[family]
+    if family == "floorplan":
+        raise ValueError("use the planar families; the floor plan carries its own"
+                         " builder")
+    original = spec.dynamics
+    try:
+        FAMILIES[family] = dataclasses.replace(spec, dynamics=dynamics)
+        data = build_family(family, layout, resolution=resolution,
+                            n_scenarios=n_scenarios, n_time=n_time,
+                            basis_cutoff=basis_cutoff, truth_modes=truth_modes,
+                            contrast=contrast, reaction=reaction,
+                            wave_speed=wave_speed, damping=damping,
+                            time_span=time_span, mesh_seed=mesh_seed,
+                            scenario_seed=scenario_seed,
+                            permutation_seed=permutation_seed)
+    finally:
+        FAMILIES[family] = dataclasses.replace(spec, dynamics=original)
+    data.metadata["dynamics_variant"] = dynamics
+    return data

@@ -1,0 +1,1282 @@
+{
+  "arguments": {
+    "output": "results/rk_sphere",
+    "families": "sphere",
+    "models": "geometry_operator,blind_operator,flat_chart,neural_tucker,neural_cp,permuted",
+    "ratios": ".10",
+    "masks": "spatial_sensors,random",
+    "seeds": "201,202,203,204,205",
+    "n_scenarios": 12,
+    "n_time": 12,
+    "basis_cutoff": null,
+    "truth_modes": 60,
+    "ranks": "12,10,16",
+    "cp_rank": 6,
+    "hidden": 48,
+    "steps": 1500,
+    "power": 1.5,
+    "reg": 0.002,
+    "noise": 0.1,
+    "als_iters": 200,
+    "device": "cuda"
+  },
+  "geometries": {
+    "sphere/open_ocean": {
+      "name": "sphere_open_ocean_r5_k32",
+      "shape": [
+        12,
+        12,
+        10242
+      ],
+      "metadata": {
+        "family": "sphere",
+        "layout": "open_ocean",
+        "resolution": 5,
+        "ambient_dimension": 3,
+        "manifold_dimension": 2,
+        "dynamics": "wave",
+        "pde": "d_tt eta = div(g H grad eta) - damping d_t eta (shallow water)",
+        "tensor_semantics": "scenario x time x node",
+        "mesh_hash": "2acec72f2413f03e",
+        "n_nodes": 10242,
+        "n_cells": 20480,
+        "domain_measure": 12.56261346805837,
+        "blind_operator_is": "lat-lon separable chart",
+        "obstacles": [],
+        "polygon_vertices": null,
+        "operator_information_tier": "geometry (mesh and obstacle layout known; background material unknown)",
+        "log_diffusivity_contrast": 0.3,
+        "reaction": 0.15,
+        "basis_cutoff": 32,
+        "time_cutoff": 12,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.023338735822969216,
+        "blind_operator": 0.55640496123814,
+        "flat_chart": 0.04430475867577033,
+        "permuted": 0.9983368198002794
+      }
+    }
+  },
+  "results": [
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.7411815115624154,
+      "metrics": {
+        "rmse": 0.04061265289783478,
+        "nrmse": 0.040636975318193436,
+        "mae": 0.030155949294567108
+      },
+      "elapsed_seconds": 178.06008114432916
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.0117179053459742,
+      "metrics": {
+        "rmse": 0.5625879168510437,
+        "nrmse": 0.562924861907959,
+        "mae": 0.35577064752578735
+      },
+      "elapsed_seconds": 173.9049851517193
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.4742287926258288,
+      "metrics": {
+        "rmse": 0.06527625769376755,
+        "nrmse": 0.0653153508901596,
+        "mae": 0.046802718192338943
+      },
+      "elapsed_seconds": 173.65738653298467
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.051237162202596664,
+        "nrmse": 0.051267847418785095,
+        "mae": 0.03758488968014717
+      },
+      "elapsed_seconds": 175.91041506780311
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.10635588318109512,
+        "nrmse": 0.10641957819461823,
+        "mae": 0.08017709851264954
+      },
+      "elapsed_seconds": 146.54814351117238
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.0133231458845489,
+      "metrics": {
+        "rmse": 1.0110323429107666,
+        "nrmse": 1.011637806892395,
+        "mae": 0.7272182703018188
+      },
+      "elapsed_seconds": 175.27353790029883
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.729168635201464,
+      "metrics": {
+        "rmse": 0.04034021124243736,
+        "nrmse": 0.04035660997033119,
+        "mae": 0.029702669009566307
+      },
+      "elapsed_seconds": 176.19798633921891
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.009430581429214,
+      "metrics": {
+        "rmse": 0.5614239573478699,
+        "nrmse": 0.5616521835327148,
+        "mae": 0.35457777976989746
+      },
+      "elapsed_seconds": 176.79299802612513
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.473378205966842,
+      "metrics": {
+        "rmse": 0.06525114178657532,
+        "nrmse": 0.06527766585350037,
+        "mae": 0.046563927084207535
+      },
+      "elapsed_seconds": 176.87275071442127
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.05152169242501259,
+        "nrmse": 0.05154263600707054,
+        "mae": 0.03822680190205574
+      },
+      "elapsed_seconds": 177.79904043395072
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.09267216920852661,
+        "nrmse": 0.09270983934402466,
+        "mae": 0.06871794909238815
+      },
+      "elapsed_seconds": 145.00749032897875
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.0102604530067085,
+      "metrics": {
+        "rmse": 1.0081703662872314,
+        "nrmse": 1.008580207824707,
+        "mae": 0.7258504629135132
+      },
+      "elapsed_seconds": 176.93751377193257
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.726587127768755,
+      "metrics": {
+        "rmse": 0.04029647260904312,
+        "nrmse": 0.04029636085033417,
+        "mae": 0.02988009713590145
+      },
+      "elapsed_seconds": 177.89674828294665
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.0098976445744496,
+      "metrics": {
+        "rmse": 0.5619136095046997,
+        "nrmse": 0.5619120597839355,
+        "mae": 0.3545971214771271
+      },
+      "elapsed_seconds": 176.4116870588623
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.4583780816472875,
+      "metrics": {
+        "rmse": 0.06461326777935028,
+        "nrmse": 0.06461308896541595,
+        "mae": 0.046318165957927704
+      },
+      "elapsed_seconds": 176.72686249902472
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.051286228001117706,
+        "nrmse": 0.051286086440086365,
+        "mae": 0.03709687292575836
+      },
+      "elapsed_seconds": 177.41142070200294
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.12457762658596039,
+        "nrmse": 0.12457728385925293,
+        "mae": 0.09503265470266342
+      },
+      "elapsed_seconds": 148.68008783599362
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.0092801142595031,
+      "metrics": {
+        "rmse": 1.0076042413711548,
+        "nrmse": 1.0076014995574951,
+        "mae": 0.724039614200592
+      },
+      "elapsed_seconds": 177.76143950875849
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.7520189584585513,
+      "metrics": {
+        "rmse": 0.040935590863227844,
+        "nrmse": 0.040889907628297806,
+        "mae": 0.030110398307442665
+      },
+      "elapsed_seconds": 174.8731834962964
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.019944215678302,
+      "metrics": {
+        "rmse": 0.5681360363960266,
+        "nrmse": 0.5675020217895508,
+        "mae": 0.35509276390075684
+      },
+      "elapsed_seconds": 177.86798390792683
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.4519319195649858,
+      "metrics": {
+        "rmse": 0.0643993616104126,
+        "nrmse": 0.06432749330997467,
+        "mae": 0.04589032381772995
+      },
+      "elapsed_seconds": 177.62244278239086
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.05561456084251404,
+        "nrmse": 0.05555249750614166,
+        "mae": 0.040965378284454346
+      },
+      "elapsed_seconds": 178.04339840635657
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.09221218526363373,
+        "nrmse": 0.09210927784442902,
+        "mae": 0.0684918686747551
+      },
+      "elapsed_seconds": 148.8484445172362
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.010262482940777,
+      "metrics": {
+        "rmse": 1.0097090005874634,
+        "nrmse": 1.0085822343826294,
+        "mae": 0.7242291569709778
+      },
+      "elapsed_seconds": 178.48457035887986
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.730366411234052,
+      "metrics": {
+        "rmse": 0.040344443172216415,
+        "nrmse": 0.04038456454873085,
+        "mae": 0.02973506599664688
+      },
+      "elapsed_seconds": 177.4705490237102
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.011357109778737,
+      "metrics": {
+        "rmse": 0.5621650815010071,
+        "nrmse": 0.5627241134643555,
+        "mae": 0.3537086546421051
+      },
+      "elapsed_seconds": 177.87105223396793
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.4533603266589823,
+      "metrics": {
+        "rmse": 0.06432680785655975,
+        "nrmse": 0.06439077854156494,
+        "mae": 0.046535469591617584
+      },
+      "elapsed_seconds": 174.68202269496396
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.04998486861586571,
+        "nrmse": 0.050034575164318085,
+        "mae": 0.03623867779970169
+      },
+      "elapsed_seconds": 178.2298089149408
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.10382263362407684,
+        "nrmse": 0.10392587631940842,
+        "mae": 0.07836999744176865
+      },
+      "elapsed_seconds": 149.77089963387698
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.0132892340448159,
+      "metrics": {
+        "rmse": 1.0105990171432495,
+        "nrmse": 1.0116039514541626,
+        "mae": 0.7271861433982849
+      },
+      "elapsed_seconds": 179.17329925997183
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.709835502093374,
+      "metrics": {
+        "rmse": 0.03990991413593292,
+        "nrmse": 0.039905399084091187,
+        "mae": 0.02941708452999592
+      },
+      "elapsed_seconds": 154.09576876088977
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.0097668454688686,
+      "metrics": {
+        "rmse": 0.5619028210639954,
+        "nrmse": 0.5618392825126648,
+        "mae": 0.3544265329837799
+      },
+      "elapsed_seconds": 153.21730262599885
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.4732897503356386,
+      "metrics": {
+        "rmse": 0.06528113037347794,
+        "nrmse": 0.06527374684810638,
+        "mae": 0.04682079702615738
+      },
+      "elapsed_seconds": 150.87743156356737
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.05356770008802414,
+        "nrmse": 0.05356163904070854,
+        "mae": 0.03910311311483383
+      },
+      "elapsed_seconds": 168.40924980584532
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11050169169902802,
+        "nrmse": 0.11048918962478638,
+        "mae": 0.08400702476501465
+      },
+      "elapsed_seconds": 163.48544439300895
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.0029999758830703,
+      "metrics": {
+        "rmse": 1.0014450550079346,
+        "nrmse": 1.0013318061828613,
+        "mae": 0.72151780128479
+      },
+      "elapsed_seconds": 228.60135795595124
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.7229688992097587,
+      "metrics": {
+        "rmse": 0.04020513594150543,
+        "nrmse": 0.04021191596984863,
+        "mae": 0.02960170991718769
+      },
+      "elapsed_seconds": 207.9652349250391
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.00689001501811,
+      "metrics": {
+        "rmse": 0.5601441264152527,
+        "nrmse": 0.5602385997772217,
+        "mae": 0.3536786437034607
+      },
+      "elapsed_seconds": 177.0503543051891
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.4627680707206072,
+      "metrics": {
+        "rmse": 0.06479665637016296,
+        "nrmse": 0.06480758637189865,
+        "mae": 0.046143628656864166
+      },
+      "elapsed_seconds": 186.93503201939166
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.05262655019760132,
+        "nrmse": 0.05263542756438255,
+        "mae": 0.03929635137319565
+      },
+      "elapsed_seconds": 188.98638900276273
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11627642810344696,
+        "nrmse": 0.11629603803157806,
+        "mae": 0.08659922331571579
+      },
+      "elapsed_seconds": 156.9544763788581
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.003492652822287,
+      "metrics": {
+        "rmse": 1.0016547441482544,
+        "nrmse": 1.0018236637115479,
+        "mae": 0.7216464281082153
+      },
+      "elapsed_seconds": 189.39450294990093
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.7273983081788846,
+      "metrics": {
+        "rmse": 0.04030779376626015,
+        "nrmse": 0.04031529277563095,
+        "mae": 0.029844045639038086
+      },
+      "elapsed_seconds": 176.4087561601773
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.008283384359872,
+      "metrics": {
+        "rmse": 0.5609095096588135,
+        "nrmse": 0.5610138773918152,
+        "mae": 0.35376715660095215
+      },
+      "elapsed_seconds": 186.84627360012382
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.4417511136466263,
+      "metrics": {
+        "rmse": 0.06386455148458481,
+        "nrmse": 0.0638764351606369,
+        "mae": 0.045488376170396805
+      },
+      "elapsed_seconds": 188.5092792441137
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.04939872771501541,
+        "nrmse": 0.049407921731472015,
+        "mae": 0.035437725484371185
+      },
+      "elapsed_seconds": 189.10585642419755
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11472246795892715,
+        "nrmse": 0.11474381387233734,
+        "mae": 0.08522298187017441
+      },
+      "elapsed_seconds": 159.904534233734
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.0029922143704553,
+      "metrics": {
+        "rmse": 1.0011377334594727,
+        "nrmse": 1.0013240575790405,
+        "mae": 0.7217710018157959
+      },
+      "elapsed_seconds": 189.68129935208708
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.7385442973286174,
+      "metrics": {
+        "rmse": 0.04056750610470772,
+        "nrmse": 0.04057542607188225,
+        "mae": 0.029661674052476883
+      },
+      "elapsed_seconds": 187.01165684917942
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.006976571674383,
+      "metrics": {
+        "rmse": 0.5601773858070374,
+        "nrmse": 0.5602867603302002,
+        "mae": 0.3537077307701111
+      },
+      "elapsed_seconds": 188.32358996616676
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.448754748005429,
+      "metrics": {
+        "rmse": 0.06417419761419296,
+        "nrmse": 0.06418672949075699,
+        "mae": 0.0455767847597599
+      },
+      "elapsed_seconds": 185.6104754852131
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.053586382418870926,
+        "nrmse": 0.053596846759319305,
+        "mae": 0.04025113210082054
+      },
+      "elapsed_seconds": 190.05847690766677
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.0918315201997757,
+        "nrmse": 0.09184945374727249,
+        "mae": 0.06896866112947464
+      },
+      "elapsed_seconds": 160.0674722790718
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.0030461867351006,
+      "metrics": {
+        "rmse": 1.0011824369430542,
+        "nrmse": 1.0013779401779175,
+        "mae": 0.7213096022605896
+      },
+      "elapsed_seconds": 189.24451425904408
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.023338735822969216,
+      "attained_over_floor": 1.7210630562154754,
+      "metrics": {
+        "rmse": 0.0401768833398819,
+        "nrmse": 0.040167436003685,
+        "mae": 0.02962552383542061
+      },
+      "elapsed_seconds": 189.6346159717068
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.55640496123814,
+      "attained_over_floor": 1.0077076968959964,
+      "metrics": {
+        "rmse": 0.5608254075050354,
+        "nrmse": 0.5606935620307922,
+        "mae": 0.35426202416419983
+      },
+      "elapsed_seconds": 186.0935213016346
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.04430475867577033,
+      "attained_over_floor": 1.4556674042340396,
+      "metrics": {
+        "rmse": 0.06450816243886948,
+        "nrmse": 0.06449299305677414,
+        "mae": 0.0467180497944355
+      },
+      "elapsed_seconds": 187.15657319594175
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 5512,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.04977152869105339,
+        "nrmse": 0.04975982382893562,
+        "mae": 0.0361383855342865
+      },
+      "elapsed_seconds": 191.90214905468747
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": null,
+      "parameters": 3432,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.0914844423532486,
+        "nrmse": 0.09146293252706528,
+        "mae": 0.06829939037561417
+      },
+      "elapsed_seconds": 160.95870616659522
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "basis_columns_kept": 32,
+      "parameters": 2696,
+      "own_projection_floor": 0.9983368198002794,
+      "attained_over_floor": 1.0038951768072844,
+      "metrics": {
+        "rmse": 1.0024611949920654,
+        "nrmse": 1.0022255182266235,
+        "mae": 0.7220098376274109
+      },
+      "elapsed_seconds": 188.67144333571196
+    }
+  ]
+}

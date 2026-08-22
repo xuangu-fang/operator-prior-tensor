@@ -1,0 +1,1697 @@
+{
+  "arguments": {
+    "output": "results/rk_als_floorplan",
+    "families": "floorplan",
+    "ratios": ".10",
+    "masks": "spatial_sensors,random",
+    "seeds": "201,202,203,204,205",
+    "n_scenarios": 12,
+    "n_time": 12,
+    "basis_cutoff": null,
+    "truth_modes": 60,
+    "noise": 0.1,
+    "als_iters": 200
+  },
+  "results": [
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0008138418197632,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5629163384437561
+      },
+      "elapsed_seconds": 17.295948862098157
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0008138418197632,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5629163384437561
+      },
+      "elapsed_seconds": 3.464358001947403
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000431776046753,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5624346733093262
+      },
+      "elapsed_seconds": 29.04621149599552
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000431776046753,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5624346733093262
+      },
+      "elapsed_seconds": 4.446797697804868
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9986218214035034,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5613983869552612
+      },
+      "elapsed_seconds": 29.464773311279714
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9986218214035034,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5613983869552612
+      },
+      "elapsed_seconds": 3.9870587550103664
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998814463615417,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5617256760597229
+      },
+      "elapsed_seconds": 34.87730514071882
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998814463615417,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5617256760597229
+      },
+      "elapsed_seconds": 13.145988845266402
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9994345903396606,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5615229606628418
+      },
+      "elapsed_seconds": 19.050098638050258
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9994345903396606,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5615229606628418
+      },
+      "elapsed_seconds": 3.5283699510619044
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6297850608825684,
+        "nrmse": 0.6294032335281372,
+        "mae": 0.20907624065876007
+      },
+      "elapsed_seconds": 67.52941085817292
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5803737044334412,
+        "nrmse": 0.580021858215332,
+        "mae": 0.1986057609319687
+      },
+      "elapsed_seconds": 68.13902625720948
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5840812921524048,
+        "nrmse": 0.584277868270874,
+        "mae": 0.20650774240493774
+      },
+      "elapsed_seconds": 82.63253175513819
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5825530290603638,
+        "nrmse": 0.58274906873703,
+        "mae": 0.1999926120042801
+      },
+      "elapsed_seconds": 70.76211077021435
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.578975260257721,
+        "nrmse": 0.5788315534591675,
+        "mae": 0.20161603391170502
+      },
+      "elapsed_seconds": 77.74137600278482
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5977058410644531,
+        "nrmse": 0.5975574851036072,
+        "mae": 0.20383480191230774
+      },
+      "elapsed_seconds": 120.22700205491856
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5982040166854858,
+        "nrmse": 0.598012387752533,
+        "mae": 0.20521830022335052
+      },
+      "elapsed_seconds": 136.92983907321468
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.609225869178772,
+        "nrmse": 0.6090307235717773,
+        "mae": 0.20362114906311035
+      },
+      "elapsed_seconds": 117.58572715800256
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5749711394309998,
+        "nrmse": 0.5757114291191101,
+        "mae": 0.20293349027633667
+      },
+      "elapsed_seconds": 71.98448309861124
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.583871066570282,
+        "nrmse": 0.5846228003501892,
+        "mae": 0.2003568410873413
+      },
+      "elapsed_seconds": 145.35694456333295
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0008896589279175,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5671635866165161
+      },
+      "elapsed_seconds": 31.136434206739068
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0008896589279175,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5671635866165161
+      },
+      "elapsed_seconds": 4.632565713953227
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0002543926239014,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5665915012359619
+      },
+      "elapsed_seconds": 20.37295604404062
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0002543926239014,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5665915012359619
+      },
+      "elapsed_seconds": 4.163483437150717
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9984845519065857,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.5655882954597473
+      },
+      "elapsed_seconds": 18.874058791901916
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9984845519065857,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.5655882954597473
+      },
+      "elapsed_seconds": 4.553998935036361
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998873472213745,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5659357905387878
+      },
+      "elapsed_seconds": 19.903408429119736
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998873472213745,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5659357905387878
+      },
+      "elapsed_seconds": 4.361527539789677
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9996364712715149,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.5659613609313965
+      },
+      "elapsed_seconds": 20.221380868926644
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9996364712715149,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.5659613609313965
+      },
+      "elapsed_seconds": 4.541028372943401
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6242321133613586,
+        "nrmse": 0.6237819790840149,
+        "mae": 0.21580275893211365
+      },
+      "elapsed_seconds": 58.95625355420634
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6229033470153809,
+        "nrmse": 0.6224542260169983,
+        "mae": 0.22592763602733612
+      },
+      "elapsed_seconds": 61.39448087802157
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5354721546173096,
+        "nrmse": 0.5356082916259766,
+        "mae": 0.2017189860343933
+      },
+      "elapsed_seconds": 61.1943378681317
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6318681240081787,
+        "nrmse": 0.6320288181304932,
+        "mae": 0.22770468890666962
+      },
+      "elapsed_seconds": 62.725828145164996
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5652647018432617,
+        "nrmse": 0.5650985240936279,
+        "mae": 0.2139846533536911
+      },
+      "elapsed_seconds": 64.80955842882395
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6241368055343628,
+        "nrmse": 0.6239532828330994,
+        "mae": 0.22266297042369843
+      },
+      "elapsed_seconds": 63.020079200621694
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5575894117355347,
+        "nrmse": 0.5573885440826416,
+        "mae": 0.21199779212474823
+      },
+      "elapsed_seconds": 57.66505416901782
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6334989070892334,
+        "nrmse": 0.6332706809043884,
+        "mae": 0.22461242973804474
+      },
+      "elapsed_seconds": 62.20683857798576
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6053505539894104,
+        "nrmse": 0.6061162352561951,
+        "mae": 0.22480182349681854
+      },
+      "elapsed_seconds": 60.61405021836981
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6270827651023865,
+        "nrmse": 0.6278759241104126,
+        "mae": 0.22735640406608582
+      },
+      "elapsed_seconds": 83.54407074162737
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004132986068726,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6170300245285034
+      },
+      "elapsed_seconds": 19.384210330899805
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004132986068726,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6170300245285034
+      },
+      "elapsed_seconds": 5.900685244239867
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.999713659286499,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.6164371967315674
+      },
+      "elapsed_seconds": 20.721502241678536
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.999713659286499,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.6164371967315674
+      },
+      "elapsed_seconds": 15.574162428732961
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9983974099159241,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.6154898405075073
+      },
+      "elapsed_seconds": 20.13982413802296
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9983974099159241,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.6154898405075073
+      },
+      "elapsed_seconds": 4.769662038888782
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0000295639038086,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6162771582603455
+      },
+      "elapsed_seconds": 19.290850592777133
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0000295639038086,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6162771582603455
+      },
+      "elapsed_seconds": 6.040133053902537
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000027060508728,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6161685585975647
+      },
+      "elapsed_seconds": 19.468348311260343
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000027060508728,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6161685585975647
+      },
+      "elapsed_seconds": 6.69490731600672
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.532392144203186,
+        "nrmse": 0.5320504903793335,
+        "mae": 0.20093142986297607
+      },
+      "elapsed_seconds": 58.29473139485344
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5038139224052429,
+        "nrmse": 0.5034905672073364,
+        "mae": 0.18741050362586975
+      },
+      "elapsed_seconds": 60.63111025793478
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4786019027233124,
+        "nrmse": 0.47877180576324463,
+        "mae": 0.19234733283519745
+      },
+      "elapsed_seconds": 58.542913910001516
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.49414587020874023,
+        "nrmse": 0.4943212866783142,
+        "mae": 0.18560311198234558
+      },
+      "elapsed_seconds": 60.00950693991035
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4752351939678192,
+        "nrmse": 0.47499415278434753,
+        "mae": 0.1917300969362259
+      },
+      "elapsed_seconds": 56.25647688191384
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5196483135223389,
+        "nrmse": 0.5193847417831421,
+        "mae": 0.19454345107078552
+      },
+      "elapsed_seconds": 59.55198851088062
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4923941493034363,
+        "nrmse": 0.49227121472358704,
+        "mae": 0.18402765691280365
+      },
+      "elapsed_seconds": 60.24344922602177
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5385964512825012,
+        "nrmse": 0.5384619832038879,
+        "mae": 0.19413906335830688
+      },
+      "elapsed_seconds": 59.07579995598644
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5036992430686951,
+        "nrmse": 0.504202663898468,
+        "mae": 0.18428708612918854
+      },
+      "elapsed_seconds": 58.82161575881764
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5136249661445618,
+        "nrmse": 0.5141383409500122,
+        "mae": 0.19102665781974792
+      },
+      "elapsed_seconds": 62.75223756534979
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0000559091567993,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6734352111816406
+      },
+      "elapsed_seconds": 19.928398785181344
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0000559091567993,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6734352111816406
+      },
+      "elapsed_seconds": 3.8003109260462224
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0002378225326538,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.673460066318512
+      },
+      "elapsed_seconds": 18.988997409120202
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0002378225326538,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.673460066318512
+      },
+      "elapsed_seconds": 4.590791106689721
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9989131093025208,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.6724895238876343
+      },
+      "elapsed_seconds": 19.74854149715975
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9989131093025208,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.6724895238876343
+      },
+      "elapsed_seconds": 3.550023276358843
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998072385787964,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6728875041007996
+      },
+      "elapsed_seconds": 16.34223811607808
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998072385787964,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6728875041007996
+      },
+      "elapsed_seconds": 3.716248296201229
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998031854629517,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6727936267852783
+      },
+      "elapsed_seconds": 20.826705513056368
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998031854629517,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6727936267852783
+      },
+      "elapsed_seconds": 4.211713448166847
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.45684829354286194,
+        "nrmse": 0.45665836334228516,
+        "mae": 0.17483557760715485
+      },
+      "elapsed_seconds": 60.2655628900975
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.48734286427497864,
+        "nrmse": 0.4871402382850647,
+        "mae": 0.1905253529548645
+      },
+      "elapsed_seconds": 60.95702745579183
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.44096410274505615,
+        "nrmse": 0.4408365488052368,
+        "mae": 0.1712702214717865
+      },
+      "elapsed_seconds": 58.53030149266124
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4968205690383911,
+        "nrmse": 0.49667686223983765,
+        "mae": 0.18108047544956207
+      },
+      "elapsed_seconds": 61.22676266403869
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.41902071237564087,
+        "nrmse": 0.4189593195915222,
+        "mae": 0.17184489965438843
+      },
+      "elapsed_seconds": 58.122592695988715
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5049392580986023,
+        "nrmse": 0.504865288734436,
+        "mae": 0.18212319910526276
+      },
+      "elapsed_seconds": 59.4488093201071
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.43130093812942505,
+        "nrmse": 0.43129611015319824,
+        "mae": 0.17037150263786316
+      },
+      "elapsed_seconds": 57.04738762462512
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.48317036032676697,
+        "nrmse": 0.4831649363040924,
+        "mae": 0.18517032265663147
+      },
+      "elapsed_seconds": 58.31680979812518
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4446476995944977,
+        "nrmse": 0.4451783001422882,
+        "mae": 0.16870856285095215
+      },
+      "elapsed_seconds": 59.36015079030767
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5082162618637085,
+        "nrmse": 0.5088227391242981,
+        "mae": 0.18314598500728607
+      },
+      "elapsed_seconds": 67.73576244572178
+    }
+  ]
+}

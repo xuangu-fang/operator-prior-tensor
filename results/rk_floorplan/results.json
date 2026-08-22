@@ -1,0 +1,5047 @@
+{
+  "arguments": {
+    "output": "results/rk_floorplan",
+    "families": "floorplan",
+    "models": "geometry_operator,blind_operator,flat_chart,neural_tucker,neural_cp,permuted",
+    "ratios": ".10",
+    "masks": "spatial_sensors,random",
+    "seeds": "201,202,203,204,205",
+    "n_scenarios": 12,
+    "n_time": 12,
+    "basis_cutoff": null,
+    "truth_modes": 60,
+    "ranks": "12,10,16",
+    "cp_rank": 6,
+    "hidden": 48,
+    "steps": 1500,
+    "power": 1.5,
+    "reg": 0.002,
+    "noise": 0.1,
+    "als_iters": 200,
+    "device": "cuda"
+  },
+  "geometries": {
+    "floorplan/open_plan": {
+      "name": "floorplan_open_plan_r130_k16",
+      "shape": [
+        12,
+        12,
+        11310
+      ],
+      "metadata": {
+        "family": "floorplan",
+        "layout": "open_plan",
+        "floor_size_metres": [
+          12.0,
+          8.0
+        ],
+        "n_walls": 0,
+        "doorway_width_metres": 0.9,
+        "wall_thickness_metres": null,
+        "wall_conductivity": 0.01,
+        "geometry_provenance": "ordinary building layouts at ordinary dimensions, specified here; not traced from a particular building",
+        "pde": "d_t c + (-div(a grad c) + reaction c) = 0 (dispersion indoors)",
+        "tensor_semantics": "release x time x node",
+        "scenarios": "one localized release per slice",
+        "mesh_hash": "dd6a035c0040c5b7",
+        "n_nodes": 11310,
+        "n_cells": 22188,
+        "resolution": 130,
+        "operator_information_tier": "geometry (the plan is known; the air's effective diffusivity is not)",
+        "basis_cutoff": 16,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.014591276011372837,
+        "blind_operator": 0.014591276003162748,
+        "flat_chart": 0.0252875822914272,
+        "permuted": 0.9994046447747355
+      }
+    },
+    "floorplan/corridor": {
+      "name": "floorplan_corridor_r130_k16",
+      "shape": [
+        12,
+        12,
+        11310
+      ],
+      "metadata": {
+        "family": "floorplan",
+        "layout": "corridor",
+        "floor_size_metres": [
+          12.0,
+          8.0
+        ],
+        "n_walls": 3,
+        "doorway_width_metres": 0.9,
+        "wall_thickness_metres": 0.12,
+        "wall_conductivity": 0.01,
+        "geometry_provenance": "ordinary building layouts at ordinary dimensions, specified here; not traced from a particular building",
+        "pde": "d_t c + (-div(a grad c) + reaction c) = 0 (dispersion indoors)",
+        "tensor_semantics": "release x time x node",
+        "scenarios": "one localized release per slice",
+        "mesh_hash": "dd6a035c0040c5b7",
+        "n_nodes": 11310,
+        "n_cells": 22188,
+        "resolution": 130,
+        "operator_information_tier": "geometry (the plan is known; the air's effective diffusivity is not)",
+        "basis_cutoff": 16,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.019759603731347736,
+        "blind_operator": 0.10283693171996487,
+        "flat_chart": 0.09883510462852277,
+        "permuted": 0.9993771065029677
+      }
+    },
+    "floorplan/apartment": {
+      "name": "floorplan_apartment_r130_k16",
+      "shape": [
+        12,
+        12,
+        11310
+      ],
+      "metadata": {
+        "family": "floorplan",
+        "layout": "apartment",
+        "floor_size_metres": [
+          12.0,
+          8.0
+        ],
+        "n_walls": 3,
+        "doorway_width_metres": 0.9,
+        "wall_thickness_metres": 0.12,
+        "wall_conductivity": 0.01,
+        "geometry_provenance": "ordinary building layouts at ordinary dimensions, specified here; not traced from a particular building",
+        "pde": "d_t c + (-div(a grad c) + reaction c) = 0 (dispersion indoors)",
+        "tensor_semantics": "release x time x node",
+        "scenarios": "one localized release per slice",
+        "mesh_hash": "dd6a035c0040c5b7",
+        "n_nodes": 11310,
+        "n_cells": 22188,
+        "resolution": 130,
+        "operator_information_tier": "geometry (the plan is known; the air's effective diffusivity is not)",
+        "basis_cutoff": 16,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.017769526627484548,
+        "blind_operator": 0.17534755619451317,
+        "flat_chart": 0.17163915092222304,
+        "permuted": 0.9995098149372934
+      }
+    },
+    "floorplan/lab_suite": {
+      "name": "floorplan_lab_suite_r130_k16",
+      "shape": [
+        12,
+        12,
+        11310
+      ],
+      "metadata": {
+        "family": "floorplan",
+        "layout": "lab_suite",
+        "floor_size_metres": [
+          12.0,
+          8.0
+        ],
+        "n_walls": 3,
+        "doorway_width_metres": 0.9,
+        "wall_thickness_metres": 0.12,
+        "wall_conductivity": 0.01,
+        "geometry_provenance": "ordinary building layouts at ordinary dimensions, specified here; not traced from a particular building",
+        "pde": "d_t c + (-div(a grad c) + reaction c) = 0 (dispersion indoors)",
+        "tensor_semantics": "release x time x node",
+        "scenarios": "one localized release per slice",
+        "mesh_hash": "dd6a035c0040c5b7",
+        "n_nodes": 11310,
+        "n_cells": 22188,
+        "resolution": 130,
+        "operator_information_tier": "geometry (the plan is known; the air's effective diffusivity is not)",
+        "basis_cutoff": 16,
+        "truth_modes": 60,
+        "n_scenarios": 12,
+        "scenario_seed": 7717,
+        "time_span": [
+          0.15,
+          3.0
+        ],
+        "permutation_seed": 9173,
+        "coordinate_groups": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ]
+      },
+      "projection_residuals": {
+        "geometry_operator": 0.017326557675902198,
+        "blind_operator": 0.24070497489497628,
+        "flat_chart": 0.2649405360126407,
+        "permuted": 0.999498652022331
+      }
+    }
+  },
+  "results": [
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.2870395798878842,
+      "metrics": {
+        "rmse": 0.018794840201735497,
+        "nrmse": 0.01877954974770546,
+        "mae": 0.011273003183305264
+      },
+      "elapsed_seconds": 182.84019791334867
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.287324250621862,
+      "metrics": {
+        "rmse": 0.01879899762570858,
+        "nrmse": 0.018783703446388245,
+        "mae": 0.011275756172835827
+      },
+      "elapsed_seconds": 176.7924220971763
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.098712073642865,
+      "metrics": {
+        "rmse": 0.027806393802165985,
+        "nrmse": 0.027783771976828575,
+        "mae": 0.013093330897390842
+      },
+      "elapsed_seconds": 174.957618533168
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.053071971982717514,
+        "nrmse": 0.05302879586815834,
+        "mae": 0.021556401625275612
+      },
+      "elapsed_seconds": 183.38132441882044
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.060594428330659866,
+        "nrmse": 0.06054513156414032,
+        "mae": 0.03312745690345764
+      },
+      "elapsed_seconds": 152.57797256996855
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.0027409661463529,
+      "metrics": {
+        "rmse": 1.002959966659546,
+        "nrmse": 1.0021439790725708,
+        "mae": 0.5630088448524475
+      },
+      "elapsed_seconds": 176.73091136710718
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.2574189632841524,
+      "metrics": {
+        "rmse": 0.018355272710323334,
+        "nrmse": 0.018347347155213356,
+        "mae": 0.010937909595668316
+      },
+      "elapsed_seconds": 178.2225303053856
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.2572334816938018,
+      "metrics": {
+        "rmse": 0.0183525662869215,
+        "nrmse": 0.018344640731811523,
+        "mae": 0.010935712605714798
+      },
+      "elapsed_seconds": 178.7115368610248
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.0968218494502673,
+      "metrics": {
+        "rmse": 0.027747955173254013,
+        "nrmse": 0.02773597277700901,
+        "mae": 0.012884772382676601
+      },
+      "elapsed_seconds": 179.7796938419342
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.044675204902887344,
+        "nrmse": 0.04465591162443161,
+        "mae": 0.01789611205458641
+      },
+      "elapsed_seconds": 182.57587257726118
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.07274153083562851,
+        "nrmse": 0.07271011918783188,
+        "mae": 0.040040694177150726
+      },
+      "elapsed_seconds": 152.370044068899
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.0026575892140646,
+      "metrics": {
+        "rmse": 1.0024936199188232,
+        "nrmse": 1.0020606517791748,
+        "mae": 0.5629096627235413
+      },
+      "elapsed_seconds": 178.57322735292837
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.2646725593772636,
+      "metrics": {
+        "rmse": 0.018427759408950806,
+        "nrmse": 0.018453186377882957,
+        "mae": 0.010887296870350838
+      },
+      "elapsed_seconds": 179.84938627900556
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.262968497326171,
+      "metrics": {
+        "rmse": 0.018402928486466408,
+        "nrmse": 0.018428321927785873,
+        "mae": 0.01086879801005125
+      },
+      "elapsed_seconds": 178.99318369105458
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.085396018005657,
+      "metrics": {
+        "rmse": 0.02740922011435032,
+        "nrmse": 0.027447041124105453,
+        "mae": 0.012988932430744171
+      },
+      "elapsed_seconds": 178.95851513696834
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.056363459676504135,
+        "nrmse": 0.056441232562065125,
+        "mae": 0.021781612187623978
+      },
+      "elapsed_seconds": 185.41732329502702
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.08343016356229782,
+        "nrmse": 0.08354528248310089,
+        "mae": 0.042448677122592926
+      },
+      "elapsed_seconds": 154.1524537350051
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.003835959334345,
+      "metrics": {
+        "rmse": 1.0018559694290161,
+        "nrmse": 1.003238320350647,
+        "mae": 0.5626087188720703
+      },
+      "elapsed_seconds": 180.94788701133803
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.242492425366244,
+      "metrics": {
+        "rmse": 0.018127406015992165,
+        "nrmse": 0.01812954992055893,
+        "mae": 0.010878041386604309
+      },
+      "elapsed_seconds": 176.98651369009167
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.2420152527484862,
+      "metrics": {
+        "rmse": 0.01812044531106949,
+        "nrmse": 0.018122587352991104,
+        "mae": 0.010874275118112564
+      },
+      "elapsed_seconds": 178.55351395811886
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.083554187441558,
+      "metrics": {
+        "rmse": 0.02739722654223442,
+        "nrmse": 0.027400465682148933,
+        "mae": 0.012787890620529652
+      },
+      "elapsed_seconds": 180.5826928857714
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.04796159267425537,
+        "nrmse": 0.04796726256608963,
+        "mae": 0.019506823271512985
+      },
+      "elapsed_seconds": 185.53536908701062
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.07986332476139069,
+        "nrmse": 0.07987277209758759,
+        "mae": 0.04460160806775093
+      },
+      "elapsed_seconds": 155.39248897926882
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.0033636093316818,
+      "metrics": {
+        "rmse": 1.0026476383209229,
+        "nrmse": 1.0027662515640259,
+        "mae": 0.5622584223747253
+      },
+      "elapsed_seconds": 178.89353341888636
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.2641630894183111,
+      "metrics": {
+        "rmse": 0.01843532919883728,
+        "nrmse": 0.018445752561092377,
+        "mae": 0.011468131095170975
+      },
+      "elapsed_seconds": 179.37957974895835
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.2649772718885839,
+      "metrics": {
+        "rmse": 0.01844720169901848,
+        "nrmse": 0.018457632511854172,
+        "mae": 0.011487091891467571
+      },
+      "elapsed_seconds": 180.53824800485745
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.1442919477906148,
+      "metrics": {
+        "rmse": 0.028920024633407593,
+        "nrmse": 0.02893637679517269,
+        "mae": 0.014852249063551426
+      },
+      "elapsed_seconds": 176.60024309623986
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.06287171691656113,
+        "nrmse": 0.06290726363658905,
+        "mae": 0.02408406510949135
+      },
+      "elapsed_seconds": 185.98691716277972
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.0723033919930458,
+        "nrmse": 0.07234427332878113,
+        "mae": 0.04019066318869591
+      },
+      "elapsed_seconds": 157.26779798511416
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.010089109975664,
+      "metrics": {
+        "rmse": 1.0089173316955566,
+        "nrmse": 1.0094877481460571,
+        "mae": 0.5643178224563599
+      },
+      "elapsed_seconds": 167.70126479119062
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.290645953180385,
+      "metrics": {
+        "rmse": 0.018843596801161766,
+        "nrmse": 0.018832171335816383,
+        "mae": 0.011289476417005062
+      },
+      "elapsed_seconds": 170.01506726490334
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.2906587193778856,
+      "metrics": {
+        "rmse": 0.01884378306567669,
+        "nrmse": 0.018832357600331306,
+        "mae": 0.011289484798908234
+      },
+      "elapsed_seconds": 165.71969502512366
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.1019418511503483,
+      "metrics": {
+        "rmse": 0.027882350608706474,
+        "nrmse": 0.027865445241332054,
+        "mae": 0.013259537518024445
+      },
+      "elapsed_seconds": 176.36608651839197
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.05347125232219696,
+        "nrmse": 0.053438831120729446,
+        "mae": 0.021267663687467575
+      },
+      "elapsed_seconds": 222.99849619762972
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.06228650361299515,
+        "nrmse": 0.06224874034523964,
+        "mae": 0.034638792276382446
+      },
+      "elapsed_seconds": 217.65233079576865
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.0024383520158586,
+      "metrics": {
+        "rmse": 1.0024492740631104,
+        "nrmse": 1.0018415451049805,
+        "mae": 0.5620266795158386
+      },
+      "elapsed_seconds": 218.5163478818722
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.2456405182396417,
+      "metrics": {
+        "rmse": 0.01816936954855919,
+        "nrmse": 0.018175484612584114,
+        "mae": 0.010804391466081142
+      },
+      "elapsed_seconds": 195.02173217991367
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.2441675112082144,
+      "metrics": {
+        "rmse": 0.01814788393676281,
+        "nrmse": 0.018153991550207138,
+        "mae": 0.010796025395393372
+      },
+      "elapsed_seconds": 206.3684300519526
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.091964440270123,
+      "metrics": {
+        "rmse": 0.02760385163128376,
+        "nrmse": 0.027613140642642975,
+        "mae": 0.012740501202642918
+      },
+      "elapsed_seconds": 207.92488270206377
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.045294634997844696,
+        "nrmse": 0.045309878885746,
+        "mae": 0.018100416287779808
+      },
+      "elapsed_seconds": 212.51694793393835
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.07259270548820496,
+        "nrmse": 0.07261713594198227,
+        "mae": 0.03993944078683853
+      },
+      "elapsed_seconds": 172.4962677601725
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.0031125242923873,
+      "metrics": {
+        "rmse": 1.0021780729293823,
+        "nrmse": 1.0025153160095215,
+        "mae": 0.5621939301490784
+      },
+      "elapsed_seconds": 204.79370856890455
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.2546895778688765,
+      "metrics": {
+        "rmse": 0.01831206865608692,
+        "nrmse": 0.01830752193927765,
+        "mae": 0.01065224502235651
+      },
+      "elapsed_seconds": 207.79779866011813
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.2540699425983701,
+      "metrics": {
+        "rmse": 0.018303023651242256,
+        "nrmse": 0.018298480659723282,
+        "mae": 0.010646275244653225
+      },
+      "elapsed_seconds": 208.04833384184167
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.0950982407640077,
+      "metrics": {
+        "rmse": 0.027699263766407967,
+        "nrmse": 0.027692386880517006,
+        "mae": 0.013538036495447159
+      },
+      "elapsed_seconds": 208.4757388359867
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.054277148097753525,
+        "nrmse": 0.05426367372274399,
+        "mae": 0.02089785970747471
+      },
+      "elapsed_seconds": 212.98420219728723
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.07337641716003418,
+        "nrmse": 0.0733582004904747,
+        "mae": 0.03917879983782768
+      },
+      "elapsed_seconds": 182.7675003670156
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.0024080548187182,
+      "metrics": {
+        "rmse": 1.002060055732727,
+        "nrmse": 1.0018112659454346,
+        "mae": 0.5611150860786438
+      },
+      "elapsed_seconds": 209.010574223008
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.2818225870834552,
+      "metrics": {
+        "rmse": 0.018709419295191765,
+        "nrmse": 0.01870342716574669,
+        "mae": 0.011083000339567661
+      },
+      "elapsed_seconds": 206.92187879700214
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.2825045192810856,
+      "metrics": {
+        "rmse": 0.018719373270869255,
+        "nrmse": 0.01871337741613388,
+        "mae": 0.011087518185377121
+      },
+      "elapsed_seconds": 213.58526498777792
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.092530653089408,
+      "metrics": {
+        "rmse": 0.027636311948299408,
+        "nrmse": 0.027627458795905113,
+        "mae": 0.012930385768413544
+      },
+      "elapsed_seconds": 210.17619732068852
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.05005756393074989,
+        "nrmse": 0.05004153028130531,
+        "mae": 0.020150354132056236
+      },
+      "elapsed_seconds": 215.12544721923769
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.0732581838965416,
+        "nrmse": 0.07323471456766129,
+        "mae": 0.043320655822753906
+      },
+      "elapsed_seconds": 181.22920802375302
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.0027551605024936,
+      "metrics": {
+        "rmse": 1.0024793148040771,
+        "nrmse": 1.0021581649780273,
+        "mae": 0.5620336532592773
+      },
+      "elapsed_seconds": 210.2037477758713
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276011372837,
+      "attained_over_floor": 1.28358307322826,
+      "metrics": {
+        "rmse": 0.018705032765865326,
+        "nrmse": 0.018729114904999733,
+        "mae": 0.011833186261355877
+      },
+      "elapsed_seconds": 211.80282773589715
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.014591276003162748,
+      "attained_over_floor": 1.2833425724713652,
+      "metrics": {
+        "rmse": 0.018701529130339622,
+        "nrmse": 0.018725605681538582,
+        "mae": 0.01182907447218895
+      },
+      "elapsed_seconds": 211.5804852549918
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.0252875822914272,
+      "attained_over_floor": 1.1536569619777821,
+      "metrics": {
+        "rmse": 0.029135683551430702,
+        "nrmse": 0.029173195362091064,
+        "mae": 0.015429229475557804
+      },
+      "elapsed_seconds": 192.70516217127442
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.062306635081768036,
+        "nrmse": 0.062386851757764816,
+        "mae": 0.024749187752604485
+      },
+      "elapsed_seconds": 183.98997871484607
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.07002502679824829,
+        "nrmse": 0.07011517882347107,
+        "mae": 0.03845752403140068
+      },
+      "elapsed_seconds": 147.76228054286912
+    },
+    {
+      "family": "floorplan",
+      "layout": "open_plan",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9994046447747355,
+      "attained_over_floor": 1.0034432885745552,
+      "metrics": {
+        "rmse": 1.001556396484375,
+        "nrmse": 1.0028458833694458,
+        "mae": 0.5637544989585876
+      },
+      "elapsed_seconds": 167.30380750913173
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.2130696238484124,
+      "metrics": {
+        "rmse": 0.023991109803318977,
+        "nrmse": 0.023969775065779686,
+        "mae": 0.012389285489916801
+      },
+      "elapsed_seconds": 156.36273844819516
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.0140769510168068,
+      "metrics": {
+        "rmse": 0.104377381503582,
+        "nrmse": 0.10428456217050552,
+        "mae": 0.03548389673233032
+      },
+      "elapsed_seconds": 156.6327875033021
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0152824231248052,
+      "metrics": {
+        "rmse": 0.10043485462665558,
+        "nrmse": 0.10034554451704025,
+        "mae": 0.03409617766737938
+      },
+      "elapsed_seconds": 157.09362882515416
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.09841549396514893,
+        "nrmse": 0.09832797944545746,
+        "mae": 0.03605639562010765
+      },
+      "elapsed_seconds": 160.45336803002283
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11066453903913498,
+        "nrmse": 0.11056613177061081,
+        "mae": 0.049841683357954025
+      },
+      "elapsed_seconds": 132.62090812204406
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.0029889139024364,
+      "metrics": {
+        "rmse": 1.0032563209533691,
+        "nrmse": 1.002364158630371,
+        "mae": 0.5672067999839783
+      },
+      "elapsed_seconds": 157.73919354379177
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.160972486912078,
+      "metrics": {
+        "rmse": 0.022946197539567947,
+        "nrmse": 0.02294035628437996,
+        "mae": 0.011900329031050205
+      },
+      "elapsed_seconds": 157.37820333708078
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.018120772133035,
+      "metrics": {
+        "rmse": 0.10472707450389862,
+        "nrmse": 0.10470041632652283,
+        "mae": 0.03526025265455246
+      },
+      "elapsed_seconds": 157.8277491829358
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0185908739274507,
+      "metrics": {
+        "rmse": 0.10069817304611206,
+        "nrmse": 0.10067253559827805,
+        "mae": 0.033963896334171295
+      },
+      "elapsed_seconds": 155.03511282335967
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.09787489473819733,
+        "nrmse": 0.09784997999668121,
+        "mae": 0.03367488831281662
+      },
+      "elapsed_seconds": 158.5173448678106
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1212434470653534,
+        "nrmse": 0.12121257930994034,
+        "mae": 0.05390790104866028
+      },
+      "elapsed_seconds": 122.97379043605179
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.0028847793279092,
+      "metrics": {
+        "rmse": 1.0025153160095215,
+        "nrmse": 1.0022600889205933,
+        "mae": 0.5675635933876038
+      },
+      "elapsed_seconds": 141.6181487212889
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.1840489173236755,
+      "metrics": {
+        "rmse": 0.02336088940501213,
+        "nrmse": 0.023396337404847145,
+        "mae": 0.011885025538504124
+      },
+      "elapsed_seconds": 139.269248500932
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.0214833417943514,
+      "metrics": {
+        "rmse": 0.10488705337047577,
+        "nrmse": 0.10504621267318726,
+        "mae": 0.035129934549331665
+      },
+      "elapsed_seconds": 143.15714053995907
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.018790942931056,
+      "metrics": {
+        "rmse": 0.10053975135087967,
+        "nrmse": 0.10069230943918228,
+        "mae": 0.03363223373889923
+      },
+      "elapsed_seconds": 140.23859489010647
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11056553572416306,
+        "nrmse": 0.11073330789804459,
+        "mae": 0.040360208600759506
+      },
+      "elapsed_seconds": 146.47514373529702
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.13090962171554565,
+        "nrmse": 0.13110826909542084,
+        "mae": 0.06016981229186058
+      },
+      "elapsed_seconds": 121.18063598079607
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.0046184470325796,
+      "metrics": {
+        "rmse": 1.0024715662002563,
+        "nrmse": 1.0039926767349243,
+        "mae": 0.5677098631858826
+      },
+      "elapsed_seconds": 139.70733073586598
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.1411996785157537,
+      "metrics": {
+        "rmse": 0.022547122091054916,
+        "nrmse": 0.02254965342581272,
+        "mae": 0.011836000718176365
+      },
+      "elapsed_seconds": 143.02620266983286
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.0130760482358216,
+      "metrics": {
+        "rmse": 0.10416993498802185,
+        "nrmse": 0.10418163239955902,
+        "mae": 0.035125721246004105
+      },
+      "elapsed_seconds": 138.71508298581466
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0107159649626412,
+      "metrics": {
+        "rmse": 0.09988300502300262,
+        "nrmse": 0.099894218146801,
+        "mae": 0.033427637070417404
+      },
+      "elapsed_seconds": 138.43370242835954
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.09846390038728714,
+        "nrmse": 0.09847495704889297,
+        "mae": 0.035487957298755646
+      },
+      "elapsed_seconds": 144.70046870829538
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1260218769311905,
+        "nrmse": 0.12603603303432465,
+        "mae": 0.057756103575229645
+      },
+      "elapsed_seconds": 121.85115996887907
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.0034753523845916,
+      "metrics": {
+        "rmse": 1.0027376413345337,
+        "nrmse": 1.0028502941131592,
+        "mae": 0.566741406917572
+      },
+      "elapsed_seconds": 131.75740338722244
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.1580145357844958,
+      "metrics": {
+        "rmse": 0.022873597219586372,
+        "nrmse": 0.02288190834224224,
+        "mae": 0.012116711586713791
+      },
+      "elapsed_seconds": 137.07135863043368
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.0131866800524385,
+      "metrics": {
+        "rmse": 0.10415516793727875,
+        "nrmse": 0.10419300943613052,
+        "mae": 0.03551163896918297
+      },
+      "elapsed_seconds": 127.96022095018998
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0155850143005667,
+      "metrics": {
+        "rmse": 0.10033899545669556,
+        "nrmse": 0.1003754511475563,
+        "mae": 0.03455723822116852
+      },
+      "elapsed_seconds": 125.2145605138503
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11847894638776779,
+        "nrmse": 0.11852199584245682,
+        "mae": 0.043212924152612686
+      },
+      "elapsed_seconds": 129.80983874294907
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11739351600408554,
+        "nrmse": 0.11743617057800293,
+        "mae": 0.05505971238017082
+      },
+      "elapsed_seconds": 108.54927949188277
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.007284315997192,
+      "metrics": {
+        "rmse": 1.0062912702560425,
+        "nrmse": 1.0066568851470947,
+        "mae": 0.5679218173027039
+      },
+      "elapsed_seconds": 128.5834660232067
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.2150391089469998,
+      "metrics": {
+        "rmse": 0.024026015773415565,
+        "nrmse": 0.02400869131088257,
+        "mae": 0.01240889634937048
+      },
+      "elapsed_seconds": 136.41052742907777
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.0121031837737824,
+      "metrics": {
+        "rmse": 0.10415668785572052,
+        "nrmse": 0.10408158600330353,
+        "mae": 0.0356748104095459
+      },
+      "elapsed_seconds": 138.1566100763157
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0145152406644853,
+      "metrics": {
+        "rmse": 0.10034207254648209,
+        "nrmse": 0.10026971995830536,
+        "mae": 0.03430190682411194
+      },
+      "elapsed_seconds": 138.80427589081228
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.10054076462984085,
+        "nrmse": 0.10046827048063278,
+        "mae": 0.03662874177098274
+      },
+      "elapsed_seconds": 143.18293173704296
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.10997692495584488,
+        "nrmse": 0.10989762842655182,
+        "mae": 0.050024162977933884
+      },
+      "elapsed_seconds": 122.27099842811003
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.0027697899466446,
+      "metrics": {
+        "rmse": 1.0028682947158813,
+        "nrmse": 1.0021451711654663,
+        "mae": 0.5663176774978638
+      },
+      "elapsed_seconds": 129.40324184391648
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.1599841151483923,
+      "metrics": {
+        "rmse": 0.022915000095963478,
+        "nrmse": 0.022920826449990273,
+        "mae": 0.011726245284080505
+      },
+      "elapsed_seconds": 121.12761629372835
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.0195452201661113,
+      "metrics": {
+        "rmse": 0.10482025146484375,
+        "nrmse": 0.10484690219163895,
+        "mae": 0.03523784130811691
+      },
+      "elapsed_seconds": 121.45342727005482
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0183871864942402,
+      "metrics": {
+        "rmse": 0.10062681883573532,
+        "nrmse": 0.10065240412950516,
+        "mae": 0.03386605158448219
+      },
+      "elapsed_seconds": 123.42311714496464
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.09767097234725952,
+        "nrmse": 0.09769580513238907,
+        "mae": 0.0339573435485363
+      },
+      "elapsed_seconds": 124.89194515207782
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11622413247823715,
+        "nrmse": 0.11625368148088455,
+        "mae": 0.05079120770096779
+      },
+      "elapsed_seconds": 106.23721067933366
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.003330542105696,
+      "metrics": {
+        "rmse": 1.002450704574585,
+        "nrmse": 1.0027055740356445,
+        "mae": 0.5668529272079468
+      },
+      "elapsed_seconds": 122.31463352357969
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.1813240843049722,
+      "metrics": {
+        "rmse": 0.02334936149418354,
+        "nrmse": 0.023342495784163475,
+        "mae": 0.011688007041811943
+      },
+      "elapsed_seconds": 121.65163201605901
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.012298437700294,
+      "metrics": {
+        "rmse": 0.104132279753685,
+        "nrmse": 0.10410166531801224,
+        "mae": 0.035102203488349915
+      },
+      "elapsed_seconds": 122.32015916099772
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0107286294662605,
+      "metrics": {
+        "rmse": 0.09992484748363495,
+        "nrmse": 0.09989546984434128,
+        "mae": 0.03354199603199959
+      },
+      "elapsed_seconds": 121.9697297741659
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11293529719114304,
+        "nrmse": 0.11290208995342255,
+        "mae": 0.040333766490221024
+      },
+      "elapsed_seconds": 125.98928697174415
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11795409023761749,
+        "nrmse": 0.11791940778493881,
+        "mae": 0.051590122282505035
+      },
+      "elapsed_seconds": 104.83222486730665
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.0022814429270408,
+      "metrics": {
+        "rmse": 1.0019516944885254,
+        "nrmse": 1.0016571283340454,
+        "mae": 0.5656514167785645
+      },
+      "elapsed_seconds": 121.94143204484135
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.138352489126114,
+      "metrics": {
+        "rmse": 0.022501500323414803,
+        "nrmse": 0.02249339409172535,
+        "mae": 0.011831159703433514
+      },
+      "elapsed_seconds": 123.94669519923627
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.0116305895761446,
+      "metrics": {
+        "rmse": 0.10407047718763351,
+        "nrmse": 0.1040329858660698,
+        "mae": 0.03552526235580444
+      },
+      "elapsed_seconds": 122.22979456093162
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0105661016698126,
+      "metrics": {
+        "rmse": 0.09991540014743805,
+        "nrmse": 0.09987940639257431,
+        "mae": 0.03392096608877182
+      },
+      "elapsed_seconds": 123.33591199479997
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.10248930007219315,
+        "nrmse": 0.10245237499475479,
+        "mae": 0.037661366164684296
+      },
+      "elapsed_seconds": 124.5546726519242
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.12122363597154617,
+        "nrmse": 0.1211799681186676,
+        "mae": 0.05891504883766174
+      },
+      "elapsed_seconds": 106.6651980318129
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.002855793415412,
+      "metrics": {
+        "rmse": 1.0025923252105713,
+        "nrmse": 1.0022311210632324,
+        "mae": 0.5662163496017456
+      },
+      "elapsed_seconds": 123.84311965387315
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.019759603731347736,
+      "attained_over_floor": 1.1666644147933258,
+      "metrics": {
+        "rmse": 0.023023705929517746,
+        "nrmse": 0.023052826523780823,
+        "mae": 0.012461040169000626
+      },
+      "elapsed_seconds": 122.95820780005306
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.10283693171996487,
+      "attained_over_floor": 1.0114886591709364,
+      "metrics": {
+        "rmse": 0.10388699173927307,
+        "nrmse": 0.10401839017868042,
+        "mae": 0.03602635860443115
+      },
+      "elapsed_seconds": 124.32828933605924
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.09883510462852277,
+      "attained_over_floor": 1.0131030731269817,
+      "metrics": {
+        "rmse": 0.10000365972518921,
+        "nrmse": 0.10013014823198318,
+        "mae": 0.03509453684091568
+      },
+      "elapsed_seconds": 123.29975551366806
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.11812461167573929,
+        "nrmse": 0.1182740181684494,
+        "mae": 0.04362655058503151
+      },
+      "elapsed_seconds": 126.29872104292735
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.12252634018659592,
+        "nrmse": 0.12268131226301193,
+        "mae": 0.0579371340572834
+      },
+      "elapsed_seconds": 101.86047838116065
+    },
+    {
+      "family": "floorplan",
+      "layout": "corridor",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9993771065029677,
+      "attained_over_floor": 1.0038571791578579,
+      "metrics": {
+        "rmse": 1.0019645690917969,
+        "nrmse": 1.0032318830490112,
+        "mae": 0.5684679746627808
+      },
+      "elapsed_seconds": 122.5148989087902
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.3069360425918748,
+      "metrics": {
+        "rmse": 0.023233240470290184,
+        "nrmse": 0.0232236348092556,
+        "mae": 0.012421821244060993
+      },
+      "elapsed_seconds": 114.83929791022092
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0243059043571316,
+      "metrics": {
+        "rmse": 0.1796838343143463,
+        "nrmse": 0.1796095371246338,
+        "mae": 0.0702943205833435
+      },
+      "elapsed_seconds": 112.53082548873499
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.021271900354092,
+      "metrics": {
+        "rmse": 0.1753627508878708,
+        "nrmse": 0.17529024183750153,
+        "mae": 0.0700695663690567
+      },
+      "elapsed_seconds": 114.91165852034464
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.162577822804451,
+        "nrmse": 0.16251060366630554,
+        "mae": 0.059848565608263016
+      },
+      "elapsed_seconds": 115.48875044984743
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16126441955566406,
+        "nrmse": 0.1611977368593216,
+        "mae": 0.06863486021757126
+      },
+      "elapsed_seconds": 96.92969271633774
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.0040648800140082,
+      "metrics": {
+        "rmse": 1.0039877891540527,
+        "nrmse": 1.003572702407837,
+        "mae": 0.6179847121238708
+      },
+      "elapsed_seconds": 113.61483329208568
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.1782319053616308,
+      "metrics": {
+        "rmse": 0.020930632948875427,
+        "nrmse": 0.020936623215675354,
+        "mae": 0.011309327557682991
+      },
+      "elapsed_seconds": 113.54701100708917
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0052067429686569,
+      "metrics": {
+        "rmse": 0.17621010541915894,
+        "nrmse": 0.1762605458498001,
+        "mae": 0.0677473321557045
+      },
+      "elapsed_seconds": 113.33868991024792
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.006228025449796,
+      "metrics": {
+        "rmse": 0.17265871167182922,
+        "nrmse": 0.17270812392234802,
+        "mae": 0.06774026155471802
+      },
+      "elapsed_seconds": 114.17792779393494
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.15563520789146423,
+        "nrmse": 0.15567974746227264,
+        "mae": 0.05776427313685417
+      },
+      "elapsed_seconds": 116.54991613607854
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1616877317428589,
+        "nrmse": 0.16173401474952698,
+        "mae": 0.07047563046216965
+      },
+      "elapsed_seconds": 97.57322871312499
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.0026528690883523,
+      "metrics": {
+        "rmse": 1.001874566078186,
+        "nrmse": 1.0021613836288452,
+        "mae": 0.6182476878166199
+      },
+      "elapsed_seconds": 106.89715999970213
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.161834216512736,
+      "metrics": {
+        "rmse": 0.020612163469195366,
+        "nrmse": 0.020645244047045708,
+        "mae": 0.010909119620919228
+      },
+      "elapsed_seconds": 83.6673991526477
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0099365997612268,
+      "metrics": {
+        "rmse": 0.17680615186691284,
+        "nrmse": 0.17708991467952728,
+        "mae": 0.06766971200704575
+      },
+      "elapsed_seconds": 67.09381811320782
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.0094730636599654,
+      "metrics": {
+        "rmse": 0.17298747599124908,
+        "nrmse": 0.17326509952545166,
+        "mae": 0.06762086600065231
+      },
+      "elapsed_seconds": 63.656181402970105
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16351675987243652,
+        "nrmse": 0.16377918422222137,
+        "mae": 0.05973025783896446
+      },
+      "elapsed_seconds": 65.37411063490435
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1762140393257141,
+        "nrmse": 0.17649684846401215,
+        "mae": 0.07488188147544861
+      },
+      "elapsed_seconds": 54.31984538398683
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.003726636667006,
+      "metrics": {
+        "rmse": 1.0016270875930786,
+        "nrmse": 1.003234624862671,
+        "mae": 0.6180524826049805
+      },
+      "elapsed_seconds": 62.561207436956465
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.220102076208663,
+      "metrics": {
+        "rmse": 0.02168128453195095,
+        "nrmse": 0.021680636331439018,
+        "mae": 0.011627212166786194
+      },
+      "elapsed_seconds": 66.46001125499606
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0091910639237691,
+      "metrics": {
+        "rmse": 0.17696447670459747,
+        "nrmse": 0.17695918679237366,
+        "mae": 0.06749425828456879
+      },
+      "elapsed_seconds": 68.14049009932205
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.0100739227067999,
+      "metrics": {
+        "rmse": 0.17337341606616974,
+        "nrmse": 0.17336823046207428,
+        "mae": 0.06774388998746872
+      },
+      "elapsed_seconds": 68.47988015413284
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.15187951922416687,
+        "nrmse": 0.15187497437000275,
+        "mae": 0.056763287633657455
+      },
+      "elapsed_seconds": 70.38721154211089
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16001653671264648,
+        "nrmse": 0.16001175343990326,
+        "mae": 0.07218091934919357
+      },
+      "elapsed_seconds": 58.29623284796253
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.0036064147721615,
+      "metrics": {
+        "rmse": 1.0031445026397705,
+        "nrmse": 1.0031144618988037,
+        "mae": 0.6173906326293945
+      },
+      "elapsed_seconds": 69.86014614300802
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.194182107211645,
+      "metrics": {
+        "rmse": 0.021220631897449493,
+        "nrmse": 0.021220050752162933,
+        "mae": 0.01172449067234993
+      },
+      "elapsed_seconds": 70.41723310481757
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0059667255281444,
+      "metrics": {
+        "rmse": 0.1763986498117447,
+        "nrmse": 0.1763938069343567,
+        "mae": 0.06786685436964035
+      },
+      "elapsed_seconds": 69.63730853004381
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.0072310198968528,
+      "metrics": {
+        "rmse": 0.1728850156068802,
+        "nrmse": 0.17288027703762054,
+        "mae": 0.06861008703708649
+      },
+      "elapsed_seconds": 69.69910423690453
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1706208735704422,
+        "nrmse": 0.17061619460582733,
+        "mae": 0.06352172791957855
+      },
+      "elapsed_seconds": 70.81111933011562
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1649927943944931,
+        "nrmse": 0.16498826444149017,
+        "mae": 0.07354369014501572
+      },
+      "elapsed_seconds": 59.08684205310419
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.0053289989261651,
+      "metrics": {
+        "rmse": 1.0048637390136719,
+        "nrmse": 1.0048362016677856,
+        "mae": 0.6163737177848816
+      },
+      "elapsed_seconds": 69.52068093419075
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.279006312941415,
+      "metrics": {
+        "rmse": 0.022741932421922684,
+        "nrmse": 0.02272733673453331,
+        "mae": 0.012232190929353237
+      },
+      "elapsed_seconds": 73.44696385785937
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0112492969094324,
+      "metrics": {
+        "rmse": 0.17743396759033203,
+        "nrmse": 0.17732009291648865,
+        "mae": 0.06856728345155716
+      },
+      "elapsed_seconds": 75.4514843756333
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.012458780099741,
+      "metrics": {
+        "rmse": 0.17388916015625,
+        "nrmse": 0.17377756536006927,
+        "mae": 0.06866757571697235
+      },
+      "elapsed_seconds": 76.16224004281685
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.15776067972183228,
+        "nrmse": 0.15765944123268127,
+        "mae": 0.05790618062019348
+      },
+      "elapsed_seconds": 75.85382717614993
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1582806259393692,
+        "nrmse": 0.15817904472351074,
+        "mae": 0.06890295445919037
+      },
+      "elapsed_seconds": 65.7245671460405
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.0024103977468657,
+      "metrics": {
+        "rmse": 1.002562403678894,
+        "nrmse": 1.0019190311431885,
+        "mae": 0.6161227226257324
+      },
+      "elapsed_seconds": 75.79355173418298
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.1763150173905523,
+      "metrics": {
+        "rmse": 0.02089514397084713,
+        "nrmse": 0.020902561023831367,
+        "mae": 0.011244998313486576
+      },
+      "elapsed_seconds": 75.06626026611775
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0080494329605405,
+      "metrics": {
+        "rmse": 0.1766962707042694,
+        "nrmse": 0.1767590045928955,
+        "mae": 0.06758196651935577
+      },
+      "elapsed_seconds": 74.33686008909717
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.0085682590094656,
+      "metrics": {
+        "rmse": 0.17304836213588715,
+        "nrmse": 0.17310979962348938,
+        "mae": 0.06803907454013824
+      },
+      "elapsed_seconds": 69.50988381681964
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.15740026533603668,
+        "nrmse": 0.1574561446905136,
+        "mae": 0.05807273089885712
+      },
+      "elapsed_seconds": 48.85093179298565
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16137410700321198,
+        "nrmse": 0.16143140196800232,
+        "mae": 0.06928441673517227
+      },
+      "elapsed_seconds": 20.93691967288032
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.0026280613957654,
+      "metrics": {
+        "rmse": 1.0017809867858887,
+        "nrmse": 1.0021365880966187,
+        "mae": 0.6170578598976135
+      },
+      "elapsed_seconds": 23.88404567912221
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.1545506292283043,
+      "metrics": {
+        "rmse": 0.020526230335235596,
+        "nrmse": 0.020515818148851395,
+        "mae": 0.010923027992248535
+      },
+      "elapsed_seconds": 23.881865007337183
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.009105913244511,
+      "metrics": {
+        "rmse": 0.17703405022621155,
+        "nrmse": 0.17694425582885742,
+        "mae": 0.06802061200141907
+      },
+      "elapsed_seconds": 24.038829477038234
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.008238007916537,
+      "metrics": {
+        "rmse": 0.17314094305038452,
+        "nrmse": 0.17305311560630798,
+        "mae": 0.0680890753865242
+      },
+      "elapsed_seconds": 23.885861446149647
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16570644080638885,
+        "nrmse": 0.16562238335609436,
+        "mae": 0.06152624264359474
+      },
+      "elapsed_seconds": 24.973680176306516
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16982918977737427,
+        "nrmse": 0.16974304616451263,
+        "mae": 0.07427609711885452
+      },
+      "elapsed_seconds": 21.71726615028456
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.0023102128344956,
+      "metrics": {
+        "rmse": 1.0023273229599,
+        "nrmse": 1.0018188953399658,
+        "mae": 0.6158718466758728
+      },
+      "elapsed_seconds": 25.322612497024238
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.254677548592561,
+      "metrics": {
+        "rmse": 0.022300593554973602,
+        "nrmse": 0.02229502610862255,
+        "mae": 0.011970150284469128
+      },
+      "elapsed_seconds": 24.76916742231697
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0074826965533816,
+      "metrics": {
+        "rmse": 0.17670375108718872,
+        "nrmse": 0.17665962874889374,
+        "mae": 0.0681803971529007
+      },
+      "elapsed_seconds": 24.580516909249127
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.006636064392163,
+      "metrics": {
+        "rmse": 0.1728213131427765,
+        "nrmse": 0.1727781593799591,
+        "mae": 0.06801342219114304
+      },
+      "elapsed_seconds": 24.335757340304554
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1571800261735916,
+        "nrmse": 0.15714077651500702,
+        "mae": 0.059594716876745224
+      },
+      "elapsed_seconds": 25.062738308217376
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16220945119857788,
+        "nrmse": 0.162168949842453,
+        "mae": 0.06969164311885834
+      },
+      "elapsed_seconds": 21.596134521998465
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.002709879074201,
+      "metrics": {
+        "rmse": 1.0024687051773071,
+        "nrmse": 1.0022183656692505,
+        "mae": 0.6165791749954224
+      },
+      "elapsed_seconds": 24.501848389860243
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017769526627484548,
+      "attained_over_floor": 1.205828509295894,
+      "metrics": {
+        "rmse": 0.02140560746192932,
+        "nrmse": 0.021427001804113388,
+        "mae": 0.011870733462274075
+      },
+      "elapsed_seconds": 24.356532422360033
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17534755619451317,
+      "attained_over_floor": 1.0087050591985418,
+      "metrics": {
+        "rmse": 0.17669737339019775,
+        "nrmse": 0.17687396705150604,
+        "mae": 0.06808272749185562
+      },
+      "elapsed_seconds": 24.39084111293778
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.17163915092222304,
+      "attained_over_floor": 1.010112382547538,
+      "metrics": {
+        "rmse": 0.17320172488689423,
+        "nrmse": 0.17337483167648315,
+        "mae": 0.06895038485527039
+      },
+      "elapsed_seconds": 24.373780474066734
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16932708024978638,
+        "nrmse": 0.1694963127374649,
+        "mae": 0.06285017728805542
+      },
+      "elapsed_seconds": 25.099875963758677
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.16402313113212585,
+        "nrmse": 0.16418705880641937,
+        "mae": 0.07095200568437576
+      },
+      "elapsed_seconds": 20.786813064012676
+    },
+    {
+      "family": "floorplan",
+      "layout": "apartment",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.9995098149372934,
+      "attained_over_floor": 1.0029448365472597,
+      "metrics": {
+        "rmse": 1.0014523267745972,
+        "nrmse": 1.0024532079696655,
+        "mae": 0.6190592646598816
+      },
+      "elapsed_seconds": 24.11816215608269
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.3108254548576614,
+      "metrics": {
+        "rmse": 0.022713370621204376,
+        "nrmse": 0.022712092846632004,
+        "mae": 0.01190758403390646
+      },
+      "elapsed_seconds": 23.160544177982956
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.0111393365339303,
+      "metrics": {
+        "rmse": 0.2433999627828598,
+        "nrmse": 0.24338626861572266,
+        "mae": 0.11454325914382935
+      },
+      "elapsed_seconds": 23.148476330097765
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.00907057846121,
+      "metrics": {
+        "rmse": 0.2673587501049042,
+        "nrmse": 0.2673436999320984,
+        "mae": 0.12885911762714386
+      },
+      "elapsed_seconds": 23.14100128831342
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.20952291786670685,
+        "nrmse": 0.20951113104820251,
+        "mae": 0.0883198156952858
+      },
+      "elapsed_seconds": 23.800720925908536
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.21656136214733124,
+        "nrmse": 0.21654917299747467,
+        "mae": 0.09755399823188782
+      },
+      "elapsed_seconds": 20.347214112058282
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.0032545684704008,
+      "metrics": {
+        "rmse": 1.0028079748153687,
+        "nrmse": 1.0027515888214111,
+        "mae": 0.6741380095481873
+      },
+      "elapsed_seconds": 23.098666309844702
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.2267822910622912,
+      "metrics": {
+        "rmse": 0.021260974928736687,
+        "nrmse": 0.021255914121866226,
+        "mae": 0.01114675123244524
+      },
+      "elapsed_seconds": 23.105860468000174
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.0052920981091467,
+      "metrics": {
+        "rmse": 0.24203641712665558,
+        "nrmse": 0.24197880923748016,
+        "mae": 0.11615699529647827
+      },
+      "elapsed_seconds": 23.16657401667908
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.0088009475174577,
+      "metrics": {
+        "rmse": 0.2673358917236328,
+        "nrmse": 0.2672722637653351,
+        "mae": 0.13076725602149963
+      },
+      "elapsed_seconds": 23.05443218210712
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.2252708077430725,
+        "nrmse": 0.22521719336509705,
+        "mae": 0.10079242289066315
+      },
+      "elapsed_seconds": 23.685692759696394
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.23688149452209473,
+        "nrmse": 0.2368251234292984,
+        "mae": 0.114737868309021
+      },
+      "elapsed_seconds": 20.21290411707014
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.0037544252050714,
+      "metrics": {
+        "rmse": 1.0034899711608887,
+        "nrmse": 1.0032511949539185,
+        "mae": 0.675513744354248
+      },
+      "elapsed_seconds": 23.032928626984358
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.1859876331437262,
+      "metrics": {
+        "rmse": 0.02052675373852253,
+        "nrmse": 0.02054908312857151,
+        "mae": 0.010903269983828068
+      },
+      "elapsed_seconds": 23.080275238025934
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.0104659194949288,
+      "metrics": {
+        "rmse": 0.2429598867893219,
+        "nrmse": 0.24322417378425598,
+        "mae": 0.11607890576124191
+      },
+      "elapsed_seconds": 23.043588931672275
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.012279490406316,
+      "metrics": {
+        "rmse": 0.2679024636745453,
+        "nrmse": 0.2681938707828522,
+        "mae": 0.12867046892642975
+      },
+      "elapsed_seconds": 22.989571419078857
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.23833434283733368,
+        "nrmse": 0.23859359323978424,
+        "mae": 0.10831031203269958
+      },
+      "elapsed_seconds": 23.79856758285314
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.2411051094532013,
+        "nrmse": 0.2413673847913742,
+        "mae": 0.1192106083035469
+      },
+      "elapsed_seconds": 20.279203987214714
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.0035111162719461,
+      "metrics": {
+        "rmse": 1.001918077468872,
+        "nrmse": 1.0030080080032349,
+        "mae": 0.6744278073310852
+      },
+      "elapsed_seconds": 23.01871394691989
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.2119136451714554,
+      "metrics": {
+        "rmse": 0.02099425159394741,
+        "nrmse": 0.020998291671276093,
+        "mae": 0.011187618598341942
+      },
+      "elapsed_seconds": 23.061093762982637
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.0042520717940866,
+      "metrics": {
+        "rmse": 0.24168196320533752,
+        "nrmse": 0.24172846972942352,
+        "mae": 0.11598356068134308
+      },
+      "elapsed_seconds": 23.13756425632164
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.0034577103630256,
+      "metrics": {
+        "rmse": 0.2658054828643799,
+        "nrmse": 0.26585662364959717,
+        "mae": 0.13015232980251312
+      },
+      "elapsed_seconds": 22.96673994883895
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.19445179402828217,
+        "nrmse": 0.19448921084403992,
+        "mae": 0.08177540451288223
+      },
+      "elapsed_seconds": 23.7568413419649
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.21169933676719666,
+        "nrmse": 0.21174006164073944,
+        "mae": 0.10132066905498505
+      },
+      "elapsed_seconds": 20.297391247935593
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.0032370359149256,
+      "metrics": {
+        "rmse": 1.002541184425354,
+        "nrmse": 1.0027340650558472,
+        "mae": 0.6735965013504028
+      },
+      "elapsed_seconds": 23.020219878293574
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.1858167044547925,
+      "metrics": {
+        "rmse": 0.02054208517074585,
+        "nrmse": 0.020546121522784233,
+        "mae": 0.011188370175659657
+      },
+      "elapsed_seconds": 23.10952786402777
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.0085223703186605,
+      "metrics": {
+        "rmse": 0.24270866811275482,
+        "nrmse": 0.24275635182857513,
+        "mae": 0.11489853262901306
+      },
+      "elapsed_seconds": 23.12947793630883
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.0073518921076055,
+      "metrics": {
+        "rmse": 0.26683592796325684,
+        "nrmse": 0.2668883502483368,
+        "mae": 0.1277630478143692
+      },
+      "elapsed_seconds": 23.009506531059742
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.23501865565776825,
+        "nrmse": 0.2350648194551468,
+        "mae": 0.10671325773000717
+      },
+      "elapsed_seconds": 23.800170334987342
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.19271036982536316,
+        "nrmse": 0.19274823367595673,
+        "mae": 0.08714953809976578
+      },
+      "elapsed_seconds": 20.80809033336118
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.0081214627474133,
+      "metrics": {
+        "rmse": 1.007418155670166,
+        "nrmse": 1.0076160430908203,
+        "mae": 0.6754853129386902
+      },
+      "elapsed_seconds": 23.389258953742683
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.304028190661062,
+      "metrics": {
+        "rmse": 0.02260371670126915,
+        "nrmse": 0.02259431965649128,
+        "mae": 0.011875182390213013
+      },
+      "elapsed_seconds": 24.509295880794525
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.006109942612019,
+      "metrics": {
+        "rmse": 0.2422764003276825,
+        "nrmse": 0.24217566847801208,
+        "mae": 0.11486531794071198
+      },
+      "elapsed_seconds": 24.520263137295842
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.0060482821755468,
+      "metrics": {
+        "rmse": 0.266653835773468,
+        "nrmse": 0.2665429711341858,
+        "mae": 0.12858521938323975
+      },
+      "elapsed_seconds": 24.64983904035762
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.21253906190395355,
+        "nrmse": 0.21245069801807404,
+        "mae": 0.08987748622894287
+      },
+      "elapsed_seconds": 25.307433595880866
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.21180017292499542,
+        "nrmse": 0.21171212196350098,
+        "mae": 0.09813140332698822
+      },
+      "elapsed_seconds": 22.188048840966076
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.002246148357865,
+      "metrics": {
+        "rmse": 1.0021603107452393,
+        "nrmse": 1.0017436742782593,
+        "mae": 0.6731567978858948
+      },
+      "elapsed_seconds": 25.650943123269826
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.214226235081105,
+      "metrics": {
+        "rmse": 0.021044448018074036,
+        "nrmse": 0.02103836089372635,
+        "mae": 0.011150266043841839
+      },
+      "elapsed_seconds": 25.16085912892595
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.00596328652033,
+      "metrics": {
+        "rmse": 0.24221043288707733,
+        "nrmse": 0.24214036762714386,
+        "mae": 0.11436581611633301
+      },
+      "elapsed_seconds": 25.11463099718094
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.0059643669965568,
+      "metrics": {
+        "rmse": 0.2665978670120239,
+        "nrmse": 0.26652073860168457,
+        "mae": 0.12839151918888092
+      },
+      "elapsed_seconds": 25.086987962946296
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.22623160481452942,
+        "nrmse": 0.22616615891456604,
+        "mae": 0.10280900448560715
+      },
+      "elapsed_seconds": 25.663537970278412
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.21819815039634705,
+        "nrmse": 0.2181350290775299,
+        "mae": 0.10515621304512024
+      },
+      "elapsed_seconds": 21.50828529894352
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.0024721632736848,
+      "metrics": {
+        "rmse": 1.0022594928741455,
+        "nrmse": 1.001969575881958,
+        "mae": 0.6737472414970398
+      },
+      "elapsed_seconds": 25.146703280042857
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.1855804143552475,
+      "metrics": {
+        "rmse": 0.02054503746330738,
+        "nrmse": 0.020542027428746223,
+        "mae": 0.01093959342688322
+      },
+      "elapsed_seconds": 24.26509218616411
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.0062873042425338,
+      "metrics": {
+        "rmse": 0.2422538548707962,
+        "nrmse": 0.24221836030483246,
+        "mae": 0.11489333212375641
+      },
+      "elapsed_seconds": 24.87328653410077
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.0055703256131758,
+      "metrics": {
+        "rmse": 0.26645538210868835,
+        "nrmse": 0.2664163410663605,
+        "mae": 0.12857107818126678
+      },
+      "elapsed_seconds": 24.961155895143747
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.2311706393957138,
+        "nrmse": 0.2311367690563202,
+        "mae": 0.10207375884056091
+      },
+      "elapsed_seconds": 25.55577516183257
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.22791790962219238,
+        "nrmse": 0.22788451611995697,
+        "mae": 0.1106492206454277
+      },
+      "elapsed_seconds": 21.671412815805525
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.001937360697149,
+      "metrics": {
+        "rmse": 1.0015817880630493,
+        "nrmse": 1.0014350414276123,
+        "mae": 0.6728342771530151
+      },
+      "elapsed_seconds": 24.961782841011882
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.216011418608422,
+      "metrics": {
+        "rmse": 0.02106952853500843,
+        "nrmse": 0.021069291979074478,
+        "mae": 0.01136328186839819
+      },
+      "elapsed_seconds": 25.165287133771926
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.0078084665409657,
+      "metrics": {
+        "rmse": 0.24258722364902496,
+        "nrmse": 0.24258451163768768,
+        "mae": 0.11480853706598282
+      },
+      "elapsed_seconds": 25.19784448808059
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.0071435664889867,
+      "metrics": {
+        "rmse": 0.26683613657951355,
+        "nrmse": 0.2668331563472748,
+        "mae": 0.12846814095973969
+      },
+      "elapsed_seconds": 24.626569089014083
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.21838657557964325,
+        "nrmse": 0.21838413178920746,
+        "mae": 0.09875073283910751
+      },
+      "elapsed_seconds": 25.65753473294899
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.2072555422782898,
+        "nrmse": 0.20725321769714355,
+        "mae": 0.09689044207334518
+      },
+      "elapsed_seconds": 22.168034535832703
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.0025179626022729,
+      "metrics": {
+        "rmse": 1.0020265579223633,
+        "nrmse": 1.0020153522491455,
+        "mae": 0.6732432842254639
+      },
+      "elapsed_seconds": 25.0310827489011
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "geometry_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.017326557675902198,
+      "attained_over_floor": 1.2054197525221333,
+      "metrics": {
+        "rmse": 0.020860882475972176,
+        "nrmse": 0.020885774865746498,
+        "mae": 0.011456593871116638
+      },
+      "elapsed_seconds": 25.025361174251884
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "blind_operator",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.24070497489497628,
+      "attained_over_floor": 1.0068892813787031,
+      "metrics": {
+        "rmse": 0.2420744001865387,
+        "nrmse": 0.24236325919628143,
+        "mae": 0.11484198272228241
+      },
+      "elapsed_seconds": 25.07219912717119
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "flat_chart",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.2649405360126407,
+      "attained_over_floor": 1.0072713515336684,
+      "metrics": {
+        "rmse": 0.26654893159866333,
+        "nrmse": 0.2668670117855072,
+        "mae": 0.1289374977350235
+      },
+      "elapsed_seconds": 25.09558122418821
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_tucker",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 5464,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.2313978224992752,
+        "nrmse": 0.2316739410161972,
+        "mae": 0.1048814132809639
+      },
+      "elapsed_seconds": 25.76912259031087
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "neural_cp",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": null,
+      "parameters": 3384,
+      "own_projection_floor": null,
+      "attained_over_floor": null,
+      "metrics": {
+        "rmse": 0.1964791864156723,
+        "nrmse": 0.1967136412858963,
+        "mae": 0.09378847479820251
+      },
+      "elapsed_seconds": 20.956593577284366
+    },
+    {
+      "family": "floorplan",
+      "layout": "lab_suite",
+      "model": "permuted",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 162864,
+      "n_nodes": 11310,
+      "basis_columns_kept": 16,
+      "parameters": 2440,
+      "own_projection_floor": 0.999498652022331,
+      "attained_over_floor": 1.0030390492340493,
+      "metrics": {
+        "rmse": 1.0013413429260254,
+        "nrmse": 1.0025361776351929,
+        "mae": 0.676041841506958
+      },
+      "elapsed_seconds": 24.876747825182974
+    }
+  ]
+}

@@ -32,7 +32,9 @@ import numpy as np
 import torch
 
 from geoaware.als_baselines import cp_als, tucker_als
-from geoaware.benchmark import FAMILIES, build_family
+from functools import partial
+
+from geoaware.benchmark import (FAMILIES, build_family, build_operator_variant)
 from geoaware.grouped_operator_tucker import (GroupFactorSpec,
                                               GroupedOperatorTucker,
                                               grouped_indices)
@@ -100,8 +102,16 @@ def main():
     # Omitted by default: each family carries the cutoff that equalizes its
     # geometry-aware approximation floor, fixed before any fitting.
     parser.add_argument("--basis-cutoff", type=int, default=None)
+    # Same geometry, different equation.  A wave field keeps energy across the
+    # spectrum instead of collapsing onto the slowest modes, so it needs more
+    # columns for the same approximation quality -- cutoff 64 rather than 16 --
+    # and both bases receive them.
+    parser.add_argument("--dynamics", choices=["diffusion", "wave"], default=None)
     parser.add_argument("--truth-modes", type=int, default=60)
-    parser.add_argument("--ranks", default="4,4,6")
+    # Large enough that the fit reaches its own approximation floor rather than
+    # a rank ceiling; see Iteration 14.  The cost of a big core is now small
+    # because the model contracts mode by mode instead of forming the design.
+    parser.add_argument("--ranks", default="12,10,16")
     parser.add_argument("--cp-rank", type=int, default=6)
     parser.add_argument("--hidden", type=int, default=48)
     # 1500 is where the operator models stop moving; the coordinate networks
@@ -120,10 +130,11 @@ def main():
     rows, geometries = [], {}
     for family in args.families.split(","):
         for layout in FAMILIES[family].layouts:
-            data = build_family(family, layout, n_scenarios=args.n_scenarios,
-                                n_time=args.n_time,
-                                basis_cutoff=args.basis_cutoff,
-                                truth_modes=args.truth_modes)
+            builder = (partial(build_operator_variant, dynamics=args.dynamics)
+                       if args.dynamics else build_family)
+            data = builder(family, layout, n_scenarios=args.n_scenarios,
+                           n_time=args.n_time, basis_cutoff=args.basis_cutoff,
+                           truth_modes=args.truth_modes)
             matrices = data.operator_matrices
             residuals = {name: product_projection_residual(
                             data.values, [None, None, matrices[f"{key}_basis"]])
@@ -192,6 +203,18 @@ def main():
                                         if specs[2].kind == "operator" else None)
                             error = mean[held] - truth[held]
                             rmse = float(error.square().mean().sqrt())
+                            # How much of its own basis a model actually cashed
+                            # in.  Far above one means the fit is rank-limited,
+                            # and then a comparison between function spaces
+                            # measures the rank ceiling instead: every model is
+                            # held back by the same thing and the geometry never
+                            # gets a chance to show.  This is cheap and it is
+                            # reported next to every number precisely because
+                            # its absence once hid exactly that.
+                            own_floor = residuals.get(name)
+                            attained = float(rmse / truth[held].std().clamp_min(1e-8))
+                            headroom = (attained / own_floor
+                                        if own_floor else None)
                             rows.append({
                                 "family": family, "layout": layout,
                                 "model": name, "mask": mask, "ratio": ratio,
@@ -199,14 +222,18 @@ def main():
                                 "n_nodes": int(data.shape[2]),
                                 "basis_columns_kept": kept,
                                 "parameters": int(parameters),
+                                "own_projection_floor": own_floor,
+                                "attained_over_floor": headroom,
                                 "metrics": {
                                     "rmse": rmse,
-                                    "nrmse": float(rmse / truth[held].std().clamp_min(1e-8)),
+                                    "nrmse": attained,
                                     "mae": float(error.abs().mean())},
                                 "elapsed_seconds": time.perf_counter() - started})
                             print(f"{key} {mask} {ratio} s{seed} {name:18s} "
-                                  f"NRMSE={rows[-1]['metrics']['nrmse']:.3f} "
-                                  f"params={parameters}", flush=True)
+                                  f"NRMSE={attained:.3f} "
+                                  + (f"over_floor={headroom:5.1f}x "
+                                     if headroom else "")
+                                  + f"params={parameters}", flush=True)
 
     (args.output / "results.json").write_text(json.dumps(
         {"arguments": vars(args), "geometries": geometries, "results": rows},

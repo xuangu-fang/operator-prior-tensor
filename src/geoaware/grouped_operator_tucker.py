@@ -35,6 +35,10 @@ from .tensor_bayes import (TensorBayesPrediction, _normalize_columns,
                            _normalized_spectral_coefficients)
 
 
+def _symmetrize_matrix(matrix: torch.Tensor) -> torch.Tensor:
+    return .5 * (matrix + matrix.T)
+
+
 @dataclass
 class GroupFactorSpec:
     """How one coordinate group turns its index into a factor row."""
@@ -226,9 +230,31 @@ class GroupedOperatorTucker(nn.Module):
                  (z[:, :, None] * other[:, None, :]).reshape(len(indices), -1))
         return z
 
+    def contract(self, indices: torch.Tensor,
+                 factors: Sequence[torch.Tensor]) -> torch.Tensor:
+        """Predict without ever forming the row-wise Kronecker product.
+
+        The design matrix has one column per core entry, so at a core of
+        nineteen hundred it is larger than the data by an order of magnitude and
+        is rebuilt at every gradient step.  Contracting the core against one
+        factor at a time gives the identical result for a fraction of the
+        arithmetic and a small fraction of the memory, which is what makes ranks
+        big enough to reach the approximation floor affordable at all.
+        """
+        if self.diagonal_core:
+            rows = factors[0][indices[:, 0]]
+            for mode in range(1, len(factors)):
+                rows = rows * factors[mode][indices[:, mode]]
+            return rows @ self.core
+        partial = torch.einsum("na,a...->n...", factors[0][indices[:, 0]],
+                               self.core)
+        for mode in range(1, len(factors)):
+            partial = torch.einsum("nb,nb...->n...",
+                                   factors[mode][indices[:, mode]], partial)
+        return partial
+
     def forward(self, indices: torch.Tensor) -> torch.Tensor:
-        return (self.design(indices, self.factor_tables(),
-                            diagonal=self.diagonal_core) @ self.core.flatten())
+        return self.contract(indices, self.factor_tables())
 
     def factor_prior(self) -> torch.Tensor:
         total = self.core.square().mean()
@@ -285,15 +311,30 @@ class GroupedOperatorTucker(nn.Module):
                         diagonal=self.diagonal_core).double()
         yd = y.double()
         p = z.shape[1]
-        eye = torch.eye(p, device=z.device, dtype=z.dtype)
+        # ``z^T z`` does not change inside the evidence loop, so it is
+        # diagonalized once.  In that eigenbasis every quantity the fixed point
+        # needs is a function of the eigenvalues alone -- the covariance is
+        # diagonal, its trace is a sum, and the mean is a rescaling -- which
+        # turns each iteration from a p-by-p inverse into O(p).  At a core of
+        # ninety-six that is bookkeeping; at nineteen hundred it is the
+        # difference between a fit dominated by this loop and one that is not.
+        gram = _symmetrize_matrix(z.T @ z)
+        spectrum, rotation = torch.linalg.eigh(gram)
+        spectrum = spectrum.clamp_min(0.)
+        projected = rotation.T @ (z.T @ yd)
+        target = yd.square().sum()
+
         alpha = torch.tensor(1., device=z.device, dtype=z.dtype)
         beta = torch.tensor(25., device=z.device, dtype=z.dtype)
         for _ in range(80):
-            cov = torch.linalg.inv(beta * (z.T @ z) + alpha * eye)
-            mean = beta * (cov @ z.T @ yd)
-            gamma = (p - alpha * cov.trace()).clamp(1e-3, p - 1e-3)
-            alpha_new = (gamma / mean.square().sum().clamp_min(1e-8)).clamp(1e-4, 1e5)
-            resid = (yd - z @ mean).square().sum()
+            precision = beta * spectrum + alpha
+            rotated_mean = beta * projected / precision
+            gamma = (p - alpha * (1. / precision).sum()).clamp(1e-3, p - 1e-3)
+            alpha_new = (gamma / rotated_mean.square().sum().clamp_min(1e-8)
+                         ).clamp(1e-4, 1e5)
+            # ||y - z m||^2 with m expressed in the eigenbasis of z^T z.
+            resid = (target - 2 * (rotated_mean * projected).sum()
+                     + (rotated_mean.square() * spectrum).sum()).clamp_min(0.)
             beta_new = ((len(yd) - gamma).clamp_min(1.) /
                         resid.clamp_min(1e-8)).clamp(1e-3, 1e5)
             converged = max(float((alpha_new - alpha).abs()),
@@ -301,8 +342,9 @@ class GroupedOperatorTucker(nn.Module):
             alpha, beta = alpha_new, beta_new
             if converged:
                 break
-        cov = torch.linalg.inv(beta * (z.T @ z) + alpha * eye)
-        mean = beta * (cov @ z.T @ yd)
+        precision = beta * spectrum + alpha
+        cov = (rotation / precision) @ rotation.T
+        mean = beta * (rotation @ (projected / precision))
         fitted = z @ mean
         leverage = (beta * ((z @ cov) * z).sum(1)).clamp(max=.999)
         loo_resid = (yd - fitted) / (1 - leverage).clamp_min(1e-4)

@@ -1,0 +1,6317 @@
+{
+  "arguments": {
+    "output": "results/rk_als_rest",
+    "families": "plane_barrier,plane_domain,volume_barrier,sphere",
+    "ratios": ".10",
+    "masks": "spatial_sensors,random",
+    "seeds": "201,202,203,204,205",
+    "n_scenarios": 12,
+    "n_time": 12,
+    "basis_cutoff": null,
+    "truth_modes": 60,
+    "noise": 0.1,
+    "als_iters": 200
+  },
+  "results": [
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9983154535293579,
+        "nrmse": 1.0,
+        "mae": 0.5056215524673462
+      },
+      "elapsed_seconds": 8.209715191274881
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9983154535293579,
+        "nrmse": 1.0,
+        "mae": 0.5056215524673462
+      },
+      "elapsed_seconds": 1.4720769273117185
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9987138509750366,
+        "nrmse": 0.9999994039535522,
+        "mae": 0.5059482455253601
+      },
+      "elapsed_seconds": 8.45132151991129
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9987138509750366,
+        "nrmse": 0.9999994039535522,
+        "mae": 0.5059482455253601
+      },
+      "elapsed_seconds": 1.5201477203518152
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004372596740723,
+        "nrmse": 1.0000003576278687,
+        "mae": 0.506628692150116
+      },
+      "elapsed_seconds": 9.323680916801095
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004372596740723,
+        "nrmse": 1.0000003576278687,
+        "mae": 0.506628692150116
+      },
+      "elapsed_seconds": 5.173461169935763
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9994722604751587,
+        "nrmse": 0.9999998807907104,
+        "mae": 0.5063579678535461
+      },
+      "elapsed_seconds": 18.567379438783973
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9994722604751587,
+        "nrmse": 0.9999998807907104,
+        "mae": 0.5063579678535461
+      },
+      "elapsed_seconds": 2.420912120025605
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004786252975464,
+        "nrmse": 1.0,
+        "mae": 0.5065389275550842
+      },
+      "elapsed_seconds": 20.017689391039312
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004786252975464,
+        "nrmse": 1.0,
+        "mae": 0.5065389275550842
+      },
+      "elapsed_seconds": 1.465166870970279
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4603315591812134,
+        "nrmse": 0.460515558719635,
+        "mae": 0.1753198504447937
+      },
+      "elapsed_seconds": 39.23809499433264
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4790703058242798,
+        "nrmse": 0.4792617857456207,
+        "mae": 0.18507611751556396
+      },
+      "elapsed_seconds": 36.45498603209853
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5146920680999756,
+        "nrmse": 0.5154761672019958,
+        "mae": 0.19626234471797943
+      },
+      "elapsed_seconds": 24.73469139682129
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.471683144569397,
+        "nrmse": 0.4724017381668091,
+        "mae": 0.1798619031906128
+      },
+      "elapsed_seconds": 26.58628513570875
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5121778845787048,
+        "nrmse": 0.5117015838623047,
+        "mae": 0.18897517025470734
+      },
+      "elapsed_seconds": 39.11073410091922
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.49915993213653564,
+        "nrmse": 0.4986957609653473,
+        "mae": 0.18186360597610474
+      },
+      "elapsed_seconds": 31.439200629945844
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4517022967338562,
+        "nrmse": 0.45142263174057007,
+        "mae": 0.1722419112920761
+      },
+      "elapsed_seconds": 32.04946346906945
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4876251816749573,
+        "nrmse": 0.4873232841491699,
+        "mae": 0.18097728490829468
+      },
+      "elapsed_seconds": 31.298911557067186
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.495332270860672,
+        "nrmse": 0.4958963990211487,
+        "mae": 0.18238115310668945
+      },
+      "elapsed_seconds": 47.47783967014402
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4831637442111969,
+        "nrmse": 0.4837140142917633,
+        "mae": 0.1784742772579193
+      },
+      "elapsed_seconds": 32.39371034083888
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9992270469665527,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6618447303771973
+      },
+      "elapsed_seconds": 13.386859244666994
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9992270469665527,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6618447303771973
+      },
+      "elapsed_seconds": 1.639984062872827
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998383522033691,
+        "nrmse": 0.9999993443489075,
+        "mae": 0.6624212265014648
+      },
+      "elapsed_seconds": 10.512292596045882
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998383522033691,
+        "nrmse": 0.9999993443489075,
+        "mae": 0.6624212265014648
+      },
+      "elapsed_seconds": 2.6419656393118203
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998872876167297,
+        "nrmse": 1.0000001192092896,
+        "mae": 0.6618960499763489
+      },
+      "elapsed_seconds": 10.875421331264079
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998872876167297,
+        "nrmse": 1.0000001192092896,
+        "mae": 0.6618960499763489
+      },
+      "elapsed_seconds": 2.6029208973050117
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0001763105392456,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.6624894738197327
+      },
+      "elapsed_seconds": 12.118693197146058
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0001763105392456,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.6624894738197327
+      },
+      "elapsed_seconds": 1.7458697161637247
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0003925561904907,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.662506103515625
+      },
+      "elapsed_seconds": 13.702613176312298
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0003925561904907,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.662506103515625
+      },
+      "elapsed_seconds": 3.562387529294938
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3974497616291046,
+        "nrmse": 0.3976740539073944,
+        "mae": 0.16490834951400757
+      },
+      "elapsed_seconds": 39.39316752785817
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.40353989601135254,
+        "nrmse": 0.4037676155567169,
+        "mae": 0.16678151488304138
+      },
+      "elapsed_seconds": 46.89394722133875
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.46146756410598755,
+        "nrmse": 0.4617598354816437,
+        "mae": 0.1926601529121399
+      },
+      "elapsed_seconds": 60.623716534115374
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4012092053890228,
+        "nrmse": 0.4014632999897003,
+        "mae": 0.16689473390579224
+      },
+      "elapsed_seconds": 99.6433638529852
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.402814120054245,
+        "nrmse": 0.4025287628173828,
+        "mae": 0.17059431970119476
+      },
+      "elapsed_seconds": 40.70644757896662
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.40768393874168396,
+        "nrmse": 0.4073951244354248,
+        "mae": 0.16942937672138214
+      },
+      "elapsed_seconds": 57.41985424468294
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.41092002391815186,
+        "nrmse": 0.410874605178833,
+        "mae": 0.16614466905593872
+      },
+      "elapsed_seconds": 54.327911735046655
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.40845969319343567,
+        "nrmse": 0.4084145724773407,
+        "mae": 0.166207954287529
+      },
+      "elapsed_seconds": 27.971695984713733
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.39487317204475403,
+        "nrmse": 0.39514458179473877,
+        "mae": 0.16621732711791992
+      },
+      "elapsed_seconds": 32.67569882282987
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "labyrinth",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.39873823523521423,
+        "nrmse": 0.3990122973918915,
+        "mae": 0.16681788861751556
+      },
+      "elapsed_seconds": 67.75674387393519
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9990809559822083,
+        "nrmse": 1.000000238418579,
+        "mae": 0.5701230764389038
+      },
+      "elapsed_seconds": 18.80800977209583
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9990809559822083,
+        "nrmse": 1.000000238418579,
+        "mae": 0.5701230764389038
+      },
+      "elapsed_seconds": 5.13557719392702
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9983059763908386,
+        "nrmse": 0.9999992847442627,
+        "mae": 0.5692734122276306
+      },
+      "elapsed_seconds": 12.384742592927068
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9983059763908386,
+        "nrmse": 0.9999992847442627,
+        "mae": 0.5692734122276306
+      },
+      "elapsed_seconds": 6.8638905212283134
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0013691186904907,
+        "nrmse": 1.0000008344650269,
+        "mae": 0.5716426372528076
+      },
+      "elapsed_seconds": 17.38994629494846
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0013691186904907,
+        "nrmse": 1.0000008344650269,
+        "mae": 0.5716426372528076
+      },
+      "elapsed_seconds": 6.369973571039736
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9988470077514648,
+        "nrmse": 0.9999998211860657,
+        "mae": 0.5695998072624207
+      },
+      "elapsed_seconds": 25.55329502793029
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9988470077514648,
+        "nrmse": 0.9999998211860657,
+        "mae": 0.5695998072624207
+      },
+      "elapsed_seconds": 2.314234608784318
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000420331954956,
+        "nrmse": 1.000000238418579,
+        "mae": 0.5704622268676758
+      },
+      "elapsed_seconds": 14.160587314981967
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000420331954956,
+        "nrmse": 1.000000238418579,
+        "mae": 0.5704622268676758
+      },
+      "elapsed_seconds": 4.726485944818705
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5098097324371338,
+        "nrmse": 0.5101913213729858,
+        "mae": 0.22699245810508728
+      },
+      "elapsed_seconds": 32.96229878813028
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.49631068110466003,
+        "nrmse": 0.49668216705322266,
+        "mae": 0.22279445827007294
+      },
+      "elapsed_seconds": 28.220284973736852
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5715745687484741,
+        "nrmse": 0.5723228454589844,
+        "mae": 0.2311040610074997
+      },
+      "elapsed_seconds": 30.244086454622447
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.48974594473838806,
+        "nrmse": 0.49038711190223694,
+        "mae": 0.22163838148117065
+      },
+      "elapsed_seconds": 31.398862713947892
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.46412596106529236,
+        "nrmse": 0.46367454528808594,
+        "mae": 0.20998059213161469
+      },
+      "elapsed_seconds": 26.332319318316877
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5008175373077393,
+        "nrmse": 0.5003304481506348,
+        "mae": 0.2186308354139328
+      },
+      "elapsed_seconds": 28.6105591612868
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.434132844209671,
+        "nrmse": 0.43394574522972107,
+        "mae": 0.1958199143409729
+      },
+      "elapsed_seconds": 29.353946558199823
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4989420473575592,
+        "nrmse": 0.4987269937992096,
+        "mae": 0.2212747037410736
+      },
+      "elapsed_seconds": 25.48057968635112
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5082130432128906,
+        "nrmse": 0.5086355805397034,
+        "mae": 0.22803498804569244
+      },
+      "elapsed_seconds": 28.12713018618524
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "arc",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5008426904678345,
+        "nrmse": 0.5012590885162354,
+        "mae": 0.22079390287399292
+      },
+      "elapsed_seconds": 30.35525239724666
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9989157319068909,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.6407906413078308
+      },
+      "elapsed_seconds": 9.489545383956283
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9989157319068909,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.6407906413078308
+      },
+      "elapsed_seconds": 1.7939150528982282
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9991597533226013,
+        "nrmse": 0.9999993443489075,
+        "mae": 0.6410441398620605
+      },
+      "elapsed_seconds": 9.193433342967182
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9991597533226013,
+        "nrmse": 0.9999993443489075,
+        "mae": 0.6410441398620605
+      },
+      "elapsed_seconds": 2.308961748611182
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0002466440200806,
+        "nrmse": 1.000000238418579,
+        "mae": 0.6413888335227966
+      },
+      "elapsed_seconds": 8.740326308179647
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0002466440200806,
+        "nrmse": 1.000000238418579,
+        "mae": 0.6413888335227966
+      },
+      "elapsed_seconds": 1.656626156065613
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000285267829895,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6417548656463623
+      },
+      "elapsed_seconds": 9.589424594305456
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000285267829895,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6417548656463623
+      },
+      "elapsed_seconds": 2.1026191329583526
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.00003182888031,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6415956616401672
+      },
+      "elapsed_seconds": 8.664445101749152
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.00003182888031,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.6415956616401672
+      },
+      "elapsed_seconds": 1.7572013079188764
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3656174838542938,
+        "nrmse": 0.36580267548561096,
+        "mae": 0.14749138057231903
+      },
+      "elapsed_seconds": 28.009153547231108
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.37394484877586365,
+        "nrmse": 0.37413427233695984,
+        "mae": 0.14857663214206696
+      },
+      "elapsed_seconds": 31.52785946894437
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4808427393436432,
+        "nrmse": 0.48128119111061096,
+        "mae": 0.20434124767780304
+      },
+      "elapsed_seconds": 32.02618360007182
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3708840310573578,
+        "nrmse": 0.37122222781181335,
+        "mae": 0.14902690052986145
+      },
+      "elapsed_seconds": 30.356347611173987
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3868526220321655,
+        "nrmse": 0.38650691509246826,
+        "mae": 0.15744198858737946
+      },
+      "elapsed_seconds": 26.823331381194293
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3883447051048279,
+        "nrmse": 0.38799765706062317,
+        "mae": 0.14940102398395538
+      },
+      "elapsed_seconds": 28.073146848008037
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.35495033860206604,
+        "nrmse": 0.3548373878002167,
+        "mae": 0.14049209654331207
+      },
+      "elapsed_seconds": 28.666343532968313
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3846856951713562,
+        "nrmse": 0.38456329703330994,
+        "mae": 0.14652670919895172
+      },
+      "elapsed_seconds": 29.35261294618249
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.36255791783332825,
+        "nrmse": 0.36286699771881104,
+        "mae": 0.14700862765312195
+      },
+      "elapsed_seconds": 29.58448722306639
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3759750723838806,
+        "nrmse": 0.3762955963611603,
+        "mae": 0.1498260647058487
+      },
+      "elapsed_seconds": 29.472240929026157
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.999448299407959,
+        "nrmse": 1.0000005960464478,
+        "mae": 0.694057047367096
+      },
+      "elapsed_seconds": 9.474428615067154
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.999448299407959,
+        "nrmse": 1.0000005960464478,
+        "mae": 0.694057047367096
+      },
+      "elapsed_seconds": 2.1554547240957618
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9999147057533264,
+        "nrmse": 0.9999992847442627,
+        "mae": 0.6941941976547241
+      },
+      "elapsed_seconds": 9.905862796586007
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9999147057533264,
+        "nrmse": 0.9999992847442627,
+        "mae": 0.6941941976547241
+      },
+      "elapsed_seconds": 1.6527988170273602
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998506903648376,
+        "nrmse": 1.0000015497207642,
+        "mae": 0.6941851377487183
+      },
+      "elapsed_seconds": 8.889014939777553
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998506903648376,
+        "nrmse": 1.0000015497207642,
+        "mae": 0.6941851377487183
+      },
+      "elapsed_seconds": 2.640787727665156
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000126838684082,
+        "nrmse": 1.0000007152557373,
+        "mae": 0.6942892074584961
+      },
+      "elapsed_seconds": 15.174286620225757
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000126838684082,
+        "nrmse": 1.0000007152557373,
+        "mae": 0.6942892074584961
+      },
+      "elapsed_seconds": 2.2507419041357934
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9999243021011353,
+        "nrmse": 1.0000005960464478,
+        "mae": 0.6942761540412903
+      },
+      "elapsed_seconds": 22.681861156132072
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9999243021011353,
+        "nrmse": 1.0000005960464478,
+        "mae": 0.6942761540412903
+      },
+      "elapsed_seconds": 7.9363678502850235
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.26209601759910583,
+        "nrmse": 0.262157142162323,
+        "mae": 0.1097782552242279
+      },
+      "elapsed_seconds": 29.36502076778561
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.2708423137664795,
+        "nrmse": 0.270905464887619,
+        "mae": 0.11090774834156036
+      },
+      "elapsed_seconds": 25.245257798116654
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.25137168169021606,
+        "nrmse": 0.2514256238937378,
+        "mae": 0.11010244488716125
+      },
+      "elapsed_seconds": 26.979638691060245
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.2735915780067444,
+        "nrmse": 0.27365028858184814,
+        "mae": 0.11212639510631561
+      },
+      "elapsed_seconds": 28.334860630333424
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.2513522207736969,
+        "nrmse": 0.2511037290096283,
+        "mae": 0.1082930788397789
+      },
+      "elapsed_seconds": 30.6942324237898
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.28099381923675537,
+        "nrmse": 0.28071603178977966,
+        "mae": 0.1139308363199234
+      },
+      "elapsed_seconds": 28.05079227499664
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.256339430809021,
+        "nrmse": 0.25629809498786926,
+        "mae": 0.11017245054244995
+      },
+      "elapsed_seconds": 25.68418220616877
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.269650936126709,
+        "nrmse": 0.26960745453834534,
+        "mae": 0.11141835153102875
+      },
+      "elapsed_seconds": 27.034999190829694
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.27175095677375793,
+        "nrmse": 0.271966814994812,
+        "mae": 0.11287485063076019
+      },
+      "elapsed_seconds": 25.019250557757914
+    },
+    {
+      "family": "plane_barrier",
+      "layout": "sealed_4",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.2814822494983673,
+        "nrmse": 0.2817058265209198,
+        "mae": 0.11476985365152359
+      },
+      "elapsed_seconds": 29.648764826823026
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9983154535293579,
+        "nrmse": 1.0,
+        "mae": 0.5056215524673462
+      },
+      "elapsed_seconds": 10.160403802990913
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9983154535293579,
+        "nrmse": 1.0,
+        "mae": 0.5056215524673462
+      },
+      "elapsed_seconds": 1.6291808388195932
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9987138509750366,
+        "nrmse": 0.9999994039535522,
+        "mae": 0.5059482455253601
+      },
+      "elapsed_seconds": 9.922124894801527
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9987138509750366,
+        "nrmse": 0.9999994039535522,
+        "mae": 0.5059482455253601
+      },
+      "elapsed_seconds": 1.4683342366479337
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004372596740723,
+        "nrmse": 1.0000003576278687,
+        "mae": 0.506628692150116
+      },
+      "elapsed_seconds": 9.666782978922129
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004372596740723,
+        "nrmse": 1.0000003576278687,
+        "mae": 0.506628692150116
+      },
+      "elapsed_seconds": 1.5068008238449693
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9994722604751587,
+        "nrmse": 0.9999998807907104,
+        "mae": 0.5063579678535461
+      },
+      "elapsed_seconds": 9.388100682757795
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9994722604751587,
+        "nrmse": 0.9999998807907104,
+        "mae": 0.5063579678535461
+      },
+      "elapsed_seconds": 1.7536501558497548
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004786252975464,
+        "nrmse": 1.0,
+        "mae": 0.5065389275550842
+      },
+      "elapsed_seconds": 10.439882325939834
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004786252975464,
+        "nrmse": 1.0,
+        "mae": 0.5065389275550842
+      },
+      "elapsed_seconds": 2.085320063866675
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4603315591812134,
+        "nrmse": 0.460515558719635,
+        "mae": 0.1753198504447937
+      },
+      "elapsed_seconds": 25.4602634110488
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4790703058242798,
+        "nrmse": 0.4792617857456207,
+        "mae": 0.18507611751556396
+      },
+      "elapsed_seconds": 27.016772845759988
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5146920680999756,
+        "nrmse": 0.5154761672019958,
+        "mae": 0.19626234471797943
+      },
+      "elapsed_seconds": 25.96185390697792
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.471683144569397,
+        "nrmse": 0.4724017381668091,
+        "mae": 0.1798619031906128
+      },
+      "elapsed_seconds": 27.72229480976239
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5121778845787048,
+        "nrmse": 0.5117015838623047,
+        "mae": 0.18897517025470734
+      },
+      "elapsed_seconds": 28.14485070761293
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.49915993213653564,
+        "nrmse": 0.4986957609653473,
+        "mae": 0.18186360597610474
+      },
+      "elapsed_seconds": 24.711519551929086
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4517022967338562,
+        "nrmse": 0.45142263174057007,
+        "mae": 0.1722419112920761
+      },
+      "elapsed_seconds": 26.384846825152636
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4876251816749573,
+        "nrmse": 0.4873232841491699,
+        "mae": 0.18097728490829468
+      },
+      "elapsed_seconds": 27.885653955861926
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.495332270860672,
+        "nrmse": 0.4958963990211487,
+        "mae": 0.18238115310668945
+      },
+      "elapsed_seconds": 26.17313794279471
+    },
+    {
+      "family": "plane_domain",
+      "layout": "square",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 79488,
+      "n_nodes": 5520,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4831637442111969,
+        "nrmse": 0.4837140142917633,
+        "mae": 0.1784742772579193
+      },
+      "elapsed_seconds": 25.84821258438751
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9999362826347351,
+        "nrmse": 0.9999998211860657,
+        "mae": 0.5896221399307251
+      },
+      "elapsed_seconds": 7.142251897603273
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9999362826347351,
+        "nrmse": 0.9999998211860657,
+        "mae": 0.5896221399307251
+      },
+      "elapsed_seconds": 1.3582770600914955
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9993721842765808,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5892288684844971
+      },
+      "elapsed_seconds": 6.80699527869001
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9993721842765808,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5892288684844971
+      },
+      "elapsed_seconds": 1.5355209410190582
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0005205869674683,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5898334980010986
+      },
+      "elapsed_seconds": 6.815300696063787
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0005205869674683,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5898334980010986
+      },
+      "elapsed_seconds": 1.733153163921088
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0003995895385742,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5898587703704834
+      },
+      "elapsed_seconds": 6.935035131406039
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0003995895385742,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5898587703704834
+      },
+      "elapsed_seconds": 1.30723417410627
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9999005198478699,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5893917679786682
+      },
+      "elapsed_seconds": 6.987922680098563
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 63648,
+      "n_nodes": 4422,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9999005198478699,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5893917679786682
+      },
+      "elapsed_seconds": 1.220845582894981
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5217211842536926,
+        "nrmse": 0.5218227505683899,
+        "mae": 0.20429973304271698
+      },
+      "elapsed_seconds": 22.287199772894382
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4017668068408966,
+        "nrmse": 0.4018450379371643,
+        "mae": 0.15320836007595062
+      },
+      "elapsed_seconds": 20.10562127782032
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.39107149839401245,
+        "nrmse": 0.3912048935890198,
+        "mae": 0.1499210000038147
+      },
+      "elapsed_seconds": 20.022423713002354
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.375049889087677,
+        "nrmse": 0.3751778304576874,
+        "mae": 0.1471647024154663
+      },
+      "elapsed_seconds": 22.735522131901234
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.531329333782196,
+        "nrmse": 0.5307669043540955,
+        "mae": 0.20445501804351807
+      },
+      "elapsed_seconds": 21.64835361018777
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4821823835372925,
+        "nrmse": 0.4816719889640808,
+        "mae": 0.18698135018348694
+      },
+      "elapsed_seconds": 22.958598355297
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.36093178391456604,
+        "nrmse": 0.36125651001930237,
+        "mae": 0.13813932240009308
+      },
+      "elapsed_seconds": 21.38396881474182
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.40533795952796936,
+        "nrmse": 0.4057026505470276,
+        "mae": 0.14528480172157288
+      },
+      "elapsed_seconds": 20.360628232359886
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.599999189376831,
+        "nrmse": 0.5997665524482727,
+        "mae": 0.22225742042064667
+      },
+      "elapsed_seconds": 19.318972699344158
+    },
+    {
+      "family": "plane_domain",
+      "layout": "center_hole",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 63677,
+      "n_nodes": 4422,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.39871686697006226,
+        "nrmse": 0.3985622525215149,
+        "mae": 0.15137438476085663
+      },
+      "elapsed_seconds": 22.235686889849603
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998123049736023,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5517966151237488
+      },
+      "elapsed_seconds": 6.5794723578728735
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9998123049736023,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5517966151237488
+      },
+      "elapsed_seconds": 1.5536440596915781
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9992362856864929,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5513719320297241
+      },
+      "elapsed_seconds": 7.7273382199928164
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9992362856864929,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5513719320297241
+      },
+      "elapsed_seconds": 1.7259476399049163
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0019445419311523,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5531493425369263
+      },
+      "elapsed_seconds": 8.224674640689045
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0019445419311523,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.5531493425369263
+      },
+      "elapsed_seconds": 1.1556670959107578
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0000211000442505,
+        "nrmse": 0.9999992847442627,
+        "mae": 0.5518800616264343
+      },
+      "elapsed_seconds": 7.259343017823994
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0000211000442505,
+        "nrmse": 0.9999992847442627,
+        "mae": 0.5518800616264343
+      },
+      "elapsed_seconds": 2.17745912168175
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9974294304847717,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5504167675971985
+      },
+      "elapsed_seconds": 7.7411836250685155
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 61920,
+      "n_nodes": 4301,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9974294304847717,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.5504167675971985
+      },
+      "elapsed_seconds": 1.6000963980332017
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4541473090648651,
+        "nrmse": 0.45407581329345703,
+        "mae": 0.18452292680740356
+      },
+      "elapsed_seconds": 22.388405336998403
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4324219524860382,
+        "nrmse": 0.4323538541793823,
+        "mae": 0.17260654270648956
+      },
+      "elapsed_seconds": 21.97652311064303
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4329177737236023,
+        "nrmse": 0.4334014654159546,
+        "mae": 0.16688905656337738
+      },
+      "elapsed_seconds": 21.237548195756972
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.43886318802833557,
+        "nrmse": 0.4393535256385803,
+        "mae": 0.1733974665403366
+      },
+      "elapsed_seconds": 20.16027905512601
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4992154836654663,
+        "nrmse": 0.49905645847320557,
+        "mae": 0.1832004338502884
+      },
+      "elapsed_seconds": 20.081030529923737
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5174301862716675,
+        "nrmse": 0.5172653794288635,
+        "mae": 0.20768487453460693
+      },
+      "elapsed_seconds": 19.98626346513629
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.47583678364753723,
+        "nrmse": 0.4754258394241333,
+        "mae": 0.18097445368766785
+      },
+      "elapsed_seconds": 19.18718031188473
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4332915246486664,
+        "nrmse": 0.4329173266887665,
+        "mae": 0.17594820261001587
+      },
+      "elapsed_seconds": 21.335543201770633
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4176095426082611,
+        "nrmse": 0.417153924703598,
+        "mae": 0.16815422475337982
+      },
+      "elapsed_seconds": 21.97692191414535
+    },
+    {
+      "family": "plane_domain",
+      "layout": "two_holes",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 61934,
+      "n_nodes": 4301,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4239465296268463,
+        "nrmse": 0.4234839975833893,
+        "mae": 0.16694623231887817
+      },
+      "elapsed_seconds": 22.69923812383786
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9996128678321838,
+        "nrmse": 0.9999989867210388,
+        "mae": 0.5464814901351929
+      },
+      "elapsed_seconds": 6.031958799343556
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9996128678321838,
+        "nrmse": 0.9999989867210388,
+        "mae": 0.5464814901351929
+      },
+      "elapsed_seconds": 1.3036775477230549
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9950092434883118,
+        "nrmse": 1.0000009536743164,
+        "mae": 0.544143795967102
+      },
+      "elapsed_seconds": 6.766499752178788
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9950092434883118,
+        "nrmse": 1.0000009536743164,
+        "mae": 0.544143795967102
+      },
+      "elapsed_seconds": 2.087331347633153
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0007073879241943,
+        "nrmse": 1.0000007152557373,
+        "mae": 0.5473374128341675
+      },
+      "elapsed_seconds": 6.340197267942131
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0007073879241943,
+        "nrmse": 1.0000007152557373,
+        "mae": 0.5473374128341675
+      },
+      "elapsed_seconds": 1.6315670940093696
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0040405988693237,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5490847229957581
+      },
+      "elapsed_seconds": 6.918009692803025
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0040405988693237,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.5490847229957581
+      },
+      "elapsed_seconds": 1.834746039006859
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9990642666816711,
+        "nrmse": 0.9999995827674866,
+        "mae": 0.5459661483764648
+      },
+      "elapsed_seconds": 7.66568386182189
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 57600,
+      "n_nodes": 3997,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9990642666816711,
+        "nrmse": 0.9999995827674866,
+        "mae": 0.5459661483764648
+      },
+      "elapsed_seconds": 1.9152599950321019
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5257947444915771,
+        "nrmse": 0.5258592367172241,
+        "mae": 0.17983414232730865
+      },
+      "elapsed_seconds": 18.35261389100924
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.43675580620765686,
+        "nrmse": 0.43680939078330994,
+        "mae": 0.16044679284095764
+      },
+      "elapsed_seconds": 18.605055877938867
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5077616572380066,
+        "nrmse": 0.5078262090682983,
+        "mae": 0.17481835186481476
+      },
+      "elapsed_seconds": 21.191358068026602
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4671899974346161,
+        "nrmse": 0.46724939346313477,
+        "mae": 0.1621057242155075
+      },
+      "elapsed_seconds": 18.917866056784987
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4620504677295685,
+        "nrmse": 0.4628913104534149,
+        "mae": 0.16381661593914032
+      },
+      "elapsed_seconds": 19.556062867864966
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4507681429386139,
+        "nrmse": 0.4515884518623352,
+        "mae": 0.1631859391927719
+      },
+      "elapsed_seconds": 18.515382669866085
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4250727593898773,
+        "nrmse": 0.4252307415008545,
+        "mae": 0.15938863158226013
+      },
+      "elapsed_seconds": 19.87511271936819
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.45674777030944824,
+        "nrmse": 0.45691752433776855,
+        "mae": 0.16053052246570587
+      },
+      "elapsed_seconds": 19.125111096072942
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.480319619178772,
+        "nrmse": 0.4804445803165436,
+        "mae": 0.16955262422561646
+      },
+      "elapsed_seconds": 18.72876775218174
+    },
+    {
+      "family": "plane_domain",
+      "layout": "L_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 57557,
+      "n_nodes": 3997,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4396052360534668,
+        "nrmse": 0.43971961736679077,
+        "mae": 0.15966302156448364
+      },
+      "elapsed_seconds": 20.15787612181157
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0019773244857788,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.6353227496147156
+      },
+      "elapsed_seconds": 6.340128486044705
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0019773244857788,
+        "nrmse": 0.9999991655349731,
+        "mae": 0.6353227496147156
+      },
+      "elapsed_seconds": 2.0990775199607015
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9989721179008484,
+        "nrmse": 0.9999991059303284,
+        "mae": 0.6332470178604126
+      },
+      "elapsed_seconds": 7.299785846378654
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9989721179008484,
+        "nrmse": 0.9999991059303284,
+        "mae": 0.6332470178604126
+      },
+      "elapsed_seconds": 1.2700896570459008
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0022372007369995,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.6353820562362671
+      },
+      "elapsed_seconds": 6.215347496792674
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0022372007369995,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.6353820562362671
+      },
+      "elapsed_seconds": 1.3239981522783637
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004637241363525,
+        "nrmse": 0.9999990463256836,
+        "mae": 0.6341601014137268
+      },
+      "elapsed_seconds": 5.881493182852864
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004637241363525,
+        "nrmse": 0.9999990463256836,
+        "mae": 0.6341601014137268
+      },
+      "elapsed_seconds": 1.1088172583840787
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0002899169921875,
+        "nrmse": 0.9999990463256836,
+        "mae": 0.6345611214637756
+      },
+      "elapsed_seconds": 5.889778733253479
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 56736,
+      "n_nodes": 3941,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0002899169921875,
+        "nrmse": 0.9999990463256836,
+        "mae": 0.6345611214637756
+      },
+      "elapsed_seconds": 1.415552749298513
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3397892117500305,
+        "nrmse": 0.33983707427978516,
+        "mae": 0.14053863286972046
+      },
+      "elapsed_seconds": 18.267045323736966
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.32624945044517517,
+        "nrmse": 0.326295405626297,
+        "mae": 0.13517369329929352
+      },
+      "elapsed_seconds": 20.513174798805267
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.47079405188560486,
+        "nrmse": 0.4704436659812927,
+        "mae": 0.19429892301559448
+      },
+      "elapsed_seconds": 18.785092022735626
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3316677212715149,
+        "nrmse": 0.3314208686351776,
+        "mae": 0.12982968986034393
+      },
+      "elapsed_seconds": 18.857855644077063
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.46185633540153503,
+        "nrmse": 0.46208176016807556,
+        "mae": 0.18118932843208313
+      },
+      "elapsed_seconds": 21.156945790164173
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.34362316131591797,
+        "nrmse": 0.3437908887863159,
+        "mae": 0.13786479830741882
+      },
+      "elapsed_seconds": 15.802686443086714
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.44260427355766296,
+        "nrmse": 0.4428007900714874,
+        "mae": 0.1770029217004776
+      },
+      "elapsed_seconds": 15.828590453136712
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.32585734128952026,
+        "nrmse": 0.3260020315647125,
+        "mae": 0.12895068526268005
+      },
+      "elapsed_seconds": 15.841661716345698
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.47878286242485046,
+        "nrmse": 0.4779960513114929,
+        "mae": 0.19296850264072418
+      },
+      "elapsed_seconds": 15.92060946021229
+    },
+    {
+      "family": "plane_domain",
+      "layout": "U_shape",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 56750,
+      "n_nodes": 3941,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.3819620907306671,
+        "nrmse": 0.3813343942165375,
+        "mae": 0.15480093657970428
+      },
+      "elapsed_seconds": 16.115843237843364
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9995505809783936,
+        "nrmse": 0.9999995827674866,
+        "mae": 0.5451569557189941
+      },
+      "elapsed_seconds": 11.481470508035272
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9995505809783936,
+        "nrmse": 0.9999995827674866,
+        "mae": 0.5451569557189941
+      },
+      "elapsed_seconds": 2.6492512999102473
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0006338357925415,
+        "nrmse": 0.9999998807907104,
+        "mae": 0.5455390214920044
+      },
+      "elapsed_seconds": 11.295944408979267
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0006338357925415,
+        "nrmse": 0.9999998807907104,
+        "mae": 0.5455390214920044
+      },
+      "elapsed_seconds": 2.9216749421320856
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0003662109375,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.5456387400627136
+      },
+      "elapsed_seconds": 11.468486167956144
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0003662109375,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.5456387400627136
+      },
+      "elapsed_seconds": 2.6726669096387923
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004380941390991,
+        "nrmse": 1.0,
+        "mae": 0.5453941226005554
+      },
+      "elapsed_seconds": 11.47526472993195
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004380941390991,
+        "nrmse": 1.0,
+        "mae": 0.5453941226005554
+      },
+      "elapsed_seconds": 2.660242162644863
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9985098242759705,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.5445836186408997
+      },
+      "elapsed_seconds": 11.514320696238428
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9985098242759705,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.5445836186408997
+      },
+      "elapsed_seconds": 2.4313780432567
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6068916320800781,
+        "nrmse": 0.6069135665893555,
+        "mae": 0.278150349855423
+      },
+      "elapsed_seconds": 33.1965566156432
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6506872177124023,
+        "nrmse": 0.6507107019424438,
+        "mae": 0.30098074674606323
+      },
+      "elapsed_seconds": 34.94640961987898
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5847377777099609,
+        "nrmse": 0.5850523710250854,
+        "mae": 0.2763821482658386
+      },
+      "elapsed_seconds": 35.574209589045495
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6416729688644409,
+        "nrmse": 0.64201819896698,
+        "mae": 0.2875848114490509
+      },
+      "elapsed_seconds": 35.52818316034973
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.704526960849762,
+        "nrmse": 0.7042029500007629,
+        "mae": 0.3183642625808716
+      },
+      "elapsed_seconds": 35.252418007701635
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6491987705230713,
+        "nrmse": 0.6489001512527466,
+        "mae": 0.2934969365596771
+      },
+      "elapsed_seconds": 33.82199959130958
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5930975079536438,
+        "nrmse": 0.5939490795135498,
+        "mae": 0.279609352350235
+      },
+      "elapsed_seconds": 35.462740333750844
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6669935584068298,
+        "nrmse": 0.667951226234436,
+        "mae": 0.30278369784355164
+      },
+      "elapsed_seconds": 33.58706937683746
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6270952820777893,
+        "nrmse": 0.626748263835907,
+        "mae": 0.28182560205459595
+      },
+      "elapsed_seconds": 35.19537826394662
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "open",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6472721695899963,
+        "nrmse": 0.6469139456748962,
+        "mae": 0.29836800694465637
+      },
+      "elapsed_seconds": 34.69816588098183
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9996020197868347,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.727444589138031
+      },
+      "elapsed_seconds": 11.636686517857015
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9996020197868347,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.727444589138031
+      },
+      "elapsed_seconds": 2.3226615600287914
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0007611513137817,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.7278237342834473
+      },
+      "elapsed_seconds": 11.526954906992614
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0007611513137817,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.7278237342834473
+      },
+      "elapsed_seconds": 2.2422953280620277
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000910997390747,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7282544374465942
+      },
+      "elapsed_seconds": 10.732980549801141
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000910997390747,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7282544374465942
+      },
+      "elapsed_seconds": 2.039470946416259
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004390478134155,
+        "nrmse": 1.0000001192092896,
+        "mae": 0.7277253270149231
+      },
+      "elapsed_seconds": 10.407481094822288
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0004390478134155,
+        "nrmse": 1.0000001192092896,
+        "mae": 0.7277253270149231
+      },
+      "elapsed_seconds": 2.287098951637745
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9992584586143494,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7271900177001953
+      },
+      "elapsed_seconds": 11.445232451427728
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9992584586143494,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7271900177001953
+      },
+      "elapsed_seconds": 2.2421341030858457
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5266733169555664,
+        "nrmse": 0.5267549753189087,
+        "mae": 0.24760495126247406
+      },
+      "elapsed_seconds": 34.63365061720833
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5735858678817749,
+        "nrmse": 0.5736747980117798,
+        "mae": 0.28015458583831787
+      },
+      "elapsed_seconds": 34.736147955060005
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5312522649765015,
+        "nrmse": 0.5314422845840454,
+        "mae": 0.2567099332809448
+      },
+      "elapsed_seconds": 35.47658849786967
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5780644416809082,
+        "nrmse": 0.5782711505889893,
+        "mae": 0.26388490200042725
+      },
+      "elapsed_seconds": 34.84322196198627
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5342197418212891,
+        "nrmse": 0.5339627265930176,
+        "mae": 0.25804078578948975
+      },
+      "elapsed_seconds": 34.703962919767946
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        6,
+        6,
+        8
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5767619609832764,
+        "nrmse": 0.5764844417572021,
+        "mae": 0.26170045137405396
+      },
+      "elapsed_seconds": 34.6916728047654
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.537681519985199,
+        "nrmse": 0.5381563305854797,
+        "mae": 0.257268488407135
+      },
+      "elapsed_seconds": 35.79230813588947
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        6,
+        6,
+        8
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5686909556388855,
+        "nrmse": 0.5691931843757629,
+        "mae": 0.2539469301700592
+      },
+      "elapsed_seconds": 34.47394762234762
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5398808121681213,
+        "nrmse": 0.5397791862487793,
+        "mae": 0.25902247428894043
+      },
+      "elapsed_seconds": 35.104503598064184
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "window",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5828952789306641,
+        "nrmse": 0.5827856063842773,
+        "mae": 0.26737791299819946
+      },
+      "elapsed_seconds": 34.919141282793134
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.999779224395752,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7648987174034119
+      },
+      "elapsed_seconds": 10.951093743089586
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.999779224395752,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7648987174034119
+      },
+      "elapsed_seconds": 2.21322639612481
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0008307695388794,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.7652568221092224
+      },
+      "elapsed_seconds": 11.594365158118308
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0008307695388794,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.7652568221092224
+      },
+      "elapsed_seconds": 2.1268442082218826
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0005817413330078,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.7652040123939514
+      },
+      "elapsed_seconds": 11.48818569118157
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0005817413330078,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.7652040123939514
+      },
+      "elapsed_seconds": 2.148811489343643
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0005719661712646,
+        "nrmse": 1.0,
+        "mae": 0.7652512788772583
+      },
+      "elapsed_seconds": 11.42735127499327
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0005719661712646,
+        "nrmse": 1.0,
+        "mae": 0.7652512788772583
+      },
+      "elapsed_seconds": 2.308418055996299
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9995385408401489,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7647218704223633
+      },
+      "elapsed_seconds": 11.518295396119356
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9995385408401489,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7647218704223633
+      },
+      "elapsed_seconds": 2.0585945029743016
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5350078344345093,
+        "nrmse": 0.535084068775177,
+        "mae": 0.25949370861053467
+      },
+      "elapsed_seconds": 34.88159411540255
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.522129237651825,
+        "nrmse": 0.5222036838531494,
+        "mae": 0.25199049711227417
+      },
+      "elapsed_seconds": 34.054056849330664
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5460230112075806,
+        "nrmse": 0.546163022518158,
+        "mae": 0.2551687955856323
+      },
+      "elapsed_seconds": 35.99028577422723
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5008969306945801,
+        "nrmse": 0.5010253190994263,
+        "mae": 0.24823136627674103
+      },
+      "elapsed_seconds": 39.242087881080806
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5785731077194214,
+        "nrmse": 0.578289270401001,
+        "mae": 0.2711543142795563
+      },
+      "elapsed_seconds": 35.64739291695878
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4981968402862549,
+        "nrmse": 0.4979524612426758,
+        "mae": 0.2474360466003418
+      },
+      "elapsed_seconds": 32.88549386290833
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5545876622200012,
+        "nrmse": 0.5549138784408569,
+        "mae": 0.265964150428772
+      },
+      "elapsed_seconds": 32.23776978440583
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5224219560623169,
+        "nrmse": 0.522729218006134,
+        "mae": 0.25313717126846313
+      },
+      "elapsed_seconds": 31.351510748267174
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5481313467025757,
+        "nrmse": 0.5480687022209167,
+        "mae": 0.2672516107559204
+      },
+      "elapsed_seconds": 31.16675953613594
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "chamber",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5020769834518433,
+        "nrmse": 0.5020195841789246,
+        "mae": 0.245406836271286
+      },
+      "elapsed_seconds": 31.587990239728242
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9993906021118164,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7206535935401917
+      },
+      "elapsed_seconds": 10.288949291221797
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9993906021118164,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.7206535935401917
+      },
+      "elapsed_seconds": 2.0041748909279704
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.001043677330017,
+        "nrmse": 1.0,
+        "mae": 0.7211253643035889
+      },
+      "elapsed_seconds": 10.51784836826846
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.001043677330017,
+        "nrmse": 1.0,
+        "mae": 0.7211253643035889
+      },
+      "elapsed_seconds": 1.916304490994662
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0000977516174316,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.721258819103241
+      },
+      "elapsed_seconds": 10.29614217672497
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0000977516174316,
+        "nrmse": 0.9999995231628418,
+        "mae": 0.721258819103241
+      },
+      "elapsed_seconds": 1.9958636639639735
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0008138418197632,
+        "nrmse": 1.000000238418579,
+        "mae": 0.7215741872787476
+      },
+      "elapsed_seconds": 10.451299274805933
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0008138418197632,
+        "nrmse": 1.000000238418579,
+        "mae": 0.7215741872787476
+      },
+      "elapsed_seconds": 1.9603004828095436
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9997757077217102,
+        "nrmse": 1.0000001192092896,
+        "mae": 0.7211143970489502
+      },
+      "elapsed_seconds": 10.670491013675928
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9997757077217102,
+        "nrmse": 1.0000001192092896,
+        "mae": 0.7211143970489502
+      },
+      "elapsed_seconds": 2.016820949036628
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5105991959571838,
+        "nrmse": 0.5106123089790344,
+        "mae": 0.28661584854125977
+      },
+      "elapsed_seconds": 32.22705774195492
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.524337887763977,
+        "nrmse": 0.5243513584136963,
+        "mae": 0.321871817111969
+      },
+      "elapsed_seconds": 32.04641330521554
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.44866204261779785,
+        "nrmse": 0.4485188126564026,
+        "mae": 0.2476658821105957
+      },
+      "elapsed_seconds": 31.773654724936932
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5340093374252319,
+        "nrmse": 0.5338388681411743,
+        "mae": 0.32359349727630615
+      },
+      "elapsed_seconds": 32.3080101092346
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5297989249229431,
+        "nrmse": 0.5296810269355774,
+        "mae": 0.3247873783111572
+      },
+      "elapsed_seconds": 32.07846266916022
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5277193188667297,
+        "nrmse": 0.5276018977165222,
+        "mae": 0.325511634349823
+      },
+      "elapsed_seconds": 34.033100933767855
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.4621744751930237,
+        "nrmse": 0.4623497426509857,
+        "mae": 0.28337231278419495
+      },
+      "elapsed_seconds": 35.14941107807681
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5283920168876648,
+        "nrmse": 0.5285924077033997,
+        "mae": 0.3229577839374542
+      },
+      "elapsed_seconds": 33.11811332823709
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": 4,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.525763213634491,
+        "nrmse": 0.5257611274719238,
+        "mae": 0.32247376441955566
+      },
+      "elapsed_seconds": 31.99472998920828
+    },
+    {
+      "family": "volume_barrier",
+      "layout": "sealed_8",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 115200,
+      "n_nodes": 8000,
+      "selected_rank": [
+        3,
+        3,
+        4
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5263822674751282,
+        "nrmse": 0.526380181312561,
+        "mae": 0.32666662335395813
+      },
+      "elapsed_seconds": 32.62020455300808
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9994015097618103,
+        "nrmse": 1.0,
+        "mae": 0.7205319404602051
+      },
+      "elapsed_seconds": 14.471383640076965
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9994015097618103,
+        "nrmse": 1.0,
+        "mae": 0.7205319404602051
+      },
+      "elapsed_seconds": 2.7256864071823657
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9995934367179871,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.7207781076431274
+      },
+      "elapsed_seconds": 14.388809493742883
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9995934367179871,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.7207781076431274
+      },
+      "elapsed_seconds": 2.7129767360165715
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000002384185791,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.7206296324729919
+      },
+      "elapsed_seconds": 14.843927530106157
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.000002384185791,
+        "nrmse": 0.9999996423721313,
+        "mae": 0.7206296324729919
+      },
+      "elapsed_seconds": 2.698426276445389
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0011169910430908,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.7212393283843994
+      },
+      "elapsed_seconds": 14.61581215588376
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 1.0011169910430908,
+        "nrmse": 0.9999997615814209,
+        "mae": 0.7212393283843994
+      },
+      "elapsed_seconds": 2.7260849429294467
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": 6,
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9990062713623047,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.7204915285110474
+      },
+      "elapsed_seconds": 14.784246370662004
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "spatial_sensors",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147456,
+      "n_nodes": 10242,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "single rank: every rank is equivalent under sensor sampling",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.9990062713623047,
+        "nrmse": 0.9999997019767761,
+        "mae": 0.7204915285110474
+      },
+      "elapsed_seconds": 2.8000512099824846
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6235749125480652,
+        "nrmse": 0.6235044002532959,
+        "mae": 0.39165619015693665
+      },
+      "elapsed_seconds": 41.363970960024744
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 201,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": [
+        6,
+        6,
+        8
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6052920818328857,
+        "nrmse": 0.6052235960960388,
+        "mae": 0.3628907799720764
+      },
+      "elapsed_seconds": 43.48990926798433
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6219563484191895,
+        "nrmse": 0.6220612525939941,
+        "mae": 0.3994889557361603
+      },
+      "elapsed_seconds": 41.45681768003851
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 202,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6329745650291443,
+        "nrmse": 0.6330813765525818,
+        "mae": 0.405455082654953
+      },
+      "elapsed_seconds": 44.293889791704714
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": 10,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.650380551815033,
+        "nrmse": 0.650501549243927,
+        "mae": 0.39454424381256104
+      },
+      "elapsed_seconds": 42.09553313301876
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 203,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": [
+        6,
+        6,
+        8
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.570537269115448,
+        "nrmse": 0.570643424987793,
+        "mae": 0.3486439287662506
+      },
+      "elapsed_seconds": 40.541185680776834
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": 10,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6582188010215759,
+        "nrmse": 0.6583473682403564,
+        "mae": 0.40497323870658875
+      },
+      "elapsed_seconds": 40.90084952255711
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 204,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": [
+        6,
+        6,
+        8
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6104231476783752,
+        "nrmse": 0.610542356967926,
+        "mae": 0.36957409977912903
+      },
+      "elapsed_seconds": 44.16148435883224
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "cp_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": 6,
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.5369564294815063,
+        "nrmse": 0.5368301868438721,
+        "mae": 0.34184637665748596
+      },
+      "elapsed_seconds": 41.85468668490648
+    },
+    {
+      "family": "sphere",
+      "layout": "open_ocean",
+      "model": "tucker_als",
+      "mask": "random",
+      "ratio": 0.1,
+      "seed": 205,
+      "n_observed": 147485,
+      "n_nodes": 10242,
+      "selected_rank": [
+        4,
+        4,
+        6
+      ],
+      "rank_selection": "oracle: best held-out over a sweep",
+      "parameters": null,
+      "metrics": {
+        "rmse": 0.6070984601974487,
+        "nrmse": 0.6069557070732117,
+        "mae": 0.39058923721313477
+      },
+      "elapsed_seconds": 40.915758847258985
+    }
+  ]
+}
