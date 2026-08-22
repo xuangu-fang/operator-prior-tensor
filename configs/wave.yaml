@@ -1,0 +1,22 @@
+# The same geometries under a damped wave equation (§5.5).
+#
+# An oscillatory field keeps energy across the spectrum instead of collapsing
+# onto the slowest modes, so it needs far more columns for the same
+# approximation quality: cutoff 64 rather than 16.
+#
+# WARNING: at cutoff 64 with rank 16 the node factor has 1024 coefficients,
+# which exceeds the 552 sensors that a 10% sensor mask provides on a
+# 5520-node mesh.  That violates the identifiability rule (§3.4) and the run
+# fails for arithmetic reasons rather than physical ones.  Use `random` here,
+# or lower the cutoff until cutoff x rank fits inside the sensor count.
+
+dynamics: wave
+basis_cutoff: 64
+masks: [random]
+ratios: [0.10]
+seeds: [201, 202, 203]
+ranks: [12, 10, 16]
+steps: 1500
+families: [plane_barrier, plane_domain]
+models: [geometry_operator, blind_operator, flat_chart,
+         neural_tucker, neural_cp, permuted]

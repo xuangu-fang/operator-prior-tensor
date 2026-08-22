@@ -1,9 +1,14 @@
 # 方向 1 技术报告：Operator-informed Bayesian Tucker
 
-> 2026-08-16 注：面向投稿、包含五个 fresh seeds 与 structured-fiber
-> confirmation gate 的最新 Introduction/Method 和完整主表，请优先阅读
-> [`PAPER_TECHNICAL_REPORT_ZH.md`](PAPER_TECHNICAL_REPORT_ZH.md)。本文保留为
-> 早期全量审计与数据集调查记录。
+> **已被取代（2026-08-22）。** 本文写于项目还是"一维 Green tensor + 算子失配相图"
+> 的阶段，当时的主张、数据集与判据都已经换过。当前入口是
+> [`HANDOVER_ZH.md`](HANDOVER_ZH.md)（方法、推导、实验设定、坑），数据来源见
+> [`DATASETS.md`](DATASETS.md)。
+>
+> 本文保留为审计痕迹。其中**仍然有效**的是第 2 节的 formulation 与第 3 节的
+> inference 描述（它们是当前模型的前身，符号一致）；**已经失效**的是第 5 节的数据集
+> 审计、第 8 节的证据、第 11–12 节的实验矩阵与 GO/NO-GO 门槛——那些数字是在
+> `ranks=(4,5,5)`、一维张量、以及后来被证明秩受限的配置下得到的。
 
 更新时间：2026-08-15  
 状态：**已从人工 subspace rotation 推进到变系数扩散 Green tensor；10% 有较稳定正信号，2%--5% 仍是高方差/近似平局。**
@@ -734,7 +739,7 @@ convergence sweep；不能在某一 seed 或某一方法上临时延长训练。
 - `src/geoaware/operator_tucker_baselines.py`：method-matched neural functional CP/Tucker；
 - `experiments/run_tensor_bayes.py`：支持 neural functional baselines，并禁止 deterministic baseline 输出伪 UQ；
 - `src/geoaware/tensor_bayes.py`：修正归一化 factor 与谱惩罚不一致；
-- `tests/test_paper_methods.py`：增加 factor-prior scale invariance、periodic seam、structured mask 语义测试；
+- `tests/test_benchmark.py`（该文件写于 `test_paper_methods.py` 时期，那批断言已并入当前测试）：增加 factor-prior scale invariance、periodic seam、structured mask 语义测试；
 - `papers/four_tracks/results/track1_fixed_budget_validation_r2/`：3-seed、500-step cold-start 公平主表；
 - `papers/four_tracks/results/track1_initializer_ablation_validation_r2/`：仅 Operator Tucker 的 flat-GP 初始化消融；
 - `papers/four_tracks/results/track1_mixed_validation_r2/`：部分 generator 失配、2% random 验证；
@@ -804,4 +809,4 @@ python3 experiments/analyze_track1_mismatch_phase.py \
   --output papers/four_tracks/results/track1_mismatch_phase_summary_r6
 ```
 
-当前方向 1 定向测试：`tests/test_paper_methods.py` 共 21 项通过。
+当前方向 1 定向测试：`tests/test_benchmark.py`（该文件写于 `test_paper_methods.py` 时期，那批断言已并入当前测试） 共 21 项通过。

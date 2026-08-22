@@ -104,21 +104,28 @@ CP-ALS 与 Tucker-HOOI（SVD 初始化、开天眼选秩、跑满迭代）精确
 
 ```bash
 export PYTHONPATH=src
-python -m pytest -q                       # 56 项，约 75 秒
+python -m pytest -q                    # 62 项，约 55 秒
+python experiments/check_install.py    # 秒级，不需要 GPU，先跑这个
 
-# 主表的一个家族
-python experiments/run_geometry_main.py \
-  --families plane_barrier --masks spatial_sensors,random --ratios .10 \
-  --seeds 201,202,203,204,205 --steps 1500 --n-scenarios 12 --n-time 12 \
-  --ranks 12,10,16 --output results/my_run
+# 主表的一个家族（超参全部来自 YAML）
+python experiments/run_geometry_main.py --config configs/main.yaml \
+  --families plane_barrier --output results/my_run
 
 # 论文图
 python experiments/plot_floorplan_basis.py --output results/my_figs --layout apartment
 python experiments/plot_reconstruction.py  --output results/my_figs --layout apartment
 ```
 
-依赖：`torch`、`numpy`、`scipy`、`tensorly`、`matplotlib`。**不需要**任何网格库——
-网格是自建的（`scipy.spatial.Delaunay`）。主表数据全部由代码生成，不需要下载任何文件。
+`check_install.py` 只测一个**事前已知答案**的量：无障碍时几何感知与几何盲是同一个算子，
+比值必须是 1.00。不是 1.00 就先别跑实验。
+
+**超参不写死**：`configs/main.yaml` 是产生当前主表的配置，每个值旁边标注了理由在文档
+哪一节；命令行 flag 覆盖它，合并结果写进产物的 `configuration` 字段。另有
+`configs/wave.yaml`（波动变体）与 `configs/quick.yaml`（分钟级冒烟）。
+
+依赖：`torch`、`numpy`、`scipy`、`tensorly`、`matplotlib`、`pyyaml`。**不需要**任何
+网格库——网格是自建的（`scipy.spatial.Delaunay`）。主表数据全部由代码生成，不需要下载
+任何文件。
 
 ---
 

@@ -1,0 +1,50 @@
+# The configuration that produced the reported main table.
+#
+# Every value here has a reason recorded in docs/HANDOVER_ZH.md; the section is
+# named next to each.  Changing one without reading that section is how this
+# project lost a round.
+
+# --- data -------------------------------------------------------------------
+n_scenarios: 12
+n_time: 12
+truth_modes: 60
+contrast: 0.3          # smooth background the learner never sees (§2.2)
+reaction: 0.15
+time_span: [0.15, 3.0]
+
+# --- observation ------------------------------------------------------------
+masks: [spatial_sensors, random]
+ratios: [0.10]
+seeds: [201, 202, 203, 204, 205]
+noise: 0.10
+
+# --- model ------------------------------------------------------------------
+# Large enough that the fit reaches its own approximation floor rather than a
+# rank ceiling.  Watch `over_floor` in the output: 1.0-1.5 is healthy, far above
+# means the comparison is measuring rank and not geometry (§4.1).
+ranks: [12, 10, 16]
+power: 1.5             # Sobolev exponent (1 + lambda)^p  (§2.4)
+reg: 0.002
+hidden: 48             # width of the coordinate networks
+observability_threshold: 0.1   # drop basis columns no sensor excites (§3.2)
+
+# --- optimisation -----------------------------------------------------------
+steps: 1500            # 1500 -> 4000 changes nothing (§5.1)
+learning_rate: 0.003
+device: cuda
+
+# --- what to run ------------------------------------------------------------
+families: [plane_barrier, plane_domain, volume_barrier, sphere, floorplan]
+models: [geometry_operator, blind_operator, flat_chart,
+         neural_tucker, neural_cp, permuted]
+
+# Resolution and cutoff are properties of the geometry, not of the experiment,
+# so they differ by family.  Resolution comes from the smallest geometric
+# feature (§4.2); cutoff must satisfy BOTH rules in §3.4 -- comparable
+# approximation floor AND cutoff x rank within the sensor count.
+per_family:
+  plane_barrier:  {resolution: 80,  basis_cutoff: 16}
+  plane_domain:   {resolution: 80,  basis_cutoff: 16}
+  volume_barrier: {resolution: 20,  basis_cutoff: 48}
+  sphere:         {resolution: 5,   basis_cutoff: 32}   # icosphere subdivisions
+  floorplan:      {resolution: 130, basis_cutoff: 16}   # 0.12 m wall > element

@@ -35,6 +35,7 @@ from geoaware.als_baselines import cp_als, tucker_als
 from functools import partial
 
 from geoaware.benchmark import (FAMILIES, build_family, build_operator_variant)
+from geoaware.config import load as load_config
 from geoaware.grouped_operator_tucker import (GroupFactorSpec,
                                               GroupedOperatorTucker,
                                               grouped_indices)
@@ -90,15 +91,21 @@ def build_specs(name, data, ranks, hidden, seen_nodes):
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Every setting can come from a YAML config; command-line "
+                    "flags override it, and the merged result is recorded in "
+                    "the artifact so a number can never be attributed to a "
+                    "setting it did not run with.")
+    parser.add_argument("--config", type=Path, default=None,
+                        help="YAML config; see configs/main.yaml")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--families", default=",".join(FAMILIES))
-    parser.add_argument("--models", default=",".join(MODELS))
-    parser.add_argument("--ratios", default=".05,.10")
-    parser.add_argument("--masks", default="spatial_sensors,random")
-    parser.add_argument("--seeds", default="41,42,43")
-    parser.add_argument("--n-scenarios", type=int, default=20)
-    parser.add_argument("--n-time", type=int, default=16)
+    parser.add_argument("--families", default=None)
+    parser.add_argument("--models", default=None)
+    parser.add_argument("--ratios", default=None)
+    parser.add_argument("--masks", default=None)
+    parser.add_argument("--seeds", default=None)
+    parser.add_argument("--n-scenarios", type=int, default=None)
+    parser.add_argument("--n-time", type=int, default=None)
     # Omitted by default: each family carries the cutoff that equalizes its
     # geometry-aware approximation floor, fixed before any fitting.
     parser.add_argument("--basis-cutoff", type=int, default=None)
@@ -107,34 +114,56 @@ def main():
     # columns for the same approximation quality -- cutoff 64 rather than 16 --
     # and both bases receive them.
     parser.add_argument("--dynamics", choices=["diffusion", "wave"], default=None)
-    parser.add_argument("--truth-modes", type=int, default=60)
+    parser.add_argument("--truth-modes", type=int, default=None)
     # Large enough that the fit reaches its own approximation floor rather than
     # a rank ceiling; see Iteration 14.  The cost of a big core is now small
     # because the model contracts mode by mode instead of forming the design.
-    parser.add_argument("--ranks", default="12,10,16")
+    parser.add_argument("--ranks", default=None)
     parser.add_argument("--cp-rank", type=int, default=6)
-    parser.add_argument("--hidden", type=int, default=48)
+    parser.add_argument("--hidden", type=int, default=None)
     # 1500 is where the operator models stop moving; the coordinate networks
     # gain at most another 0.012 by 4000, which is recorded rather than spent,
     # so the budget does not quietly favour the proposed model.
-    parser.add_argument("--steps", type=int, default=1500)
-    parser.add_argument("--power", type=float, default=1.5)
-    parser.add_argument("--reg", type=float, default=.002)
-    parser.add_argument("--noise", type=float, default=.1)
+    parser.add_argument("--steps", type=int, default=None)
+    parser.add_argument("--power", type=float, default=None)
+    parser.add_argument("--reg", type=float, default=None)
+    parser.add_argument("--noise", type=float, default=None)
     parser.add_argument("--als-iters", type=int, default=200)
-    parser.add_argument("--device", default="cuda")
+    parser.add_argument("--device", default=None)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
-    ranks = tuple(int(v) for v in args.ranks.split(","))
+    def listed(value, cast=str):
+        if value is None:
+            return None
+        return [cast(v) for v in value.split(",")]
+
+    config = load_config(
+        args.config,
+        families=listed(args.families) if args.families else None,
+        models=listed(args.models) if args.models else None,
+        masks=listed(args.masks) if args.masks else None,
+        ratios=listed(args.ratios, float) if args.ratios else None,
+        seeds=listed(args.seeds, int) if args.seeds else None,
+        ranks=listed(args.ranks, int) if args.ranks else None,
+        n_scenarios=args.n_scenarios, n_time=args.n_time,
+        basis_cutoff=args.basis_cutoff, truth_modes=args.truth_modes,
+        steps=args.steps, power=args.power, reg=args.reg, noise=args.noise,
+        hidden=args.hidden, device=args.device, dynamics=args.dynamics)
+    print(f"configuration: {config.source}", flush=True)
+    ranks = tuple(config.ranks)
     rows, geometries = [], {}
-    for family in args.families.split(","):
+    for family in config.families:
+        settings = config.for_family(family)
         for layout in FAMILIES[family].layouts:
-            builder = (partial(build_operator_variant, dynamics=args.dynamics)
-                       if args.dynamics else build_family)
-            data = builder(family, layout, n_scenarios=args.n_scenarios,
-                           n_time=args.n_time, basis_cutoff=args.basis_cutoff,
-                           truth_modes=args.truth_modes)
+            builder = (partial(build_operator_variant,
+                               dynamics=settings.dynamics)
+                       if settings.dynamics else build_family)
+            data = builder(family, layout, n_scenarios=settings.n_scenarios,
+                           n_time=settings.n_time,
+                           basis_cutoff=settings.basis_cutoff,
+                           resolution=settings.resolution,
+                           truth_modes=settings.truth_modes)
             matrices = data.operator_matrices
             residuals = {name: product_projection_residual(
                             data.values, [None, None, matrices[f"{key}_basis"]])
@@ -149,9 +178,9 @@ def main():
 
             index = grouped_indices(data.shape, ((0,), (1,), (2,)))
             truth = data.values.flatten()
-            for mask in args.masks.split(","):
-                for ratio in (float(v) for v in args.ratios.split(",")):
-                    for seed in (int(v) for v in args.seeds.split(",")):
+            for mask in settings.masks:
+                for ratio in settings.ratios:
+                    for seed in settings.seeds:
                         split = make_observation_split(data, ratio, mask, seed,
                                                        sensor_axes=(2,))
                         observed = torch.where(split.observed)[0]
@@ -161,13 +190,13 @@ def main():
                         noisy = truth.clone()
                         noisy[observed] += (
                             torch.randn(len(observed), generator=generator)
-                            * args.noise * truth[observed].std())
+                            * settings.noise * truth[observed].std())
                         centre = float(noisy[observed].mean())
                         scale = float(noisy[observed].std().clamp_min(1e-6))
                         y = (noisy[observed] - centre) / scale
                         held = split.held_out
 
-                        for name in args.models.split(","):
+                        for name in settings.models:
                             seed_all(seed)
                             started = time.perf_counter()
                             if name in ("cp_als", "tucker_als"):
@@ -175,11 +204,11 @@ def main():
                                 predicted = (
                                     cp_als(noisy_cube, split.observed,
                                            args.cp_rank, seed=seed,
-                                           n_iter_max=args.als_iters)
+                                           n_iter_max=settings.als_iters)
                                     if name == "cp_als" else
-                                    tucker_als(noisy_cube, split.observed, ranks,
-                                               seed=seed,
-                                               n_iter_max=args.als_iters))
+                                    tucker_als(noisy_cube, split.observed,
+                                               tuple(settings.ranks), seed=seed,
+                                               n_iter_max=settings.als_iters))
                                 mean = predicted.flatten()
                                 parameters = (args.cp_rank * sum(data.shape)
                                               if name == "cp_als" else
@@ -188,14 +217,17 @@ def main():
                                                     in zip(ranks, data.shape)))
                                 kept = None
                             else:
-                                specs = build_specs(name, data, ranks,
-                                                    args.hidden, seen)
+                                specs = build_specs(name, data, tuple(settings.ranks),
+                                                    settings.hidden, seen)
                                 model = GroupedOperatorTucker(
-                                    specs, power=args.power, device=args.device,
+                                    specs, power=settings.power,
+                                    device=settings.device,
                                     core="diagonal" if name.endswith("_cp")
                                     else "dense")
-                                model.fit(index[observed], y, steps=args.steps,
-                                          reg_weight=args.reg, seed=seed)
+                                model.fit(index[observed], y,
+                                          steps=settings.steps,
+                                          lr=settings.learning_rate,
+                                          reg_weight=settings.reg, seed=seed)
                                 mean = model.predict(index).mean * scale + centre
                                 parameters = sum(p.numel()
                                                  for p in model.parameters())
@@ -236,7 +268,8 @@ def main():
                                   + f"params={parameters}", flush=True)
 
     (args.output / "results.json").write_text(json.dumps(
-        {"arguments": vars(args), "geometries": geometries, "results": rows},
+        {"arguments": vars(args), "configuration": config.as_dict(),
+         "geometries": geometries, "results": rows},
         indent=2, default=str))
 
 

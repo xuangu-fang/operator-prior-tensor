@@ -274,6 +274,247 @@ $$
 
 ---
 
+## 第二部分附：算法表
+
+下面三个算法框把 §2 的公式、优化与代码对齐。**符号与 §2 完全一致**，每一步右侧标出
+对应的函数，方便照着读代码。
+
+### 算法 1：构造几何字典（离线，一次性，不看数据）
+
+**输入**：域 $\Omega$，障碍集合 $\mathcal O$，基的列数 $K$
+**输出**：$\Phi \in \mathbb R^{N\times K}$（质量正交归一的谱基），$\lambda \in \mathbb R^{K}$
+
+| # | 步骤 | 公式 | 代码 |
+|---|---|---|---|
+| 1 | 剖分域 | 抖动格点 + Delaunay | `irregular_fem.build_mesh` |
+| 2 | 学习器材料 | $a(x)=1$ 于背景，$a(x)=10^{-2}$ 于 $\mathcal O$ | `benchmark._material(background=False)` |
+| 3 | 装配 | $K_{ij}=\int a\nabla\varphi_i\cdot\nabla\varphi_j$，$M_{ij}=\int\varphi_i\varphi_j$ | `simplex_fem.assemble_sparse` |
+| 4 | 求谱 | $K\phi_k=\lambda_k M\phi_k$，取最低 $K$ 个 | `operator_diagnostics.sparse_eigenpairs` |
+| 5 | 归一 | $\Phi^\top M\Phi=I$ | 同上（`eigsh` 返回即满足） |
+
+> **第 2 步是信息层级的分界线**：障碍位置进来了，背景材料没有。改变真值材料时
+> $\Phi$ 必须逐位不变，有单元测试守着。
+>
+> **第 4 步为什么能扩展**：移位反演 Lanczos 的代价与 $K$ 成正比而非 $N^3$。移位取
+> $\sigma=-10^{-6}$，因为纯 Neumann 算子在 0 处奇异（常数场能量为零）。
+
+### 算法 2：拟合（两段式）
+
+**输入**：$\{\Phi_g,\lambda_g\}_g$，观测索引 $\Omega$，观测值 $y\in\mathbb R^{|\Omega|}$，秩 $(R_1,R_2,R_3)$，Sobolev 幂 $p$，正则权重 $\beta_{\mathrm{reg}}$，步数 $T$
+**输出**：因子参数 $\{W_g\}$，核后验 $(\mu,\Sigma)$，超参 $(\alpha,\beta)$，校准系数 $c$
+
+**第 0 步：掩码筛选（只读掩码，不读数据）**
+
+$$
+v_k=\frac{\sum_{i\in\mathcal S}\phi_k(i)^2}{\sum_i \phi_k(i)^2}\Big/\frac{|\mathcal S|}{N},
+\qquad
+\Phi \leftarrow \Phi\big[:,\ \{k: v_k\ge 0.1\}\cup\{1\}\big]
+$$
+
+代码：`operator_diagnostics.observable_modes`
+
+**第一段：因子（$T$ 步 AdamW）**
+
+对 $t=1,\dots,T$ 重复：
+
+$$
+\tilde F_g=\mathrm{normcol}\big(\Phi_g W_g\big)\quad\text{或}\quad
+\mathrm{normcol}\big(T_g\big)\quad\text{或}\quad
+\mathrm{normcol}\big(\mathrm{MLP}_\theta(x_g)\big)
+$$
+
+$$
+\hat y_n=\sum_{r_3}\tilde F_3(i_3^{(n)},r_3)\Big[\sum_{r_2}\tilde F_2(i_2^{(n)},r_2)\Big[\sum_{r_1}\tilde F_1(i_1^{(n)},r_1)\,\mathcal G_{r_1r_2r_3}\Big]\Big]
+$$
+
+$$
+\mathcal L=\frac{1}{|\Omega|}\sum_{n}\big(\hat y_n-y_n\big)^2
++\beta_{\mathrm{reg}}\Big[\overline{\mathcal G^2}
++\sum_{g}\frac{1}{K_g R_g}\sum_{k,r}\big(1+\lambda_{g,k}\big)^{p}\,\widetilde W_{g,kr}^{2}\Big]
+$$
+
+AdamW（lr $3\times10^{-3}$，weight decay $10^{-6}$，梯度裁剪 5.0），**保留目标值最优的
+checkpoint 而非最后一步的迭代**。
+
+代码：`grouped_operator_tucker.fit` / `.contract` / `.factor_prior`
+
+> 第二个求和式是**逐模态收缩**：不物化 $Z\in\mathbb R^{|\Omega|\times p_{\text{core}}}$。
+> core 为 1920、观测 65k 行时，$Z$ 是 1.25 亿个数（500 MB）且每步重建一次。
+
+**第二段：核（闭式，无梯度）**
+
+$$
+z(i)=\tilde F_1(i_1,\cdot)\otimes\tilde F_2(i_2,\cdot)\otimes\tilde F_3(i_3,\cdot)\in\mathbb R^{p_{\text{core}}},
+\qquad
+Z^\top Z=V\Lambda V^\top\ \text{（只分解一次）}
+$$
+
+记 $b=V^\top Z^\top y$。对 $j=1,\dots,80$（或至收敛）重复：
+
+$$
+\pi=\beta\lambda+\alpha,\qquad
+\tilde\mu=\beta\,b\oslash\pi,\qquad
+\gamma=p_{\text{core}}-\alpha\sum_k \pi_k^{-1}
+$$
+
+$$
+\alpha\leftarrow\frac{\gamma}{\|\tilde\mu\|^2},
+\qquad
+\beta\leftarrow\frac{|\Omega|-\gamma}{\|y\|^2-2\,\tilde\mu^\top b+\sum_k\lambda_k\tilde\mu_k^2}
+$$
+
+收敛后 $\Sigma=V\,\mathrm{diag}(\pi^{-1})\,V^\top$，$\mu=\beta\,V(b\oslash\pi)$。
+
+代码：`grouped_operator_tucker._fit_core_posterior`
+
+> **在 $Z^\top Z$ 的特征基里迭代**是关键：它在循环内不变，于是每次迭代从 $O(p^3)$
+> 降到 $O(p)$——协方差是对角的、迹是求和、均值是逐元素缩放。
+
+**校准**：用杠杆值 $h_i=\beta\,z_i^\top\Sigma z_i$ 修正的留一残差
+
+$$
+c=\mathrm{clip}\left(\frac{Q_{0.95}\big(|y_i-\hat y_i|/(1-h_i)\ /\ s_i\big)}{1.96},\ 0.5,\ 4\right),
+\qquad s_i=\sqrt{\beta^{-1}+z_i^\top\Sigma z_i}
+$$
+
+### 算法 3：预测
+
+**输入**：全部索引，$\{\tilde F_g\}$，$(\mu,\Sigma,\beta,c)$
+**输出**：均值 $\hat y$，标准差 $\sigma$
+
+$$
+\hat y(i)=z(i)^\top\mu,
+\qquad
+\sigma(i)=c\,\sqrt{z(i)^\top\Sigma\,z(i)+\beta^{-1}}
+$$
+
+代码：`grouped_operator_tucker.predict`（分块，默认 8192 行一块）
+
+### 超参数一览（当前冻结值与来历）
+
+| 符号 | 配置键 | 值 | 怎么定的 |
+|---|---|---|---|
+| $K$ | `basis_cutoff` | 逐家族 16/32/48 | **两条规则同时满足**：近似下限跨家族可比（$\approx0.02$）且 $K R_3\le\lvert\mathcal S\rvert$ |
+| $(R_1,R_2,R_3)$ | `ranks` | $(12,10,16)$ | 提到 headroom 落进 1.0–1.5（偏差受限）为止 |
+| $p$ | `power` | 1.5 | 沿用冻结的一维实验，未重新调 |
+| $\beta_{\mathrm{reg}}$ | `reg` | $2\times10^{-3}$ | 同上 |
+| $T$ | `steps` | 1500 | 收敛测试：1500 → 4000 无变化 |
+| 障碍传导率 | `barrier_conductivity` | $10^{-2}$ | 物理论证：$10^{-3}$ 时墙自身弛豫慢于场 |
+| 网格分辨率 | `resolution` | 逐家族 | 由**最小几何特征尺度**定，且做过收敛检查 |
+| 观测噪声 | `noise` | 0.10 | 观测标准差的比例 |
+
+---
+
+## 第二部分附二：从零跑动指南
+
+假设一台**干净的机器**，没有本项目的任何文件。
+
+### 步骤 1：环境
+
+```bash
+git clone <repo-url> operator-prior-tensor
+cd operator-prior-tensor
+python -m venv .venv && source .venv/bin/activate
+pip install torch numpy scipy tensorly matplotlib pyyaml pytest
+```
+
+CUDA 版 torch 按驱动装；**CPU 也能跑**，把命令里的 `--device cuda` 换成 `--device cpu`
+即可，只是慢。**不需要**任何网格库（gmsh / meshio / scikit-fem 都不需要）。
+
+### 步骤 2：确认环境正确（约 75 秒）
+
+```bash
+export PYTHONPATH=src
+python -m pytest -q          # 期望：56 passed
+```
+
+这一步同时验证了有限元实现：其中一个测试把球面 Laplace–Beltrami 的特征值与解析解
+$l(l+1)=0,2,2,2,6,\dots$ 对照，另一个验证稀疏与稠密路径给出逐位相同的张量。
+**测试不过就不要往下走。**
+
+### 步骤 3：秒级冒烟（不需要 GPU）
+
+```bash
+python experiments/check_install.py
+```
+
+期望输出：
+
+```
+plane_barrier/open       nodes= 5520  aware=0.0167  blind=0.0167  ratio= 1.00
+plane_barrier/sealed_4   nodes= 5520  aware=0.0221  blind=0.2622  ratio=11.84
+```
+
+`open` 上比值**必须精确是 1.00**——无障碍时两个算子本就相同。不是 1.00 说明装配或
+几何有问题，先别往下走。
+
+### 步骤 4：复现主表的一个家族（GPU 约 40 分钟）
+
+```bash
+python experiments/run_geometry_main.py --config configs/main.yaml \
+  --families plane_barrier --output results/my_plane_barrier
+```
+
+**边跑边看输出里的 `over_floor`**：健康值 1.0–1.5。远大于 1 说明秩不够，此时的比较
+测的是秩天花板而不是几何（§4.1）。
+
+### 步骤 5：经典基线（走 CPU，可与上一步并行）
+
+```bash
+OMP_NUM_THREADS=2 python experiments/run_als_baselines.py \
+  --families plane_barrier --seeds 201,202,203,204,205 \
+  --output results/my_als
+```
+
+### 步骤 6：汇总成表
+
+```bash
+python experiments/analyze_geometry_main.py \
+  --inputs results/my_plane_barrier --als-inputs results/my_als \
+  --output results/my_summary --ratio .10
+```
+
+期望的关键行（传感器协议 10%）：
+
+| 布局 | ours | 去掉几何 | 倍数 |
+|---|---:|---:|---:|
+| `open` | ≈0.021 | ≈0.021 | **1.00** |
+| `sealed_4` | ≈0.029 | ≈0.267 | ≈**9.2** |
+
+### 步骤 7：论文图
+
+```bash
+python experiments/plot_floorplan_basis.py --output results/my_figs --layout apartment
+python experiments/plot_reconstruction.py  --output results/my_figs --layout apartment
+```
+
+### 全部复现（五个家族并行，约 5–6 小时）
+
+```bash
+export PYTHONPATH=src
+for fam in plane_barrier plane_domain volume_barrier sphere floorplan; do
+  python experiments/run_geometry_main.py --config configs/main.yaml \
+    --families $fam --output results/rk_$fam &
+done
+wait
+```
+
+并行度实测：6 个进程约 2.2 倍吞吐，10 个约 2.5 倍（次线性，6 个之后基本不涨）。
+每进程峰值显存约 1.5 GB。
+
+### 常见问题
+
+| 症状 | 多半是 |
+|---|---|
+| `over_floor` 远大于 1 | 秩不够（§4.1），调大 `ranks` |
+| 阴性对照不等于 1.00 | 几何或装配有问题，回到步骤 3 |
+| 谱模型 NRMSE 接近 1 或爆掉 | 违反可辨识性：$K\times R_3>\lvert\mathcal S\rvert$（§3.4） |
+| 优势远低于偏差下限的预测 | 分辨率没解析障碍（§4.2），做收敛检查 |
+| ALS 基线给出 3–20 的 NRMSE | 用了随机初始化，改 SVD（§4.4） |
+
+
+---
+
 ## 第三部分：诊断量——本项目最该被继承的部分
 
 这些量**在拟合之前**就能算，只用真值张量、候选基和观测掩码。它们是本方法区别于
@@ -749,3 +990,63 @@ CP-ALS / Tucker-HOOI 在**所有布局、所有秩、所有迭代预算**下精�
 这个实验把两个真实数据集的失败从"没做出来"变成了"落在事前可查的条件之外"。
 
 设定与结果见 §5.6。
+
+---
+
+## 第十部分：配置系统（`configs/*.yaml`）
+
+**不要把超参写死在命令行默认值里。** 一个改变实验含义的数字应该在一个能和结果一起提交的
+文件里，而不是埋在某次调用的 flag 里。学生跑一百个变体时，该编辑的是 YAML，该读的是
+产物里记录下来的配置，而不是回忆当时传了什么参数。
+
+### 10.1 三个现成的配置
+
+| 文件 | 用途 |
+|---|---|
+| `configs/main.yaml` | **产生了当前主表的配置**，每个值旁边标注了它的理由在交接文档哪一节 |
+| `configs/wave.yaml` | 波动方程变体（§5.5），并在注释里警告它为何不能配传感器协议 |
+| `configs/quick.yaml` | 分钟级冒烟，用于确认改动没弄坏东西；**数字不是报告值** |
+
+```bash
+python experiments/run_geometry_main.py --config configs/main.yaml \
+  --families plane_barrier --output results/my_run
+```
+
+命令行 flag **覆盖**文件，未设置的 flag **不会**擦掉文件里的值。合并后的配置被写进
+`results.json` 的 `configuration` 字段——**所以一个数字永远不会被归因到它没有真正使用过
+的设定上**。
+
+### 10.2 三条被强制的规则，每条都对应一次教训
+
+| 规则 | 为什么 |
+|---|---|
+| **未知键报错** | 拼错的键静默失效比崩溃更糟：跑完了，数字看起来是真的 |
+| **家族只能覆盖几何属性** | `resolution` / `basis_cutoff` 确实该按家族不同（由特征尺度与两条 cutoff 规则定）；`ranks` / `seeds` / `steps` 不该 |
+| **合并结果被记录** | 见上 |
+
+```python
+from geoaware.config import load
+config = load("configs/main.yaml", steps=500)   # 命令行覆盖
+sphere = config.for_family("sphere")            # 家族视图：cutoff 32, resolution 5
+```
+
+### 10.3 加一个新超参
+
+1. 在 `src/geoaware/config.py` 的 `DEFAULTS` 里加一项，值取**当前报告结果所用的值**；
+2. 如果它是几何属性而非实验协议，把键名加进 `PER_FAMILY_KEYS`；
+3. 在 runner 里从 `settings.<键名>` 读，**不要**再加一个有默认值的 flag；
+4. 在 `configs/main.yaml` 里写上它，并注明理由在文档哪一节。
+
+`tests/test_config.py` 会检查三个 shipped 配置都能加载。
+
+### 10.4 新机器的第一件事
+
+```bash
+export PYTHONPATH=src
+python -m pytest -q                    # 62 项
+python experiments/check_install.py    # 秒级，不需要 GPU
+```
+
+`check_install.py` 只测一个**事前已知答案**的量：无障碍时几何感知与几何盲是**同一个
+算子**，投影残差必须完全相同，比值必须是 1.00。不是 1.00 就说明网格或装配有问题，
+后面所有数字都不可信——**先别跑实验**。

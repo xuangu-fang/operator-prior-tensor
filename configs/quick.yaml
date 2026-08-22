@@ -1,0 +1,15 @@
+# A small configuration for checking that a change did not break anything.
+# Minutes rather than hours; the numbers are NOT the reported ones.
+
+n_scenarios: 6
+n_time: 6
+truth_modes: 30
+masks: [spatial_sensors]
+ratios: [0.10]
+seeds: [201]
+ranks: [6, 6, 8]
+steps: 300
+families: [plane_barrier]
+models: [geometry_operator, blind_operator, neural_tucker]
+per_family:
+  plane_barrier: {resolution: 40, basis_cutoff: 12}
