@@ -284,9 +284,14 @@ def interpolate_p1(mesh: IrregularMesh, values: torch.Tensor,
     interpolate across it.
 
     ``values`` may carry any number of leading axes; the last one indexes nodes.
+    ``mesh`` may be either mesh type in this repository -- the planar one names
+    its elements ``triangles``, the dimension-agnostic one names them ``cells``.
     """
     nodes = mesh.nodes.double()
-    corners = nodes[mesh.triangles]                       # (T, 3, 2)
+    cells = getattr(mesh, "triangles", None)
+    if cells is None:
+        cells = mesh.cells
+    corners = nodes[cells]                                # (T, 3, 2)
     origin = corners[:, 0]
     edge_a, edge_b = corners[:, 1] - origin, corners[:, 2] - origin
     det = edge_a[:, 0] * edge_b[:, 1] - edge_a[:, 1] * edge_b[:, 0]
@@ -305,6 +310,6 @@ def interpolate_p1(mesh: IrregularMesh, values: torch.Tensor,
     # point just outside it degrades to the nearest triangle rather than failing.
     chosen = weights.min(dim=-1).values.argmax(dim=0)           # (P,)
     picked = weights[chosen, torch.arange(len(points))]         # (P, 3)
-    vertices = mesh.triangles[chosen]                           # (P, 3)
+    vertices = cells[chosen]                                    # (P, 3)
     gathered = values.double()[..., vertices]                   # (..., P, 3)
     return (gathered * picked).sum(-1).to(values.dtype)

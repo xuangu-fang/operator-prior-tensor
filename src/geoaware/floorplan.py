@@ -184,7 +184,9 @@ def floorplan_tensor(layout: str, *, resolution: int = 90, n_scenarios: int = 12
     }
     matrices = {"coordinates": coordinates.float(),
                 "time_basis": time_basis.float(),
-                "time_eigenvalues": reference.float()}
+                "time_eigenvalues": reference.float(),
+                "mesh_nodes": mesh.nodes.float(),
+                "mesh_cells": mesh.cells}
     for name, (basis, eigenvalues) in spatial.items():
         matrices[f"{name}_basis"] = basis.float()
         matrices[f"{name}_eigenvalues"] = eigenvalues[:basis.shape[1]].float()

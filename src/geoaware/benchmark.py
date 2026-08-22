@@ -353,7 +353,13 @@ def build_family(family: str, layout: str, *, resolution: int | None = None,
     }
     matrices = {"coordinates": coordinates.float(),
                 "time_basis": time_basis.float(),
-                "time_eigenvalues": reference.float()}
+                "time_eigenvalues": reference.float(),
+                # The mesh the basis was assembled on.  Each basis column is a
+                # P1 function on it, so keeping the mesh is what lets the fitted
+                # factor be evaluated anywhere in the domain and not only at the
+                # nodes (see GroupedOperatorTucker.predict_at).
+                "mesh_nodes": mesh.nodes.float(),
+                "mesh_cells": mesh.cells}
     for name, (basis, eigenvalues) in spatial.items():
         matrices[f"{name}_basis"] = basis.float()
         matrices[f"{name}_eigenvalues"] = eigenvalues[:basis.shape[1]].float()

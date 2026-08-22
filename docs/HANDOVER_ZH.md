@@ -211,6 +211,108 @@ $$K \phi_k = \lambda_k\, M \phi_k, \qquad \lambda_1 \le \lambda_2 \le \cdots \le
 网格上给出**逐位相同**的张量、特征值差 $5.7\times10^{-13}$
 （`tests/test_manifold_barrier.py::test_sparse_and_dense_paths_agree_exactly`）。
 
+### 2.1a 这些"形状"到底是怎么算出来的：P1 有限元
+
+上一节直接写出了 $K_{ij}=\int a\nabla\varphi_i\cdot\nabla\varphi_j$，但没说 $\varphi_i$
+是什么。这一节补上，因为它决定了后面一件关键的事：**这些形状是定义在整个域上的连续
+函数，不只是节点上的一堆数。**
+
+**帽子函数。** 把域剖成三角形（三维是四面体）。对每个节点 $i$ 定义一个函数 $\varphi_i$：
+
+- 在节点 $i$ 上取值 1；
+- 在**其他所有**节点上取值 0；
+- 在每个三角形内部**线性**变化。
+
+画出来就是一个以节点 $i$ 为顶点的"帐篷"，只在含 $i$ 的那几个三角形上非零。这些函数
+张成的空间就是**所有分片线性连续函数**的集合。所以任何一个这样的函数都能写成
+
+$$u(x)=\sum_i u_i\,\varphi_i(x),$$
+
+其中 $u_i$ 就是它**在节点 $i$ 上的值**。**函数 ↔ 节点值向量是一一对应的**——这就是为什么
+代码里可以只存一个向量，却代表一个连续函数。
+
+**单元上怎么算。** 在一个三角形/四面体 $T$ 内部，用**重心坐标** $\lambda_0,\dots,\lambda_k$
+描述（$\lambda_i$ 就是 $\varphi_i$ 限制在 $T$ 上的部分）。设顶点为 $p_0,\dots,p_k$，
+记边矩阵 $E=[p_1-p_0;\ \dots;\ p_k-p_0]\in\mathbb R^{k\times n}$。
+
+任一点满足 $x-p_0=E^\top\lambda_{1:k}$。两边左乘 $E$：
+
+$$E(x-p_0)=EE^\top\lambda_{1:k}\quad\Longrightarrow\quad \lambda_{1:k}=(EE^\top)^{-1}E\,(x-p_0).$$
+
+所以梯度直接读出来了——**它在单元内是常数**：
+
+$$\nabla\lambda_{1:k}=(EE^\top)^{-1}E,\qquad \nabla\lambda_0=-\sum_{i\ge1}\nabla\lambda_i$$
+
+（第二式因为 $\sum_i\lambda_i\equiv1$）。单元体积是 $|T|=\sqrt{\det(EE^\top)}/k!$。
+
+于是单元刚度与质量矩阵是
+
+$$K^T_{ij}=a_T\,|T|\,\nabla\lambda_i\cdot\nabla\lambda_j,\qquad
+M^T_{ij}=\frac{|T|}{(k+1)(k+2)}\big(1+\delta_{ij}\big),$$
+
+把每个单元的贡献累加到全局矩阵上即可。→ `simplex_fem.assemble_sparse`
+
+> **为什么同一个公式能覆盖三角形、四面体和曲面三角形？**
+> 因为 $EE^\top$ 是**诱导度量**。取 $k=n=2$ 是平面三角形，$k=n=3$ 是四面体，
+> 而 $k=2,n=3$——三维空间里的曲面三角形——这个公式自动给出 **Laplace–Beltrami 算子**。
+> 球面因此不需要任何特殊代码，只需要一张不同的网格。
+>
+> 这一点有测试守着：球面的特征值必须是解析解 $l(l+1)=0,\,2,2,2,\,6,6,6,6,6,\dots$
+> （`test_surface_elements_reproduce_the_sphere_spectrum`）。
+
+**从节点值回到函数。** 广义特征问题解出的 $\phi_k$ 是一个**节点值向量**，但按上面的
+一一对应，它代表的是连续函数
+
+$$\phi_k(x)=\sum_i \phi_k(\text{node}_i)\,\varphi_i(x).$$
+
+要在任意点 $x$ 求值：找到含 $x$ 的单元，算出重心坐标，做加权平均——**三个数的线性组合**：
+
+$$u(x)=\sum_{i\in T(x)}\lambda_i(x)\,u_i .$$
+
+→ `irregular_fem.interpolate_p1`（点定位用网格自己的单元表，所以横跨孔洞的单元
+永远不会被用来插值过去）
+
+### 2.1b 因此空间因子是一个函数，不是查找表
+
+把上面两点接起来：$U_{\text{node}}=\Phi W$ 的每一列都是节点值向量，所以每一列都代表
+一个连续函数。**这个模型和坐标神经网络一样，可以在域内任意位置求值**，只是求值方式从
+"前向过一个 MLP"换成"在单元内做重心插值"。
+
+```python
+from geoaware.simplex_fem import SimplexMesh
+matrices = data.operator_matrices
+mesh = SimplexMesh(matrices["mesh_nodes"].double(), matrices["mesh_cells"])
+
+# points: (P, d) 任意查询坐标；indices: (P, M) 其余各组的索引（空间那一列被忽略）
+prediction = model.predict_at(points, indices, group=2, mesh=mesh)
+prediction.mean, prediction.std     # 与节点上同一个经过校准的量
+```
+
+实测（`plane_barrier/sealed_4`，5 520 节点上拟合，在 4 000 个**非节点**位置查询，
+与一个独立的 34 355 节点细网格真值比）：
+
+| | NRMSE |
+|---|---:|
+| 节点上的重构 | 0.0265 |
+| **非节点位置的重构** | **0.0278** |
+
+只差 5%。查询点到最近节点的中位距离是 0.0053，而网格间距约 0.013，所以它们确实落在
+单元内部而非贴着节点。
+
+**三个必须说清的边界**：
+
+1. **精度受网格阶数限制。** P1 插值在网格尺度 $h$ 上是二阶的。神经场原则上可以更光滑
+   ——但**我们的函数在墙处的断裂是精确的**（它是从算子解出来的），而神经场只能把断裂
+   学个近似。在这个问题上"更光滑"不见得是优点。
+2. **域外无定义。** 神经场可以在训练域外输出一个（通常很糟的）值；我们的基只在 $\Omega$
+   上有定义。对物理场重构而言，"墙外面没有场"本来就是正确答案。
+3. **自由表不能插值。** 场景那一维是枚举，两个类别标签之间没有中点。`factor_at` 对
+   `table` 因子**报错而不是静默插值**（`test_a_free_table_refuses_to_be_interpolated`）。
+
+**这个性质也是项目里另外两件事能做成的原因**：去 inverse crime 时把细网格真值插值到粗
+网格（§4.5 之前的那一轮），以及跨几何迁移时只换 $\Phi$ 保留 $W$ 和 core。两者都依赖
+"基是函数而不是表"。
+
 ### 2.2 关键的信息层级：几何已知，材料未知
 
 这是审稿人最容易攻击的地方，必须讲清楚。
@@ -417,6 +519,14 @@ $$c=\mathrm{clip}\left(\frac{Q_{0.95}\big(|y_i-\hat y_i|/(1-h_i)\ /\ s_i\big)}{1
 $$\hat y(i)=z(i)^\top\mu, \qquad \sigma(i)=c\,\sqrt{z(i)^\top\Sigma\,z(i)+\beta^{-1}}$$
 
 代码：`grouped_operator_tucker.predict`（分块，默认 8192 行一块）
+
+**在任意位置预测**（不限于网格节点）：把空间那一组的因子行换成插值得到的行，其余不变。
+
+$$\tilde F_3(x,\cdot)=\sum_{i\in T(x)}\lambda_i(x)\,\tilde F_3(i,\cdot),
+\qquad \hat y(x)=z(x)^\top\mu$$
+
+代码：`grouped_operator_tucker.predict_at(points, indices, group=2, mesh=mesh)`，
+推导与实测见 §2.1a–2.1b。核后验原样沿用，所以返回的标准差与节点上是同一个经过校准的量。
 
 ### 超参数一览（当前冻结值与来历）
 

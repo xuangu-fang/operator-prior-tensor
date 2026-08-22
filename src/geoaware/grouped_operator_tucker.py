@@ -230,6 +230,102 @@ class GroupedOperatorTucker(nn.Module):
                  (z[:, :, None] * other[:, None, :]).reshape(len(indices), -1))
         return z
 
+    def _combine(self, rows: Sequence[torch.Tensor]) -> torch.Tensor:
+        """Contract the core against one already-gathered factor row per group."""
+        if self.diagonal_core:
+            product = rows[0]
+            for other in rows[1:]:
+                product = product * other
+            return product @ self.core
+        partial = torch.einsum("na,a...->n...", rows[0], self.core)
+        for other in rows[1:]:
+            partial = torch.einsum("nb,nb...->n...", other, partial)
+        return partial
+
+    @staticmethod
+    def _design_from_rows(rows: Sequence[torch.Tensor], *,
+                          diagonal: bool) -> torch.Tensor:
+        z = rows[0]
+        for other in rows[1:]:
+            z = (z * other if diagonal else
+                 (z[:, :, None] * other[:, None, :]).reshape(len(z), -1))
+        return z
+
+    def factor_at(self, group: int, points: torch.Tensor, *,
+                  mesh=None) -> torch.Tensor:
+        """The fitted factor of one group, evaluated away from the mesh nodes.
+
+        The stored basis has one row per node, which looks discrete.  It is not:
+        each column is a P1 finite-element function -- piecewise linear on the
+        mesh the operator was assembled from -- and the matrix is only its nodal
+        trace.  Evaluating it anywhere in the domain is barycentric interpolation
+        on that mesh, which is what makes the spatial factor a genuine function
+        of position rather than a lookup table, exactly as a coordinate network
+        is.
+
+        A ``neural`` group is already a function of coordinates and is simply
+        called.  A free ``table`` has no value between its own indices, and
+        asking for one is an error rather than a silent interpolation.
+        """
+        spec = self.specs[group]
+        kind, slot = self._slot[group]
+        device = next(self.parameters()).device
+        # The columns are normalised over the *whole* domain, so the scale has
+        # to be taken from the nodal factor and then applied to the query.
+        # Normalising the queried points among themselves would give a different
+        # function for every batch of queries.
+        nodal = self.factor_tables()[group].detach()
+        if kind == "neural":
+            raw = self.networks[slot]().detach()
+            scale = (raw.square().mean(0).sqrt().clamp_min(1e-12)
+                     / nodal.square().mean(0).sqrt().clamp_min(1e-12))
+            queried = self.networks[slot].net(2 * points.float().to(device) - 1)
+            return queried / scale
+        if kind == "operator":
+            if mesh is None:
+                raise ValueError(
+                    "evaluating an operator factor off-node needs the mesh its "
+                    "basis was assembled on; pass mesh=")
+            from .irregular_fem import interpolate_p1
+            values = interpolate_p1(mesh, nodal.cpu().double().T,
+                                    points.double()).T
+            return values.float().to(device)
+        raise ValueError(
+            "a free table factor is defined only at its own indices; there "
+            "is nothing to interpolate between two category labels")
+
+    @torch.no_grad()
+    def predict_at(self, points: torch.Tensor, indices: torch.Tensor, *,
+                   group: int = 2, mesh=None) -> TensorBayesPrediction:
+        """Predict at arbitrary positions rather than at tensor indices.
+
+        ``points`` gives one coordinate per query for the continuous ``group``;
+        ``indices`` gives the index of every other group, one row per query (its
+        ``group`` column is ignored).  The core posterior carries over unchanged,
+        so the returned standard deviation is the same calibrated quantity as at
+        the nodes.
+        """
+        if self._posterior is None:
+            raise RuntimeError("fit first")
+        if len(points) != len(indices):
+            raise ValueError("one index row per query point is required")
+        device = next(self.parameters()).device
+        tables = self.factor_tables()
+        rows = [tables[m][indices[:, m].to(device)] for m in range(len(self.specs))]
+        rows[group] = self.factor_at(group, points, mesh=mesh)
+        z = self._design_from_rows(rows, diagonal=self.diagonal_core)
+        mean_core = self._posterior["mean"].to(device)
+        covariance = self._posterior["cov"].to(device)
+        mean = (z @ mean_core).cpu()
+        variance = ((z @ covariance) * z).sum(1).clamp_min(0).cpu()
+        std = ((variance + self._posterior["noise"] ** 2).sqrt()
+               * self._posterior["calibration"])
+        return TensorBayesPrediction(
+            mean, std, self.ranks, torch.zeros(0), torch.zeros(0), [], None,
+            self._posterior.get("history", []),
+            {"evaluated_at": "arbitrary points", "group": group,
+             "n_points": int(len(points))})
+
     def contract(self, indices: torch.Tensor,
                  factors: Sequence[torch.Tensor]) -> torch.Tensor:
         """Predict without ever forming the row-wise Kronecker product.
@@ -241,17 +337,8 @@ class GroupedOperatorTucker(nn.Module):
         arithmetic and a small fraction of the memory, which is what makes ranks
         big enough to reach the approximation floor affordable at all.
         """
-        if self.diagonal_core:
-            rows = factors[0][indices[:, 0]]
-            for mode in range(1, len(factors)):
-                rows = rows * factors[mode][indices[:, mode]]
-            return rows @ self.core
-        partial = torch.einsum("na,a...->n...", factors[0][indices[:, 0]],
-                               self.core)
-        for mode in range(1, len(factors)):
-            partial = torch.einsum("nb,nb...->n...",
-                                   factors[mode][indices[:, mode]], partial)
-        return partial
+        return self._combine([factors[m][indices[:, m]]
+                              for m in range(len(factors))])
 
     def forward(self, indices: torch.Tensor) -> torch.Tensor:
         return self.contract(indices, self.factor_tables())

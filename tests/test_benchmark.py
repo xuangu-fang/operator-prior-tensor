@@ -9,6 +9,7 @@ uses no information it is not entitled to.
 
 import math
 
+import pytest
 import torch
 
 from geoaware.als_baselines import cp_als, tucker_als
@@ -252,3 +253,71 @@ def test_the_contraction_matches_the_design_matrix_it_replaces():
         direct = model.design(index, factors,
                               diagonal=core == "diagonal") @ model.core.flatten()
         assert torch.allclose(model.contract(index, factors), direct, atol=1e-5)
+
+
+def test_the_spatial_factor_is_a_function_and_not_a_lookup_table():
+    """The basis has one row per node, but each column is a P1 function.
+
+    A coordinate network can be asked for its value anywhere; so can this, and
+    for the same reason -- the stored matrix is the nodal trace of a piecewise
+    linear function, not the function itself.  If that were not true the model
+    would be tied to one discretisation, and the transfer and inverse-crime
+    experiments would not have been possible either.
+    """
+    from geoaware.simplex_fem import SimplexMesh
+
+    data = build_family("plane_barrier", "sealed_4", resolution=30, **SMALL)
+    matrices = data.operator_matrices
+    mesh = SimplexMesh(matrices["mesh_nodes"].double(), matrices["mesh_cells"])
+    index = grouped_indices(data.shape, ((0,), (1,), (2,)))
+    truth = data.values.flatten()
+
+    torch.manual_seed(0)
+    model = GroupedOperatorTucker(
+        [GroupFactorSpec("table", 4, data.shape[0], name="scenario"),
+         GroupFactorSpec("operator", 4, data.shape[1],
+                         basis=matrices["time_basis"],
+                         eigenvalues=matrices["time_eigenvalues"], name="time"),
+         GroupFactorSpec("operator", 6, data.shape[2],
+                         basis=matrices["geometry_operator_basis"],
+                         eigenvalues=matrices["geometry_operator_eigenvalues"],
+                         name="node")],
+        device="cpu")
+    model.fit(index, (truth - truth.mean()) / truth.std(), steps=60, seed=0)
+
+    # Asked for the nodes themselves, the continuous evaluation must reproduce
+    # the discrete one -- interpolation at a vertex is the vertex's own value.
+    at_nodes = model.predict_at(mesh.nodes[:200].float(), index[:200], mesh=mesh)
+    direct = model.predict(index[:200])
+    assert torch.allclose(at_nodes.mean, direct.mean, atol=1e-4)
+    assert torch.allclose(at_nodes.std, direct.std, atol=1e-4)
+
+    # And it answers at points the mesh does not contain.
+    centres = mesh.nodes[mesh.cells[:200]].mean(dim=1).float()
+    nearest = (centres[:, None, :] - mesh.nodes[None, :, :].float()).norm(dim=2)
+    assert float(nearest.min(dim=1).values.min()) > 0
+    inside = model.predict_at(centres, index[:200], mesh=mesh)
+    assert inside.mean.shape == (200,)
+    assert torch.isfinite(inside.mean).all() and torch.isfinite(inside.std).all()
+    # A cell centre's value lies between the values at that cell's vertices,
+    # because a P1 function is linear inside a cell.  That is the property that
+    # distinguishes interpolating a function from inventing one.
+    everywhere = model.predict(index).mean.reshape(data.shape)[0, 0]
+    lower = everywhere[mesh.cells[:200]].min(dim=1).values
+    upper = everywhere[mesh.cells[:200]].max(dim=1).values
+    at_centres = model.predict_at(
+        centres, torch.zeros(len(centres), 3, dtype=torch.long), mesh=mesh).mean
+    within = (at_centres >= lower - 1e-4) & (at_centres <= upper + 1e-4)
+    assert bool(within.all()), f"{int((~within).sum())} centres outside their cell"
+
+
+def test_a_free_table_refuses_to_be_interpolated():
+    """A category label has no midpoint, and pretending otherwise would be a bug."""
+    data = build_family("plane_barrier", "sealed_4", resolution=30, **SMALL)
+    torch.manual_seed(0)
+    model = GroupedOperatorTucker(
+        [GroupFactorSpec("table", 3, data.shape[0], name="scenario"),
+         GroupFactorSpec("table", 3, data.shape[1], name="time"),
+         GroupFactorSpec("table", 3, data.shape[2], name="node")], device="cpu")
+    with pytest.raises(ValueError, match="only at its own indices"):
+        model.factor_at(0, torch.zeros(4, 1))
