@@ -1,0 +1,116 @@
+[
+  {
+    "family": "floorplan",
+    "layout": "open_plan",
+    "blind_floor": 0.014591276003162748,
+    "ratio": 0.9997992543629535
+  },
+  {
+    "family": "plane_barrier",
+    "layout": "open",
+    "blind_floor": 0.016732933628253302,
+    "ratio": 0.9998299330923869
+  },
+  {
+    "family": "plane_domain",
+    "layout": "square",
+    "blind_floor": 0.016732933629417655,
+    "ratio": 0.9998778478909134
+  },
+  {
+    "family": "volume_barrier",
+    "layout": "open",
+    "blind_floor": 0.01908989866345908,
+    "ratio": 1.000996236904347
+  },
+  {
+    "family": "plane_domain",
+    "layout": "center_hole",
+    "blind_floor": 0.030798479298002446,
+    "ratio": 1.7311182527404596
+  },
+  {
+    "family": "plane_domain",
+    "layout": "U_shape",
+    "blind_floor": 0.04020693907188223,
+    "ratio": 2.3503945590394695
+  },
+  {
+    "family": "plane_domain",
+    "layout": "L_shape",
+    "blind_floor": 0.04275986584623966,
+    "ratio": 2.393977082046855
+  },
+  {
+    "family": "plane_domain",
+    "layout": "two_holes",
+    "blind_floor": 0.04457871427885672,
+    "ratio": 2.398459092344008
+  },
+  {
+    "family": "floorplan",
+    "layout": "corridor",
+    "blind_floor": 0.10283693171996487,
+    "ratio": 4.513692091052228
+  },
+  {
+    "family": "plane_barrier",
+    "layout": "arc",
+    "blind_floor": 0.16464641956402845,
+    "ratio": 3.0657812787563103
+  },
+  {
+    "family": "plane_barrier",
+    "layout": "chamber",
+    "blind_floor": 0.1730639448316467,
+    "ratio": 3.698400321636061
+  },
+  {
+    "family": "floorplan",
+    "layout": "apartment",
+    "blind_floor": 0.17534755619451317,
+    "ratio": 8.228988494806337
+  },
+  {
+    "family": "volume_barrier",
+    "layout": "window",
+    "blind_floor": 0.20484476179628366,
+    "ratio": 0.9871507992450819
+  },
+  {
+    "family": "plane_barrier",
+    "layout": "labyrinth",
+    "blind_floor": 0.22272239031555896,
+    "ratio": 4.468469010184939
+  },
+  {
+    "family": "volume_barrier",
+    "layout": "chamber",
+    "blind_floor": 0.22651715858636193,
+    "ratio": 1.135674541809853
+  },
+  {
+    "family": "floorplan",
+    "layout": "lab_suite",
+    "blind_floor": 0.24070497489497628,
+    "ratio": 11.437458790921239
+  },
+  {
+    "family": "plane_barrier",
+    "layout": "sealed_4",
+    "blind_floor": 0.2621511356464614,
+    "ratio": 9.185852324168131
+  },
+  {
+    "family": "volume_barrier",
+    "layout": "sealed_8",
+    "blind_floor": 0.29128121075345553,
+    "ratio": 1.4754320465683022
+  },
+  {
+    "family": "sphere",
+    "layout": "open_ocean",
+    "blind_floor": 0.55640496123814,
+    "ratio": 13.905281410706651
+  }
+]

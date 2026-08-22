@@ -963,3 +963,96 @@ Stated plainly: **under sensor sampling in three dimensions the method has a
 ceiling that is computable in advance, and a coordinate network does better.**
 
 Artifacts: `src/geoaware/cylinder_flow.py`, `results/advection_limit_r13`.
+
+## Iteration 14 — the table was measuring a rank ceiling
+
+The floor-plan family was built because Iteration 13's Peclet sweep said what a
+useful geometry has to do -- still constrain where the field can be -- and rooms
+joined only by doorways do exactly that.  Its approximation floors said the
+advantage should be `3.4x` on a corridor and `13.9x` on a laboratory suite.  The
+fit produced `1.03x`.
+
+Both numbers were right.  On the barrier-free control the model reached `0.213`
+while its own basis could reach `0.015`, so what bound the fit was the rank, not
+the basis, and every model was held back by the same thing.  `ranks = (4,4,6)`
+had been carried over from the frozen one-dimensional work, where the tensor is
+`18 x 24 x 24`, onto meshes of five to eleven thousand nodes, and never
+revisited.  A comparison of function spaces was measuring a rank ceiling that
+has nothing to do with geometry.
+
+**The check that was missing.**  Every round of this project ran pre-fit
+diagnostics, and every one of them asked whether the basis could span the field.
+None asked whether the rank could cash the basis in.  That is one division --
+attained error over the model's own projection floor -- and it is now printed
+next to every row.  Far above one means the comparison is not about geometry.
+
+**What the correction is worth.**  Selection seeds first, then the whole table on
+fresh seeds `201--205`:
+
+| layout | (4,4,6) | (8,6,10) | (12,10,16) |
+|---|---:|---:|---:|
+| `plane_barrier/sealed_4`, blind/ours | 3.12 | 6.87 | **9.73** |
+| same, neural/ours | 1.26 | 1.87 | **2.68** |
+| `sphere/open_ocean`, blind/ours | 1.87 | 4.72 | **13.66** |
+
+On the full rerun the planar families beat a coordinate network on **all ten**
+layouts by `1.50--2.72x`, where the reported table had `1.05--1.32x`, and the
+four controls still tie to three decimals.  Realistic geometry does better than
+synthetic at equal difficulty: `apartment` reaches `8.23x` at a blind floor of
+`0.175` where the synthetic `chamber` reaches `3.70x` at `0.173`.
+
+**A second inherited setting, caught by the same reasoning.**  The floor plan's
+resolution had been chosen from the node count.  A 0.12 m wall is sub-element
+below resolution 130 and leaks, which *understates* the advantage -- the
+opposite direction from Iteration 11's sub-element barriers, and the same
+lesson: an unresolved obstacle gives an untrustworthy number whose sign is not
+even predictable.  Ratios go `3.4/4.0/10.1` at 90 and `5.2/9.9/13.9` at 130,
+converged from there (`5.1/10.2/13.8` at 240).
+
+### 14b — the prior is not about diffusion
+
+Ten planar layouts, same meshes, same learner, parabolic replaced by damped
+hyperbolic.  Random entries at 10%:
+
+| layout | ours | geometry removed | ratio | neural/ours |
+|---|---:|---:|---:|---:|
+| `plane_barrier/open` *(control)* | 0.096 | 0.096 | **1.00** | 1.31 |
+| `plane_barrier/labyrinth` | 0.122 | 0.220 | 1.80 | 1.94 |
+| `plane_barrier/arc` | 0.118 | 0.237 | 2.01 | 2.50 |
+| `plane_barrier/sealed_4` | 0.085 | 0.237 | **2.79** | 2.26 |
+
+### 14c — the two cutoff rules have to hold at once
+
+The same wave experiments *fail* under sensor sampling (`0.53--0.98x`), and the
+reason is arithmetic rather than physics.  A cutoff has to satisfy two things:
+the approximation floor must be comparable across settings, which for an
+oscillatory field needs 64 columns; and `cutoff x rank` must not exceed the
+number of sensors, which is `64 x 16 = 1024` against 552.  I applied the first
+rule and forgot the second.
+
+Headroom says it plainly: ours attains `0.255` against its own floor of `0.015`
+(**17x** -- wildly underdetermined), while the blind model attains `0.249`
+against `0.228` (`1.09x` -- estimating what little it can represent).  A better
+basis one cannot estimate loses to a worse basis one can.
+
+The sphere is the same wave equation and reaches `13.91x`, because 10 242 nodes
+give 1 024 sensors and `32 x 16 = 512` fits inside them.  The three-dimensional
+barrier layouts sit low on the ladder for the same reason.
+
+### 14d — what the geometry is worth in instruments
+
+`apartment`, 11 310 nodes, sensors from 1% to 20%, three seeds:
+
+| sensors | ours | geometry removed | neural |
+|---:|---:|---:|---:|
+| 113 (1%) | **0.040** | 0.194 | 0.228 |
+| 2 262 (20%) | 0.020 | 0.177 | 0.160 |
+
+Twenty times the instruments moves the baselines from `0.194` to `0.177`.  They
+are not short of data; their function space cannot put a discontinuity at a
+wall, and no budget repairs that.  On both floor plans they never reach the
+accuracy the proposed model has at a hundred sensors.  On the synthetic
+`sealed_4` they do get there, at eight times the sensor count.
+
+Artifacts: `results/rk_*`, `results/main_summary_r14`,
+`results/sensor_budget_r14`, `results/wave_*`, `results/figures_r14`.
