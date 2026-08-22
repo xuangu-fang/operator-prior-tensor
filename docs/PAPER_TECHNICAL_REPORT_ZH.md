@@ -20,9 +20,7 @@
 本文研究一个很具体的问题：当物理张量的一组坐标上存在可信的联合微分算子时，能否让该 operator 直接约束其真实定义的 coordinate group，从而减少连续 Tucker 分解在稀疏观测下需要学习的自由度？我们不要求每个 tensor axis 都有一条独立 PDE。
 
 我们提出 Group-wise Operator-Prior Tucker。对有可信 operator 的 coordinate group $g$，把普通因子替换成
-$$
-F_g=\Phi_g W_g,
-$$
+$$F_g=\Phi_g W_g,$$
 其中 $\Phi_g$ 是定义在联合坐标 $x_g$ 上的物理算子有限谱基，$W_g$ 是待学习的小矩阵；没有可靠 operator 的 groups 保留 neural functional factors。现有 mode-wise 实现是每个 group 恰好含一个 tensor axis 的特例。模型仍保留非对角 Tucker core。训练阶段对 $W_g$、neural factors 和 core 做正则化点估计；因子固定后，对小 core 做解析高斯后验推断。
 
 在变系数扩散 Green-response tensor 上，我们先用旧 seeds 选择 cutoff 8 和 Tucker rank $(4,5,5)$，随后完全冻结模型、400 次更新、噪声和所有超参数。五个全新 seeds 的结果表明：10% random mask 下，Operator Tucker 以 `0.164±0.011` 的 NRMSE 优于宽 Neural Functional Tucker 的 `0.207±0.054`，paired wins 为 4/5；10% receiver-fiber 下仍为 4/5 wins。置乱算子基的 negative control 接近 NRMSE 1，说明收益来自正确的 index–operator 对齐。不过 source-fiber 只有 3/5 wins，2%--5% 也不稳定。
@@ -36,12 +34,7 @@ $$
 ### 1.1 普通 Tucker 忽略了 mode index 的物理含义
 
 给定三阶张量 $Y\in\mathbb R^{N_1\times N_2\times N_3}$ 和稀疏观测集合 $\Omega$，普通 Tucker completion 写成
-$$
-Y_{i_1i_2i_3}\approx
-\sum_{r_1=1}^{R_1}\sum_{r_2=1}^{R_2}\sum_{r_3=1}^{R_3}
-G_{r_1r_2r_3}
-U_1(i_1,r_1)U_2(i_2,r_2)U_3(i_3,r_3).
-$$
+$$Y_{i_1i_2i_3}\approx \sum_{r_1=1}^{R_1}\sum_{r_2=1}^{R_2}\sum_{r_3=1}^{R_3} G_{r_1r_2r_3} U_1(i_1,r_1)U_2(i_2,r_2)U_3(i_3,r_3).$$
 如果直接学习 $U_m\in\mathbb R^{N_m\times R_m}$，模型把每个 index 当作无关类别。它不知道：
 
 - 相邻网格点应由扩散算子连接；
@@ -56,10 +49,7 @@ $$
 我们的核心假设只有一个：真实 tensor 在**有可靠 operator 的 coordinate groups** 上，大部分能量位于该联合算子的有限低频子空间附近。没有可靠 operator 的 groups 不受这个假设约束，而由 neural factors 表示。这个假设可被直接测量，而不是用“physics-informed”一词替代验证。
 
 令 $\mathcal P_{\mathrm{op}}$ 是 operator-equipped groups，$P_g$ 是其 learner basis 的正交投影。对 grouped tensor 定义 product-space projection residual
-$$
-\epsilon_{\mathrm{proj}}
-=\frac{\left\|Y-Y\times_{g\in\mathcal P_{\mathrm{op}}}P_g\right\|_F}{\|Y\|_F}.
-$$
+$$\epsilon_{\mathrm{proj}} =\frac{\left\lVert Y-Y\times_{g\in\mathcal P_{\mathrm{op}}}P_g\right\rVert_F}{\lVert Y\rVert_F}.$$
 $\epsilon_{\mathrm{proj}}$ 是任何被限制在这些 basis 中的方法都无法消除的近似偏差下界。较大的 basis 可减小它，却会增加待估计系数和 core interaction 的方差。因此本文要研究的是偏差和方差的平衡，而不是宣称 operator basis 永远正确。
 
 ## 2. 方法
@@ -69,94 +59,49 @@ $\epsilon_{\mathrm{proj}}$ 是任何被限制在这些 basis 中的方法都无�
 先将原始 tensor axes 划分成 coordinate groups $\mathcal P=\{g_1,\ldots,g_J\}$。operator 的作用域由真实 PDE 决定：它可以约束单个 mode，也可以约束合并后的 $(x,y)$、$(x,y,t)$ 或全部 mesh-node spatial group。
 
 对有可信物理的 group $g$ 给定自伴正半定算子 $\mathcal A_g$：
-$$
-\mathcal A_g\phi_{gk}=\lambda_{gk}\phi_{gk},\qquad
-0\leq\lambda_{g1}\leq\lambda_{g2}\leq\cdots.
-$$
+$$\mathcal A_g\phi_{gk}=\lambda_{gk}\phi_{gk},\qquad 0\leq\lambda_{g1}\leq\lambda_{g2}\leq\cdots.$$
 在联合离散坐标 $x_{g,i_g}$ 上评价前 $K_g$ 个特征函数，得到
-$$
-\Phi_g(i_g,k)=\phi_{gk}(x_{g,i_g}),\qquad
-\Phi_g\in\mathbb R^{N_g\times K_g},
-\quad N_g=\prod_{m\in g}N_m.
-$$
+$$\Phi_g(i_g,k)=\phi_{gk}(x_{g,i_g}),\qquad \Phi_g\in\mathbb R^{N_g\times K_g}, \quad N_g=\prod_{m\in g}N_m.$$
 空间 group 可以使用完整二维有限差分、有限元或 graph Laplacian 的 eigenvectors；演化 group 可以使用由算子 eigenvalues 诱导的半群函数。方法不要求规则矩形，只要求能离线得到 joint discrete operator 的前若干特征对。只有 operator 可分或允许明确近似时，才将 $\Phi_g$ 替换成 per-axis product basis。
 
 ### 2.2 Group-wise Operator-prior Tucker
 
 对 operator-equipped group，不直接学习大因子表，而是令
-$$
-\widetilde F_g=\Phi_gW_g,
-\qquad W_g\in\mathbb R^{K_g\times R_g}.
-$$
+$$\widetilde F_g=\Phi_gW_g, \qquad W_g\in\mathbb R^{K_g\times R_g}.$$
 对未知 group 使用 $F_g(i_g,:)=\operatorname{MLP}_g(x_g)$ 或 factor table。grouped prediction 是
-$$
-\widehat Y_{i_1,\ldots,i_M}
-=
-\sum_{r_1,\ldots,r_J}
-G_{r_1,\ldots,r_J}
-\prod_{j=1}^{J}F_{g_j}(i_{g_j},r_j).
-$$
+$$\widehat Y_{i_1,\ldots,i_M} = \sum_{r_1,\ldots,r_J} G_{r_1,\ldots,r_J} \prod_{j=1}^{J}F_{g_j}(i_{g_j},r_j).$$
 下面的 column normalization、spectral penalty 和 core posterior 对每个 operator group 原样成立。现有 Green-tensor 代码采用 singleton partition，因此下文保留 $m$ notation 描述已经冻结的实现；它是 group-wise formulation 的特例，而不是对所有新数据的强制拆轴规则。
 
 为消除 Tucker 的连续缩放歧义，对每个 factor column 做单位 RMS 归一化：
-$$
-s_{mr}=\sqrt{N_m^{-1}\|\Phi_mW_m(:,r)\|_2^2},\qquad
-U_m(:,r)=\frac{\Phi_mW_m(:,r)}{s_{mr}}.
-$$
+$$s_{mr}=\sqrt{N_m^{-1}\lVert \Phi_mW_m(:,r)\rVert_2^2},\qquad U_m(:,r)=\frac{\Phi_mW_m(:,r)}{s_{mr}}.$$
 预测保持标准 Tucker 形式：
-$$
-\widehat Y_{ijk}=\sum_{abc}G_{abc}U_1(i,a)U_2(j,b)U_3(k,c).
-$$
+$$\widehat Y_{ijk}=\sum_{abc}G_{abc}U_1(i,a)U_2(j,b)U_3(k,c).$$
 Tucker core 是必要组件，而不是装饰：Green response 的 source/receiver modes 通常共享谱结构，但其跨 mode interaction 并不一定是 CP 的超对角形式。
 
 ### 2.3 算子谱正则化
 
 令归一化因子对应的谱系数为 $\bar W_m(:,r)=W_m(:,r)/s_{mr}$。使用 Sobolev 型能量
-$$
-E_m(\bar W_m)=\frac{1}{K_mR_m}
-\sum_{k,r}(1+\lambda_{mk})^p\bar W_{mkr}^2.
-$$
+$$E_m(\bar W_m)=\frac{1}{K_mR_m} \sum_{k,r}(1+\lambda_{mk})^p\bar W_{mkr}^2.$$
 较高算子频率受到更强惩罚。实际优化目标是
-$$
-\mathcal L=
-\frac1{|\Omega|}\sum_{(i,j,k)\in\Omega}
-(y_{ijk}-\widehat Y_{ijk})^2
-+\rho\left[
-\frac{\|G\|_F^2}{R_1R_2R_3}+\sum_m E_m(\bar W_m)
-\right].
-$$
+$$\mathcal L= \frac1{|\Omega|}\sum_{(i,j,k)\in\Omega} (y_{ijk}-\widehat Y_{ijk})^2 +\rho\left[ \frac{\lVert G\rVert_F^2}{R_1R_2R_3}+\sum_m E_m(\bar W_m) \right].$$
 这一步应准确称为 regularized point estimation 或 Gaussian MAP，而不是完整 Bayesian inference。当前实现用 AdamW、固定 400 steps、随机 cold start；确认集不参与 early stopping 或超参数选择。
 
 ### 2.4 固定因子后的 core 后验
 
 训练因子后，对一个 entry $q=(i,j,k)$ 定义 Tucker row feature
-$$
-z_q=U_1(i,:)\otimes U_2(j,:)\otimes U_3(k,:).
-$$
+$$z_q=U_1(i,:)\otimes U_2(j,:)\otimes U_3(k,:).$$
 将 core 向量化为 $g=\mathrm{vec}(G)$，建立
-$$
-g\sim\mathcal N(0,\alpha^{-1}I),\qquad
-y_\Omega\mid g\sim\mathcal N(Z_\Omega g,\beta^{-1}I).
-$$
+$$g\sim\mathcal N(0,\alpha^{-1}I),\qquad y_\Omega\mid g\sim\mathcal N(Z_\Omega g,\beta^{-1}I).$$
 于是
-$$
-\Sigma_g=(\beta Z_\Omega^\top Z_\Omega+\alpha I)^{-1},\qquad
-\mu_g=\beta\Sigma_gZ_\Omega^\top y_\Omega.
-$$
+$$\Sigma_g=(\beta Z_\Omega^\top Z_\Omega+\alpha I)^{-1},\qquad \mu_g=\beta\Sigma_gZ_\Omega^\top y_\Omega.$$
 $\alpha$ 和 $\beta$ 通过 evidence fixed-point updates 得到。预测均值和方差为
-$$
-\mathbb E[y_*]=z_*^\top\mu_g,
-\qquad
-\operatorname{Var}(y_*)=z_*^\top\Sigma_gz_*+\beta^{-1}.
-$$
+$$\mathbb E[y_*]=z_*^\top\mu_g, \qquad \operatorname{Var}(y_*)=z_*^\top\Sigma_gz_*+\beta^{-1}.$$
 这是 conditional empirical Bayes：core posterior 在固定因子条件下是解析的，但 factor、rank、cutoff 和 operator 的不确定性没有被积分。因此当前论文以 NRMSE/MAE 为主，不能把不完整的 UQ 当作主要贡献。
 
 ### 2.5 参数量
 
 确认配置为 $K=(8,8,8)$、$R=(4,5,5)$，因此 Operator Tucker 的可训练参数数为
-$$
-8\times4+8\times5+8\times5+4\times5\times5=212.
-$$
+$$8\times4+8\times5+8\times5+4\times5\times5=212.$$
 我们同时使用两个 Neural Functional Tucker：
 
 - **宽模型**：每个 mode 两层宽度 48 的 MLP，共 8130 参数，作为强容量对照；
@@ -169,25 +114,13 @@ $$
 ### 3.1 变系数扩散 Green response
 
 在一维 Neumann 区间上构造
-$$
-\partial_tu+[L_a+\kappa I]u=0,
-\qquad
-L_a=-\partial_x(a(x)\partial_x),
-$$
+$$\partial_tu+[L_a+\kappa I]u=0, \qquad L_a=-\partial_x(a(x)\partial_x),$$
 其中
-$$
-a(x)=\exp\{c[\cos(2\pi x)+0.35\sin(3\pi x+0.37)]\}.
-$$
+$$a(x)=\exp\{c[\cos(2\pi x)+0.35\sin(3\pi x+0.37)]\}.$$
 真值使用 $L_a$ 的前 14 个 eigenmodes，张量为
-$$
-Y(t,x_r,x_s)=\sum_{q=1}^{14}
-e^{-t(\kappa+\mu_q)}
-\psi_q(x_r)\psi_q(x_s)(1+\mu_q)^{-0.18}.
-$$
+$$Y(t,x_r,x_s)=\sum_{q=1}^{14} e^{-t(\kappa+\mu_q)} \psi_q(x_r)\psi_q(x_s)(1+\mu_q)^{-0.18}.$$
 shape 为 `18×24×24`，三个 modes 分别是 time、receiver 和 source。contrast 固定为 $c=1$。learner 不读取真实变系数 eigenvectors，而只使用常系数 reference operator 的前 8 个 modes，因此不是把真值生成 basis 原样交给模型。该配置实测
-$$
-\epsilon_{\mathrm{proj}}=0.0699.
-$$
+$$\epsilon_{\mathrm{proj}}=0.0699.$$
 观测加入相对于 observed-value 标准差 10% 的 Gaussian noise；标准化统计量仅由 observations 计算。
 
 ### 3.2 三种缺失协议
@@ -308,14 +241,9 @@ $$
 ### 9.1 不需要假设“张量每一维都有一条独立 PDE”
 
 公式中写了 $\mathcal A_1,\mathcal A_2,\mathcal A_3$，这只是说每个 tensor mode 都需要一个可审计的函数空间先验，并不意味着研究者必须事先知道三条互不相关的 PDE。当前 Green-response POC 恰好只从**同一条扩散 PDE** 出发：
-$$
-\partial_tu+(L_a+\kappa I)u=0,
-\qquad L_a=-\partial_x(a(x)\partial_x).
-$$
+$$\partial_tu+(L_a+\kappa I)u=0, \qquad L_a=-\partial_x(a(x)\partial_x).$$
 若 $L_a\psi_q=\mu_q\psi_q$，其 Green kernel 具有
-$$
-G(t,x_r,x_s)=\sum_q e^{-t(\kappa+\mu_q)}\psi_q(x_r)\psi_q(x_s)c_q
-$$
+$$G(t,x_r,x_s)=\sum_q e^{-t(\kappa+\mu_q)}\psi_q(x_r)\psi_q(x_s)c_q$$
 这样的分离结构。因此三个 mode basis 的来源是：
 
 | Tensor mode | 坐标 | basis 来源 | 当前 POC 的实现 |
@@ -340,9 +268,7 @@ $$
 ### 9.3 不规则边界和孔洞应怎样进入模型
 
 在二维不规则域 $\Omega_g$ 上，不应分别为 $x$ 和 $y$ 人造两条一维 PDE。将所有有效 mesh nodes 视为一个空间 mode，有限元离散后求
-$$
-K_g\phi_k=\lambda_k M_g\phi_k,
-$$
+$$K_g\phi_k=\lambda_k M_g\phi_k,$$
 其中 $K_g$ 是包含边界条件和材料系数的 stiffness matrix，$M_g$ 是 mass matrix。孔洞通过 mesh connectivity 和 hole boundary condition 直接改变 $K_g$，从而改变 eigenfunctions。若张量是 $Y(t,x_r,x_s)$，则形状仍为 `time × receiver-node × source-node`，只是两个空间 axes 的 index 都来自同一个不规则 mesh，而不是规则网格坐标。
 
 这给出一种明确的几何泛化含义：对新几何 $g'$，重新由其 $K_{g'},M_{g'}$ 计算低频 basis，再复用共享的小维映射/core 或进行少量观测下的适配。当前代码尚未验证这一点；现有 1D POC 只证明了“名义算子失配下仍可能降低方差”。
@@ -357,35 +283,19 @@ $$
 
 设原始坐标轴为 $\{1,\ldots,M\}$，将它们划分成互不重叠的 coordinate groups
 
-$$
-\mathcal P=\{g_1,\ldots,g_J\},
-\qquad
-\bigcup_{j=1}^J g_j=\{1,\ldots,M\}.
-$$
+$$\mathcal P=\{g_1,\ldots,g_J\}, \qquad \bigcup_{j=1}^J g_j=\{1,\ldots,M\}.$$
 
 一个 group $g$ 可以只含一个 axis，例如 time；也可以合并多个耦合坐标，例如 $g=\{x,y\}$。将组内 index 合成 $i_g=(i_m:m\in g)$ 后，模型写为
 
-$$
-\widehat Y_{i_1,\ldots,i_M}
-=
-\sum_{r_1,\ldots,r_J}
-G_{r_1,\ldots,r_J}
-\prod_{j=1}^{J}F_{g_j}(i_{g_j},r_j).
-$$
+$$\widehat Y_{i_1,\ldots,i_M} = \sum_{r_1,\ldots,r_J} G_{r_1,\ldots,r_J} \prod_{j=1}^{J}F_{g_j}(i_{g_j},r_j).$$
 
 对有可靠 operator $\mathcal A_g$ 的 coordinate group，
 
-$$
-F_g=\Phi_g W_g,
-\qquad
-\mathcal A_g\phi_{gk}=\lambda_{gk}\phi_{gk}.
-$$
+$$F_g=\Phi_g W_g, \qquad \mathcal A_g\phi_{gk}=\lambda_{gk}\phi_{gk}.$$
 
 对没有可靠 operator 的 group，不人为构造一条 PDE，而使用
 
-$$
-F_g(i_g,r)=\operatorname{MLP}_g(x_g)_r
-$$
+$$F_g(i_g,r)=\operatorname{MLP}_g(x_g)_r$$
 
 或普通 factor table。因此 group-wise 方法仍是显式低秩 Tucker；变化只是 factor 的作用域与真实 operator domain 对齐，而不是增加一个庞大的 neural operator encoder。
 
@@ -411,40 +321,19 @@ per-axis operator 不再被默认当作物理真值。只有在 operator 精确�
 
 对规则二维离散 operator，令联合 stiffness/mass matrices 为 $(K_{xy},M_{xy})$。由 per-axis operators 构造 Kronecker-sum approximation
 
-$$
-K_{\mathrm{sep}}
-=
-K_x\otimes M_y
-+M_x\otimes K_y
-+\kappa M_x\otimes M_y.
-$$
+$$K_{\mathrm{sep}} = K_x\otimes M_y +M_x\otimes K_y +\kappa M_x\otimes M_y.$$
 
 先对 operator 做 mass whitening：
 
-$$
-\bar K=M_{xy}^{-1/2}K_{xy}M_{xy}^{-1/2},
-\qquad
-\bar K_{\mathrm{sep}}
-=M_{xy}^{-1/2}K_{\mathrm{sep}}M_{xy}^{-1/2}.
-$$
+$$\bar K=M_{xy}^{-1/2}K_{xy}M_{xy}^{-1/2}, \qquad \bar K_{\mathrm{sep}} =M_{xy}^{-1/2}K_{\mathrm{sep}}M_{xy}^{-1/2}.$$
 
 定义主要诊断量
 
-$$
-\epsilon_{\mathrm{sep}}
-=
-\frac{\|\bar K-\bar K_{\mathrm{sep}}\|_F}
-{\|\bar K\|_F}.
-$$
+$$\epsilon_{\mathrm{sep}} = \frac{\lVert \bar K-\bar K_{\mathrm{sep}}\rVert_F} {\lVert \bar K\rVert_F}.$$
 
 它测量“把 joint operator 拆成 per-axis operators”在算子层面的失真。实现还应报告低频子空间残差
 
-$$
-\epsilon_{\mathrm{sub}}
-=
-\frac{\|P_{\mathrm{joint}}-P_{\mathrm{prod}}\|_F}
-{\|P_{\mathrm{joint}}\|_F},
-$$
+$$\epsilon_{\mathrm{sub}} = \frac{\lVert P_{\mathrm{joint}}-P_{\mathrm{prod}}\rVert_F} {\lVert P_{\mathrm{joint}}\rVert_F},$$
 
 其中 $P_{\mathrm{joint}}$ 是 joint low-frequency eigenspace 的 projector，$P_{\mathrm{prod}}$ 是 per-axis product basis 的 projector。$\epsilon_{\mathrm{sep}}$ 回答 PDE operator 有多不可分；$\epsilon_{\mathrm{sub}}$ 回答 completion 实际使用的有限低频 factor space 有多不一致。两者都必须由 learner 可见的 nominal operator 计算，不能读取 held-out field 后反推。
 
@@ -511,22 +400,13 @@ PYTHONPATH=src python experiments/run_tensor_bayes.py \
 
 **受控 PDE family。** 在规则方形、固定 Neumann 或 periodic boundary 上构造
 
-$$
-\mathcal L_\eta
-=
--\partial_x\!\left(a_x(x)\partial_x\right)
--\partial_y\!\left(a_y(y)\partial_y\right)
-+\eta\,\mathcal C_{xy}
-+\kappa I,
-$$
+$$\mathcal L_\eta = -\partial_x\!\left(a_x(x)\partial_x\right) -\partial_y\!\left(a_y(y)\partial_y\right) +\eta\,\mathcal C_{xy} +\kappa I,$$
 
 其中 $\mathcal C_{xy}$ 是固定的对称正半定 nonseparable diffusion coupling。$\eta=0$ 时离散算子是精确 Kronecker sum；增加 $\eta$ 产生连续可控的 joint coupling，同时保持同一 PDE family、边界、网格和噪声。
 
 **任务。** 由不同初值或 forcing scenarios 生成
 
-$$
-Y(t,x,y,s),
-$$
+$$Y(t,x,y,s),$$
 
 并使用 coordinate partition $\{\{t\},\{x,y\},\{s\}\}$。space group 使用 joint eigenbasis；scenario 没有 PDE 时使用 neural factor 或 table，不给它虚构算子。
 

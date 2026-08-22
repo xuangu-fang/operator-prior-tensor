@@ -26,9 +26,7 @@ rank-matched Neural Functional Tucker when the measured projection residual is
 small, with the advantage weakening as the diffusivity operator changes.
 
 **Implementation.** Added a conservative finite-volume discretization of
-$$
-\partial_tu+[-\partial_x(a(x)\partial_x)+\kappa I]u=0
-$$
+$$\partial_tu+[-\partial_x(a(x)\partial_x)+\kappa I]u=0$$
 with zero-flux boundaries.  The tensor is the Green response
 `time × receiver × source`.  Truth uses the variable-coefficient eigenpairs;
 the learner uses a truncated constant-diffusivity spectrum.  The code records

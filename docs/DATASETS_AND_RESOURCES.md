@@ -29,10 +29,7 @@
 
 在进入 mesh 工程前，先用规则二维 diffusion 回答 joint operator 是否必要。构造
 
-$$
-\mathcal L_\eta
-=\mathcal L_x\otimes I+I\otimes\mathcal L_y+\eta\mathcal C_{xy}+\kappa I,
-$$
+$$\mathcal L_\eta =\mathcal L_x\otimes I+I\otimes\mathcal L_y+\eta\mathcal C_{xy}+\kappa I,$$
 
 其中 $\eta=0$ 为精确可分，$\eta>0$ 连续增加 nonseparable coupling。数据 axes 为 time × x × y × scenario；方法使用 coordinate groups $\{\{t\},\{x,y\},\{s\}\}$。每个版本必须保存 joint/per-axis matrices、operator separability residual、low-frequency subspace residual、projection residual 和 coordinate partition。
 

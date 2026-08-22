@@ -20,9 +20,7 @@
 > 已知每个 tensor mode 上的几何或物理算子时，用算子的低频函数空间约束一个很小的 Tucker 模型；因子用正则化点估计，固定因子后对 core 做解析高斯推断。
 
 它也确实可以理解为“每个因子都是 GP”的复杂模型的一个有限谱、低成本近似。若
-$$
-K_m=\Phi_m( I+\Lambda_m)^{-p}\Phi_m^\top,
-$$
+$$K_m=\Phi_m( I+\Lambda_m)^{-p}\Phi_m^\top,$$
 则令 $U_m=\Phi_mW_m$、对 $W_m$ 施加相应二次惩罚，就是把因子限制在由
 $K_m$ 定义的有限维 RKHS/GP 空间里。不过，当前实现**没有对因子做完整后验推断**，因此准确名称应是：
 
@@ -49,11 +47,7 @@ method-matched neural functional CP/Tucker 与 INR 已经加入。新的变系�
 ### 1.1 要回答的问题
 
 普通 Tucker completion 写作
-$$
-Y_{i_1i_2i_3}
-\approx\sum_{a=1}^{R_1}\sum_{b=1}^{R_2}\sum_{c=1}^{R_3}
-G_{abc}U_1(i_1,a)U_2(i_2,b)U_3(i_3,c).
-$$
+$$Y_{i_1i_2i_3} \approx\sum_{a=1}^{R_1}\sum_{b=1}^{R_2}\sum_{c=1}^{R_3} G_{abc}U_1(i_1,a)U_2(i_2,b)U_3(i_3,c).$$
 传统 factor table 把 mode index 当作没有关系的类别。例如，它无法预先知道：
 
 - 一个 mode 是周期圆周，首尾应连接；
@@ -75,52 +69,26 @@ $$
 ### 2.1 算子因子
 
 对 mode $m\in\{1,2,3\}$，给定自伴算子
-$$
-\mathcal A_m\phi_{mk}=\lambda_{mk}\phi_{mk},
-\qquad
-\Phi_m(i,k)=\phi_{mk}(x_i).
-$$
+$$\mathcal A_m\phi_{mk}=\lambda_{mk}\phi_{mk}, \qquad \Phi_m(i,k)=\phi_{mk}(x_i).$$
 保留 $K_m$ 个 eigenfunctions，并定义
-$$
-\widetilde U_m=\Phi_mW_m,
-\qquad
-U_m(:,r)=\frac{\widetilde U_m(:,r)}
-{\sqrt{N_m^{-1}\|\widetilde U_m(:,r)\|_2^2}}.
-$$
+$$\widetilde U_m=\Phi_mW_m, \qquad U_m(:,r)=\frac{\widetilde U_m(:,r)} {\sqrt{N_m^{-1}\lVert \widetilde U_m(:,r)\rVert_2^2}}.$$
 单位 RMS 约束去掉 Tucker 的 mode/core 连续缩放歧义。预测为
-$$
-\widehat Y_{ijk}
-=\sum_{abc}G_{abc}U_1(i,a)U_2(j,b)U_3(k,c).
-$$
+$$\widehat Y_{ijk} =\sum_{abc}G_{abc}U_1(i,a)U_2(j,b)U_3(k,c).$$
 ### 2.2 归一化后的谱能量
 
 本轮审计发现并修正了一个重要问题。旧实现对原始 $W_m$ 做惩罚，但前向使用归一化后的 $U_m$。把 $W_m$ 整体缩小几乎不改变预测，却会减小旧惩罚，这与声称的 MAP 目标不一致。
 
 修正后令
-$$
-s_{mr}=\sqrt{N_m^{-1}\|\Phi_mW_m(:,r)\|_2^2},
-\qquad \bar W_m(:,r)=W_m(:,r)/s_{mr},
-$$
+$$s_{mr}=\sqrt{N_m^{-1}\lVert \Phi_mW_m(:,r)\rVert_2^2}, \qquad \bar W_m(:,r)=W_m(:,r)/s_{mr},$$
 并使用
-$$
-E_m(\bar W_m)=
-\frac{1}{K_mR_m}\sum_{kr}(1+\lambda_{mk})^p\bar W_{mkr}^2.
-$$
+$$E_m(\bar W_m)= \frac{1}{K_mR_m}\sum_{kr}(1+\lambda_{mk})^p\bar W_{mkr}^2.$$
 这样同时缩放一个 factor column 不再改变预测或先验能量；不同 basis 的整体数值标度也不会直接改变比较结果。实现位于
 `src/geoaware/tensor_bayes.py::_normalized_spectral_coefficients`。
 
 ### 2.3 代码真正优化的目标
 
 当前训练目标是
-$$
-\mathcal L=
-\frac1{|\Omega|}\sum_{q\in\Omega}
-(y_q-\widehat y_q)^2
-+\rho\left[
-\frac{\|G\|_F^2}{R_1R_2R_3}
-+\sum_mE_m(\bar W_m)
-\right].
-$$
+$$\mathcal L= \frac1{|\Omega|}\sum_{q\in\Omega} (y_q-\widehat y_q)^2 +\rho\left[ \frac{\lVert G\rVert_F^2}{R_1R_2R_3} +\sum_mE_m(\bar W_m) \right].$$
 严格说，这是 **penalized MAP / regularized point estimation**。给定观测噪声方差以及维度相关的先验精度，它可重写为 Gaussian MAP；但当前代码没有在这一阶段联合学习一个完整概率生成模型。因此论文里不应仅用一句“MAP under the prior”掩盖 loss 的 mean-normalization 与 $\rho$ 的作用。
 
 ## 3. Inference 到底做了什么
@@ -145,27 +113,13 @@ AdamW 同时优化 $W_1,W_2,W_3,G$，保存训练目标最小的 checkpoint。�
 ### 3.3 固定因子后的 core 后验
 
 训练完成后固定 $U_1,U_2,U_3$，对每个观测构造
-$$
-z_q=U_1(i_q)\otimes U_2(j_q)\otimes U_3(k_q),
-\qquad Z_\Omega=[z_q^\top]_q.
-$$
+$$z_q=U_1(i_q)\otimes U_2(j_q)\otimes U_3(k_q), \qquad Z_\Omega=[z_q^\top]_q.$$
 条件模型为
-$$
-g=\operatorname{vec}(G)\sim\mathcal N(0,\alpha^{-1}I),
-\qquad y_\Omega\mid g\sim\mathcal N(Z_\Omega g,\beta^{-1}I).
-$$
+$$g=\operatorname{vec}(G)\sim\mathcal N(0,\alpha^{-1}I), \qquad y_\Omega\mid g\sim\mathcal N(Z_\Omega g,\beta^{-1}I).$$
 因此
-$$
-\Sigma_g=(\beta Z_\Omega^\top Z_\Omega+\alpha I)^{-1},
-\qquad
-\mu_g=\beta\Sigma_gZ_\Omega^\top y_\Omega.
-$$
+$$\Sigma_g=(\beta Z_\Omega^\top Z_\Omega+\alpha I)^{-1}, \qquad \mu_g=\beta\Sigma_gZ_\Omega^\top y_\Omega.$$
 代码用 evidence updates 迭代估计标量 $\alpha,\beta$：
-$$
-\gamma=P-\alpha\operatorname{tr}(\Sigma_g),\quad
-\alpha\leftarrow\gamma/\|\mu_g\|^2,\quad
-\beta\leftarrow(|\Omega|-\gamma)/\|y-Z\mu_g\|^2,
-$$
+$$\gamma=P-\alpha\operatorname{tr}(\Sigma_g),\quad \alpha\leftarrow\gamma/\lVert \mu_g\rVert^2,\quad \beta\leftarrow(|\Omega|-\gamma)/\lVert y-Z\mu_g\rVert^2,$$
 其中 $P=R_1R_2R_3$。这叫 **conditional empirical Bayes**：
 
 - 对固定 factors、固定 $\alpha,\beta$，core Gaussian posterior 是解析且精确的；
@@ -175,11 +129,7 @@ $$
 ### 3.4 预测不确定性
 
 对 query design $z_*$：
-$$
-\mathbb E[y_*]=z_*^\top\mu_g,
-\qquad
-\operatorname{Var}(y_*)=z_*^\top\Sigma_gz_*+\beta^{-1}.
-$$
+$$\mathbb E[y_*]=z_*^\top\mu_g, \qquad \operatorname{Var}(y_*)=z_*^\top\Sigma_gz_*+\beta^{-1}.$$
 当前再用 analytic LOO residual 的 95% quantile 对标准差乘一个 scalar calibration factor。它只使用 observations，但不是独立 calibration set。`--split-calibration` 可做 observation-only split calibration。
 
 目前 UQ 主张有三项限制：
@@ -496,17 +446,12 @@ factor 更稳定。下一步应沿 mismatch strength × observation ratio 二维
 横轴解释为单一的 operator approximation error。本轮新增一个只改变 factor subspace alignment 的
 rank-$(4,5,5)$ Tucker generator：core、rank 和总信号能量固定，每个 mode 的 factor 写成
 
-$$
-A_m(\delta)=qA_m^{\parallel}+\sqrt{1-q^2}A_m^{\perp},\qquad
-q=(1-\delta^2)^{1/6},
-$$
+$$A_m(\delta)=qA_m^{\parallel}+\sqrt{1-q^2}A_m^{\perp},\qquad q=(1-\delta^2)^{1/6},$$
 
 其中 $A_m^{\parallel}$ 位于 learner operator span，$A_m^{\perp}$ 与它正交。对三模乘积投影
 $\Pi=P_1\otimes P_2\otimes P_3$，构造保证
 
-$$
-\frac{\|Y-\Pi Y\|_F}{\|Y\|_F}=\delta.
-$$
+$$\frac{\lVert Y-\Pi Y\rVert_F}{\lVert Y\rVert_F}=\delta.$$
 
 因此 $\delta$ 是可审计的 oracle relative approximation error，而不是任意数据混合权重。它只用于机制
 诊断，不假设真实 PDE 的失配一定是一维的。实验锁定 $\delta\in\{0,.15,.30,.45,.60,.75,.90\}$、
@@ -547,23 +492,16 @@ tensor。** 这仍是 controlled synthetic mechanism evidence；下一步优先�
 
 新增 `diffusion_green_tensor`，求解变系数 Neumann 扩散方程的离散 Green 响应：
 
-$$
-\partial_t u+\left[-\partial_x(a(x)\partial_x)+\kappa I\right]u=0,
-\qquad \partial_nu|_{\partial\Omega}=0.
-$$
+$$\partial_t u+\left[-\partial_x(a(x)\partial_x)+\kappa I\right]u=0, \qquad \partial_nu|_{\partial\Omega}=0.$$
 
 构造的三阶张量为 $Y(t,x_{\rm recv},x_{\rm src})$。truth 使用变系数
 
-$$
-a(x)=\exp\{c[\cos(2\pi x)+0.35\sin(3\pi x+0.37)]\}
-$$
+$$a(x)=\exp\{c[\cos(2\pi x)+0.35\sin(3\pi x+0.37)]\}$$
 
 对应的 eigenfunctions 与 decay rates；learner 始终使用 $c=0$ 的常系数参考算子及其有限谱。
 因此 $c$ 改变的是物理 eigenfunctions 和时间衰减，而不是人为混合两个正交矩阵。对每个生成 tensor 都实际计算
 
-$$
-\delta_{\rm proj}=\frac{\|Y-(P_t\otimes P_r\otimes P_s)Y\|_F}{\|Y\|_F}.
-$$
+$$\delta_{\rm proj}=\frac{\lVert Y-(P_t\otimes P_r\otimes P_s)Y\rVert_F}{\lVert Y\rVert_F}.$$
 
 有限体积离散、operator eigenpairs、diffusivity min/max、cutoff、truth modes、reaction 和
 $\delta_{\rm proj}$ 全部进入 JSON dataset metadata。实现位于 `src/geoaware/tensor_data.py`，测试覆盖

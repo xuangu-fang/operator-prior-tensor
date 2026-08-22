@@ -9,7 +9,127 @@
 
 ---
 
-## 第一部分：这个方法要解决什么
+## 第零部分：这件事到底在干什么（不用公式）
+
+### 0.1 现实里的物理场，几乎都长在复杂几何上
+
+想重构一个物理场——一栋楼里的温度、一个厂房里的污染物浓度、一片海域的水位、一个
+反应器里的流场——你手上通常只有**几十个传感器**，要推断**几万个位置**上的值。
+
+这类问题有一个特点，教科书里常常被忽略：**真实的物理场几乎从不长在一个干净的矩形上**。
+
+- 楼里有墙，房间之间只通过门相连；
+- 厂房里有设备、隔断、通风管；
+- 海域有海岸线和岛屿；
+- 反应器里有挡板、催化剂床层。
+
+而绝大多数用张量分解做场重构的工作，默认场是长在**一个规则的二维矩形或三维方块**上的。
+一旦几何复杂起来，这个默认假设就开始造成实实在在的错误。
+
+### 0.2 普通张量分解错在哪：它不知道"墙"这回事
+
+张量分解把数据摊成 `(场景, 时间, 位置)` 三个维度，然后为每个维度学一组因子。问题出在
+**位置这一维**：
+
+> 对普通张量分解来说，位置就是一个编号。1 号点、2 号点、3 号点，**编号之间没有任何关系**。
+
+于是它会做出这样的推断：*"5 号点和 6 号点的观测值很接近，所以它们大概是相关的。"*
+但如果 5 号点和 6 号点**分别在一堵墙的两侧**，它们在物理上几乎不交换任何东西——空气、
+热量、污染物都过不去。**它们只是碰巧在欧氏空间里靠得近。**
+
+这个错误在图上一眼可见（`results/figures_r14/reconstruction_apartment.png`）：真值在墙
+处是一道陡峭的断层，而不知道墙的方法把浓度**平滑地抹过了墙**，在墙的另一侧凭空造出了
+本不存在的污染。
+
+### 0.3 我们做的事：把"哪里能通、哪里不能通"告诉模型
+
+关键观察是：**几何信息其实是免费的**。
+
+- 楼层平面图任何一栋楼都有；
+- 海岸线是公开地图；
+- 设备布局是厂房的设计图纸。
+
+这些都不需要额外测量。**真正难测的是材料参数**——空气的有效扩散率、水体的实际粘性——
+那些我们**不假设知道**。
+
+所以我们的做法是：**用已知的几何算出一组"符合这个几何的基本形状"，让模型只能用这些
+形状去拼出结果。**
+
+打个比方。要描述一栋楼里的温度分布，普通方法给模型一支笔，让它在整张平面图上随便画；
+我们的做法是先根据平面图裁出一批"积木"——**每块积木都自动在墙处断开、在门洞处连通**——
+然后让模型只能用这些积木拼。
+
+这样做有两个好处：
+
+1. **拼出来的结果天然不会穿墙**，因为每块积木本身就不穿墙；
+2. **要学的东西少得多**。原本要为 5 000 个位置各学一组数，现在只要决定"每块积木用多少"，
+   而积木只有十几块。
+
+第二点在传感器很稀疏时尤其重要——见 0.4。
+
+### 0.4 传感器稀疏时，普通方法不是"不准"，是"无解"
+
+这是本项目最该被记住的一点。
+
+假设一栋楼有 11 310 个网格点，你装了 1 131 个传感器（10%）。对普通张量分解来说：
+
+> 剩下 10 179 个没装传感器的位置，它们的因子**一个方程都没有**。
+
+不是数据少，是**字面意义上零个约束**。我们实测标准的 CP-ALS 和 Tucker 分解（用的是
+TensorLy 的官方实现，SVD 初始化，秩还让它用测试集挑最优）在这些位置上**精确输出零**，
+NRMSE 正好等于 1.000。
+
+而"积木"的做法不存在这个问题：**每块积木都横跨整栋楼**，所以哪怕某个位置一个传感器
+都没有，只要它所在的房间里有传感器，它的值就被确定了。
+
+### 0.5 结果：几何越复杂，好处越大
+
+我们在 **19 种几何**上做了对比——平面里的隔板、挖了孔的域、L 形和 U 形房间、三维隔墙、
+球面、以及四种真实尺寸的楼层平面图。
+
+对比的方式很严格：**同一个模型、同一套传感器、同样的训练**，唯一的区别是"算几何形状时
+知不知道墙在哪"。
+
+| 几何 | 知道几何 | 不知道几何 | 好多少倍 |
+|---|---:|---:|---:|
+| 空房间（**对照**） | 0.021 | 0.021 | **1.00 倍** |
+| 挖一个孔 | 0.020 | 0.035 | 1.7 倍 |
+| U 形房间 | 0.019 | 0.045 | 2.4 倍 |
+| 两室一厅 | — | — | **8.2 倍** |
+| 四个密封象限 | 0.029 | 0.267 | **9.2 倍** |
+| 实验室套间（内间经气闸） | — | — | **11.4 倍** |
+| 球面 | 0.041 | 0.563 | **13.9 倍** |
+
+**第一行是整个论证的支点**：没有墙的时候，"知道几何"和"不知道几何"是同一回事，所以
+两个数字必须一模一样——它们确实一模一样，精确到小数点后三位。这排除了"是不是你们的模型
+本来就更好"这种解释。**差距只能来自几何本身。**
+
+另外，我们也赢过用神经网络学空间结构的做法（1.5–2.7 倍），而且**参数少一个数量级**
+（288 个 vs 2 982 个）——因为空间结构不需要学，几何已经给了。
+
+### 0.6 什么时候不该用（这一条同样重要）
+
+不是所有"有障碍物"的场景都适用。真正的条件是：
+
+> **几何必须真的限制住场能去哪里。流体能绕开的障碍，等于没有障碍。**
+
+我们用一个受控实验确认了这一点：给场加上越来越强的流动。全密封的隔间即使在流速极强时
+仍有 6.5 倍优势（再快也过不去封死的墙）；而**有门洞的隔间**在同样流速下优势降到
+0.95 倍——流体直接从门洞穿过去了，墙就不再是约束。
+
+这也解释了我们在两个真实数据集上**没有**取得优势：圆柱绕流（水槽里一根柱子）和方腔流
+（一个开放的方盒子）。它们的"障碍"都不真正限制流体去哪里。**这不是方法失败，是问题
+不在适用范围内——而且这件事在跑任何模型之前就能算出来。**
+
+---
+
+> 到这里为止是全部要点。**下面开始进入公式和实现**：第一部分把上面的"积木"说法换成
+> 精确表述，第二部分给出完整推导。如果你只是要跑实验，可以直接跳到
+> [第二部分附二：从零跑动指南](#第二部分附二从零跑动指南)。
+
+---
+
+## 第一部分：把上面的说法变精确
 
 ### 1.1 问题
 
@@ -20,10 +140,7 @@
 
 普通 Tucker 补全写成
 
-$$
-\mathcal Y_{i_1 i_2 i_3} \approx \sum_{r_1=1}^{R_1}\sum_{r_2=1}^{R_2}\sum_{r_3=1}^{R_3}
-\mathcal G_{r_1 r_2 r_3}\, U_1(i_1, r_1)\, U_2(i_2, r_2)\, U_3(i_3, r_3),
-$$
+$$\mathcal Y_{i_1 i_2 i_3} \approx \sum_{r_1=1}^{R_1}\sum_{r_2=1}^{R_2}\sum_{r_3=1}^{R_3} \mathcal G_{r_1 r_2 r_3}\, U_1(i_1, r_1)\, U_2(i_2, r_2)\, U_3(i_3, r_3),$$
 
 其中因子矩阵 $U_m \in \mathbb R^{N_m \times R_m}$ 自由学习。
 
@@ -55,9 +172,7 @@ $$
 
 把空间因子限制在一个**由几何决定的函数空间**里：
 
-$$
-U_3 = \Phi\, W, \qquad \Phi \in \mathbb R^{N_3 \times K},\ W \in \mathbb R^{K \times R_3},
-$$
+$$U_3 = \Phi\, W, \qquad \Phi \in \mathbb R^{N_3 \times K},\ W \in \mathbb R^{K \times R_3},$$
 
 其中 $\Phi$ 的列是**该几何上的算子特征函数**的前 $K$ 个。于是要学的参数从
 $N_3 R_3$（例如 $5520 \times 16 = 88\,320$）降到 $K R_3$（例如 $16 \times 16 = 256$），
@@ -72,27 +187,16 @@ $N_3 R_3$（例如 $5520 \times 16 = 88\,320$）降到 $K R_3$（例如 $16 \tim
 
 设域为 $\Omega \subset \mathbb R^d$（可以是平面区域、体积、或闭曲面）。取扩散型算子
 
-$$
-\mathcal A u = -\nabla\cdot\big(a(x)\,\nabla u\big) + \kappa u ,
-$$
+$$\mathcal A u = -\nabla\cdot\big(a(x)\,\nabla u\big) + \kappa u ,$$
 
 $a(x)$ 是扩散系数，$\kappa$ 是反应率。在 $\Omega$ 上用 P1 有限元离散，得到刚度矩阵
 $K$ 与质量矩阵 $M$（均为 $N_3 \times N_3$ 稀疏对称阵）：
 
-$$
-K_{ij} = \int_\Omega a(x)\, \nabla\varphi_i \cdot \nabla\varphi_j \, dx,
-\qquad
-M_{ij} = \int_\Omega \varphi_i \varphi_j \, dx .
-$$
+$$K_{ij} = \int_\Omega a(x)\, \nabla\varphi_i \cdot \nabla\varphi_j \, dx, \qquad M_{ij} = \int_\Omega \varphi_i \varphi_j \, dx .$$
 
 谱基 $\Phi$ 取广义特征问题的**最低 $K$ 个**解：
 
-$$
-K \phi_k = \lambda_k\, M \phi_k, \qquad
-\lambda_1 \le \lambda_2 \le \cdots \le \lambda_K,
-\qquad
-\Phi = [\phi_1, \dots, \phi_K].
-$$
+$$K \phi_k = \lambda_k\, M \phi_k, \qquad \lambda_1 \le \lambda_2 \le \cdots \le \lambda_K, \qquad \Phi = [\phi_1, \dots, \phi_K].$$
 
 特征向量取**质量正交归一**，即 $\Phi^\top M \Phi = I$。这一点不是形式上的讲究：
 在非均匀网格上，普通欧氏正交会让**节点密度**而不是**函数频率**决定什么算"低频"。
@@ -129,24 +233,14 @@ $\{\{1\},\{2\},\{3\}\}$，但公式对任意划分成立（例如把 $(x,y)$ 合
 
 每组的因子有三种：
 
-$$
-F_g =
-\begin{cases}
-\Phi_g W_g & \text{operator：该组有可信算子} \\[2pt]
-T_g & \text{table：自由表（如"场景"这种枚举，没有算子可言）} \\[2pt]
-\mathrm{MLP}_\theta(x_g) & \text{neural：有坐标但无可信算子}
-\end{cases}
-$$
+$$F_g = \begin{cases} \Phi_g W_g & \text{operator：该组有可信算子} \\[2pt] T_g & \text{table：自由表（如"场景"这种枚举，没有算子可言）} \\[2pt] \mathrm{MLP}_\theta(x_g) & \text{neural：有坐标但无可信算子} \end{cases}$$
 
 **mode-wise 的旧实现是每组恰好含一个轴的特例。** 这一点很重要：它意味着方法不要求
 "张量每一维都有一条独立 PDE"，这是一个常见的误解。
 
 预测为
 
-$$
-\hat y(i_1,i_2,i_3) = \sum_{r_1,r_2,r_3} \mathcal G_{r_1r_2r_3}
-\prod_{m=1}^{3} \tilde F_m(i_m, r_m),
-$$
+$$\hat y(i_1,i_2,i_3) = \sum_{r_1,r_2,r_3} \mathcal G_{r_1r_2r_3} \prod_{m=1}^{3} \tilde F_m(i_m, r_m),$$
 
 其中 $\tilde F$ 是**逐列单位 RMS 归一化**后的因子。归一化让 Sobolev 罚项与尺度无关，
 也让不同组之间可比；代价是因子的尺度不可辨识，但它被 core 吸收，而 core 正是唯一
@@ -155,9 +249,7 @@ $$
 **CP 是同一个模型的对角核特例。** 令 $R_1 = R_2 = R_3 = R$ 且
 $\mathcal G_{r_1r_2r_3} = w_r \delta_{r_1 r_2 r_3}$，则
 
-$$
-\hat y(i_1,i_2,i_3) = \sum_{r=1}^{R} w_r \prod_m \tilde F_m(i_m, r).
-$$
+$$\hat y(i_1,i_2,i_3) = \sum_{r=1}^{R} w_r \prod_m \tilde F_m(i_m, r).$$
 
 代码里是 `GroupedOperatorTucker(..., core="diagonal")`。这样做的好处是：**CP 基线
 与我们共享优化器、归一化、先验和闭式后验**，两者的差异只能来自模型本身，不可能
@@ -167,11 +259,7 @@ $$
 
 对 operator 组用 **Sobolev 谱罚**：
 
-$$
-\mathcal R_g(W_g) \;=\; \frac{1}{KR}\sum_{k=1}^{K}\sum_{r=1}^{R}
-(1+\lambda_k)^{p}\, \widetilde W_{kr}^{2},
-\qquad p = 1.5 ,
-$$
+$$\mathcal R_g(W_g) \;=\; \frac{1}{KR}\sum_{k=1}^{K}\sum_{r=1}^{R} (1+\lambda_k)^{p}\, \widetilde W_{kr}^{2}, \qquad p = 1.5 ,$$
 
 其中 $\widetilde W$ 是归一化后的谱系数。含义是：**高频模态要付更高的代价**，
 $(1+\lambda_k)^p$ 正是 Sobolev 范数在特征基下的权重。
@@ -185,12 +273,7 @@ $(1+\lambda_k)^p$ 正是 Sobolev 范数在特征基下的权重。
 
 总目标：
 
-$$
-\mathcal L \;=\; \frac{1}{|\Omega|}\sum_{(i_1,i_2,i_3)\in\Omega}
-\big(\hat y - y\big)^2 \;+\; \beta_{\mathrm{reg}}
-\Big[\overline{\mathcal G^2} + \sum_g \mathcal R_g\Big],
-\qquad \beta_{\mathrm{reg}} = 2\times10^{-3}.
-$$
+$$\mathcal L \;=\; \frac{1}{|\Omega|}\sum_{(i_1,i_2,i_3)\in\Omega} \big(\hat y - y\big)^2 \;+\; \beta_{\mathrm{reg}} \Big[\overline{\mathcal G^2} + \sum_g \mathcal R_g\Big], \qquad \beta_{\mathrm{reg}} = 2\times10^{-3}.$$
 
 ### 2.5 推断：两段式
 
@@ -202,38 +285,24 @@ $$
 
 推导如下。给定因子后，模型对 core 是**线性**的。记
 
-$$
-z(i)^\top = \Big(\tilde F_1(i_1,r_1)\,\tilde F_2(i_2,r_2)\,\tilde F_3(i_3,r_3)\Big)_{r_1r_2r_3}
-\in \mathbb R^{p},\qquad p = R_1R_2R_3,
-$$
+$$z(i)^\top = \Big(\tilde F_1(i_1,r_1)\,\tilde F_2(i_2,r_2)\,\tilde F_3(i_3,r_3)\Big)_{r_1r_2r_3} \in \mathbb R^{p},\qquad p = R_1R_2R_3,$$
 
 即三个因子行的**逐行 Kronecker 积**（CP 情形下是 Khatri–Rao 积，$p=R$）。于是
 $\hat y(i) = z(i)^\top \mathrm{vec}(\mathcal G)$。取
 
-$$
-p(\mathcal G) = \mathcal N(0, \alpha^{-1} I), \qquad
-p(y \mid \mathcal G) = \mathcal N(Z\,\mathrm{vec}(\mathcal G),\ \beta^{-1} I),
-$$
+$$p(\mathcal G) = \mathcal N(0, \alpha^{-1} I), \qquad p(y \mid \mathcal G) = \mathcal N(Z\,\mathrm{vec}(\mathcal G),\ \beta^{-1} I),$$
 
 标准结果给出高斯后验
 
-$$
-\Sigma = \big(\beta Z^\top Z + \alpha I\big)^{-1}, \qquad
-\mu = \beta\, \Sigma\, Z^\top y .
-$$
+$$\Sigma = \big(\beta Z^\top Z + \alpha I\big)^{-1}, \qquad \mu = \beta\, \Sigma\, Z^\top y .$$
 
 $\alpha, \beta$ 用**证据不动点**（type-II 最大似然 / MacKay）估计。定义**有效参数个数**
 
-$$
-\gamma = p - \alpha\,\operatorname{tr}(\Sigma),
-$$
+$$\gamma = p - \alpha\,\operatorname{tr}(\Sigma),$$
 
 迭代
 
-$$
-\alpha \leftarrow \frac{\gamma}{\|\mu\|^2}, \qquad
-\beta \leftarrow \frac{|\Omega| - \gamma}{\|y - Z\mu\|^2}.
-$$
+$$\alpha \leftarrow \frac{\gamma}{\lVert \mu\rVert^2}, \qquad \beta \leftarrow \frac{|\Omega| - \gamma}{\lVert y - Z\mu\rVert^2}.$$
 
 **实现上的一个要点**：$Z^\top Z$ 在整个不动点循环中**不变**，所以只做一次对角化
 $Z^\top Z = V\Lambda V^\top$，此后每次迭代都在特征基下进行——协方差是对角的、迹是
@@ -242,9 +311,7 @@ $Z^\top Z = V\Lambda V^\top$，此后每次迭代都在特征基下进行——�
 
 预测的方差与**留一校准**：
 
-$$
-\operatorname{Var}[\hat y(i)] = z(i)^\top \Sigma z(i) + \beta^{-1},
-$$
+$$\operatorname{Var}[\hat y(i)] = z(i)^\top \Sigma z(i) + \beta^{-1},$$
 
 再乘一个校准系数 $c$：用杠杆值 $h_i = \beta\, z_i^\top \Sigma z_i$ 修正的留一残差
 $(y_i - \hat y_i)/(1-h_i)$，取 $|\text{LOO 残差}| / \text{LOO 标准差}$ 的 95 分位除以
@@ -259,14 +326,8 @@ $Z$ 是 $65000 \times 1920 \approx 1.25\times10^8$ 个数（500 MB），而且�
 
 正确做法是**按模态依次收缩**：
 
-$$
-t^{(1)}_{n,r_2,r_3} = \sum_{r_1} \tilde F_1(i_1^{(n)}, r_1)\, \mathcal G_{r_1r_2r_3},
-\qquad
-t^{(2)}_{n,r_3} = \sum_{r_2} \tilde F_2(i_2^{(n)}, r_2)\, t^{(1)}_{n,r_2,r_3},
-$$
-$$
-\hat y_n = \sum_{r_3} \tilde F_3(i_3^{(n)}, r_3)\, t^{(2)}_{n,r_3}.
-$$
+$$t^{(1)}_{n,r_2,r_3} = \sum_{r_1} \tilde F_1(i_1^{(n)}, r_1)\, \mathcal G_{r_1r_2r_3}, \qquad t^{(2)}_{n,r_3} = \sum_{r_2} \tilde F_2(i_2^{(n)}, r_2)\, t^{(1)}_{n,r_2,r_3},$$
+$$\hat y_n = \sum_{r_3} \tilde F_3(i_3^{(n)}, r_3)\, t^{(2)}_{n,r_3}.$$
 
 结果**完全相同**（float32 下差 $2.4\times10^{-6}$，对角核精确为 0，
 `test_the_contraction_matches_the_design_matrix_it_replaces`），但算术量约 2.4 倍少、
@@ -305,11 +366,7 @@ $$
 
 **第 0 步：掩码筛选（只读掩码，不读数据）**
 
-$$
-v_k=\frac{\sum_{i\in\mathcal S}\phi_k(i)^2}{\sum_i \phi_k(i)^2}\Big/\frac{|\mathcal S|}{N},
-\qquad
-\Phi \leftarrow \Phi\big[:,\ \{k: v_k\ge 0.1\}\cup\{1\}\big]
-$$
+$$v_k=\frac{\sum_{i\in\mathcal S}\phi_k(i)^2}{\sum_i \phi_k(i)^2}\Big/\frac{|\mathcal S|}{N}, \qquad \Phi \leftarrow \Phi\big[:,\ \{k: v_k\ge 0.1\}\cup\{1\}\big]$$
 
 代码：`operator_diagnostics.observable_modes`
 
@@ -317,21 +374,11 @@ $$
 
 对 $t=1,\dots,T$ 重复：
 
-$$
-\tilde F_g=\mathrm{normcol}\big(\Phi_g W_g\big)\quad\text{或}\quad
-\mathrm{normcol}\big(T_g\big)\quad\text{或}\quad
-\mathrm{normcol}\big(\mathrm{MLP}_\theta(x_g)\big)
-$$
+$$\tilde F_g=\mathrm{normcol}\big(\Phi_g W_g\big)\quad\text{或}\quad \mathrm{normcol}\big(T_g\big)\quad\text{或}\quad \mathrm{normcol}\big(\mathrm{MLP}_\theta(x_g)\big)$$
 
-$$
-\hat y_n=\sum_{r_3}\tilde F_3(i_3^{(n)},r_3)\Big[\sum_{r_2}\tilde F_2(i_2^{(n)},r_2)\Big[\sum_{r_1}\tilde F_1(i_1^{(n)},r_1)\,\mathcal G_{r_1r_2r_3}\Big]\Big]
-$$
+$$\hat y_n=\sum_{r_3}\tilde F_3(i_3^{(n)},r_3)\Big[\sum_{r_2}\tilde F_2(i_2^{(n)},r_2)\Big[\sum_{r_1}\tilde F_1(i_1^{(n)},r_1)\,\mathcal G_{r_1r_2r_3}\Big]\Big]$$
 
-$$
-\mathcal L=\frac{1}{|\Omega|}\sum_{n}\big(\hat y_n-y_n\big)^2
-+\beta_{\mathrm{reg}}\Big[\overline{\mathcal G^2}
-+\sum_{g}\frac{1}{K_g R_g}\sum_{k,r}\big(1+\lambda_{g,k}\big)^{p}\,\widetilde W_{g,kr}^{2}\Big]
-$$
+$$\mathcal L=\frac{1}{|\Omega|}\sum_{n}\big(\hat y_n-y_n\big)^2 +\beta_{\mathrm{reg}}\Big[\overline{\mathcal G^2} +\sum_{g}\frac{1}{K_g R_g}\sum_{k,r}\big(1+\lambda_{g,k}\big)^{p}\,\widetilde W_{g,kr}^{2}\Big]$$
 
 AdamW（lr $3\times10^{-3}$，weight decay $10^{-6}$，梯度裁剪 5.0），**保留目标值最优的
 checkpoint 而非最后一步的迭代**。
@@ -343,25 +390,13 @@ checkpoint 而非最后一步的迭代**。
 
 **第二段：核（闭式，无梯度）**
 
-$$
-z(i)=\tilde F_1(i_1,\cdot)\otimes\tilde F_2(i_2,\cdot)\otimes\tilde F_3(i_3,\cdot)\in\mathbb R^{p_{\text{core}}},
-\qquad
-Z^\top Z=V\Lambda V^\top\ \text{（只分解一次）}
-$$
+$$z(i)=\tilde F_1(i_1,\cdot)\otimes\tilde F_2(i_2,\cdot)\otimes\tilde F_3(i_3,\cdot)\in\mathbb R^{p_{\text{core}}}, \qquad Z^\top Z=V\Lambda V^\top\ \text{（只分解一次）}$$
 
 记 $b=V^\top Z^\top y$。对 $j=1,\dots,80$（或至收敛）重复：
 
-$$
-\pi=\beta\lambda+\alpha,\qquad
-\tilde\mu=\beta\,b\oslash\pi,\qquad
-\gamma=p_{\text{core}}-\alpha\sum_k \pi_k^{-1}
-$$
+$$\pi=\beta\lambda+\alpha,\qquad \tilde\mu=\beta\,b\oslash\pi,\qquad \gamma=p_{\text{core}}-\alpha\sum_k \pi_k^{-1}$$
 
-$$
-\alpha\leftarrow\frac{\gamma}{\|\tilde\mu\|^2},
-\qquad
-\beta\leftarrow\frac{|\Omega|-\gamma}{\|y\|^2-2\,\tilde\mu^\top b+\sum_k\lambda_k\tilde\mu_k^2}
-$$
+$$\alpha\leftarrow\frac{\gamma}{\lVert \tilde\mu\rVert^2}, \qquad \beta\leftarrow\frac{|\Omega|-\gamma}{\lVert y\rVert^2-2\,\tilde\mu^\top b+\sum_k\lambda_k\tilde\mu_k^2}$$
 
 收敛后 $\Sigma=V\,\mathrm{diag}(\pi^{-1})\,V^\top$，$\mu=\beta\,V(b\oslash\pi)$。
 
@@ -372,21 +407,14 @@ $$
 
 **校准**：用杠杆值 $h_i=\beta\,z_i^\top\Sigma z_i$ 修正的留一残差
 
-$$
-c=\mathrm{clip}\left(\frac{Q_{0.95}\big(|y_i-\hat y_i|/(1-h_i)\ /\ s_i\big)}{1.96},\ 0.5,\ 4\right),
-\qquad s_i=\sqrt{\beta^{-1}+z_i^\top\Sigma z_i}
-$$
+$$c=\mathrm{clip}\left(\frac{Q_{0.95}\big(|y_i-\hat y_i|/(1-h_i)\ /\ s_i\big)}{1.96},\ 0.5,\ 4\right), \qquad s_i=\sqrt{\beta^{-1}+z_i^\top\Sigma z_i}$$
 
 ### 算法 3：预测
 
 **输入**：全部索引，$\{\tilde F_g\}$，$(\mu,\Sigma,\beta,c)$
 **输出**：均值 $\hat y$，标准差 $\sigma$
 
-$$
-\hat y(i)=z(i)^\top\mu,
-\qquad
-\sigma(i)=c\,\sqrt{z(i)^\top\Sigma\,z(i)+\beta^{-1}}
-$$
+$$\hat y(i)=z(i)^\top\mu, \qquad \sigma(i)=c\,\sqrt{z(i)^\top\Sigma\,z(i)+\beta^{-1}}$$
 
 代码：`grouped_operator_tucker.predict`（分块，默认 8192 行一块）
 
@@ -522,11 +550,7 @@ wait
 
 ### 3.1 投影残差（基能否张成这个场？）
 
-$$
-\varepsilon(\Phi) \;=\;
-\frac{\big\|\,\mathcal Y - \mathcal Y \times_3 (QQ^\top)\,\big\|_F}{\|\mathcal Y\|_F},
-\qquad Q = \operatorname{qr}(\Phi).
-$$
+$$\varepsilon(\Phi) \;=\; \frac{\big\lVert \,\mathcal Y - \mathcal Y \times_3 (QQ^\top)\,\big\rVert_F}{\lVert \mathcal Y\rVert_F}, \qquad Q = \operatorname{qr}(\Phi).$$
 
 $\times_3$ 是模态 3 的乘积。含义是"用这个基去表示这个场，最好也只能错这么多"，
 即**偏差下限**。
@@ -538,11 +562,7 @@ $N_3 \times N_3$ 的投影算子，在上万节点时装不下。
 
 ### 3.2 可观测性（这个模态在传感器上被激发吗？）
 
-$$
-v_k \;=\; \frac{\sum_{i \in \mathcal S} \phi_k(i)^2}{\sum_{i} \phi_k(i)^2}
-\;\Big/\;
-\frac{|\mathcal S|}{N_3},
-$$
+$$v_k \;=\; \frac{\sum_{i \in \mathcal S} \phi_k(i)^2}{\sum_{i} \phi_k(i)^2} \;\Big/\; \frac{|\mathcal S|}{N_3},$$
 
 $\mathcal S$ 是被观测的节点集合。$v_k = 1$ 表示"这个模态在传感器上的能量占比与平均
 节点相当"；$v_k \approx 0$ 表示**传感器看不见它**。
@@ -559,9 +579,7 @@ $v_5..v_8 = 0.004, 0.001, 0.001, 0.002$。
 
 ### 3.3 Headroom（秩能否兑现这个基？）
 
-$$
-\text{headroom} \;=\; \frac{\text{实际达到的 NRMSE}}{\text{该模型自身的投影残差}} .
-$$
+$$\text{headroom} \;=\; \frac{\text{实际达到的 NRMSE}}{\text{该模型自身的投影残差}} .$$
 
 **这个检查我们缺了很久，代价很大。** 见 §4.1。
 
